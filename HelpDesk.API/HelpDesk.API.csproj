@@ -195,6 +195,7 @@
     <Compile Include="DependencyResolver\UnityResolver.cs" />
     <Compile Include="DTO%27s\AccountDTO.cs" />
     <Compile Include="DTO%27s\AssetDTO.cs" />
+    <Compile Include="DTO%27s\ErrorLogsDTO.cs" />
     <Compile Include="DTO%27s\InventoryDTO.cs" />
     <Compile Include="DTO%27s\LoginPageDTO.cs" />
     <Compile Include="DTO%27s\TicketDTO.cs" />
@@ -206,6 +207,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\EmailUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -262,7 +264,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
+    <Folder Include="Utils\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
