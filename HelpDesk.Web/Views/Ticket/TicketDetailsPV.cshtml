@@ -1,0 +1,677 @@
+﻿@model HelpDesk.Web.Models.TicketDTO
+@section Styles{}
+@foreach (var item in Model.TicketList)
+{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="kt-portlet mb-1">
+                    <div class="kt-portlet__head kt-portlet__head--lg position-relative">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                Details
+                            </h3>
+                        </div>
+                        <div class="kt-portlet__head-toolbar">
+                            <div class="kt-portlet__head-wrapper">
+                                <div class="kt-portlet__head-actions">
+                                    @if ((item.Status == 8 || item.Status == 5) && (Model.RoleId == 501 || Model.RoleId == 502))
+                                    {
+                                        <a onclick="UpdateStatus(9)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                            <i class="la la-check"></i>
+                                            Approve
+                                        </a>
+                                        <a onclick="UpdateStatus(10)" class="btn btn-danger btn-elevate btn-icon-sm">
+                                            <i class="la la-close"></i>
+                                            Reject
+                                        </a>
+                                    }
+                                    @if (Model.RoleId == 505 && item.Status == 1)
+                                    {
+                                        <a id="anchr_addresponse" onclick="ViewResponseDiv()" class="btn btn-brand btn-elevate btn-icon-sm">
+                                            <i class="la la-clock-o"></i>
+                                            Add Response Time
+                                        </a>
+                                    }
+                                    @if (Model.RoleId == 505 && (item.Status == 12 || item.Status == 4 || item.Status == 9))
+                                    {
+                                        <a onclick="UpdateStatus(3)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                            <i class="la la-clock-o"></i>
+                                            Start
+                                        </a>
+                                    }
+                                    @if (Model.RoleId == 505 && item.Status == 2)
+                                    {
+                                        <a onclick="UpdateStatus(4)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                            <i class="la la-clock-o"></i>
+                                            Pause
+                                        </a>
+                                        <a onclick="ViewSparePartRequestDiv()" href="#" class="btn btn-brand btn-elevate btn-icon-sm" data-toggle="modal" data-target="#kt_modal_4">
+                                            <i class="la la-reply"></i>
+                                            Request Spare Part
+                                        </a>
+                                        <a onclick="UpdateStatus(6)" href="#" class="btn btn-brand btn-elevate btn-icon-sm">
+                                            <i class="la la-check"></i>
+                                            Resolve Ticket
+                                        </a>
+                                    }
+                                    @if (Model.RoleId == 503)
+                                    {
+                                        if (item.Status == 6)
+                                        {
+                                            <a onclick="UpdateStatus(7)" href="#" class="btn btn-brand btn-elevate btn-icon-sm">
+                                                <i class="la la-check"></i>
+                                                Close Ticket
+                                            </a>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (item.Status == 6)
+                                        {
+                                            <a href="#" class="btn btn-brand btn-elevate btn-icon-sm">
+                                                <i class="la la-check"></i>
+                                                Resolve Ticket
+                                            </a>
+                                        }
+                                    }
+                                    @*@if (item.Status == 6)
+        {
+            <a onclick="UpdateStatus(7)" href="#" class="btn btn-brand btn-elevate btn-icon-sm">
+                <i class="la la-check"></i>
+                Resolve Ticket
+            </a>
+        }*@
+                                </div>
+                            </div>
+                        </div>
+                        <a onclick="closeDetails()" class="details-close-button btn btn-danger btn-sm btn-icon btn-circle position-absolute"><i class="la la-close"></i></a>
+                    </div>
+                    <div id="AddResponseTime_Div" style="display:none" class="kt-portlet__body">
+                        <div class="form-group mb-0 row">
+                            <div class="col-sm-4">
+                                <div class="input-group date">
+                                    <input type="text" class="form-control" placeholder="Select Date" id="txtResponseTime" />
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">
+                                            <i class="la la-clock-o glyphicon-th"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="input-group date">
+                                    <select id="ddlreportType" class="form-control">
+                                        @if (Model.ReportList != null)
+                                        {
+                                            foreach (var rptr in Model.ReportList)
+                                            {
+                                                <option value="@rptr.ReportId">@rptr.ReportTypeName</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <a onclick="AddResponsetime()" class="btn btn-label-brand btn-bold">Submit</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="Sparepartrequest_Div" style="display:none" class="kt-portlet__body">
+                        <h2>Spare Part Request</h2>
+                        <div class="form-group mb-0 row">
+                            <div class="col-sm-4">
+                                <div class="input-group date">
+                                    <select id="ddlwarehouse" class="form-control" onchange="bindsparepart()">
+                                        @if (Model.WarehouseList != null)
+                                        {
+                                            <optgroup label="Assigned">
+                                                @foreach (var rptr in Model.WarehouseList.Where(x => x.Gruop == "Assigned"))
+                                                {
+                                                    <option value="@rptr.WarehouseId">@rptr.WarehouseName</option>
+                                                }
+                                            </optgroup>
+                                            <optgroup label="Other">
+                                                @foreach (var rptr in Model.WarehouseList.Where(x => x.Gruop == "Other"))
+                                                {
+                                                    <option value="@rptr.WarehouseId">@rptr.WarehouseName</option>
+                                                }
+                                            </optgroup>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-8">
+                                <div class="input-group date">
+                                    <select id="ddlsparehouse" class="form-control" onchange="bindSparePartData()">
+                                    </select>
+                                </div>
+                            </div>
+                            <br />
+                            <br />
+                            <br />
+                            <div class="col-sm-12">
+                                <div id="spareparts_div">
+                                    <table id="tbl_spareparts" class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th> # </th>
+                                                <th> Spare Part </th>
+                                                <th> Price </th>
+                                                <th> select quantity </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tr_div">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <a onclick="AddSparePartRequest()" class="btn btn-label-brand btn-bold">Submit</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="kt-portlet ">
+                    <div class="kt-portlet__head kt-portlet__head--lg">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">@item.CreatedUser</h3>
+                        </div>
+                        <div class="kt-portlet__head-toolbar">
+                            <div class="kt-portlet__head-wrapper">
+                                <div class="kt-portlet__head-actions">
+                                    Priority : <strong class="color-primary">@item.Priority</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body">
+                        <div class="kt-widget kt-widget--user-profile-3">
+                            <div class="kt-widget__top">
+                                <div class="kt-widget__content">
+                                    <div class="kt-widget__info">
+                                        <div class="kt-widget__desc">
+                                            <p>
+                                                @item.Description
+                                            </p>
+                                            @*@item.CreatedOn.ToString("MM/dd/yyyy")*@
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="kt-widget__body"></div>
+                            <div class="kt-widget__bottom">
+                                <ul class="ticketbar">
+                                    @{
+
+                                        int cntstatus = Model.StatusLst.Count();
+                                        int deft = 1;
+                                    }
+                                    @foreach (var statusitm in Model.StatusLst)
+                                    {
+                                        if (deft == cntstatus)
+                                        {
+                                            <li>@statusitm.Statustxt</li>
+                                        }
+                                        else
+                                        {
+                                            <li class="active">@statusitm.Statustxt</li>
+                                        }
+
+                                        deft = deft + 1;
+                                    }
+                                    @*<li class="active">New Ticket</li>
+                                        <li class="active">In Progress</li>
+                                        <li>Resolved</li>*@
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (Model.SparePartList.Count() > 0)
+                    {
+                        <div class="kt-portlet__head">
+                            <div class="kt-portlet__head-label">
+                                <h3 class="kt-portlet__head-title">
+                                    Requested Inventory Items
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="kt-portlet__body kt-portlet__body--fluid">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>SparePart Name</th>
+                                            <th>Spare Part No.</th>
+                                            <th>Quantity</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var spritem in Model.SparePartList)
+                                        {
+                                            <tr>
+                                                <td>@spritem.SparePartName</td>
+                                                <td>@spritem.SparePartNumber</td>
+                                                <td>@spritem.Quantity</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="kt-portlet kt-portlet--height-fluid">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                Details
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body">
+                        <table class="ticket-full-details table table-borderless table-sm">
+                            <tr>
+                                <td>Ticket No.</td>
+                                <td>: @item.TicketNumber</td>
+                            </tr>
+                            <tr>
+                                <td>Account</td>
+                                <td>: @item.AccountName</td>
+                            </tr>
+                            <tr>
+                                <td>Product</td>
+                                <td>: @item.ProductName</td>
+                            </tr>
+                            <tr>
+                                <td>Modal</td>
+                                <td>: @item.ModelName</td>
+                            </tr>
+                            <tr>
+                                <td>System No.</td>
+                                <td>: @item.SystemNo</td>
+                            </tr>
+                            <tr>
+                                <td>Service Engineer.</td>
+                                <td>: @item.FullName</td>
+                            </tr>
+                            <tr>
+                                <td>Response Time</td>
+                                <td>: @item.RequestResponseStr</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                Documents Attached
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body">
+                        <a data-toggle="modal" href="#full" class="text-dark">
+                            <i class="fa fa-file fa-3x" aria-hidden="true"></i>
+                            <h6 class="mt-2">Document</h6>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--begin:: Portlet-->
+        <!--end:: Portlet-->
+        <div class="row">
+            <div class="col-xl-12">
+                <!--begin:: Widgets/Order Statistics-->
+                <div class="kt-portlet kt-portlet--tabs kt-portlet--height-fluid">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                Recent Post
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body">
+                        <div class="kt-widget4">
+                            @if (Model.CommentsList != null)
+                            {
+                                foreach (var cmtitem in Model.CommentsList)
+                                {
+                                    <div class="kt-widget4__item">
+                                        <div class="kt-widget4__info">
+                                            <span class="kt-widget4__username">
+                                                @cmtitem.FullName
+                                            </span>
+                                            <p class="kt-widget4__text">
+                                                @cmtitem.Comment
+                                            </p>
+                                        </div>
+                                        <span>@cmtitem.Commentsdate</span>
+                                    </div>
+                                }
+                            }
+
+                        </div>
+                    </div>
+                    <div class="kt-portlet__foot">
+                        <form>
+                            <h4 class="kt-portlet__head-title">Post A Comment</h4>
+                            <div class="form-group">
+                                <textarea class="form-control" id="exampleTextarea" rows="3" placeholder="Type notes"></textarea>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <a class="btn btn-label-brand btn-bold" onclick="AddComments(@item.TicketNumber)">Add notes</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end:: Widgets/Order Statistics-->
+    </div>
+
+    <div class="modal fade" id="full" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-full">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Document</h4>
+                </div>
+                <div class="modal-body">
+
+                    <img style="width:99%;" src="@item.Url" />
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    <input type="hidden" id="hdnTicketNumber" value="@item.TicketNumber" />
+    <input type="hidden" id="hdnAssignedWarehouseId" value="@item.MappedWarehouseId" />
+}
+
+<script src="~/assets/plugins/global/plugins.bundle.js"></script>
+@*<script src="~/assets/js/scripts.bundle.js"></script>*@
+<!-- Date Picker -->
+<script src="~/assets/js/bootstrap-datepicker.js"></script>
+<script src="~/assets/js/select2.js"></script>
+<script>
+    $(document).ready(function () {
+        document.getElementById("loader").style.display = "none";
+
+        $('#ddlreportType,#ddlwarehouse,#ddlsparehouse').select2({
+        });
+
+        var arrows;
+        if (KTUtil.isRTL()) {
+            arrows = {
+                leftArrow: '<i class="la la-angle-right"></i>',
+                rightArrow: '<i class="la la-angle-left"></i>'
+            }
+        } else {
+            arrows = {
+                leftArrow: '<i class="la la-angle-left"></i>',
+                rightArrow: '<i class="la la-angle-right"></i>'
+            }
+        }
+
+         $('#txtResponseTime').datetimepicker({
+            todayHighlight: true,
+            autoclose: true,
+            format: 'yyyy.mm.dd hh:ii'
+         });
+
+    });
+
+    function AddComments() {
+        document.getElementById("loader").style.display = "block";
+        var Commentstext = $('#exampleTextarea').val();
+
+        if (Commentstext=="") {
+            alert('Fields Required');
+             document.getElementById("loader").style.display = "none";
+            return false;
+        }
+
+        $.ajax({
+            type: "Post",
+            url: '@Url.Action("NewComments")',
+            datatype: "json",
+            data: { txt: Commentstext, TicketNumber: $('#hdnTicketNumber').val() },
+            success: function (data) {
+                var v = data.success;
+                if (v == true) {
+                    TicketDetails($('#hdnTicketNumber').val());
+                }
+                else {
+                    alert('Some thing went wrong');
+                }
+                document.getElementById("loader").style.display = "none";
+            },
+            error: function () {
+                alert('error');
+                document.getElementById("loader").style.display = "none";
+            }
+        });
+    }
+
+    function AddSparePartRequest() {
+        debugger
+
+        var jsonary = [];
+        $('#tbl_spareparts tr').each(function () {
+            if (this.id != "") {
+                var dyn_matrix_data = {};
+                dyn_matrix_data.SparePartId = this.id;
+                dyn_matrix_data.Quantity = $('#ddlqnty_' + this.id).val();
+                dyn_matrix_data.TicketNumber = $('#hdnTicketNumber').val();
+
+                jsonary.push(dyn_matrix_data);
+            }
+        });
+
+        if (jsonary == 0) {
+            alert('select spare parrts');
+            return false;
+        }
+        else {
+            console.log(JSON.stringify(jsonary));
+             document.getElementById("loader").style.display = "block";
+            $.ajax({
+                type: "Post",
+                url: '@Url.Action("NewSparePartRequest")',
+                datatype: "json",
+                data: { json: JSON.stringify(jsonary),TicketNumber: $('#hdnTicketNumber').val() },
+                success: function (data) {
+                    var v = data.success;
+                    if (v == true) {
+                        TicketDetails($('#hdnTicketNumber').val());
+                    }
+                    else {
+                        alert('Some thing went wrong');
+                    }
+                    document.getElementById("loader").style.display = "none";
+                },
+                error: function () {
+                    alert('error');
+                    document.getElementById("loader").style.display = "none";
+                }
+            });
+        }
+
+    }
+
+    function ViewSparePartRequestDiv() {
+        $('#Sparepartrequest_Div').slideToggle();
+        var hdn = $('#hdnAssignedWarehouseId').val();
+        $("#ddlwarehouse").val(hdn).trigger('change');
+    }
+
+    function enablevaluesparepart(id) {
+        $("#ddlsparehouse option[value*='" + id + "']").removeAttr('disabled');
+        $('#' + id).remove();
+    }
+
+    function bindSparePartData() {
+        document.getElementById("loader").style.display = "block";
+        var sparepartid = $('#ddlsparehouse').val();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetSpareListDataById")', // we are calling json method
+            dataType: 'json',
+            data: { sparepartid: sparepartid},
+            success: function (data) {
+
+                var district = "";
+                district = district + ' <tr id="'+data[0].SparePartId+'"> ';
+                district = district + '<td> <i onclick="enablevaluesparepart('+data[0].SparePartId+')" class="la la-trash la-2x"></i></td > ';
+                district = district + '<td> '+data[0].SparePartName+'/'+data[0].SparePartNumber+' </td>';
+                district = district + '<td> '+data[0].Price+' </td>';
+                district = district + '<td>';
+
+                var quantity = data[0].Quantity;
+                var basequantity = data[0].BaseQuantity;
+
+                var qty = 0;
+                if (quantity > basequantity) {
+                    qty = basequantity;
+                }
+                else if (basequantity > quantity) {
+                    qty = quantity;
+                }
+                else if (basequantity == quantity) {
+                    qty = quantity;
+                }
+                else if (basequantity == 0) {
+                    qty = quantity;
+                }
+                district = district + '<select id="ddlqnty_'+data[0].SparePartId+'" class="col-md-12" > ';
+                for (var i = 1; i <= qty; i++) {
+                    district = district + '<option>' + i + '</option>';
+                }
+                district = district + '</select>';
+                district = district + '</td>';
+                district = district + '</tr>';
+
+                $('#tr_div').append(district);
+                $("#ddlsparehouse option[value*='"+data[0].SparePartId+"']").attr('disabled','disabled');
+                document.getElementById("loader").style.display = "none";
+            },
+            error: function (ex) {
+                document.getElementById("loader").style.display = "none";
+                alert('Failed to retrieve spare parts.' + ex);
+            }
+        });
+    }
+
+    function bindsparepart() {
+        document.getElementById("loader").style.display = "block";
+        var warehouseid = $('#hdnAssignedWarehouseId').val();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetSparePartList")', // we are calling json method
+            dataType: 'json',
+            data: { warehouseid: warehouseid},
+            success: function (data) {
+
+                var district = "<select id='ddlsparehouse' class='form-control kt-select2' multiple>";
+                district = district + '<option value="0">--Select SparePart--</option>';
+                for (var i = 0; i < data.length; i++) {
+
+                    district = district + '<option value=' + data[i].SparePartId + '>' + data[i].SparePartName + '</option>';
+                }
+                district = district + '</select>';
+                $('#ddlsparehouse').html(district);
+                document.getElementById("loader").style.display = "none";
+            },
+            error: function (ex) {
+                document.getElementById("loader").style.display = "none";
+                alert('Failed to retrieve spare parts.' + ex);
+            }
+        });
+    }
+
+    function AddResponsetime() {
+        var datetime = $('#txtResponseTime').val();
+        var reportid = $('#ddlreportType').val();
+        if (datetime == null || datetime == "") {
+            alert('fields required');
+            return false;
+        }
+        if (reportid == "" || reportid == null || reportid==0) {
+            alert('fields required');
+            return false;
+        }
+        document.getElementById("loader").style.display = "block";
+        $.ajax({
+            type: "Post",
+            url: '@Url.Action("AddResponseTime")',
+            datatype: "json",
+            data: { ResponseTime: datetime, ReportId: reportid,TicketNumber:$('#hdnTicketNumber').val() },
+            success: function (data) {
+                var v = data.success;
+                if (v == true) {
+                    TicketDetails($('#hdnTicketNumber').val());
+                }
+                else {
+                    alert('Some thing went wrong');
+                }
+                document.getElementById("loader").style.display = "none";
+            },
+            error: function () {
+                alert('error');
+                document.getElementById("loader").style.display = "none";
+            }
+        });
+    }
+    function ViewResponseDiv() {
+        $('#AddResponseTime_Div').slideToggle();
+    }
+    function UpdateStatus(val) {
+        document.getElementById("loader").style.display = "block";
+        var ticketnumber = $('#hdnTicketNumber').val();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("UpdateTicketStatus")', // we are calling json method
+            dataType: 'json',
+            data: { id: val, TicketNumber: ticketnumber },
+            success: function (data) {
+                var v = data.success;
+                if (v == true) {
+                    TicketDetails($('#hdnTicketNumber').val());
+                }
+                else {
+                    alert('Some thing went wrong');
+                }
+                document.getElementById("loader").style.display = "none";
+            },
+            error: function (ex) {
+                document.getElementById("loader").style.display = "none";
+                alert('Failed to retrieve models.' + ex);
+            }
+        });
+    }
+
+    function readmre(id) {
+            $("#" + id).text(($("#" + id).text() == 'Read Less') ? 'Read More' : 'Read Less');
+            $("#div_" + id).slideToggle();
+        }
+
+</script>
+
+
+

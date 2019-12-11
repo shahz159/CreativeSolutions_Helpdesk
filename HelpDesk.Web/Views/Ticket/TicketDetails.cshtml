@@ -1,0 +1,244 @@
+﻿@model HelpDesk.Web.Models.TicketDTO
+
+@{
+    ViewBag.Title = "TicketDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@foreach (var item in Model.TicketList)
+{
+    <div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="kt-portlet ">
+                    <div class="kt-portlet__head kt-portlet__head--lg position-relative">
+                        <div class="kt-portlet__head-label">
+                            <span class="kt-portlet__head-icon">
+                                <i class="kt-font-brand flaticon2-line-chart"></i>
+                            </span>
+                            <h3 class="kt-portlet__head-title">Ticket Details</h3>
+                        </div>
+                        <div class="kt-portlet__head-toolbar">
+                            <div class="kt-portlet__head-wrapper">
+                                <div class="kt-portlet__head-actions">
+                                    Priority : <strong class="color-primary">@item.Priority</strong>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="" class="details-close-button btn btn-danger btn-sm btn-icon btn-circle position-absolute"><i class="la la-close"></i></a>
+                    </div>
+                    <div class="kt-portlet__body">
+                        <div class="kt-widget kt-widget--user-profile-3">
+
+                            <div class="kt-widget__top">
+                                <div class="kt-widget__content">
+                                    <div class="kt-widget__head">
+                                        <span class="kt-widget__title">@item.CreatedUser</span>
+                                    </div>
+                                    <div class="kt-widget__info">
+                                        <div class="kt-widget__desc">
+                                            @item.CreatedOn.ToString("MM/dd/YYYY")
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="kt-widget__body"></div>
+                            <div class="kt-widget__bottom">
+                                <ul class="ticketbar">
+                                    <li class="active">New Ticket</li>
+                                    <li class="active">In Progress</li>
+                                    <li>Resolved</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                Requested Inventory Items
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body kt-portlet__body--fluid">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>AHC Code</th>
+                                        <th>Spare Part No.</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>AHC-2548</td>
+                                        <td>548142</td>
+                                        <td>2</td>
+                                        <td>30.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>AHC-4854</td>
+                                        <td>485148</td>
+                                        <td>3</td>
+                                        <td>54.00</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="kt-portlet kt-portlet--height-fluid">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                Details
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body">
+                        <table class="ticket-full-details table table-borderless table-sm">
+                            <tr>
+                                <td>Ticket No.</td>
+                                <td>: @item.TicketNumber</td>
+                            </tr>
+                            <tr>
+                                <td>Account</td>
+                                <td>: @item.AccountName</td>
+                            </tr>
+                            <tr>
+                                <td>Product</td>
+                                <td>: @item.ProductName</td>
+                            </tr>
+                            <tr>
+                                <td>Modal</td>
+                                <td>: @item.ModelName</td>
+                            </tr>
+                            <tr>
+                                <td>System No.</td>
+                                <td>: @item.SystemNo</td>
+                            </tr>
+                            @*<tr>
+                                <td>Response Time</td>
+                                <td>: 4 Hours</td>
+                            </tr>*@
+                        </table>
+                    </div>
+
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                Documents Attached
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body">
+                        <a href="" class="text-dark">
+                            <i class="fa fa-file fa-3x" aria-hidden="true"></i>
+                            <h6 class="mt-2">Document</h6>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--begin:: Portlet-->
+        <!--end:: Portlet-->
+        <div class="row">
+            <div class="col-xl-12">
+                <!--begin:: Widgets/Order Statistics-->
+                <div class="kt-portlet kt-portlet--tabs kt-portlet--height-fluid">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                Recent Post
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body">
+                        <div class="kt-widget4">
+                            <div class="kt-widget4__item">
+                                <div class="kt-widget4__info">
+                                    <span class="kt-widget4__username">
+                                        Anna Strong
+                                    </span>
+                                    <p class="kt-widget4__text">
+                                        Visual Designer,Google Inc
+                                    </p>
+                                </div>
+                                <span>14-11-2019 04:25 PM</span>
+
+                            </div>
+                            <div class="kt-widget4__item">
+                                <div class="kt-widget4__info">
+                                    <span class="kt-widget4__username">
+                                        Milano Esco
+                                    </span>
+                                    <p class="kt-widget4__text">
+                                        Product Designer, Apple Inc
+                                    </p>
+                                </div>
+                                <span>14-11-2019 04:25 PM</span>
+                            </div>
+                            <div class="kt-widget4__item">
+                                <div class="kt-widget4__info">
+                                    <span class="kt-widget4__username">
+                                        Nick Bold
+                                    </span>
+                                    <p class="kt-widget4__text">
+                                        Web Developer, Facebook Inc
+                                    </p>
+                                </div>
+                                <span>14-11-2019 04:25 PM</span>
+                            </div>
+                            <div class="kt-widget4__item">
+                                <div class="kt-widget4__info">
+                                    <span class="kt-widget4__username">
+                                        Wiltor Delton
+                                    </span>
+                                    <p class="kt-widget4__text">
+                                        Project Manager, Amazon Inc
+                                    </p>
+                                </div>
+                                <span>14-11-2019 04:25 PM</span>
+                            </div>
+                            <div class="kt-widget4__item">
+                                <div class="kt-widget4__info">
+                                    <span class="kt-widget4__username">
+                                        Nick Stone
+                                    </span>
+                                    <p class="kt-widget4__text">
+                                        Visual Designer, Github Inc
+                                    </p>
+                                </div>
+                                <span>14-11-2019 04:25 PM</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__foot">
+                        <form>
+                            <h4 class="kt-portlet__head-title">Post A Comment</h4>
+                            <div class="form-group">
+                                <textarea class="form-control" id="exampleTextarea" rows="3" placeholder="Type notes"></textarea>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <a href="#" class="btn btn-label-brand btn-bold">Add notes</a>
+                                    <a href="#" class="btn btn-clean btn-bold">Cancel</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end:: Widgets/Order Statistics-->
+    </div>
+}
+@section Scripts{}
+

@@ -1,0 +1,43 @@
+﻿@model HelpDesk.Web.Models.InventoryDTO
+
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Spare Part Name</th>
+                <th scope="col">Spare Part Number</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">BaseQuantity</th>
+                <th scope="col">Price</th>
+                @if (Model.RoleId == 502)
+                {
+                    <th scope="col">Edit</th>
+                }
+
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.SparePartList != null)
+            {
+                foreach (var item in Model.SparePartList)
+                {
+                    <tr>
+                        <td>@item.SparePartName</td>
+                        <td>@item.SparePartNumber</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.BaseQuantity</td>
+                        <td>@item.Price</td>
+                        @if (Model.RoleId == 502)
+                        {
+                            <td align="center">
+                                <a href="@Url.Action("Edit","Inventory",new { id=item.SparePartId})">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                            </td>
+                        }
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

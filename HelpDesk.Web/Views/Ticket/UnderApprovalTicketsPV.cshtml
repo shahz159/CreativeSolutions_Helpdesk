@@ -1,0 +1,69 @@
+﻿@model HelpDesk.Web.Models.TicketDTO
+
+@*UnderApprovalTicketsPV*@
+
+<div>
+    <table class="table table-striped- table-bordered table-hover table-checkable" id="kt_table_1">
+        <thead>
+            <tr>
+                @*<th>Ticket No</th>*@
+                <th>Date</th>
+                <th>Modal No</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.TicketList != null)
+            {
+                foreach (var item in Model.TicketList)
+                {
+                    <tr>
+                        @*<td>@item.TicketNumber</td>*@
+                        <td>@item.CreatedOn</td>
+                        <td>@item.ModelName</td>
+                        <td>@item.Priority</td>
+                        <td>@item.Statustxt</td>
+                        <td align="center">
+                            <a onclick="TicketDetails(@item.TicketNumber)">
+                                <i class="fa fa-eye"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+</div>
+<script src="~/assets/js/datatables.bundle.js"></script>
+ 
+<script>
+    var KTDatatablesBasicPaginations = function() {
+
+	var initTable1 = function() {
+		var table = $('#kt_table_1');
+
+		// begin first table
+		table.DataTable({
+			responsive: true
+		});
+	};
+
+	return {
+
+		//main function to initiate the module
+		init: function() {
+			initTable1();
+		},
+
+	};
+
+}();
+
+jQuery(document).ready(function() {
+	KTDatatablesBasicPaginations.init();
+});
+</script>
+ 

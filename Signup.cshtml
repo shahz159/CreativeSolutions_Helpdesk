@@ -1,0 +1,681 @@
+﻿@model HelpDesk.Web.Models.UserDTO
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Sign Up</title>
+    <link href="~/assets/css/login.css" rel="stylesheet" />
+    <link href="~/assets/plugins/global/plugins.bundle.css" rel="stylesheet" />
+    <link href="~/assets/css/style.bundle.css" rel="stylesheet" />
+    <style>
+        .select2-selection__rendered {
+            background: rgba(247, 247, 249, 0.7);
+            height: 50px;
+            line-height: 35px !important;
+        }
+
+        .select2-container--default .select2-selection--multiple, .select2-container--default .select2-selection--single {
+            border: none
+        }
+
+        .input-group-prepend {
+            margin-top: 1.25rem;
+        }
+
+        .input-group-text {
+            border: none;
+        }
+    </style>
+    <style>
+        .load-sec {
+            background-color: rgba(255,255,255,0.6);
+            position: fixed;
+            top: 0px;
+            right: 0px;
+            bottom: 0px;
+            left: 0;
+            z-index: 99;
+        }
+
+        .loader span {
+            position: relative;
+            display: inline-block;
+            width: 5px;
+            height: 0;
+            margin: 0;
+            padding: 0;
+        }
+
+            .loader span:before, .loader span:after {
+                position: absolute;
+                content: '';
+                height: 2px;
+                width: 5px;
+                background-color: #c0392b;
+                animation: top 2s infinite;
+            }
+
+            .loader span:before {
+                bottom: 0;
+                height: 2px;
+                width: 5px;
+                border-top-left-radius: 3px;
+                border-top-right-radius: 3px;
+            }
+
+            .loader span:after {
+                top: 0;
+                height: 2px;
+                width: 5px;
+                border-bottom-left-radius: 3px;
+                border-bottom-right-radius: 3px;
+            }
+
+            .loader span:nth-of-type(1):before, .loader span:nth-of-type(1):after {
+                max-height: 10px;
+                background-color: #03C9A9;
+            }
+
+            .loader span:nth-of-type(2):before, .loader span:nth-of-type(2):after {
+                max-height: 20px;
+                background-color: #03C9A9;
+            }
+
+            .loader span:nth-of-type(3):before, .loader span:nth-of-type(3):after {
+                max-height: 30px;
+                background-color: #03C9A9;
+            }
+
+            .loader span:nth-of-type(4):before, .loader span:nth-of-type(4):after {
+                max-height: 20px;
+                background-color: #03C9A9;
+            }
+
+            .loader span:nth-of-type(5):before, .loader span:nth-of-type(5):after {
+                max-height: 10px;
+                background-color: #03C9A9;
+            }
+
+        @@keyframes top {
+            0% {
+                height: 2px;
+            }
+
+            50% {
+                height: 30px;
+            }
+
+            100% {
+                height: 2px;
+            }
+        }
+
+        @@keyframes bottom {
+            0% {
+                height: 2px;
+            }
+
+            50% {
+                height: 30px;
+            }
+
+            100% {
+                height: 2px;
+            }
+        }
+
+        @@keyframes pulsate {
+            0% {
+                transform: scale(1, 1);
+                opacity: 0.0;
+                letter-spacing: 0px;
+            }
+
+            50% {
+                opacity: 1.0;
+            }
+
+            100% {
+                transform: scale(1.1, 1.1);
+                opacity: 0.05;
+                letter-spacing: 5px;
+            }
+        }
+    </style>
+
+   
+</head>
+<body class="kt-page--loading-enabled kt-page--loading kt-header--fixed kt-header--minimize-topbar kt-header-mobile--fixed kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-subheader--enabled kt-subheader--transparent kt-page--loading">
+    <div id="loader" class="load-sec">
+        <div class="loader">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+    <!-- begin::Page loader -->
+    <!-- end::Page Loader -->
+    <!-- begin:: Page -->
+    <div class="kt-grid kt-grid--ver kt-grid--root kt-page">
+        <div class="kt-grid kt-grid--hor kt-grid--root  kt-login kt-login--v1" id="kt_login">
+            <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--desktop kt-grid--ver-desktop kt-grid--hor-tablet-and-mobile">
+
+                <!--begin::Aside-->
+                <div class="kt-grid__item kt-grid__item--order-tablet-and-mobile-2 kt-grid kt-grid--hor kt-login__aside" style="background-image: url(http://csadms.com/AHCHelpdesk/assets/images/login-bg.jpg);">
+                    <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver">
+                        <div class="kt-grid__item kt-grid__item--middle">
+                            <h3 class="kt-login__title">Welcome to AHC Helpdesk!</h3>
+                            <h4 class="kt-login__subtitle">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                tempor incididunt ut labore et dolore magna aliqua.
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="kt-grid__item">
+                        <div class="kt-login__info">
+                            <div class="kt-login__copyright">
+                                &copy 2018 AHC Helpdesk.
+                            </div>
+                            <div class="kt-login__menu">
+                                <a href="#" class="kt-link">Privacy</a>
+                                <a href="#" class="kt-link">Legal</a>
+                                <a href="#" class="kt-link">Contact</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="kt-grid__item kt-grid__item--fluid  kt-grid__item--order-tablet-and-mobile-1  kt-login__wrapper">
+                    <div class="kt-login__body">
+                        <div class="kt-login__form">
+                            <div class="kt-login__title">
+                                <img src="~/assets/images/ahc_new_logo.png" height="50" class="mb-3" />
+                                <h3>SignUp</h3>
+                            </div>
+                            <form class="kt-form" action="" novalidate="novalidate" id="kt_login_form">
+                                <div class="form-group mt-4">
+                                    <div id="Accounts_div">
+                                        <select class="form-control kt-select2" id="ddlAccounts" name="param">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group mt-4">
+                                    <div id="Products_div">
+                                        <select class="form-control kt-select2" id="ddlProducts" multiple>
+                                            <option></option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div class="form-group mt-4">
+                                    <input class="form-control" type="text" value="" placeholder="Enter Full Name" id="txtfullname">
+                                </div>
+                                <div class="form-group mt-4">
+                                    <select class="form-control kt-select2" id="ddlGender">
+                                        <option value="M">Male</option>
+                                        <option value="F">Female</option>
+                                        <option value="O">Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <div id="div_mobileNumber" class="input-group">
+                                        <div class="input-group-prepend"><span class="input-group-text">+966</span></div>
+                                        <input class="form-control" autocomplete="off" type="text" value="" placeholder="xxx xxx xxxx" id="txtmobile" onkeyup="return isNumberKey(event)" onchange="mobilevalidation()">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input id="txtSignupEmail" class="form-control" autocomplete="off" type="text" value="" placeholder="Enter Email Id" onchange="checkuseremail()">
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" type="password" autocomplete="new-password" placeholder="Password" onchange="PasswordLenght(1)" id="txtPassword">
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" type="password" autocomplete="new-password" placeholder="Conform Password" onchange="PasswordLenght(2)" id="txtConfirmPassword" onchange="checkPassword()">
+                                </div>
+                                <div class="kt-login__actions">
+                                    <a onclick="SaveUserDetails()" class="btn btn-primary btn-elevate kt-login__btn-primary">Submit</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!--end::Body-->
+                </div>
+                <!--end::Content-->
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="hdnRoleId" value="@Model.RoleId" />
+    <input type="hidden" id="hdnCompanyId" value="@Model.CompanyId" />
+    <input type="hidden" id="hdnMobileValidation" value="0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
+
+    <script src="~/assets/plugins/global/plugins.bundle.js"></script>
+    <script src="~/assets/js/scripts.bundle.js"></script>
+   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
+    <script src="~/assets/js/select2.js"></script>
+    <script>
+
+        document.getElementById("loader").style.display = "none";
+        $(document).ready(function () {
+            //set initial state. 'Success',
+                            'You clicked the <b style="color:green;">Success</b> button!',
+                            'success'
+            $('#ddlCompany,#ddlRole,#ddlAccountM,#ddlAccountS,#ddlGender,#ddlProducts').select2({
+            });
+            if ($('#hdnRoleId').val() != 501) {
+
+                BindAccounts();
+                BindProducts();
+            }
+        });
+
+        function PasswordLenght(val) {
+
+             var myLength = '';
+            if (val == 1) {
+                myLength = $('#txtPassword').val().length;
+            }
+            else {
+                myLength = $('#txtConfirmPassword').val().length;
+            }
+            if (myLength < 5) {
+                if (val == 1) {
+                    $('#txtPasswordlenghterror').html('');
+                    $("#txtPassword").after('<span id="txtPasswordlenghterror" style="color:red;" class="error">Minimum Lenght 5</span>');
+                }
+                else {
+                    $('#txtConfirmPassworderror').html('');
+                    $("#txtConfirmPassword").after('<span id="txtConfirmPassworderror" style="color:red;" class="error">Minimum Lenght 5</span>');
+                }
+            }
+            else {
+                 if (val == 1) {
+                    $('#txtPasswordlenghterror').html('');
+                }
+                else {
+                    $('#txtConfirmPassworderror').html('');
+                }
+            }
+        }
+
+        function checkPassword() {
+
+            var password1 = $('#txtPassword').val();
+            var password2 = $('#txtConfirmPassword').val();
+
+            // If password not entered
+            if (password1 == '')
+                alert("Please enter Password");
+
+            // If confirm password not entered
+            else if (password2 == '')
+                alert("Please enter confirm password");
+
+            // If Not same return False.
+            else if (password1 != password2) {
+                alert("\nPassword did not match: Please try again...")
+                return false;
+            }
+
+            // If same return True.
+            else {
+                //alert("Password Match: Welcome to GeeksforGeeks!")
+                return true;
+            }
+        }
+        function SaveUserDetails() {
+            debugger
+            var isvalid = true;
+            ///////////////////////
+            var password1 = $('#txtPassword').val();
+            if (password1 == "" || password1 == null) {
+                isvalid = false;
+                $('#txtPassworderror').html('');
+                $("#txtPassword").after('<span id="txtPassworderror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtPassworderror').html('');
+            }
+            var myLength_passwrd = $('#txtPassword').val().length;
+            if (myLength_passwrd < 5) {
+                isvalid = false;
+                $('#txtPasswordlenghterror').html('');
+                $("#txtPassword").after('<span id="txtPasswordlenghterror" style="color:red;" class="error">Minimum Lenght 5</span>');
+            }
+            else {
+                $('#txtPasswordlenghterror').html('');
+            }
+
+            //////////////////////
+            var password2 = $('#txtConfirmPassword').val();
+            if (password1 == "" || password1 == null) {
+                isvalid = false;
+                $('#txtConfirmPassworderror').html('');
+                $("#txtConfirmPassword").after('<span id="txtConfirmPassworderror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtConfirmPassworderror').html('');
+            }
+
+            var myLength_confrmpasswrd = $('#txtPassword').val().length;
+            if (myLength_confrmpasswrd < 5) {
+                isvalid = false;
+                $('#txtConfirmPasswordlenghterror').html('');
+                $("#txtConfirmPassword").after('<span id="txtConfirmPasswordlenghterror" style="color:red;" class="error">Minimum Lenght 5</span>');
+            }
+              else {
+                $('#txtConfirmPasswordlenghterror').html('');
+            }
+            ///////////////////////
+            var RoleId = 503;
+            //////////////////////
+            var HdnRoleId = 503;//System User RoleId is 503
+            var CompanyId = 10;//AHC Company Id is 10
+            //////////////////////
+            var Accounts = [];
+
+            Accounts = $("#ddlAccounts").val();
+            if (Accounts == 0) {
+                isvalid = false;
+                $('#txtAccountSerror').html('');
+                $("#Accounts_div").after('<span id="txtAccountSerror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtAccountSerror').html('');
+            }
+            ////////////////////////////////
+            var Products = [];
+            Products= $("#ddlProducts").val();
+
+            if (Products == "" || Products == "[]") {
+                isvalid = false;
+                 $('#txtproductserror').html('');
+                $("#Products_div").after('<span id="txtproductserror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtproductserror').html('');
+            }
+            ////////////////////////////////
+            var EmployeeId = 0;
+            //////////////
+            var FullName = $("#txtfullname").val();
+            if (FullName == "") {
+                isvalid = false;
+                   $('#txtfullnameerror').html('');
+                $("#txtfullname").after('<span id="txtfullnameerror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtfullnameerror').html('');
+            }
+            //////////////////
+            var Mobile = $("#txtmobile").val();
+            if (Mobile == "") {
+                isvalid = false;
+                  $('#txtmobilexxerror').html('');
+                $("#div_mobileNumber").after('<span id="txtmobilexxerror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtmobilexxerror').html('');
+            }
+            ////////////////////////
+            var Email = $("#txtSignupEmail").val();
+            if (Email == "") {
+                isvalid = false;
+                  $('#txtSignupEmaileeerror').html('');
+                $("#txtSignupEmail").after('<span id="txtSignupEmaileeerror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtSignupEmaileeerror').html('');
+            }
+            ///////////////////
+            var Gender = $("#ddlGender").val();
+            if (Gender == "") {
+                isvalid = false;
+                  $('#txtgendererror').html('');
+                $("#ddlGender").after('<span id="txtgendererror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtgendererror').html('');
+            }
+            //////////////////////
+            if (isvalid == true) {
+                //AJAX CALL
+                  $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("NewUser")', // we are calling json method
+                    dataType: 'json',
+                    data: {
+                        RoleId: RoleId, CompanyId: CompanyId, Accounts: Accounts, Products: Products, EmpId: EmployeeId, FullName: FullName, Mobile: Mobile, Email: Email,
+                        Gender: Gender,Password:password1
+                    },
+                    success: function (data) {
+                        swal('Success',
+                            'we will contact you soon',
+                            'success')
+                            .then((value) => {
+                                location.reload();
+                            });
+                        location.reload();
+                    },
+                    error: function (ex) {
+                        alert('Failed to retrieve models.' + ex);
+                    }
+                });
+            }
+            else {
+
+            }
+        }
+
+        function isNumberKey(evt) {
+
+            $('#txtmobileerror').text('');
+            //var e = evt || window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode
+            if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+
+            var myLength = $("#txtmobile").val().length;
+            if (myLength > 21) {
+                $("#txtmobile").after('<span id="txtmobileerror" style="color:red;" class="error">Maximum Lenght 20</span>');
+                $('#hdnMobileValidation').val('1');
+            }
+            else if (myLength < 10) {
+                $("#txtmobile").after('<span id="txtmobileerror" style="color:red;" class="error">Minimum Lenght 10</span>');
+                $('#hdnMobileValidation').val('1');
+            } else {
+                $('#hdnMobileValidation').val('0');
+            }
+
+            return true;
+        }
+
+        function mobilevalidation() {
+            debugger
+            var val= $('#hdnMobileValidation').val();
+            if (val == 1) {
+                $('#txtmobile').val('');
+            }
+        }
+
+        function BindDropDowns() {
+            BindAccounts();
+            BindProducts();
+        }
+
+        function bindAccountsBYRole() {
+              var companyid = 0;
+              var roleid = $('#hdnRoleId').val();
+              if (roleid == 501) {
+                  companyid = $("#ddlCompany").val();
+              }
+              else {
+                  companyid = $('#hdnCompanyId').val();
+              }
+
+            if (companyid == "") {
+                return false;
+            }
+            else {
+                BindAccounts();
+            }
+        }
+
+        function BindProducts() {
+             document.getElementById("loader").style.display = "block";
+             var companyid = 0;
+              var roleid = $('#hdnRoleId').val();
+             if (roleid == 501) {
+                 companyid = $("#ddlCompany").val();
+             }
+             else {
+                 companyid = $('#hdnCompanyId').val();
+             }
+             if (companyid == "") {
+                   document.getElementById("loader").style.display = "none";
+                 return false;
+             }
+             $.ajax({
+                 type: 'POST',
+                 url: '@Url.Action("GetProducts")', // we are calling json method
+                 dataType: 'json',
+                 data: { id: companyid },
+                 success: function (data) {
+                     debugger
+                     var district = "<select id='ddlProducts' class='form-control kt-select2' multiple>";
+                     district = district + '<option value="0">--Select Products--</option>';
+                     for (var i = 0; i < data.length; i++) {
+
+                         district = district + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                     }
+                     district = district + '</select>';
+                     $('#ddlProducts').html(district);
+                     document.getElementById("loader").style.display = "none";
+                 },
+                 error: function (ex) {
+                     document.getElementById("loader").style.display = "none";
+                     alert('Failed to retrieve Products.' + ex);
+                 }
+             });
+            return false;
+        }
+
+        function BindAccounts() {
+
+              document.getElementById("loader").style.display = "block";
+              var companyid = 0;
+              var roleid = $('#hdnRoleId').val();
+            if (roleid == 501) {
+                companyid = $("#ddlCompany").val();
+            }
+            else {
+                companyid = $('#hdnCompanyId').val();
+            }
+            var selected_role = $('#ddlRole').val();
+            if (selected_role == "") {
+                document.getElementById("loader").style.display = "none";
+                return false;
+            }
+
+            if (companyid == "") {
+                document.getElementById("loader").style.display = "none";
+                return false;
+            }
+             $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetAccounts")', // we are calling json method
+                dataType: 'json',
+                data: { id: companyid },
+                success: function (data) {
+
+                    var district = "";
+                    //district = district + "<select id='ddlAccount' class='form-control kt-select2'>";
+                      var selected_role = $('#ddlRole').val();
+                    district = district + "<select id='ddlAccounts' class='form-control kt-select2'>";
+
+                   // var district = "<select id='ddlAccount' class='form-control kt-select2'>";
+                    district = district + '<option value="0">--Select Account--</option>';
+                    for (var i = 0; i < data.length; i++) {
+
+                        district = district + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    district = district + '</select>';
+                    $('#ddlAccounts').html(district);
+
+                    $('#ddlAccounts').select2({});
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve accounts.' + ex);
+                }
+             });
+
+            return false;
+        }
+
+        function checkuseremail() {
+            $('#txtSignupEmailerror').html('');
+            var hasError = false;
+            var email = $("#txtSignupEmail").val();
+            var emailReg = /^([\w-\.]+@@([\w-]+\.)+[\w-]{2,4})?$/;
+            var emailblockReg =
+                /^([\w-\.]+@@([\w-]+\.)+[\w-]{2,4})?$/;
+
+            var emailaddressVal = $("#txtSignupEmail").val();
+            if (emailaddressVal == '') {
+                $("#txtSignupEmail").after('<span id="txtSignupEmailerror" style="color:red;" class="error">Please enter your email address.</span>');
+                hasError = true;
+            }
+            else if (!emailReg.test(emailaddressVal)) {
+                $("#txtSignupEmail").after('<span id="txtSignupEmailerror" style="color:red;" class="error">Enter a valid email address.</span>');
+                hasError = true;
+            }
+
+            else if (!emailblockReg.test(emailaddressVal)) {
+                $("#txtSignupEmail").after('<span id="txtSignupEmailerror" style="color:red;" class="error">No yahoo, gmail or hotmail emails.</span>');
+                hasError = true;
+            }
+            debugger
+            if (hasError == true) {
+                $('#txtSignupEmail').val('');
+                return false;
+            }
+            else {
+                $('#txtSignupEmailerror').html('');
+            }
+
+            document.getElementById("loader").style.display = "block";
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("CheckUserEmail")',
+                dataType: 'json',
+                data: { useremail: email },
+                success: function (data) {
+                    var v = data.success;
+                    if (v == false) {
+                        $("#txtSignupEmail").val('');
+                        alert('Email Already Exists');
+                    }
+                    document.getElementById("loader").style.display = "none";
+                    return true;
+                },
+                error: function (ex) {
+                    alert('Error');
+                    document.getElementById("loader").style.display = "none";
+                    return false;
+                }
+            });
+        }
+
+    </script>
+    <!--end::Page Scripts -->
+</body>
+</html>

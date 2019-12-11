@@ -1,0 +1,203 @@
+﻿@model HelpDesk.Web.Models.TicketDTO
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
+
+    
+    <!--Begin::Dashboard 3-->
+    <!--Begin::Row-->
+    <div class="row">
+        <div class="col-sm-8 col-md-4 col-lg-4">
+            <div class="kt-portlet kt-portlet--border-bottom-brand">
+                <div class="kt-portlet__body kt-portlet__body--fluid">
+                    <div class="kt-widget26">
+                        <div class="kt-widget26__content">
+                            <span class="kt-widget26__number">@Model.NewTickets</span>
+                            <span class="kt-widget26__desc">New Tickets</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8 col-md-4 col-lg-4">
+            <div class="kt-portlet kt-portlet--border-bottom-success">
+                <div class="kt-portlet__body kt-portlet__body--fluid">
+                    <div class="kt-widget26">
+                        <div class="kt-widget26__content">
+                            <span class="kt-widget26__number">@Model.InProgressTickets</span>
+                            <span class="kt-widget26__desc">In Progress Tickets</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8 col-md-4 col-lg-4">
+            <div class="kt-portlet kt-portlet--border-bottom-danger">
+                <div class="kt-portlet__body kt-portlet__body--fluid">
+                    <div class="kt-widget26">
+                        <div class="kt-widget26__content">
+                            <span class="kt-widget26__number">@Model.ResolvedTickets</span>
+                            <span class="kt-widget26__desc">Resolved Tickets</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*<div class="col-sm-6 col-md-3 col-lg-3">
+            <div class="kt-portlet kt-portlet--border-bottom-warning">
+                <div class="kt-portlet__body kt-portlet__body--fluid">
+                    <div class="kt-widget26">
+                        <div class="kt-widget26__content">
+                            <span class="kt-widget26__number">556</span>
+                            <span class="kt-widget26__desc">Equipment Installed</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+    </div>
+
+    <div class="row">
+        <div class="col-xl-4 col-lg-4 order-lg-3 order-xl-1">
+            <!--begin:: Widgets/Sales States-->
+            <div class="kt-portlet kt-portlet--height-fluid">
+                <div class="kt-portlet__head">
+                    <div class="kt-portlet__head-label">
+                        <h3 class="kt-portlet__head-title">
+                            New Tickets
+                        </h3>
+                    </div>
+                </div>
+                <div class="kt-portlet__body">
+                    <div class="kt-widget6">
+                        <div class="kt-widget6__head">
+                            <div class="kt-widget6__item">
+                                <span class="kt-font-bold">Ticket No.</span>
+                                <span class="kt-font-bold">Date</span>
+                                <span class="kt-font-bold">Service Engineer</span>
+                            </div>
+                        </div>
+                        <div class="kt-widget6__body">
+                            @if (Model.ReportList != null)
+                            {
+                                foreach (var item in Model.ReportList)
+                                {
+                                    <div class="kt-widget6__item">
+                                        <span>@item.TicketNumber</span>
+                                        <span>@item.CreatedOn</span>
+                                        <span>@item.FullName</span>
+                                    </div>
+                                }
+                            }
+                        </div>
+                        @*<div class="kt-widget6__foot">
+                            <div class="kt-widget6__action kt-align-right">
+                                <a href="@Url.Action("","")" class="btn btn-label-brand btn-sm btn-bold">More...</a>
+                            </div>
+                        </div>*@
+                    </div>
+                </div>
+            </div>
+            <!--end:: Widgets/Sales States-->
+        </div>
+
+        <div class="col-xl-4 col-lg-4 order-lg-3 order-xl-1">
+            <!--begin:: Widgets/Sales States-->
+            <div class="kt-portlet kt-portlet--height-fluid">
+                <div class="kt-portlet__head">
+                    <div class="kt-portlet__head-label">
+                        <h3 class="kt-portlet__head-title">
+                            Pending Tickets
+                        </h3>
+                    </div>
+                </div>
+                <div class="kt-portlet__body">
+                    <div class="kt-widget6">
+                        <div class="kt-widget6__head">
+                            <div class="kt-widget6__item">
+                                <span class="kt-font-bold">Ticket No.</span>
+                                <span class="kt-font-bold">Date</span>
+                                <span class="kt-font-bold">Service Engineer</span>
+                            </div>
+                        </div>
+                        <div class="kt-widget6__body">
+                            @if (Model.WarehouseList != null)
+                            {
+                                foreach (var item in Model.WarehouseList)
+                                {
+                                    <div class="kt-widget6__item">
+                                        <span>@item.TicketNumber</span>
+                                        <span>@item.CreatedOn</span>
+                                        <span>@item.FullName</span>
+                                    </div>
+                                }
+                            }
+                        </div>
+                        @*<div class="kt-widget6__foot">
+                            <div class="kt-widget6__action kt-align-right">
+                                <a href="#" class="btn btn-label-brand btn-sm btn-bold">More...</a>
+                            </div>
+                        </div>*@
+                    </div>
+                </div>
+            </div>
+            <!--end:: Widgets/Sales States-->
+        </div>
+
+        <div class="col-xl-4 col-lg-4 order-lg-3 order-xl-1">
+            <!--begin:: Widgets/Sales States-->
+            <div class="kt-portlet kt-portlet--height-fluid">
+                <div class="kt-portlet__head">
+                    <div class="kt-portlet__head-label">
+                        <h3 class="kt-portlet__head-title">
+                            Resolved Tickets
+                        </h3>
+                    </div>
+                </div>
+                <div class="kt-portlet__body">
+                    <div class="kt-widget6">
+                        <div class="kt-widget6__head">
+                            <div class="kt-widget6__item">
+                                <span class="kt-font-bold">Ticket No.</span>
+                                <span class="kt-font-bold">Date</span>
+                                <span class="kt-font-bold">Service Engineer</span>
+                            </div>
+                        </div>
+                        <div class="kt-widget6__body">
+                            @if (Model.SparePartList != null)
+                            {
+                                foreach (var item in Model.SparePartList)
+                                {
+                                    <div class="kt-widget6__item">
+                                        <span>@item.TicketNumber</span>
+                                        <span>@item.CreatedOn</span>
+                                        <span>@item.FullName</span>
+                                    </div>
+                                }
+                            }
+                        </div>
+                        @*<div class="kt-widget6__foot">
+                            <div class="kt-widget6__action kt-align-right">
+                                <a href="#" class="btn btn-label-brand btn-sm btn-bold">More...</a>
+                            </div>
+                        </div>*@
+                    </div>
+                </div>
+            </div>
+            <!--end:: Widgets/Sales States-->
+        </div>
+    </div>
+</div>
+
+
+@section  Scripts{
+    <script>
+        $('#loader').hide();
+    </script>
+}
+
+

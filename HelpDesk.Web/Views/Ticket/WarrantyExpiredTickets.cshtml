@@ -1,0 +1,121 @@
+﻿@model HelpDesk.Web.Models.TicketDTO
+
+@{
+    ViewBag.Title = "WarrantyExpiredTickets";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section  Styles{
+    <link href="~/assets/css/datatables.bundle.css" rel="stylesheet" />
+}
+<div id="Upper_div" class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
+    <div class="kt-portlet">
+        <div class="kt-portlet__head kt-portlet__head--lg">
+            <div class="kt-portlet__head-label">
+                <span class="kt-portlet__head-icon">
+                    <i class="kt-font-brand flaticon2-line-chart"></i>
+                </span>
+                <h3 class="kt-portlet__head-title">Under Approval Tickets</h3>
+            </div>
+        </div>
+        <div class="kt-portlet__body">
+            <!--begin: Search Form -->
+            <div class="kt-form kt-form--label-right">
+                <div class="row align-items-center">
+                    <div class="col-xl-12 order-2 order-xl-1">
+                        <div class="row align-items-center">
+                            <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                                <div class="kt-form__group">
+                                    <div class="kt-form__label">
+                                        <label>Select Company</label>
+                                    </div>
+                                    <div class="kt-form__control">
+                                        @Html.DropDownListFor(model => model.CompanyId, (IEnumerable<SelectListItem>
+                                                 )ViewData["ddlComapanyList"], "--Please Select --",
+                                                 new { id = "ddlCompany", @class = "form-control kt-select2", @onchange = "BindUnderApprovalTickets()" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="kt-portlet__body pt-0">
+            <div class="table-responsive">
+                <div id="UnderApprovalTickets"></div>
+            </div>
+        </div>
+         
+    </div>
+</div>
+
+<input type="hidden" id="hdnCompany" value="@Model.CompanyId" />
+<div id="ticket_details" style="display:none;"></div>
+<!-- end:: Content -->
+@section  Scripts{
+    <script src="~/assets/js/datatables.bundle.js"></script>
+    <script src="~/assets/js/datatable.js"></script>
+    <script>
+        document.getElementById("loader").style.display = "none";
+        $(document).ready(function () {
+            $('#ddlCompany').select2({
+            });
+            var comid = $('#hdnCompany').val();
+            if (comid != 0) {
+                 UnderApprovalTickets(comid)
+            }
+        });
+
+        function BindUnderApprovalTickets() {
+            var id = $('#ddlCompany').val();
+            UnderApprovalTickets(id);
+        }
+
+        function UnderApprovalTickets(id) {
+            document.getElementById("loader").style.display = "block";
+            debugger
+            $.ajax({
+                type: "Post",
+                url: '@Url.Action("UnderApprovalTicketsPV")',
+                datatype: "json",
+                data: { id: id },
+                success: function (data) {
+                    document.getElementById("loader").style.display = "none";
+                    $('#UnderApprovalTickets').html(data);
+                },
+                error: function () {
+                    alert('error');
+                    $('#UnderApprovalTickets').html('');
+                    document.getElementById("loader").style.display = "none";
+                }
+            });
+        }
+
+         function TicketDetails(id) {
+             document.getElementById("loader").style.display = "block";
+            $('#Upper_div').hide();
+
+            $.ajax({
+                type: "Post",
+                url: '@Url.Action("TicketDetails")',
+                datatype: "json",
+                data: { id: id },
+                success: function (data) {
+                    document.getElementById("loader").style.display = "none";
+                    $('#ticket_details').show();
+                    $('#ticket_details').html(data);
+                },
+                error: function () {
+                    $('#ticket_details').html('');
+                    document.getElementById("loader").style.display = "none";
+                }
+            });
+        }
+          function closeDetails() {
+            $('#Upper_div').show();
+            $('#ticket_details').hide();
+        }
+       
+    </script>
+}

@@ -1,0 +1,128 @@
+﻿@model HelpDesk.Web.Models.TicketDTO
+
+@{
+    ViewBag.Title = "EquipmentApproval";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section  Styles{
+    <link href="~/assets/css/datatables.bundle.css" rel="stylesheet" />
+}
+
+<div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4" id="div_upper">
+    <div class="kt-portlet">
+        <div class="kt-portlet__head kt-portlet__head--lg">
+            <div class="kt-portlet__head-label">
+                <span class="kt-portlet__head-icon">
+                    <i class="kt-font-brand flaticon2-line-chart"></i>
+                </span>
+                <h3 class="kt-portlet__head-title">Spare Part Request Approval</h3>
+            </div>
+        </div>
+        <div class="kt-portlet__body">
+            <!--begin: Search Form -->
+        </div>
+        <div class="kt-portlet__body pt-0">
+            <div class="table-responsive">
+                <table id="kt_table_1" class="table table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Ticket No.</th>
+                            <th>Date</th>
+                            <th>Modal No</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.TicketList != null)
+                        {
+                            foreach (var item in Model.TicketList)
+                            {
+                                <tr>
+                                    <td>@item.TicketNumber</td>
+                                    <td>@item.CreatedOn</td>
+                                    <td>@item.ModelName</td>
+                                    <td>@item.Priority</td>
+                                    <td>@item.Statustxt</td>
+                                    <td align="center">
+                                        <a onclick="TicketDetails(@item.TicketNumber)">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!--begin: Section-->
+        </div>
+    </div>
+</div>
+
+<div id="ticket_details" style="display:none;"></div>
+@section Scripts{
+    <script src="~/assets/js/select2.js"></script>
+    <script src="~/assets/js/datatables.bundle.js"></script>
+    @*<script src="~/assets/js/datatable.js"></script>*@
+
+    <script>
+
+        var KTDatatablesBasicPaginations = function () {
+
+            var initTable1 = function () {
+                var table = $('#kt_table_1');
+
+                // begin first table
+                table.DataTable({
+                    responsive: true
+                });
+            };
+
+            return {
+
+                //main function to initiate the module
+                init: function () {
+                    initTable1();
+                },
+
+            };
+
+        }();
+
+        jQuery(document).ready(function () {
+            KTDatatablesBasicPaginations.init();
+        });
+
+        document.getElementById("loader").style.display = "none";
+
+        function TicketDetails(id) {
+             document.getElementById("loader").style.display = "block";
+            $('#div_upper').hide();
+
+            $.ajax({
+                type: "Post",
+                url: '@Url.Action("TicketDetails")',
+                datatype: "json",
+                data: { id: id },
+                success: function (data) {
+                    document.getElementById("loader").style.display = "none";
+                    $('#ticket_details').show();
+                    $('#ticket_details').html(data);
+                },
+                error: function () {
+                    $('#ticket_details').html('');
+                    document.getElementById("loader").style.display = "none";
+                }
+            });
+        }
+
+        function closeDetails() {
+            $('#div_upper').show();
+            $('#ticket_details').hide();
+        }
+    </script>
+}
+

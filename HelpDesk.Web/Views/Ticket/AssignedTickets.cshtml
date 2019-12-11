@@ -1,0 +1,241 @@
+﻿@model HelpDesk.Web.Models.TicketDTO
+
+@{
+    ViewBag.Title = "AssignedTickets";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section  Styles{
+    <link href="~/assets/css/datatables.bundle.css" rel="stylesheet" />
+}
+<!-- begin:: Content -->
+<div  id="Upper_div" class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
+    <div class="kt-portlet kt-portlet--mobile">
+        <div class="kt-portlet__head kt-portlet__head--lg">
+            <div class="kt-portlet__head-label">
+                <span class="kt-portlet__head-icon">
+                    <i class="kt-font-brand flaticon2-line-chart"></i>
+                </span>
+                <h3 class="kt-portlet__head-title">
+                    Assigned Tickets
+                </h3>
+            </div>
+        </div>
+        <div class="kt-portlet__body">
+            <!--begin: Search Form -->
+            <div class="kt-form kt-form--label-right">
+                <div class="row align-items-center">
+                    <div class="col-xl-12 order-2 order-xl-1">
+                        <div class="row align-items-center">
+
+                            <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
+                                <div class="kt-form__group">
+                                    <div class="kt-form__label">
+                                        <label>Account</label>
+                                    </div>
+                                    <div class="kt-form__control">
+                                        @Html.DropDownListFor(model => model.AccountId, (IEnumerable<SelectListItem>
+                                               )ViewData["ddlAccountList"], "--Please Select --",
+                                               new { id = "ddlAccounts", @class = "form-control kt-select2" ,@onchange="OnChangeFiletrs(1)"})
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
+                                <div class="kt-form__group">
+                                    <div class="kt-form__label">
+                                        <label>Service Engineer</label>
+                                    </div>
+                                    <div class="kt-form__control">
+                                        @Html.DropDownListFor(model => model.UserId, (IEnumerable<SelectListItem>
+                                               )ViewData["ddlUsers"], "--Please Select --",
+                                               new { id = "ddlUsers", @class = "form-control kt-select2",@onchange="OnChangeFiletrs(2)" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
+                                <div class="kt-form__group">
+                                    <div class="kt-form__label">
+                                        <label>Status</label>
+                                    </div>
+                                    <div class="kt-form__control">
+                                        @Html.DropDownListFor(model => model.Status, (IEnumerable<SelectListItem>
+                                                  )ViewData["ddlStatusList"], "--Please Select --",
+                                                  new { id = "ddlStatus", @class = "form-control kt-select2",@onchange="OnChangeFiletrs(3)" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
+                                <div class="kt-form__group">
+                                    <div class="kt-form__label">
+                                        <label>&nbsp;</label>
+                                    </div>
+                                    <div class="kt-form__control">
+                                        <a  class="btn btn-brand btn-elevate btn-icon-sm" onclick="Reload()">Clear Filter</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="kt-portlet__body">
+            <!--begin: Datatable -->
+            <div id="AssignedTicktes_div"></div>
+            <!--end: Datatable -->
+        </div>
+    </div>
+</div>
+
+<div id="ticket_details" style="display:none;"></div>
+
+<input type="hidden" id="hdnRoleId" value="@Model.RoleId"/>
+<input type="hidden" id="hdnUserId" value="@Model.UserId" />
+<input type="hidden" id="hdnSelectedValues" value="0" />
+
+@*<input type="hidden" id="hdnUserType" value="@Model.TicketUserType" />*@
+<!-- end:: Content -->
+@section  Scripts{
+    <script src="~/assets/js/datatables.bundle.js"></script>
+    <script src="~/assets/js/datatable.js"></script>
+
+    <script>
+
+        document.getElementById("loader").style.display = "none";
+
+        $(document).ready(function () {
+
+            $('#ddlAccounts,#ddlUsers,#ddlStatus').select2();
+
+            var roleid = $('#hdnRoleId').val();
+            var userid = $('#hdnUserId').val();
+
+            if (roleid==501) {
+                BindFiltersData(0, 0, 0, 1);
+            }
+
+            if (roleid == 505) {
+                document.getElementById("ddlUsers").disabled = true;
+                $("#ddlUsers option").each(function () {
+                    var val = $(this).val();
+                    if (val != "") {
+                        $("#ddlUsers").val(val).trigger('change');
+                        return false;
+                    }
+                });
+            }
+            else {
+                $("#ddlStatus option").each(function () {
+                    var val = $(this).val();
+                    if (val != "") {
+                        $("#ddlStatus").val(val).trigger('change');
+                        return false;
+                    }
+                     //return true;
+                });
+            }
+
+            //$("#ddlUsers option").prop("disabled", false);
+            //$("#ddlUsers option").attr()
+            
+        });
+
+        function OnChangeFiletrs(val) {
+            
+            var accountid = 0;
+            var userid = 0;
+            var statusid = 0;
+            var PageNumber = 1;
+                //$('#hdnPageNumber_twbs').val();
+            if (val==1) {
+                accountid = $('#ddlAccounts').val();
+                $('#hdnSelectedValues').val(1);
+            }
+            else  if (val==2) {
+                userid = $('#ddlUsers').val();
+                $('#hdnSelectedValues').val(2);
+            }
+            else  if (val==3) {
+                statusid = $('#ddlStatus').val();
+                $('#hdnSelectedValues').val(3);
+            }
+            BindFiltersData(userid, statusid, accountid, PageNumber)
+        }
+
+        function pageval(i) {
+            debugger
+            var val = $('#hdnSelectedValues').val();
+            var PageNumber = i;
+            var accountid = 0;
+            var userid = 0;
+            var statusid = 0;
+            if (val == 1) {
+                accountid = $('#ddlAccounts').val();
+                $('#hdnSelectedValues').val(1);
+            }
+            else if (val == 2) {
+                userid = $('#ddlUsers').val();
+                $('#hdnSelectedValues').val(2);
+            }
+            else if (val == 3) {
+                statusid = $('#ddlStatus').val();
+                $('#hdnSelectedValues').val(3);
+            }
+            BindFiltersData(userid, statusid, accountid, PageNumber)
+        }
+
+        async function BindFiltersData(UserIdF, StatusF, AccountIdF, PageNumber) {
+
+            document.getElementById("loader").style.display = "block";
+           await $.ajax({
+                type: "Post",
+                url: '@Url.Action("AssignedTicketsPV")',
+                datatype: "json",
+                data: { useridF: UserIdF, statusF: StatusF, accountF: AccountIdF, pagenumber: PageNumber },
+                success: function (data) {
+                    document.getElementById("loader").style.display = "none";
+                    $('#AssignedTicktes_div').html('');
+                    $('#AssignedTicktes_div').html(data);
+                },
+                error: function () {
+                    alert('error');
+                    $('#AssignedTicktes_div').html('');
+                    document.getElementById("loader").style.display = "none";
+                }
+            });
+        }
+       
+        function TicketDetails(id) {
+             document.getElementById("loader").style.display = "block";
+            $('#Upper_div').hide();
+
+            $.ajax({
+                type: "Post",
+                url: '@Url.Action("TicketDetails")',
+                datatype: "json",
+                data: { id: id },
+                success: function (data) {
+                    document.getElementById("loader").style.display = "none";
+                    $('#ticket_details').show();
+                    $('#ticket_details').html(data);
+                },
+                error: function () {
+                    $('#ticket_details').html('');
+                    document.getElementById("loader").style.display = "none";
+                }
+            });
+        }
+
+        function closeDetails() {
+            $('#Upper_div').show();
+            $('#ticket_details').hide();
+        }
+
+        function Reload() {
+          
+            location.reload();
+        }
+
+    </script>
+}
+         

@@ -1,0 +1,153 @@
+﻿@model HelpDesk.Web.Models.AssetsDTO
+
+@{
+    ViewBag.Title = "ApprovalAssets";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section  Styles{
+    <link href="~/assets/css/datatables.bundle.css" rel="stylesheet" />
+}
+<!-- begin:: Content -->
+<div id="Upper_div" class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
+    <div class="kt-portlet">
+        <div class="kt-portlet__head kt-portlet__head--lg">
+            <div class="kt-portlet__head-label">
+                <span class="kt-portlet__head-icon">
+                    <i class="kt-font-brand flaticon2-line-chart"></i>
+                </span>
+                <h3 class="kt-portlet__head-title">Asset Approval</h3>
+            </div>
+            
+        </div>
+       
+        <div class="kt-portlet__body pt-0">
+            <div class="table-responsive">
+                <table id="kt_table_1" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Station Name</th>
+                            <th scope="col">Serial No.</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">IsContract</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.AssetsList != null)
+                        {
+                            foreach (var item in Model.AssetsList)
+                            {
+                                <tr>
+                                    <td>@item.StationName</td>
+                                    <td>@item.SerialNo</td>
+                                    <td>@item.Area</td>
+                                    <td>@item.IsContract</td>
+                                    <td>@item.isActive</td>
+                                    <td align="center">
+                                        <a onclick="ViewAssetDetails(@item.AMId)">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!--begin: Section-->
+        </div>
+    </div>
+</div>
+<div id="asset_details" style="display:none;"></div>
+@section Scripts{
+    <script src="~/assets/js/select2.js"></script>
+    <script src="~/assets/js/datatables.bundle.js"></script>
+    @*<script src="~/assets/js/datatable.js"></script>*@
+
+    <script>
+
+        var KTDatatablesBasicPaginations = function () {
+
+            var initTable1 = function () {
+                var table = $('#kt_table_1');
+
+                // begin first table
+                table.DataTable({
+                    responsive: true
+                });
+            };
+
+            return {
+
+                //main function to initiate the module
+                init: function () {
+                    initTable1();
+                },
+
+            };
+
+        }();
+
+        jQuery(document).ready(function () {
+            KTDatatablesBasicPaginations.init();
+        });
+
+        document.getElementById("loader").style.display = "none";
+        $('#kt_select2_12').select2();
+        $('#kt_select2_13').select2();
+        $('#kt_select2_14').select2();
+        $('#kt_select2_15').select2();
+
+        function ViewAssetDetails(id) {
+            document.getElementById("loader").style.display = "block";
+            $('#Upper_div').hide();
+
+            $.ajax({
+                type: "Post",
+                url: '@Url.Action("AssetDetails")',
+                datatype: "json",
+                data: { id: id },
+                success: function (data) {
+                    document.getElementById("loader").style.display = "none";
+                    $('#asset_details').show();
+                    $('#asset_details').html(data);
+                },
+                error: function () {
+                    $('#asset_details').html('');
+                    document.getElementById("loader").style.display = "none";
+                }
+            });
+        }
+
+        function closeDetails() {
+            $('#Upper_div').show();
+            $('#asset_details').hide();
+        }
+         function UpdateStatus(val) {
+            document.getElementById("loader").style.display = "block";
+            var AMID = $('#hdnAssetId').val();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("UpdateAssetStatus")', // we are calling json method
+                dataType: 'json',
+                data: { id: val, AMId: AMID },
+                success: function (data) {
+                    var v = data.success;
+                    if (v == true) {
+                        ViewAssetDetails($('#hdnAssetId').val());
+                    }
+                    else {
+                        alert('Some thing went wrong');
+                    }
+                    document.getElementById("loader").style.display = "none";
+                },
+                error: function (ex) {
+                    document.getElementById("loader").style.display = "none";
+                    alert('Failed to update status.' + ex);
+                }
+            });
+        }
+    </script>
+}

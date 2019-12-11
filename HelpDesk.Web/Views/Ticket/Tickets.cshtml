@@ -1,0 +1,218 @@
+﻿@model HelpDesk.Web.Models.TicketDTO
+
+@{
+    ViewBag.Title = "Tickets";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section  Styles{
+    <link href="~/assets/css/datatables.bundle.css" rel="stylesheet" />
+}
+<!-- begin:: Content -->
+<div id="Upper_div" class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
+    <div class="kt-portlet">
+        <div class="kt-portlet__head kt-portlet__head--lg">
+            <div class="kt-portlet__head-label">
+                <span class="kt-portlet__head-icon">
+                    <i class="kt-font-brand flaticon2-line-chart"></i>
+                </span>
+                <h3 class="kt-portlet__head-title">Tickets List</h3>
+            </div>
+            <div class="kt-portlet__head-toolbar">
+                <div class="kt-portlet__head-wrapper">
+                    <div class="kt-portlet__head-actions">
+                        <a href="@Url.Action("NewTicket","Ticket")" class="btn btn-brand btn-elevate btn-icon-sm">
+                            <i class="la la-plus"></i>
+                            New Ticket
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*<div class="kt-portlet__body">
+                <div class="kt-form kt-form--label-right">
+                    <div class="row align-items-center">
+                        <div class="col-xl-12 order-2 order-xl-1">
+                            <div class="row align-items-center">
+                                <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
+                                    <div class="kt-form__group">
+                                        <div class="kt-form__label">
+                                            <label>Account</label>
+                                        </div>
+                                        <div class="kt-form__control">
+                                            <select class="form-control kt-select2" id="kt_select2_12">
+                                                <option>All</option>
+                                                <option>King Faisal Specialist Hospital - Riyadh</option>
+                                                <option>King Faisal Specialist Hospital - Jeddah</option>
+                                                <option>King Abdullah Bin Abdulaziz University Hospital</option>
+                                                <option>King Abdullah Medical City</option>
+                                                <option>King Fahad Specialist Hospital Dammam</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
+                                    <div class="kt-form__group">
+                                        <div class="kt-form__label">
+                                            <label>Product</label>
+                                        </div>
+                                        <div class="kt-form__control">
+                                            <select class="form-control kt-select2" id="kt_select2_13">
+                                                <option value="">All</option>
+                                                <option value="1">Script Pro</option>
+                                                <option value="2">JVM</option>
+                                                <option value="3">BAXTER-TPN</option>
+                                                <option value="4">TALYST</option>
+                                                <option value="5">PALEX</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
+                                    <div class="kt-form__group">
+                                        <div class="kt-form__label">
+                                            <label>Service Engineer</label>
+                                        </div>
+                                        <div class="kt-form__control">
+                                            <select class="form-control kt-select2" id="kt_select2_14">
+                                                <option>All</option>
+                                                <option>Vali Noor</option>
+                                                <option>Hajarath Vali</option>
+                                                <option>Noor Basha</option>
+                                                <option>Hussain Baig</option>
+                                                <option>Md Shujath</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
+                                    <div class="kt-form__group">
+                                        <div class="kt-form__label">
+                                            <label>Status</label>
+                                        </div>
+                                        <div class="kt-form__control">
+                                            <select class="form-control kt-select2" id="kt_select2_15">
+                                                <option value="">All</option>
+                                                <option value="1">New</option>
+                                                <option value="2">Inprogress</option>
+                                                <option value="3">Resolved</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+        <div class="kt-portlet__body pt-0">
+            <div class="table-responsive">
+                <table id="kt_table_1" class="table table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Ticket No</th>
+                            <th scope="col">System No</th>
+                            <th scope="col">Account</th>
+                            <th scope="col">Product</th>
+                            <th scope="col">Service Engineer</th>
+                            @*<th scope="col">Registered Date</th>*@
+                            <th scope="col">Status</th>
+                            <th scope="col">Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.TicketList != null)
+                        {
+                            foreach (var item in Model.TicketList)
+                            {
+                                <tr>
+                                    <td>@item.TicketNumber</td>
+                                    <td>@item.SystemNo</td>
+                                    <td>@item.AccountName</td>
+                                    <td>@item.ProductName</td>
+                                    <td>@item.FullName</td>
+                                    @*<td>@item.CreatedOn</td>*@
+                                    <td>@item.Statustxt</td>
+                                    <td align="center">
+                                        <a onclick="TicketDetails(@item.TicketNumber)">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!--begin: Section-->
+        </div>
+    </div>
+</div>
+<div id="ticket_details" style="display:none;"></div>
+@section Scripts{
+    <script src="~/assets/js/select2.js"></script>
+    <script src="~/assets/js/datatables.bundle.js"></script>
+    @*<script src="~/assets/js/datatable.js"></script>*@
+
+    <script>
+
+        var KTDatatablesBasicPaginations = function () {
+
+            var initTable1 = function () {
+                var table = $('#kt_table_1');
+
+                // begin first table
+                table.DataTable({
+                    responsive: true
+                });
+            };
+
+            return {
+
+                //main function to initiate the module
+                init: function () {
+                    initTable1();
+                },
+
+            };
+
+        }();
+
+        jQuery(document).ready(function () {
+            KTDatatablesBasicPaginations.init();
+        });
+
+        document.getElementById("loader").style.display = "none";
+        $('#kt_select2_12').select2();
+        $('#kt_select2_13').select2();
+        $('#kt_select2_14').select2();
+        $('#kt_select2_15').select2();
+
+        function TicketDetails(id) {
+             document.getElementById("loader").style.display = "block";
+            $('#Upper_div').hide();
+
+            $.ajax({
+                type: "Post",
+                url: '@Url.Action("TicketDetails")',
+                datatype: "json",
+                data: { id: id },
+                success: function (data) {
+                    document.getElementById("loader").style.display = "none";
+                    $('#ticket_details').show();
+                    $('#ticket_details').html(data);
+                },
+                error: function () {
+                    $('#ticket_details').html('');
+                    document.getElementById("loader").style.display = "none";
+                }
+            });
+        }
+
+        function closeDetails() {
+            $('#Upper_div').show();
+            $('#ticket_details').hide();
+        }
+    </script>
+}
+
+

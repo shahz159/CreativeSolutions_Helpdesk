@@ -1,0 +1,457 @@
+﻿@model HelpDesk.Web.Models.AssetsDTO
+
+@{
+    ViewBag.Title = "NewAssest";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
+
+    <!--Begin::Dashboard 3-->
+    <!--Begin::Row-->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 order-lg-1 order-xl-1">
+            <!--begin:: Widgets/Trends-->
+            <div class="kt-portlet kt-portlet--head--noborder kt-portlet--height-fluid">
+                <div class="kt-portlet__head kt-portlet__head--lg">
+                    <div class="kt-portlet__head-label">
+                        <span class="kt-portlet__head-icon">
+                            <i class="kt-font-brand flaticon2-line-chart"></i>
+                        </span>
+                        <h3 class="kt-portlet__head-title">
+                            New Assest
+                        </h3>
+                    </div>
+                </div>
+                <div class="kt-portlet__body kt-portlet__body--fluid kt-portlet__body--fit">
+                    <div class="kt-container  kt-grid__item kt-grid__item--fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!--begin::Form-->
+                                <form class="kt-form kt-form--label-right">
+                                    <div class="kt-portlet__body">
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-sm-2">
+                                                Select Account
+                                            </label>
+
+                                            <div class="col-sm-9">
+                                                <select class="form-control kt-select2" id="ddlAccounts" name="param">
+                                                    <option value="0">--Select Account--</option>
+                                                    @if (Model.AccountList != null)
+                                                    {
+                                                        foreach (var item in Model.AccountList)
+                                                        {
+                                                            <option value="@item.AccountId">@item.AccountName</option>
+                                                        }
+                                                    }
+                                                </select>
+                                                <small id="spn_ddlAccounts" class="text-danger" style="display:none;">Field required.</small>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-sm-2">Select Product</label>
+                                            <div class="col-sm-9">
+                                                <select class="form-control kt-select2" id="ddlProducts" onchange="BindModels()">
+                                                    <option value="0">--Select Product--</option>
+                                                    @if (Model.ProductList != null)
+                                                    {
+                                                        foreach (var item in Model.ProductList)
+                                                        {
+                                                            <option value="@item.ProductId">@item.ProductName</option>
+                                                        }
+                                                    }
+                                                </select>
+                                                <small id="spn_ddlProducts" class="text-danger" style="display:none;">Field required.</small>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-sm-2">Select Model</label>
+                                            <div class="col-sm-9">
+                                                <select class="form-control kt-select2" id="ddlModel">
+                                                    <option value="0">--Select Model--</option>
+                                                </select>
+                                                <small id="spn_ddlModel" class="text-danger" style="display:none;">Field required.</small>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-sm-2 col-form-label">Station Name</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" type="text" id="txtstationName" value="">
+                                                <small id="spn_txtstationName" class="text-danger" style="display:none;">Field required.</small>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-sm-2 col-form-label">IP Address</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" type="text" id="txtipaddress" value="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-sm-2 col-form-label">Serial Number</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" type="text" id="txtserialnumber" value="">
+                                                <small id="spn_txtserialnumber" class="text-danger" style="display:none;">Field required.</small>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-sm-2 col-form-label">Configuration</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" type="text" id="txtconfiguration" value="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-sm-2 col-form-label">Location</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" type="text" id="txtlocation" value="">
+                                                <small id="spn_txtlocation" class="text-danger" style="display:none;">Field required.</small>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-sm-2">Select Region</label>
+                                            <div class="col-sm-9">
+                                                <select class="form-control kt-select2" id="ddlregion" onchange="BindCity()">
+                                                    <option value="0">--Select Region--</option>
+                                                    @if (Model.RegionList != null)
+                                                    {
+
+                                                        foreach (var item in Model.RegionList)
+                                                        {
+                                                            <option value="@item.RegionId">@item.RegionName</option>
+                                                        }
+
+                                                    }
+                                                </select>
+                                                <small id="spn_ddlregion" class="text-danger" style="display:none;">Field required.</small>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-sm-2">Select City</label>
+                                            <div class="col-sm-9">
+                                                <select class="form-control kt-select2" id="ddlcity">
+                                                    <option value="0">--Select City--</option>
+                                                </select>
+                                                <small id="spn_ddlcity" class="text-danger" style="display:none;">Field required.</small>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-sm-2">Installation Date</label>
+                                            <div class="col-sm-9">
+                                                <div class="input-group date">
+                                                    <input type="text" class="form-control" readonly placeholder="Select date" id="txtInstallationdate" />
+
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text">
+                                                            <i class="la la-calendar-check-o"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <small id="spn_txtInstallationdate" class="text-danger" style="display:none;">Field required.</small>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-0">
+                                            <label class="col-sm-2 col-form-label">Is Contract</label>
+                                            <div class="col-sm-9">
+                                                <span class="kt-switch kt-switch--icon">
+                                                    <label>
+                                                        <input type="checkbox" name="" id="chkiscontract">
+                                                        <span></span>
+                                                    </label>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div id="Contarct_Div" class="p-4 mb-4" style="display: none">
+                                            <h5 class="contract-head">Contract Details</h5>
+                                            <hr class="mb-4" />
+                                            <div class="form-group row">
+                                                <label for="example-text-input" class="col-sm-2 col-form-label">PO Contract</label>
+                                                <div class="col-sm-9">
+                                                    <input class="form-control" type="text" id="txtpocontract" value="">
+                                                    <small id="spn_txtpocontract" class="text-danger" style="display:none;">Field required.</small>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-sm-2">Warranty Contract Expiry Date</label>
+                                                <div class="col-sm-9">
+                                                    <div class="input-group date">
+                                                        <input type="text" class="form-control" readonly placeholder="Select date" id="txtwarrantydate" />
+                                                        <div class="input-group-append">
+                                                            <span class="input-group-text">
+                                                                <i class="la la-calendar-check-o"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <small id="spn_txtwarrantydate" class="text-danger" style="display:none;">Field required.</small>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-sm-2">Select PPM</label>
+                                                <div class="col-sm-9">
+                                                    <select class="form-control kt-select2" id="ddlPPMType" name="param">
+                                                        <option value="6">6-Months</option>
+                                                        <option value="12">12-Months</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="kt-portlet__foot">
+                                        <div class="kt-form__actions">
+                                            <div class="row">
+                                                <div class="col-2">
+                                                </div>
+                                                <div class="col-10">
+                                                    <a onclick="AddUpdate()" class="btn btn-success">Submit</a>
+                                                    <a class="btn btn-secondary">Cancel</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <!--end::Form-->
+                            </div>
+
+                            <!--end::Portlet-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--end:: Widgets/Trends-->
+    </div>
+</div>
+
+@section Scripts{
+    <!-- Date Picker -->
+    <script src="~/assets/js/bootstrap-datepicker.js"></script>
+
+    <!-- Date Picker -->
+    <script src="~/assets/js/bootstrap-datetimepicker.js"></script>
+
+    <!-- Select 2 -->
+    <script src="~/assets/js/select2.js"></script>
+
+    <script>
+        document.getElementById("loader").style.display = "none";
+        $(document).ready(function () {
+           
+
+            //set initial state.
+            $('#ddlAccounts,#ddlProducts,#ddlModel,#ddlregion,#ddlcity').select2({
+            });
+
+             var arrows;
+            if (KTUtil.isRTL()) {
+                arrows = {
+                    leftArrow: '<i class="la la-angle-right"></i>',
+                    rightArrow: '<i class="la la-angle-left"></i>'
+                }
+            } else {
+                arrows = {
+                    leftArrow: '<i class="la la-angle-left"></i>',
+                    rightArrow: '<i class="la la-angle-right"></i>'
+                }
+            }
+            $('#txtInstallationdate, #txtwarrantydate').datepicker({
+                rtl: KTUtil.isRTL(),
+                todayHighlight: true,
+                orientation: "bottom left",
+                autoclose: true,
+                templates: arrows
+            });
+
+            $('#chkiscontract').change(function () {
+                if ($(this).is(":checked")) {
+                    $('#Contarct_Div').show();
+                } else {
+                    $('#Contarct_Div').hide();
+                }
+            });
+        });
+
+        function BindModels() {
+             document.getElementById("loader").style.display = "block";
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetModels")', // we are calling json method
+                dataType: 'json',
+                data: { id: $("#ddlProducts").val() },
+                success: function (data) {
+                    debugger
+                    var district = "<select id='ddlModel' class='form-control kt-select2'>";
+                    district = district + '<option value="0">--Select Model--</option>';
+                    for (var i = 0; i < data.length; i++) {
+                         
+                        district = district + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    district = district + '</select>';
+                    $('#ddlModel').html(district);
+                    document.getElementById("loader").style.display = "none";
+                },
+                error: function (ex) {
+                    document.getElementById("loader").style.display = "none";
+                    alert('Failed to retrieve models.' + ex);
+                }
+            });
+            return false;
+        }
+        function BindCity() {
+            document.getElementById("loader").style.display = "block";
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetCity")', // we are calling json method
+                dataType: 'json',
+                data: { id: $("#ddlregion").val() },
+                success: function (data) {
+                    var district = "<select id='ddlcity' class='form-control kt-select2'>";
+                    district = district + '<option value="0">--Select City--</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        district = district + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    district = district + '</select>';
+                    $('#ddlcity').html(district);
+                    document.getElementById("loader").style.display = "none";
+
+                },
+                error: function (ex) {
+                    document.getElementById("loader").style.display = "none";
+                    alert('Failed to retrieve cities.' + ex);
+                }
+            });
+            return false;
+        }
+
+        function AddUpdate() {
+            debugger
+            var val = 0;
+
+            var AccountId = $('#ddlAccounts').val();
+            if (AccountId == 0 || AccountId == null) {
+                val = 1;
+                $('#spn_ddlAccounts').show();
+            }
+            else {
+                $('#spn_ddlAccounts').hide();
+            }
+            var ProductId = $('#ddlProducts').val();
+            if (ProductId == 0 || ProductId == null) {
+                val = 1;
+                $('#spn_ddlProducts').show();
+            }
+            else {
+                $('#spn_ddlProducts').hide();
+            }
+            var ModelId = $('#ddlModel').val();
+            if (ModelId == 0 || ModelId == null) {
+                val = 1;
+                $('#spn_ddlModel').show();
+            }
+            else {
+                $('#spn_ddlModel').hide();
+            }
+            var StationName = $('#txtstationName').val();
+            if (StationName == "" || ModelId == null) {
+                val = 1;
+                $('#spn_txtstationName').show();
+            }
+            else {
+                $('#spn_txtstationName').hide();
+            }
+            var IPAddress = $('#txtipaddress').val();
+
+            var SerialNo = $('#txtserialnumber').val();
+             if (SerialNo == "" || SerialNo == null) {
+                val = 1;
+                $('#spn_txtserialnumber').show();
+            }
+            else {
+                $('#spn_txtserialnumber').hide();
+            }
+            var Configuration = $('#txtconfiguration').val();
+
+            var Area = $('#txtlocation').val();
+             if (Area == "" || Area == null) {
+                val = 1;
+                $('#spn_txtlocation').show();
+            }
+            else {
+                $('#spn_txtlocation').hide();
+            }
+            var RegionId = $('#ddlregion').val();
+             if (RegionId == 0 || RegionId == null) {
+                val = 1;
+                $('#spn_ddlregion').show();
+            }
+            else {
+                $('#spn_ddlregion').hide();
+            }
+            var CityId = $('#ddlcity').val();
+            if (CityId == 0 || CityId == null) {
+                val = 1;
+                $('#spn_ddlcity').show();
+            }
+            else {
+                $('#spn_ddlcity').hide();
+            }
+            var InstallationDate = $('#txtInstallationdate').val();
+             if (InstallationDate == "" || InstallationDate == null) {
+                val = 1;
+                $('#spn_txtInstallationdate').show();
+            }
+            else {
+                $('#spn_txtInstallationdate').hide();
+            }
+            var IsContract = $('#chkiscontract').is(":checked");
+
+            var POContract = $('#txtpocontract').val();
+             var WarrantyExpiryDate = $('#txtwarrantydate').val();
+            if (IsContract == true) {
+                if (POContract == "" || POContract == null) {
+                    val = 1;
+                    $('#spn_txtpocontract').show();
+                }
+                else {
+                    $('#spn_txtpocontract').hide();
+                }
+
+                if (WarrantyExpiryDate == "" || WarrantyExpiryDate == null) {
+                    val = 1;
+                    $('#spn_txtwarrantydate').show();
+                }
+                else {
+                    $('#spn_txtwarrantydate').hide();
+                }
+            }
+
+            var PPMType = $('#ddlPPMType').val();
+
+            if (val == 1) {
+                alert('Fields required');
+                return false;
+            }
+            else {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("NewUpdateAssest")', // we are calling json method
+                    dataType: 'json',
+                    data: {
+                        AccountId: AccountId, ProductId: ProductId, ModelId: ModelId, StationName: StationName, IPAddress: IPAddress, SerialNo: SerialNo, Configuration: Configuration, Area: Area,
+                        RegionId: RegionId, CityId: CityId, InstallationDate: InstallationDate, IsContract: IsContract, POContract: POContract, WarrantyExpiryDate: WarrantyExpiryDate, PPMType: PPMType
+                    },
+                    success: function (data) {
+                        alert('Added Successfully');
+                        location.reload();
+                    },
+                    error: function (ex) {
+                        alert('Failed to retrieve models.' + ex);
+                    }
+                });
+            }
+        }
+    </script>
+}
+
+

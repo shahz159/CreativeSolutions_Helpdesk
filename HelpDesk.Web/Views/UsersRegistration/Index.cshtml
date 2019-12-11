@@ -1,0 +1,577 @@
+﻿@model HelpDesk.Web.Models.UserDTO
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
+
+    <!--Begin::Dashboard 3-->
+    <!--Begin::Row-->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 order-lg-1 order-xl-1">
+            <!--begin:: Widgets/Trends-->
+            <div class="kt-portlet kt-portlet--head--noborder kt-portlet--height-fluid">
+                <div class="kt-portlet__head kt-portlet__head--lg">
+                    <div class="kt-portlet__head-label">
+                        <span class="kt-portlet__head-icon">
+                            <i class="kt-font-brand flaticon2-line-chart"></i>
+                        </span>
+                        <h3 class="kt-portlet__head-title">
+                            New User
+                        </h3>
+                    </div>
+                </div>
+                <div class="kt-portlet__body kt-portlet__body--fluid kt-portlet__body--fit">
+                    <div class="kt-container  kt-grid__item kt-grid__item--fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!--begin::Form-->
+                                <form id="myform" class="kt-form kt-form--label-right">
+                                    <div class="kt-portlet__body">
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-sm-2">Select Role</label>
+                                            <div class="col-sm-9">
+                                                @Html.DropDownListFor(model => model.RoleId, (IEnumerable<SelectListItem>
+                                    )ViewData["ddlRoleLst"], "--Please Select --",
+                                    new { id = "ddlRole", @class = "form-control kt-select2", @onchange = "ViewDivs()" })
+                                            </div>
+                                        </div>
+
+                                        @if (Model.RoleId == 501)
+                                        {
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-sm-2">Select Company</label>
+                                                <div class="col-sm-9">
+                                                    @Html.DropDownListFor(model => model.CompanyId, (IEnumerable<SelectListItem>
+                                            )ViewData["ddlCompanyLst"], "--Please Select --",
+                                            new { id = "ddlCompany", @class = "form-control kt-select2", @onchange = "BindDropDowns()" })
+                                                </div>
+                                            </div>
+                                        }
+
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-sm-2">Select Account</label>
+                                            <div class="col-sm-9">
+
+                                                <div id="div_Multiselect" style="display:none;">
+                                                    <select id="ddlAccountM" class="form-control kt-select2" multiple>
+                                                    </select>
+                                                </div>
+                                                <div id="div_SingleSelect" style="display:none;">
+                                                    <select id="ddlAccountS" class="form-control kt-select2">
+                                                    </select>
+                                                </div>
+
+                                                @*@Html.DropDownListFor(model => model.AccountId, (IEnumerable<SelectListItem>
+                                                    )ViewData["ddlAccountLst"], "--Please Select --",
+                                                    new { id = "ddlAccount", @class = "form-control kt-select2" })*@
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-sm-2">Select Product</label>
+                                            <div class="col-sm-9">
+                                                <select id="ddlProducts" class="form-control kt-select2" multiple>
+                                                </select>
+                                                @*@Html.DropDownListFor(model => model.ProductId, (IEnumerable<SelectListItem>
+                                                    )ViewData["ddlProductLst"], "--Please Select --",
+                                                    new { id = "ddlProducts", @class = "form-control kt-select2",@multiple="" })*@
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-sm-2 col-form-label">Employee Id</label>
+                                            <div class="col-sm-9">
+                                                <input id="txtEmployeeid" class="form-control" type="text" value="" placeholder="" onchange="checkemployeeid()">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-sm-2 col-form-label">Full Name</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" type="text" value="" placeholder="" id="txtfullname">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-sm-2 col-form-label">Mobile</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" type="text" value="" placeholder="" id="txtmobile" onkeyup="return isNumberKey(event)" onchange="mobilevalidation()">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-sm-2 col-form-label">Email</label>
+                                            <div class="col-sm-9">
+                                                <input id="txtEmail" class="form-control" type="text" value="" placeholder="" onchange="checkuseremail()">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-sm-2 col-form-label">Gender</label>
+                                            <div class="col-sm-9">
+                                                <select class="form-control kt-select2" id="ddlGender">
+                                                    <option value="M">Male</option>
+                                                    <option value="F">Female</option>
+                                                    <option value="O">Other</option>
+                                                </select>
+                                                @*@Html.DropDownListFor(model => model.Gender, (List<SelectListItem>
+                                                    )ViewData["ddlGender"], "--Please Select --",
+                                                    new { id = "ddlgender", @class = "form-control kt-select2" })*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="kt-portlet__foot">
+                                        <div class="kt-form__actions">
+                                            <div class="row">
+                                                <div class="col-2">
+                                                </div>
+                                                <div class="col-10">
+                                                    <a onclick="SaveUserDetails()" class="btn btn-success">Submit</a>
+                                                    <a class="btn btn-secondary">Cancel</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <!--end::Form-->
+                            </div>
+                            <!--end::Portlet-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end:: Widgets/Trends-->
+    </div>
+</div>
+<input type="hidden" id="hdnRoleId" value="@Model.RoleId" />
+<input type="hidden" id="hdnCompanyId" value="@Model.CompanyId" />
+<input type="hidden" id="hdnMobileValidation" value="0" />
+
+@section Scripts{
+    <script src="~/assets/js/select2.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+    <script>
+
+        document.getElementById("loader").style.display = "none";
+        $(document).ready(function () {
+            //set initial state.
+            $('#ddlCompany,#ddlRole,#ddlAccountM,#ddlAccountS,#ddlGender,#ddlProducts').select2({
+            });
+            if ($('#hdnRoleId').val() != 501) {
+                BindAccounts();
+                BindProducts();
+            }
+        });
+
+        function SaveUserDetails() {
+            debugger
+            var isvalid = true;
+            ///////////////////////
+            var RoleId = $('#ddlRole').val();
+            if (RoleId == "") {
+                isvalid = false;
+                $('#txtroleerror').html('');
+                $("#ddlRole").after('<span id="txtroleerror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtroleerror').html('');
+            }
+            //////////////////////
+            var HdnRoleId = $('#hdnRoleId').val();
+            var CompanyId = 0;
+            if (HdnRoleId == 501) {
+                CompanyId = $("#ddlCompany").val();
+                if (CompanyId == "") {
+                    isvalid = false;
+                    $('#txtcompanyerror').html('');
+                    $("#ddlCompany").after('<span id="txtcompanyerror" style="color:red;" class="error">Field required.</span>');
+                }
+                else {
+                    $('#txtcompanyerror').html('');
+                }
+            }
+            else { CompanyId = $('#hdnCompanyId').val();  }
+
+            //////////////////////
+            var Accounts = [];
+            if (RoleId == 505) {
+                Accounts = $("#ddlAccountM").val();
+                if (Accounts=="") {
+                    isvalid = false;
+                    $('#txtAccountMerror').html('');
+                    $("#ddlAccountM").after('<span id="txtAccountMerror" style="color:red;" class="error">Field required.</span>');
+                }
+                 else {
+                    $('#txtAccountMerror').html('');
+                }
+            }
+            else {
+                Accounts = $("#ddlAccountS").val();
+                if (Accounts == "") {
+                    isvalid = false;
+                      $('#txtAccountSerror').html('');
+                    $("#ddlAccountS").after('<span id="txtAccountSerror" style="color:red;" class="error">Field required.</span>');
+                }
+                else {
+                    $('#txtAccountSerror').html('');
+                }
+            }
+            ////////////////////////////////
+            var Products = [];
+            Products= $("#ddlProducts").val();
+
+            if (Products == "") {
+                isvalid = false;
+                 $('#txtproductserror').html('');
+                $("#ddlProducts").after('<span id="txtproductserror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtproductserror').html('');
+            }
+            ////////////////////////////////
+            var EmployeeId = $("#txtEmployeeid").val();
+            if (EmployeeId == "") {
+                isvalid = false;
+                 $('#txtempiderror').html('');
+                $("#txtEmployeeid").after('<span id="txtempiderror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtempiderror').html('');
+            }
+
+            //////////////
+            var FullName = $("#txtfullname").val();
+            if (FullName == "") {
+                isvalid = false;
+                   $('#txtfullnameerror').html('');
+                $("#txtfullname").after('<span id="txtfullnameerror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtfullnameerror').html('');
+            }
+            //////////////////
+            var Mobile = $("#txtmobile").val();
+            if (Mobile == "") {
+                isvalid = false;
+                  $('#txtmobilexxerror').html('');
+                $("#txtmobile").after('<span id="txtmobilexxerror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtmobilexxerror').html('');
+            }
+            ////////////////////////
+            var Email = $("#txtEmail").val();
+            if (Email == "") {
+                isvalid = false;
+                  $('#txtemaileeerror').html('');
+                $("#txtEmail").after('<span id="txtemaileeerror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtemaileeerror').html('');
+            }
+            ///////////////////
+            var Gender = $("#ddlGender").val();
+            if (Gender == "") {
+                isvalid = false;
+                  $('#txtgendererror').html('');
+                $("#ddlGender").after('<span id="txtgendererror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtgendererror').html('');
+            }
+            //////////////////////
+            if (isvalid == true) {
+                //AJAX CALL
+                  $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("NewUser")', // we are calling json method
+                    dataType: 'json',
+                    data: {
+                        RoleId: RoleId, CompanyId: CompanyId, Accounts: Accounts, Products: Products, EmpId: EmployeeId, FullName: FullName, Mobile: Mobile, Email: Email,
+                        Gender: Gender
+                    },
+                      success: function (data) {
+                          var v = data.success;
+                          if (v == true) {
+                              alert('Added Successfully');
+                              location.reload();
+                          }
+                          else {
+                              alert('Some thing went wrong');
+                          }
+                    },
+                    error: function (ex) {
+                        alert('Failed to retrieve models.' + ex);
+                    }
+                });
+            }
+            else {
+
+            }
+        }
+
+        function isNumberKey(evt) {
+
+            $('#txtmobileerror').text('');
+            //var e = evt || window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode
+            if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+
+          
+            return true;
+        }
+
+        function mobilevalidation() {
+            //var val = $('#hdnMobileValidation').val();
+            ////alert(val);
+            //if (val == 1) {
+            //    $('#txtmobile').val('');
+            //}
+              var myLength = $("#txtmobile").val().length;
+            console.log(myLength);
+            if (myLength > 21) {
+                $("#txtmobile").after('<span id="txtmobileerror" style="color:red;" class="error">Maximum Lenght 20</span>');
+              $('#txtmobile').val('');
+            }
+            else if (myLength < 7) {
+                $("#txtmobile").after('<span id="txtmobileerror" style="color:red;" class="error">Minimum Lenght 10</span>');
+               $('#txtmobile').val('');
+
+            } else {
+                $('#hdnMobileValidation').val('0');
+            } 
+
+        }
+
+        function ViewDivs() {
+            var selected_role = $('#ddlRole').val();
+            if (selected_role == 505) {
+                $('#div_Multiselect').show();
+                $('#div_SingleSelect').hide();
+            }
+            else {
+                $('#div_Multiselect').hide();
+                $('#div_SingleSelect').show();
+            }
+            BindAccounts();
+            BindProducts();
+        }
+
+        function BindDropDowns() {
+            BindAccounts();
+            BindProducts();
+        }
+
+        function bindAccountsBYRole() {
+              var companyid = 0;
+              var roleid = $('#hdnRoleId').val();
+              if (roleid == 501) {
+                  companyid = $("#ddlCompany").val();
+              }
+              else {
+                  companyid = $('#hdnCompanyId').val();
+              }
+
+            if (companyid == "") {
+                return false;
+            }
+            else {
+                BindAccounts();
+            }
+        }
+
+        function BindProducts() {
+             document.getElementById("loader").style.display = "block";
+             var companyid = 0;
+              var roleid = $('#hdnRoleId').val();
+             if (roleid == 501) {
+                 companyid = $("#ddlCompany").val();
+             }
+             else {
+                 companyid = $('#hdnCompanyId').val();
+             }
+             if (companyid == "") {
+                   document.getElementById("loader").style.display = "none";
+                 return false;
+             }
+             $.ajax({
+                 type: 'POST',
+                 url: '@Url.Action("GetProducts")', // we are calling json method
+                 dataType: 'json',
+                 data: { id: companyid },
+                 success: function (data) {
+                     debugger
+                     var district = "<select id='ddlProducts' class='form-control kt-select2' multiple>";
+                     district = district + '<option value="0">--Select Model--</option>';
+                     for (var i = 0; i < data.length; i++) {
+
+                         district = district + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                     }
+                     district = district + '</select>';
+                     $('#ddlProducts').html(district);
+                     document.getElementById("loader").style.display = "none";
+                 },
+                 error: function (ex) {
+                     document.getElementById("loader").style.display = "none";
+                     alert('Failed to retrieve Products.' + ex);
+                 }
+             });
+            return false;
+        }
+
+        function BindAccounts() {
+
+              document.getElementById("loader").style.display = "block";
+              var companyid = 0;
+              var roleid = $('#hdnRoleId').val();
+            if (roleid == 501) {
+                companyid = $("#ddlCompany").val();
+            }
+            else {
+                companyid = $('#hdnCompanyId').val();
+            }
+            var selected_role = $('#ddlRole').val();
+            if (selected_role == "") {
+                document.getElementById("loader").style.display = "none";
+                return false;
+            }
+
+            if (companyid == "") {
+                document.getElementById("loader").style.display = "none";
+                return false;
+            }
+             $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetAccounts")', // we are calling json method
+                dataType: 'json',
+                data: { id: companyid },
+                success: function (data) {
+                    
+                    var district = "";
+                    //district = district + "<select id='ddlAccount' class='form-control kt-select2'>";
+                      var selected_role = $('#ddlRole').val();
+                    if (selected_role == 505) {
+                        district = district + "<select id='ddlAccountM' class='form-control kt-select2' multiple>";
+                    }
+                    else {
+                        district = district + "<select id='ddlAccountS' class='form-control kt-select2'>";
+                    }
+
+
+                   // var district = "<select id='ddlAccount' class='form-control kt-select2'>";
+                    district = district + '<option value="0">--Select Model--</option>';
+                    for (var i = 0; i < data.length; i++) {
+
+                        district = district + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    district = district + '</select>';
+                     if (selected_role == 505) {
+                        $('#ddlAccountM').html(district);
+                    }
+                    else {
+                         $('#ddlAccountS').html(district);
+                    }
+
+                    document.getElementById("loader").style.display = "none";
+                    $('#ddlAccount').select2({});
+                },
+                error: function (ex) {
+                    document.getElementById("loader").style.display = "none";
+                    alert('Failed to retrieve accounts.' + ex);
+                }
+             });
+
+            return false;
+        }
+
+        function checkemployeeid() {
+
+            var myLength = $("#txtEmployeeid").val().length;
+
+            if (myLength>20) {
+                $("#txtEmployeeid").val();
+                $("#txtEmployeeid").after('<span id="txtemployeeiderror" style="color:red;" class="error">Maximum Lenght 20</span>');
+            }
+
+            document.getElementById("loader").style.display = "block";
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("CheckUserEmployeeId")',
+                dataType: 'json',
+                data: { username: $("#txtEmployeeid").val() },
+                success: function (data) {
+                    var v = data.success;
+                    if (v == false) {
+                        $("#txtEmployeeid").val('');
+                        alert('EmployeeId Already Exists');
+                    }
+                    document.getElementById("loader").style.display = "none";
+                    return true;
+                },
+                error: function (ex) {
+                    alert('Error');
+                    document.getElementById("loader").style.display = "none";
+                    return false;
+                }
+            });
+        }
+
+        function checkuseremail() {
+            $('#txtemailerror').html('');
+            var hasError = false;
+            var email = $("#txtEmail").val();
+            var emailReg = /^([\w-\.]+@@([\w-]+\.)+[\w-]{2,4})?$/;
+            var emailblockReg =
+                /^([\w-\.]+@@([\w-]+\.)+[\w-]{2,4})?$/;
+
+            var emailaddressVal = $("#txtEmail").val();
+            if (emailaddressVal == '') {
+                $("#txtEmail").after('<span id="txtemailerror" style="color:red;" class="error">Please enter your email address.</span>');
+                hasError = true;
+            }
+            else if (!emailReg.test(emailaddressVal)) {
+                $("#txtEmail").after('<span id="txtemailerror" style="color:red;" class="error">Enter a valid email address.</span>');
+                hasError = true;
+            }
+
+            else if (!emailblockReg.test(emailaddressVal)) {
+                $("#txtEmail").after('<span id="txtemailerror" style="color:red;" class="error">No yahoo, gmail or hotmail emails.</span>');
+                hasError = true;
+            }
+            debugger
+            if (hasError == true) {
+                $('#txtEmail').val('');
+                return false;
+            }
+            else {
+                $('#txtemailerror').html('');
+            }
+
+            document.getElementById("loader").style.display = "block";
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("CheckUserEmail")',
+                dataType: 'json',
+                data: { useremail: email },
+                success: function (data) {
+                    var v = data.success;
+                    if (v == false) {
+                        $("#txtEmail").val('');
+                        alert('Email Already Exists');
+                    }
+                    document.getElementById("loader").style.display = "none";
+                    return true;
+                },
+                error: function (ex) {
+                    alert('Error');
+                    document.getElementById("loader").style.display = "none";
+                    return false;
+                }
+            });
+        }
+
+    </script>
+}
+

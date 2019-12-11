@@ -1,0 +1,365 @@
+﻿@model HelpDesk.Web.Models.InventoryDTO
+
+@{
+    ViewBag.Title = "NewSparePart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+ 
+ 
+<div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
+
+    <!--Begin::Dashboard 3-->
+    <!--Begin::Row-->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 order-lg-1 order-xl-1">
+            <!--begin:: Widgets/Trends-->
+            <div class="kt-portlet kt-portlet--head--noborder kt-portlet--height-fluid">
+                <div class="kt-portlet__head kt-portlet__head--lg">
+                    <div class="kt-portlet__head-label">
+                        <span class="kt-portlet__head-icon">
+                            <i class="kt-font-brand flaticon2-line-chart"></i>
+                        </span>
+                        <h3 class="kt-portlet__head-title">
+                            New Spare Part
+                        </h3>
+                    </div>
+                </div>
+                <div class="kt-portlet__body kt-portlet__body--fluid kt-portlet__body--fit">
+                    <div class="kt-container  kt-grid__item kt-grid__item--fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!--begin::Form-->
+                                <form id="myform" class="kt-form kt-form--label-right">
+                                    <div class="kt-portlet__body">
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-sm-2">Select Warehouse</label>
+                                            <div class="col-sm-9">
+                                                @Html.DropDownListFor(model => model.WarehouseId, (IEnumerable<SelectListItem>
+                                       )ViewData["ddlWarehouseLst"], "--Please Select --",
+                                       new { id = "ddlWarehouse", @class = "form-control kt-select2",@onchange="checksparepartname()" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-sm-2 col-form-label">Spare Part Name</label>
+                                            <div class="col-sm-9">
+                                                <input name="SparePartName" id="txtName" class="form-control" type="text" value="@Model.SparePartName" placeholder="" onchange="checksparepartname()">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-sm-2 col-form-label">Spare Part Number</label>
+                                            <div class="col-sm-9">
+                                                <input name="SparePartNumber" class="form-control" type="text" value="@Model.SparePartNumber" placeholder="" id="txtNumber">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-sm-2 col-form-label">Quantity</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" type="text" value="@Model.Quantity" placeholder="" id="txtquantity" onkeypress="return isNumberKey(event)">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-sm-2 col-form-label">Base Quantity</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" type="text" value="@Model.BaseQuantity" placeholder="" id="txtbasequantity" onkeypress="return isNumberKey(event)">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-sm-2 col-form-label">Price</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" type="text" value="@Model.Price" placeholder="" id="txtprice" onkeypress="return isNumberKey(event)">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="kt-portlet__foot">
+                                        <div class="kt-form__actions">
+                                            <div class="row">
+                                                <div class="col-2">
+                                                </div>
+                                                <div class="col-10">
+                                                    <a id="achr_btn" onclick="SaveSparePartDetails()" class="btn btn-success">Submit</a>
+                                                    <a class="btn btn-secondary">Cancel</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <!--end::Form-->
+                            </div>
+                            <!--end::Portlet-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end:: Widgets/Trends-->
+    </div>
+</div>
+
+<input type="hidden" id="hdnFlagId" value="@Model.FlagId" />
+<input type="hidden" id="hdnSparePartId" value="@Model.SparePartId" />
+
+
+@section Scripts{
+    <script src="~/assets/js/select2.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+    <script>
+        $('#loader').hide();
+        //document.getElementById("loader").style.display = "block";
+        $(document).ready(function () {
+            //set initial state.
+            $('#ddlWarehouse').select2({
+            });
+            var flag = $('#hdnFlagId').val();
+            if (flag == 1) {
+                $('#achr_btn').html('');
+                $('#achr_btn').html('Add');
+            }
+            else if (flag == 2) {
+                $('#achr_btn').html('');
+                $('#achr_btn').html('Update');
+            }
+        });
+
+        function SaveSparePartDetails() {
+            debugger
+            var isvalid = true;
+            ///////////////////////
+            var WarehouseId = $('#ddlWarehouse').val();
+            if (WarehouseId == "") {
+                isvalid = false;
+                $('#txtddlWarehouseerror').html('');
+                $("#ddlWarehouse").after('<span id="txtddlWarehouseerror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtddlWarehouseerror').html('');
+            }
+
+            ////////////////////////////////
+            var SparePartName = $("#txtName").val();
+            if (SparePartName == "") {
+                isvalid = false;
+                 $('#txtNameerror').html('');
+                $("#txtName").after('<span id="txtNameerror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtNameerror').html('');
+            }
+
+            //////////////
+            var Number = $("#txtNumber").val();
+            if (Number == "") {
+                isvalid = false;
+                   $('#txtNumbererror').html('');
+                $("#txtNumber").after('<span id="txtNumbererror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtNumbererror').html('');
+            }
+            //////////////////  txtquantity txtbasequantity txtprice
+            var Quantity = $("#txtquantity").val();
+            if (Quantity == 0 ||Quantity == "") {
+                isvalid = false;
+                  $('#txtquantityerror').html('');
+                $("#txtquantity").after('<span id="txtquantityerror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtquantityerror').html('');
+            }
+            ////////////////////////
+            var BaseQuantity = $("#txtbasequantity").val();
+            if (BaseQuantity == 0||BaseQuantity == "") {
+                isvalid = false;
+                $('#txtbasequantityerror').html('');
+                $("#txtbasequantity").after('<span id="txtbasequantityerror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtbasequantityerror').html('');
+            }
+            ///////////////////
+            var Price = $("#txtprice").val();
+            if (Price == "") {
+                isvalid = false;
+                $('#txtpriceerror').html('');
+                $("#txtprice").after('<span id="txtpriceerror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtpriceerror').html('');
+            }
+            //////////////////////
+            if (isvalid == true) {
+                //AJAX CALL
+                  $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("NewSparePartJson")', // we are calling json method
+                    dataType: 'json',
+                    data: {
+                        WarehouseId: WarehouseId, SparePartName: SparePartName, SparePartNumber: Number, Quantity: Quantity, BaseQuantity: BaseQuantity, Price: Price,
+                        FlagId: $('#hdnFlagId').val(), SparePartId: $('#hdnSparePartId').val()
+                    },
+                      success: function (data) {
+                          var flagid = $('#hdnFlagId').val();
+                          if (flagid == 1) {
+                              alert('Added Successfully');
+                          }
+                          else if (flagid == 2) {
+                              alert('Updated Successfully');
+                          }
+                          location.reload();
+                    },
+                    error: function (ex) {
+                        alert('Failed to retrieve models.' + ex);
+                    }
+                });
+            }
+            else {
+
+            }
+        }
+
+        function isNumberKey(evt) {
+
+            $('#txtmobileerror').text('');
+            //var e = evt || window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode
+            if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+
+            //var myLength = $("#txtmobile").val().length;
+            //if (myLength > 21) {
+            //    $("#txtmobile").after('<span id="txtmobileerror" style="color:red;" class="error">Maximum Lenght 20</span>');
+            //    $('#hdnMobileValidation').val('1');
+            //}
+            //else if (myLength < 9) {
+            //    $("#txtmobile").after('<span id="txtmobileerror" style="color:red;" class="error">Minimum Lenght 10</span>');
+            //    $('#hdnMobileValidation').val('1');
+            //} else {
+
+            //    $('#hdnMobileValidation').val('0');
+            //}
+
+            return true;
+        }
+
+        function mobilevalidation() {
+            var val= $('#hdnMobileValidation').val();
+            if (val == 1) {
+                $('#txtmobile').val('');
+            }
+        }
+
+        function ViewDivs() {
+            var selected_role = $('#ddlRole').val();
+            if (selected_role == 505) {
+                $('#div_Multiselect').show();
+                $('#div_SingleSelect').hide();
+            }
+            else {
+                $('#div_Multiselect').hide();
+                $('#div_SingleSelect').show();
+            }
+            BindAccounts();
+            BindProducts();
+        }
+       
+        function checksparepartname() {
+
+            var myLength = $("#txtName").val().length;
+
+            if (myLength>150) {
+                $("#txtName").val();
+                $("#txtName").after('<span id="txtNameerror" style="color:red;" class="error">Maximum Lenght 150</span>');
+            }
+
+            var warehouseid = $('#ddlWarehouse').val();
+            if (warehouseid == "" || warehouseid == null ) {
+                return false;
+            }
+
+            var name = $("#txtName").val();
+            if (name = "" || name == null) {
+                return false;
+            }
+
+            document.getElementById("loader").style.display = "block";
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("CheckSparePartName")',
+                dataType: 'json',
+                data: { name: $("#txtName").val(),id:warehouseid },
+                success: function (data) {
+                    var v = data.success;
+                    if (v == false) {
+                        $("#CheckUserEmployeeId").val('');
+                        alert('Name Already Exists');
+                    }
+                    document.getElementById("loader").style.display = "none";
+                    return true;
+                },
+                error: function (ex) {
+                    alert('Error');
+                    document.getElementById("loader").style.display = "none";
+                    return false;
+                }
+            });
+        }
+
+        function checkuseremail() {
+            $('#txtemailerror').html('');
+            var hasError = false;
+            var email = $("#txtEmail").val();
+            var emailReg = /^([\w-\.]+@@([\w-]+\.)+[\w-]{2,4})?$/;
+            var emailblockReg =
+                /^([\w-\.]+@@([\w-]+\.)+[\w-]{2,4})?$/;
+
+            var emailaddressVal = $("#txtEmail").val();
+            if (emailaddressVal == '') {
+                $("#txtEmail").after('<span id="txtemailerror" style="color:red;" class="error">Please enter your email address.</span>');
+                hasError = true;
+            }
+            else if (!emailReg.test(emailaddressVal)) {
+                $("#txtEmail").after('<span id="txtemailerror" style="color:red;" class="error">Enter a valid email address.</span>');
+                hasError = true;
+            }
+
+            else if (!emailblockReg.test(emailaddressVal)) {
+                $("#txtEmail").after('<span id="txtemailerror" style="color:red;" class="error">No yahoo, gmail or hotmail emails.</span>');
+                hasError = true;
+            }
+            debugger
+            if (hasError == true) {
+                $('#txtEmail').val('');
+                return false;
+            }
+            else {
+                $('#txtemailerror').html('');
+            }
+
+            document.getElementById("loader").style.display = "block";
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("CheckUserEmail")',
+                dataType: 'json',
+                data: { useremail: email },
+                success: function (data) {
+                    var v = data.success;
+                    if (v == false) {
+                        $("#txtEmail").val('');
+                        alert('Email Already Exists');
+                    }
+                    document.getElementById("loader").style.display = "none";
+                    return true;
+                },
+                error: function (ex) {
+                    alert('Error');
+                    document.getElementById("loader").style.display = "none";
+                    return false;
+                }
+            });
+        }
+
+    </script>
+}
+
+
+

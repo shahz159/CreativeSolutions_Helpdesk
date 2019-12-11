@@ -1,0 +1,271 @@
+﻿@model HelpDesk.Web.Models.TicketDTO
+
+@{
+    ViewBag.Title = "NewTicket";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
+    @using (Html.BeginForm("NewTicket", "Ticket", FormMethod.Post, new { enctype = "multipart/form-data", id = "example-form" }))
+    {
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.AntiForgeryToken()
+
+        <div class="row">
+            <div class="col-lg-12 col-xl-12 order-lg-1 order-xl-1">
+                <div class="kt-portlet kt-portlet--head--noborder kt-portlet--height-fluid">
+                    <div class="kt-portlet__head kt-portlet__head--lg">
+                        <div class="kt-portlet__head-label">
+                            <span class="kt-portlet__head-icon">
+                                <i class="kt-font-brand flaticon2-line-chart"></i>
+                            </span>
+                            <h3 class="kt-portlet__head-title">
+                                New Ticket
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body kt-portlet__body--fluid kt-portlet__body--fit">
+                        <div class="kt-container  kt-grid__item kt-grid__item--fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="kt-form kt-form--label-right">
+                                        <div class="kt-portlet__body">
+                                            <div id="orgAdmin_div" style="display:none;">
+                                                <div class="form-group row">
+                                                    <label class="col-form-label col-sm-2">Select Company</label>
+                                                    <div class="col-sm-9">
+                                                        @Html.DropDownListFor(model => model.CompanyId, (IEnumerable<SelectListItem>
+                                            )ViewData["ddlComapanyList"], "--Please Select --",
+                                            new { id = "ddlCompany", @class = "form-control kt-select2", @onchange = "BindAccounts()" })
+
+                                                        @Html.ValidationMessageFor(model => model.CompanyId, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="supervisoradmin_div" style="display:none;">
+                                                <div class="form-group row">
+                                                    <label class="col-form-label col-sm-2">Select Account</label>
+                                                    <div class="col-sm-9">
+                                                        @Html.DropDownListFor(model => model.AccountId, (IEnumerable<SelectListItem>
+                                            )ViewData["ddlAccountList"], "--Please Select --",
+                                            new { id = "ddlAccounts", @class = "form-control kt-select2", @onchange = "BindProducts()" })
+
+                                                        @Html.ValidationMessageFor(model => model.AccountId, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-sm-2">Select Product</label>
+                                                <div class="col-sm-9">
+                                                    @Html.DropDownListFor(model => model.ProductId, (IEnumerable<SelectListItem>
+                                        )ViewData["ddlProductList"], "--Please Select --",
+                                        new { id = "ddlProduct", @class = "form-control kt-select2", @onchange = "BindModels()" })
+
+                                                    @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="example-text-input" class="col-sm-2 col-form-label">System No / Serial No</label>
+                                                <div class="col-sm-9">
+                                                    @Html.DropDownListFor(model => model.AMId, (IEnumerable<SelectListItem>)ViewData["ddlModels"], "--Please Select --",
+new { id = "ddlModels", @class = "form-control select2-allow-clear" })
+
+                                                    @Html.ValidationMessageFor(model => model.AMId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-sm-2">Select Priority</label>
+                                                <div class="col-sm-9">
+                                                    @Html.DropDownListFor(model => model.Priority, (List<SelectListItem>
+                                         )ViewData["ddlPriority"], "--Please Select --",
+                                         new { id = "ddlWorkFlows", @class = "form-control kt-select2" })
+                                                    @Html.ValidationMessageFor(model => model.Priority, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="example-text-input" class="col-sm-2 col-form-label">Enter Description</label>
+                                                <div class="col-sm-9">
+                                                    @Html.TextBoxFor(m => m.Description, new { id = "txtlastname", @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="example-text-input" class="col-sm-2 col-form-label">Upload Support Document</label>
+                                                <div class="col-sm-9">
+                                                    <div class="kt-checkbox-inline">
+                                                        <label class="kt-checkbox">
+                                                            <input type="checkbox" id="upload_doc" value="1" onchange="valueChanged()"> Yes
+                                                            <span></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row" id="upload_doc_show" style="display: none">
+                                                <label class="col-sm-2"></label>
+                                                <div class="col-sm-9">
+                                                    <div class="custom-file">
+                                                        <input type="file" class="custom-file-input" id="customFile" name="TicketDocument" accept="image/x-png,image/gif,image/jpeg">
+                                                        <label id="file_value" class="custom-file-label text-left" for="customFile">Choose file</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="kt-portlet__foot">
+                                            <div class="kt-form__actions">
+                                                <div class="row">
+                                                    <div class="col-2">
+                                                    </div>
+                                                    <div class="col-10">
+                                                        <input type="submit" class="btn btn-success" value="Submit" />
+                                                        <a class=" btn btn-secondary">Cancel</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--end::Form-->
+                                </div>
+                                <!--end::Portlet-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end:: Widgets/Trends-->
+        </div>
+    }
+</div>
+
+<input type="hidden" id="hdnRoleId" value="@Model.RoleId" />
+
+@section Scripts{
+    <script src="~/assets/js/select2.js"></script>
+
+    <script>
+        document.getElementById("loader").style.display = "none";
+
+        $("#customFile").change(function () {
+            $("#file_value").text(this.files[0].name);
+        });
+
+        function valueChanged() {
+            if ($('#upload_doc').is(":checked"))
+                $("#upload_doc_show").show();
+            else
+                $("#upload_doc_show").hide();
+        }
+
+        $(document).ready(function () {
+            //set initial state.
+            $('#ddlProduct,#ddlModels,#ddlCompany,#ddlAccounts').select2({
+            });
+            //Div Show
+            var role_id = $('#hdnRoleId').val();
+            if (role_id == 502) {
+                $('#supervisoradmin_div').show();
+                $('#orgAdmin_div').hide();
+            }
+            else if (role_id == 501) {
+                $('#supervisoradmin_div').show();
+                $('#orgAdmin_div').show();
+            }
+            $("#customFile").on("change", function () {
+                debugger
+                var fileExtension = ['jpeg', 'jpg', 'PNG', 'png'];
+                if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+                    $("#customFile").val(null);
+                    $('#file_value').html('Choose file');
+                    alert("Only '.jpeg','.jpg','png' formats are allowed.");
+                }
+                else {
+                    //var files = !!this.files ? this.files : [];
+                    //if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
+                }
+            });
+        });
+
+        function BindAccounts() {
+            document.getElementById("loader").style.display = "block";
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetAccounts")', // we are calling json method
+                dataType: 'json',
+                data: { id: $("#ddlCompany").val() },
+                success: function (data) {
+                    debugger
+                    var district = "<select id='ddlAccounts' class='form-control kt-select2'>";
+                    district = district + '<option value="0">--Select Account--</option>';
+                    for (var i = 0; i < data.length; i++) {
+
+                        district = district + '<option value=' + data[i].AccountId + '>' + data[i].AccountName + '</option>';
+                    }
+                    district = district + '</select>';
+                    $('#ddlAccounts').html(district);
+                    document.getElementById("loader").style.display = "none";
+                },
+                error: function (ex) {
+                    document.getElementById("loader").style.display = "none";
+                    alert('Failed to retrieve accounts.' + ex);
+                }
+            });
+            return false;
+        }
+         function BindProducts() {
+             document.getElementById("loader").style.display = "block";
+             $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetProducts")', // we are calling json method
+                dataType: 'json',
+                data: { id: $("#ddlAccounts").val() },
+                success: function (data) {
+
+                    var district = "<select id='ddlProduct' class='form-control kt-select2'>";
+                    district = district + '<option value="0">--Select Product--</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        district = district + '<option value=' + data[i].ProductId + '>' + data[i].ProductName + '</option>';
+                    }
+                    district = district + '</select>';
+                    $('#ddlProduct').html(district);
+                    document.getElementById("loader").style.display = "none";
+                },
+                error: function (ex) {
+                    document.getElementById("loader").style.display = "none";
+                    alert('Failed to retrieve products.' + ex);
+                }
+            });
+            return false;
+        }
+         function BindModels() {
+             document.getElementById("loader").style.display = "block";
+
+             var AccountId = 0;
+             var role_idd = $('#hdnRoleId').val();
+             if (role_idd == 502 || role_idd == 501) {
+                 AccountId = $('#ddlAccounts').val();
+             }
+
+             $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetModels")', // we are calling json method
+                dataType: 'json',
+                data: { id: $("#ddlProduct").val(),acctid:AccountId },
+                success: function (data) {
+                    debugger
+                    var district = "<select id='ddlModels' class='form-control kt-select2'>";
+                    //district = district + '<option value="0">-- Select System No/Serial No ---</option>';
+                    for (var i = 0; i < data.length; i++) {
+
+                        district = district + '<option value=' + data[i].AMId + '>' + data[i].ModelName + '</option>';
+                    }
+                    district = district + '</select>';
+                    $('#ddlModels').html(district);
+                    document.getElementById("loader").style.display = "none";
+                },
+                error: function (ex) {
+                    document.getElementById("loader").style.display = "none";
+                    alert('Failed to retrieve models.' + ex);
+                }
+            });
+            return false;
+        }
+    </script>
+}
+
