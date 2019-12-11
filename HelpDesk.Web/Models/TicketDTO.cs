@@ -8,6 +8,7 @@ namespace HelpDesk.Web.Models
 {
     public class TicketDTO
     {
+        public int FlagId { get; set; }
         public int RoleId { get; set; }
         public string PriorityText { get; set; }
         public int ModelId { get; set; }

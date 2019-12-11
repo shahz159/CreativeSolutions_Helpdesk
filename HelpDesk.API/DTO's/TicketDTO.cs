@@ -21,6 +21,7 @@ namespace HelpDesk.API.DTO_s
         public int RoleId { get; set; }
         public long CreatedBy { get; set; }
         public int OrganizationId { get; set; }
+        public int FlagId { get; set; }
         public long UserId { get; set; }
         public string Url { get; set; }
         public string ContentType { get; set; }

@@ -66,6 +66,8 @@ namespace HelpDesk.Web.Controllers
                                     int OrganizationId = int.Parse(item.OrganizationId.ToString());
                                     int CompanyId = int.Parse(item.CompanyId.ToString());
                                     int AccountId = int.Parse(item.AccountId.ToString());
+                                    string RoleName = item.RoleName.ToString();
+                                    string Email = item.Email.ToString();
 
                                     string UserName = Convert.ToString(item.FullName);
                                     Session["SSUserId"] = UserId;
@@ -74,6 +76,8 @@ namespace HelpDesk.Web.Controllers
                                     Session["SSOrganizationId"] = OrganizationId;
                                     Session["SSCompanyId"] = CompanyId;
                                     Session["SSAccountId"] = AccountId;
+                                    Session["SSRoleName"] = RoleName;
+                                    Session["SSEmail"] = Email;
                                 }
                                 return RedirectToAction("Index", "Dashboard");
                             }

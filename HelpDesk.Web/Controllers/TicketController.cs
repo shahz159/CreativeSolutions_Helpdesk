@@ -1151,7 +1151,7 @@ namespace HelpDesk.Web.Controllers
             }
         }
         
-        public async Task<ActionResult> NewSparePartRequest(string json,long TicketNumber)
+        public async Task<ActionResult> NewSparePartRequest(string json,long TicketNumber,int Type)
         {
             string ses = Convert.ToString(Session["SSUserId"]);
             if (string.IsNullOrEmpty(ses))
@@ -1176,6 +1176,7 @@ namespace HelpDesk.Web.Controllers
                         obj.UserId = userid;
                         obj.CompanyId = comid;
                         obj.OrganizationId = orgid;
+                        obj.FlagId = Type;
 
                         bool status = false;
                         HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/TicketsAPI/NewSparePartRequest", obj);
