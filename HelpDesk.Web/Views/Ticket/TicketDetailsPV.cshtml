@@ -77,12 +77,12 @@
                                         }
                                     }
                                     @*@if (item.Status == 6)
-        {
-            <a onclick="UpdateStatus(7)" href="#" class="btn btn-brand btn-elevate btn-icon-sm">
-                <i class="la la-check"></i>
-                Resolve Ticket
-            </a>
-        }*@
+                                        {
+                                            <a onclick="UpdateStatus(7)" href="#" class="btn btn-brand btn-elevate btn-icon-sm">
+                                                <i class="la la-check"></i>
+                                                Resolve Ticket
+                                            </a>
+                                        }*@
                                 </div>
                             </div>
                         </div>
@@ -120,25 +120,74 @@
                     </div>
 
                     <div id="Sparepartrequest_Div" style="display:none" class="kt-portlet__body">
-                        <h2>Spare Part Request</h2>
-                        <div class="form-group mb-0 row">
+                        <h2 class="mb-4">Spare Part Request</h2>
+                        <div class="form-group mb-3">
+                            <div class="kt-radio-inline">
+                                <label class="kt-radio">
+                                    <input type="radio" name="warehouseASG" value="A" checked> Assigned
+                                    <span></span>
+                                </label>
+                                <label class="kt-radio">
+                                    <input type="radio" name="warehouseASG" value="O"> Other
+                                    <span></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group mb-0 row" id="assigned_warehouse_div" style="display:block;">
                             <div class="col-sm-4">
-                                <div class="input-group date">
-                                    <select id="ddlwarehouse" class="form-control" onchange="bindsparepart()">
+                                <div class="input-group">
+                                    <select id="ddlwarehouseA" class="form-control" onchange="bindSparePartsOnChange()">
                                         @if (Model.WarehouseList != null)
                                         {
-                                            <optgroup label="Assigned">
-                                                @foreach (var rptr in Model.WarehouseList.Where(x => x.Gruop == "Assigned"))
-                                                {
-                                                    <option value="@rptr.WarehouseId">@rptr.WarehouseName</option>
-                                                }
-                                            </optgroup>
-                                            <optgroup label="Other">
-                                                @foreach (var rptr in Model.WarehouseList.Where(x => x.Gruop == "Other"))
-                                                {
-                                                    <option value="@rptr.WarehouseId">@rptr.WarehouseName</option>
-                                                }
-                                            </optgroup>
+                                            <option value="0">--Please Select--</option>
+                                            foreach (var rptr in Model.WarehouseList.Where(x => x.Gruop == "Assigned"))
+                                            {
+                                                <option value="@rptr.WarehouseId">@rptr.WarehouseName</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-8">
+                                <div class="input-group date">
+                                    <select id="ddlsparehouseA" class="form-control" onchange="bindSparePartDataA()">
+                                    </select>
+                                </div>
+                            </div>
+                            <br />
+                            <br />
+                            <br />
+                            <div class="col-sm-12">
+                                <div id="spareparts_div">
+                                    <table id="tbl_spareparts_ag" class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th> # </th>
+                                                <th> Spare Part </th>
+                                                <th> Price </th>
+                                                <th> select quantity </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tr_div_ag">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <a onclick="AddSparePartRequestA()" class="btn btn-label-brand btn-bold">Submit</a>
+                            </div>
+                        </div>
+                        <div class="form-group mb-0 row" id="other_warehouse_div" style="display:none;">
+                            <div class="col-sm-4">
+                                <div class="input-group">
+                                    <select id="ddlwarehouse" class="form-control" onchange="bindsparepartSubFuntion()">
+                                        @if (Model.WarehouseList != null)
+                                        {
+                                            <option value="0">--Please Select--</option>
+                                            foreach (var rptr in Model.WarehouseList.Where(x => x.Gruop == "Other"))
+                                            {
+                                                <option value="@rptr.WarehouseId">@rptr.WarehouseName</option>
+                                            }
                                         }
                                     </select>
                                 </div>
@@ -199,7 +248,7 @@
                                                 @item.Description
                                             </p>
                                             @*@item.CreatedOn.ToString("MM/dd/yyyy")*@
-                                            
+
                                         </div>
                                     </div>
                                 </div>
@@ -405,15 +454,25 @@
 }
 
 <script src="~/assets/plugins/global/plugins.bundle.js"></script>
-@*<script src="~/assets/js/scripts.bundle.js"></script>*@
-<!-- Date Picker -->
+
 <script src="~/assets/js/bootstrap-datepicker.js"></script>
 <script src="~/assets/js/select2.js"></script>
 <script>
     $(document).ready(function () {
         document.getElementById("loader").style.display = "none";
 
-        $('#ddlreportType,#ddlwarehouse,#ddlsparehouse').select2({
+        $('#ddlreportType,#ddlwarehouse,#ddlsparehouse,#ddlsparehouseA,#ddlwarehouseA').select2({
+        });
+
+        $('input[type=radio][name=warehouseASG]').change(function () {
+            if (this.value == 'A') {
+                $('#assigned_warehouse_div').show();
+                $('#other_warehouse_div').hide();
+            }
+            else if (this.value == 'O') {
+                $('#assigned_warehouse_div').hide();
+                $('#other_warehouse_div').show();
+            }
         });
 
         var arrows;
@@ -434,6 +493,8 @@
             autoclose: true,
             format: 'yyyy.mm.dd hh:ii'
          });
+
+
 
     });
 
@@ -471,7 +532,6 @@
 
     function AddSparePartRequest() {
         debugger
-
         var jsonary = [];
         $('#tbl_spareparts tr').each(function () {
             if (this.id != "") {
@@ -495,7 +555,51 @@
                 type: "Post",
                 url: '@Url.Action("NewSparePartRequest")',
                 datatype: "json",
-                data: { json: JSON.stringify(jsonary),TicketNumber: $('#hdnTicketNumber').val() },
+                data: { json: JSON.stringify(jsonary),TicketNumber: $('#hdnTicketNumber').val(),Type:2 },
+                success: function (data) {
+                    var v = data.success;
+                    if (v == true) {
+                        TicketDetails($('#hdnTicketNumber').val());
+                    }
+                    else {
+                        alert('Some thing went wrong');
+                    }
+                    document.getElementById("loader").style.display = "none";
+                },
+                error: function () {
+                    alert('error');
+                    document.getElementById("loader").style.display = "none";
+                }
+            });
+        }
+
+    }
+     function AddSparePartRequestA() {
+        debugger
+        var jsonary = [];
+        $('#tbl_spareparts_ag tr').each(function () {
+            if (this.id != "") {
+                var dyn_matrix_data = {};
+                dyn_matrix_data.SparePartId = this.id;
+                dyn_matrix_data.Quantity = $('#ddlqnty_' + this.id).val();
+                dyn_matrix_data.TicketNumber = $('#hdnTicketNumber').val();
+
+                jsonary.push(dyn_matrix_data);
+            }
+        });
+
+        if (jsonary == 0) {
+            alert('select spare parrts');
+            return false;
+        }
+        else {
+            console.log(JSON.stringify(jsonary));
+             document.getElementById("loader").style.display = "block";
+            $.ajax({
+                type: "Post",
+                url: '@Url.Action("NewSparePartRequest")',
+                datatype: "json",
+                data: { json: JSON.stringify(jsonary),TicketNumber: $('#hdnTicketNumber').val(),Type:1 },
                 success: function (data) {
                     var v = data.success;
                     if (v == true) {
@@ -517,18 +621,91 @@
 
     function ViewSparePartRequestDiv() {
         $('#Sparepartrequest_Div').slideToggle();
-        var hdn = $('#hdnAssignedWarehouseId').val();
-        $("#ddlwarehouse").val(hdn).trigger('change');
+        //var hdn = $('#hdnAssignedWarehouseId').val();
+        //var radioValue = $("input[name='warehouseASG']:checked").val();
+        //if (radioValue=="A") {
+        //    $("#ddlwarehouseA").val(hdn).trigger('change');
+        //}
+        //else if (radioValue=="O") {
+        //    $("#ddlwarehouseO").val(hdn).trigger('change');
+        //}
     }
 
     function enablevaluesparepart(id) {
         $("#ddlsparehouse option[value*='" + id + "']").removeAttr('disabled');
         $('#' + id).remove();
     }
-
+    function enablevaluesparepartA(id) {
+        $("#ddlsparehouseA option[value*='" + id + "']").removeAttr('disabled');
+        $('#' + id).remove();
+    }
     function bindSparePartData() {
+        try {
+            document.getElementById("loader").style.display = "block";
+            var sparepartid = $('#ddlsparehouse').val();
+            if (sparepartid == 0 || sparepartid == null || sparepartid=="0" || sparepartid=="") {
+                document.getElementById("loader").style.display = "none";
+                return false;
+            }
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetSpareListDataById")', // we are calling json method
+                dataType: 'json',
+                data: { sparepartid: sparepartid },
+                success: function (data) {
+
+                    var district = "";
+                    district = district + ' <tr id="' + data[0].SparePartId + '"> ';
+                    district = district + '<td> <i onclick="enablevaluesparepart(' + data[0].SparePartId + ')" class="la la-trash la-2x"></i></td > ';
+                    district = district + '<td> ' + data[0].SparePartName + '/' + data[0].SparePartNumber + ' </td>';
+                    district = district + '<td> ' + data[0].Price + ' </td>';
+                    district = district + '<td>';
+
+                    var quantity = data[0].Quantity;
+                    var basequantity = data[0].BaseQuantity;
+
+                    var qty = 0;
+                    if (quantity > basequantity) {
+                        qty = basequantity;
+                    }
+                    else if (basequantity > quantity) {
+                        qty = quantity;
+                    }
+                    else if (basequantity == quantity) {
+                        qty = quantity;
+                    }
+                    else if (basequantity == 0) {
+                        qty = quantity;
+                    }
+                    district = district + '<select id="ddlqnty_' + data[0].SparePartId + '" class="col-md-12" > ';
+                    for (var i = 1; i <= qty; i++) {
+                        district = district + '<option>' + i + '</option>';
+                    }
+                    district = district + '</select>';
+                    district = district + '</td>';
+                    district = district + '</tr>';
+
+                    $('#tr_div').append(district);
+                    $("#ddlsparehouse option[value*='" + data[0].SparePartId + "']").attr('disabled', 'disabled');
+                    document.getElementById("loader").style.display = "none";
+                },
+                error: function (ex) {
+                    document.getElementById("loader").style.display = "none";
+                    alert('Failed to retrieve spare parts.' + ex);
+                }
+            });
+        } catch (e) {
+            document.getElementById("loader").style.display = "none";
+        }
+    }
+
+    function bindSparePartDataA() {
         document.getElementById("loader").style.display = "block";
-        var sparepartid = $('#ddlsparehouse').val();
+        var sparepartid = $('#ddlsparehouseA').val();
+        if (sparepartid == 0 || sparepartid == null || sparepartid == "0" || sparepartid == "") {
+            document.getElementById("loader").style.display = "none";
+            return false;
+        }
         $.ajax({
             type: 'POST',
             url: '@Url.Action("GetSpareListDataById")', // we are calling json method
@@ -538,7 +715,7 @@
 
                 var district = "";
                 district = district + ' <tr id="'+data[0].SparePartId+'"> ';
-                district = district + '<td> <i onclick="enablevaluesparepart('+data[0].SparePartId+')" class="la la-trash la-2x"></i></td > ';
+                district = district + '<td> <i onclick="enablevaluesparepartA('+data[0].SparePartId+')" class="la la-trash la-2x"></i></td > ';
                 district = district + '<td> '+data[0].SparePartName+'/'+data[0].SparePartNumber+' </td>';
                 district = district + '<td> '+data[0].Price+' </td>';
                 district = district + '<td>';
@@ -567,8 +744,32 @@
                 district = district + '</td>';
                 district = district + '</tr>';
 
-                $('#tr_div').append(district);
-                $("#ddlsparehouse option[value*='"+data[0].SparePartId+"']").attr('disabled','disabled');
+                $('#tr_div_ag').append(district);
+                $("#ddlsparehouseA option[value*='"+data[0].SparePartId+"']").attr('disabled','disabled');
+                document.getElementById("loader").style.display = "none";
+            },
+            error: function (ex) {
+                document.getElementById("loader").style.display = "none";
+                alert('Failed to retrieve spare parts.' + ex);
+            }
+        });
+    }
+    //Assigned Warehouse on change 
+    function bindSparePartsOnChange() {
+         $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetSparePartList")', // we are calling json method
+            dataType: 'json',
+            data: { warehouseid: $('#ddlwarehouseA').val()},
+            success: function (data) {
+
+                var district = "<select id='ddlsparehouseA' class='form-control kt-select2' multiple>";
+                district = district + '<option value="0">--Select SparePart--</option>';
+                for (var i = 0; i < data.length; i++) {
+                    district = district + '<option value=' + data[i].SparePartId + '>' + data[i].SparePartName + '</option>';
+                }
+                district = district + '</select>';
+                $('#ddlsparehouseA').html(district);
                 document.getElementById("loader").style.display = "none";
             },
             error: function (ex) {
@@ -578,14 +779,27 @@
         });
     }
 
-    function bindsparepart() {
+    //function bindsparepart(val) {
+    //    var warehouseid = 0;
+    //    if (val == 1) {
+    //        warehouseid = $('#ddlwarehouseA').val();
+    //    }
+    //    else if (val == 2) {
+    //        warehouseid = $('#ddlwarehouse').val();
+    //    }
+    //    var warehouseid = $('#hdnAssignedWarehouseId').val();
+    //    bindsparepartSubFuntion(warehouseid);
+    //}
+
+    function bindsparepartSubFuntion() {
+        debugger
         document.getElementById("loader").style.display = "block";
-        var warehouseid = $('#hdnAssignedWarehouseId').val();
+
         $.ajax({
             type: 'POST',
             url: '@Url.Action("GetSparePartList")', // we are calling json method
             dataType: 'json',
-            data: { warehouseid: warehouseid},
+            data: { warehouseid: $('#ddlwarehouse').val()},
             success: function (data) {
 
                 var district = "<select id='ddlsparehouse' class='form-control kt-select2' multiple>";
@@ -665,7 +879,6 @@
             }
         });
     }
-
     function readmre(id) {
             $("#" + id).text(($("#" + id).text() == 'Read Less') ? 'Read More' : 'Read Less');
             $("#div_" + id).slideToggle();

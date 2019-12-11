@@ -110,22 +110,27 @@
                                             <label class="col-sm-3 col-form-label text-left">Is Contract</label>
                                             <div class="col-sm-9"><label class="col-form-label">: @Model.IsContract</label></div>
                                         </div>
-                                        <div class="form-group mb-0">
-                                            <h5 class="contract-head">Contract Details</h5>
-                                            <hr />
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label text-left">PO Contract</label>
-                                            <div class="col-sm-9"><label class="col-form-label">: @Model.POContract</label></div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-form-label col-sm-3 text-left">Warranty Contract Expiry Date</label>
-                                            <div class="col-sm-9"><label class="col-form-label">: @Model.WarrantyExpiryDate</label></div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-form-label col-sm-3 text-left">Select PPM</label>
-                                            <div class="col-sm-9"><label class="col-form-label">: @Model.PPMType Months</label></div>
-                                        </div>
+
+                                        @if (Model.IsContract == true)
+                                        {
+                                            <div class="form-group mb-0">
+                                                <h5 class="contract-head">Contract Details</h5>
+                                                <hr />
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label text-left">PO Contract</label>
+                                                <div class="col-sm-9"><label class="col-form-label">: @Model.POContract</label></div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-sm-3 text-left">Warranty Contract Expiry Date</label>
+                                                <div class="col-sm-9"><label class="col-form-label">: @Model.WarrantyExpiryDate</label></div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-sm-3 text-left">Select PPM</label>
+                                                <div class="col-sm-9"><label class="col-form-label">: @Model.PPMType Months</label></div>
+                                            </div>
+                                        }
+
                                         @if (Model.PPMList.Count() > 0)
                                         {
                                             <div class="form-group row">

@@ -18,9 +18,8 @@
                 </span>
                 <h3 class="kt-portlet__head-title">Asset Approval</h3>
             </div>
-            
         </div>
-       
+       <br />
         <div class="kt-portlet__body pt-0">
             <div class="table-responsive">
                 <table id="kt_table_1" class="table table-hover">
@@ -43,8 +42,30 @@
                                     <td>@item.StationName</td>
                                     <td>@item.SerialNo</td>
                                     <td>@item.Area</td>
-                                    <td>@item.IsContract</td>
-                                    <td>@item.isActive</td>
+                                    <td>
+                                        @if (item.IsContract == true)
+                                        {
+                                            <p>Yes</p>
+                                        }
+                                        else
+                                        {
+                                            <p>No</p>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (item.isActive == false && item.IsApproved == false && item.IsRejected == false)
+                                        {
+                                            <p>Under Approval</p>
+                                        }
+                                        else if (item.isActive == false && item.IsApproved == false && item.IsRejected == true)
+                                        {
+                                            <p>Rejected</p>
+                                        }
+                                        else if (item.isActive == true && item.IsApproved == true && item.IsRejected == false)
+                                        {
+                                            <p>Approved</p>
+                                        }
+                                    </td>
                                     <td align="center">
                                         <a onclick="ViewAssetDetails(@item.AMId)">
                                             <i class="fa fa-eye"></i>

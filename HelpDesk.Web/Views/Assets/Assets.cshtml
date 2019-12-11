@@ -30,7 +30,7 @@
             </div>
         </div>
         <div class="kt-portlet__body">
-                @*<div class="kt-form kt-form--label-right">
+            @*<div class="kt-form kt-form--label-right">
                     <div class="row align-items-center">
                         <div class="col-xl-12 order-2 order-xl-1">
                             <div class="row align-items-center">
@@ -104,44 +104,66 @@
                         </div>
                     </div>
                 </div>*@
-            </div>
-    <div class="kt-portlet__body pt-0">
-        <div class="table-responsive">
-            <table class="table table-striped- table-bordered table-hover table-checkable" id="kt_table_1">
-                <thead>
-                    <tr>
-                        <th scope="col">Station Name</th>
-                        <th scope="col">Serial No.</th>
-                        <th scope="col">Location</th>
-                        <th scope="col">IsContract</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Details</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model.AssetsList != null)
-                    {
-                        foreach (var item in Model.AssetsList)
-                        {
-                            <tr>
-                                <td>@item.StationName</td>
-                                <td>@item.SerialNo</td>
-                                <td>@item.Area</td>
-                                <td>@item.IsContract</td>
-                                <td>@item.isActive</td>
-                                <td align="center">
-                                    <a onclick="ViewAssetDetails(@item.AMId)">
-                                        <i class="fa fa-eye"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
         </div>
-        <!--begin: href="@Url.Action("AssetDetails","Assets")" Section-->
-    </div>
+        <div class="kt-portlet__body pt-0">
+            <div class="table-responsive">
+                <table class="table table-striped- table-bordered table-hover table-checkable" id="kt_table_1">
+                    <thead>
+                        <tr>
+                            <th scope="col">Station Name</th>
+                            <th scope="col">Serial No.</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">IsContract</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.AssetsList != null)
+                        {
+                            foreach (var item in Model.AssetsList)
+                            {
+                                <tr>
+                                    <td>@item.StationName</td>
+                                    <td>@item.SerialNo</td>
+                                    <td>@item.Area</td>
+                                    <td>
+                                    @if (item.IsContract==true)
+                                    {
+                                        <p>Yes</p>
+                                    }
+                                    else
+                                    {
+                                        <p>No</p>
+                                    }
+                                    </td>
+                                    <td>
+                                        @if (item.isActive == false && item.IsApproved == false && item.IsRejected == false)
+                                        {
+                                            <p>Under Approval</p>
+                                        }
+                                        else if (item.isActive == false && item.IsApproved == false && item.IsRejected == true)
+                                        {
+                                            <p>Rejected</p>
+                                        }
+                                        else if (item.isActive == true && item.IsApproved == true && item.IsRejected == false)
+                                        {
+                                            <p>Approved</p>
+                                        }
+                                    </td>
+                                    <td align="center">
+                                        <a onclick="ViewAssetDetails(@item.AMId)">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!--begin: href="@Url.Action("AssetDetails","Assets")" Section-->
+        </div>
     </div>
 </div>
 <div id="asset_details" style="display:none;"></div>

@@ -182,7 +182,8 @@ namespace HelpDesk.API.DataAccess
                 new SqlParameter("@UserId",obj.UserId),
                 new SqlParameter("@json",obj.message),
                 new SqlParameter("@CompanyId",obj.CompanyId),
-                new SqlParameter("@OrganizationId",obj.OrganizationId)
+                new SqlParameter("@OrganizationId",obj.OrganizationId),
+                new SqlParameter("@FlagId",obj.FlagId)
                 };
                 return DbConnector.ExecuteReader("uspAddSparePartRequest", para);
             }

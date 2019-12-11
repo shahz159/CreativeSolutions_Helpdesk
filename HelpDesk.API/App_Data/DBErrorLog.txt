@@ -197,3 +197,43 @@ Stack Trace:
    at HelpDesk.API.DatabaseConnector.DbConnector.ExecuteReader(String cmdText, SqlParameter[] cmdParms) in E:\VS19\HelpDesk.API\DatabaseConnector\DbConnector.cs:line 55
    at HelpDesk.API.DataAccess.AssetModel.GetAssetList(AssetDTO obj) in E:\VS19\HelpDesk.API\DataAccess\AssetModel.cs:line 40
 
+********** 12/11/2019 4:01:58 PM **********
+Exception Type: System.Data.SqlTypes.SqlTypeException
+Exception: SqlDateTime overflow. Must be between 1/1/1753 12:00:00 AM and 12/31/9999 11:59:59 PM.
+Source: AssetModel -> GetModels
+Stack Trace: 
+   at HelpDesk.API.DatabaseConnector.DbConnector.ExecuteReader(String cmdText, SqlParameter[] cmdParms) in E:\VS19\HelpDesk.API\DatabaseConnector\DbConnector.cs:line 55
+   at HelpDesk.API.DataAccess.AssetModel.InsertUpdateAsset(AssetDTO obj) in E:\VS19\HelpDesk.API\DataAccess\AssetModel.cs:line 145
+
+********** 12/11/2019 4:03:21 PM **********
+Exception Type: System.Data.SqlTypes.SqlTypeException
+Exception: SqlDateTime overflow. Must be between 1/1/1753 12:00:00 AM and 12/31/9999 11:59:59 PM.
+Source: AssetModel -> GetModels
+Stack Trace: 
+   at HelpDesk.API.DatabaseConnector.DbConnector.ExecuteReader(String cmdText, SqlParameter[] cmdParms) in E:\VS19\HelpDesk.API\DatabaseConnector\DbConnector.cs:line 55
+   at HelpDesk.API.DataAccess.AssetModel.InsertUpdateAsset(AssetDTO obj) in E:\VS19\HelpDesk.API\DataAccess\AssetModel.cs:line 145
+
+********** 12/11/2019 4:04:58 PM **********
+Exception Type: System.Data.SqlTypes.SqlTypeException
+Exception: SqlDateTime overflow. Must be between 1/1/1753 12:00:00 AM and 12/31/9999 11:59:59 PM.
+Source: AssetModel -> GetModels
+Stack Trace: 
+   at HelpDesk.API.DatabaseConnector.DbConnector.ExecuteReader(String cmdText, SqlParameter[] cmdParms) in E:\VS19\HelpDesk.API\DatabaseConnector\DbConnector.cs:line 55
+   at HelpDesk.API.DataAccess.AssetModel.InsertUpdateAsset(AssetDTO obj) in E:\VS19\HelpDesk.API\DataAccess\AssetModel.cs:line 145
+
+********** 12/11/2019 4:05:22 PM **********
+Exception Type: System.Data.SqlTypes.SqlTypeException
+Exception: SqlDateTime overflow. Must be between 1/1/1753 12:00:00 AM and 12/31/9999 11:59:59 PM.
+Source: AssetModel -> GetModels
+Stack Trace: 
+   at HelpDesk.API.DatabaseConnector.DbConnector.ExecuteReader(String cmdText, SqlParameter[] cmdParms) in E:\VS19\HelpDesk.API\DatabaseConnector\DbConnector.cs:line 55
+   at HelpDesk.API.DataAccess.AssetModel.InsertUpdateAsset(AssetDTO obj) in E:\VS19\HelpDesk.API\DataAccess\AssetModel.cs:line 145
+
+********** 12/11/2019 4:10:18 PM **********
+Exception Type: System.Data.SqlTypes.SqlTypeException
+Exception: SqlDateTime overflow. Must be between 1/1/1753 12:00:00 AM and 12/31/9999 11:59:59 PM.
+Source: AssetModel -> GetModels
+Stack Trace: 
+   at HelpDesk.API.DatabaseConnector.DbConnector.ExecuteReader(String cmdText, SqlParameter[] cmdParms) in E:\VS19\HelpDesk.API\DatabaseConnector\DbConnector.cs:line 55
+   at HelpDesk.API.DataAccess.AssetModel.InsertUpdateAsset(AssetDTO obj) in E:\VS19\HelpDesk.API\DataAccess\AssetModel.cs:line 145
+

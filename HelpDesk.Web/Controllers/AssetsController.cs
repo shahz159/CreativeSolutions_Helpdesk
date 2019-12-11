@@ -186,6 +186,13 @@ namespace HelpDesk.Web.Controllers
                         obj.CompanyId = comid;
                         obj.CreatedBy = userid;
                         obj.FlagId = 1;
+                        if (obj.IsContract == false)
+                        {
+                            obj.POContract = "";
+                            string dd= DateTime.Now.ToString("M/d/yyyy");
+                            obj.WarrantyExpiryDate = DateTime.Parse(dd);
+                        }
+                            
 
                         HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/AssetAPI/NewInsertUpdateAsset", obj);
                         if (responseMessage.IsSuccessStatusCode)

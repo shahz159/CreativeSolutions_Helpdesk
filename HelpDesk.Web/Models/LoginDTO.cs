@@ -16,6 +16,7 @@ namespace HelpDesk.Web.Models
         public int OrganizationId { get; set; }
         public int CompanyId { get; set; }
         public int AccountId { get; set; }
+        public string RoleName { get; set; }
 
     }
 }

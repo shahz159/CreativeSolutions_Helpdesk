@@ -45,7 +45,7 @@ namespace HelpDesk.API.Bussiness
                         obj.RegionName = data["RegionName"].ToString();
                         obj.RegionId = int.Parse(data["RegionId"].ToString());
                         obj.CityId = int.Parse(data["CityId"].ToString());
-
+                        obj.CityName = data["CityName"].ToString();
                         obj.InstallationDate =DateTime.Parse(data["InstallationDate"].ToString());
                         obj.IsContract =bool.Parse(data["IsContract"].ToString());
                         obj.POContract = data["POContract"].ToString();

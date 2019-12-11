@@ -158,7 +158,7 @@
     <div id="kt_header_mobile" class="kt-header-mobile  kt-header-mobile--fixed ">
         <div class="kt-header-mobile__brand">
             <a class="kt-header-mobile__logo" href="?page=index">
-                <img src="~/assets/images/logo-5-sm.png" />
+                <img src="~/assets/images/ahc_new_logo.png" height="35" />
             </a>
         </div>
         <div class="kt-header-mobile__toolbar">
@@ -210,36 +210,14 @@
                                                 </a>
                                             </li>
                                             <li class="kt-nav__item">
-                                                <a href="@Url.Action("Logout","Login")" class="kt-nav__link">
+                                                <a href="@Url.Action("Logout", "Login")" class="kt-nav__link">
                                                     <span class="kt-nav__link-text">Logout</span>
                                                 </a>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
-
-                                <!--end: Language bar -->
-                                <!--begin: User bar ->
-                                <div class="kt-header__topbar-item kt-header__topbar-item--user">
-                                    <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="10px,10px">
-                                        <img class="kt-hidden-" alt="Pic" src="~/assets/images/default.jpg" />
-                                    </div>
-                                    <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-xl">
-                                        <div class="kt-notification">
-                                            <a href="#" class="kt-notification__item">
-                                                <div class="kt-notification__item-details">
-                                                    <div class="kt-notification__item-title kt-font-bold">
-                                                        My Profile
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <div class="kt-notification__custom kt-space-between">
-                                                <a href="#" target="_blank" class="btn btn-label btn-label-brand btn-sm btn-bold">Sign Out</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--end: User bar -->
+ 
                             </div>
 
                             <!-- end:: Header Topbar -->
@@ -252,7 +230,13 @@
                             <button class="kt-header-menu-wrapper-close" id="kt_header_menu_mobile_close_btn"><i class="la la-close"></i></button>
                             <div class="kt-header-menu-wrapper" id="kt_header_menu_wrapper">
                                 <div class="kt-header-menu">
-                                    <h2 class="color-primary py-3 px-2">AHC Helpdesk</h2>
+                                    @{
+                                        string name = (string)Session["SSRoleName"];
+                                    }
+                                    <h2 class="color-primary py-3 px-2">
+                                        AHC Helpdesk
+                                    </h2>
+                                    <p class="color-primary py-4 px-3">- @name</p>
                                 </div>
                             </div>
 
