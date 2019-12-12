@@ -25,6 +25,8 @@ namespace HelpDesk.API.Bussiness
                     while (data.Read())
                     {
                         obj.message = data["message"].ToString();
+                        obj.UserEmail = data["UserEmail"].ToString();
+                        obj.ServiceEngineerEmail = data["ServiceEngineerEmail"].ToString();
                         
                     }
                 }
@@ -33,6 +35,8 @@ namespace HelpDesk.API.Bussiness
                 if (obj.message == "1")
                 {
                     //Send Email
+                    var UserEmail = obj.UserEmail;
+                    var ServiceEngineer = obj.ServiceEngineerEmail;
                 }
             }
             catch (Exception ex)

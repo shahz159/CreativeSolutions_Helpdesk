@@ -31,5 +31,7 @@ namespace HelpDesk.API.DTO_s
         public DateTime ResponseTime { get; set; }
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
+        public string UserEmail { get; set; }
+        public string ServiceEngineerEmail { get; set; }
     }
 }

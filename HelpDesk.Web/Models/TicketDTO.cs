@@ -14,7 +14,7 @@ namespace HelpDesk.Web.Models
         public int ModelId { get; set; }
         public string message { get; set; }
         public string datasetxml { get; set; }
-        public string Description { get; set; }
+        public string Description { get; set; }        
 
         [Required(ErrorMessage = "required", AllowEmptyStrings = false)]
         public int ProductId { get; set; }
