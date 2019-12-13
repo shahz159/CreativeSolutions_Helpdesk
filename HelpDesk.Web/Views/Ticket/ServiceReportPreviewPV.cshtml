@@ -1,0 +1,178 @@
+﻿@model HelpDesk.Web.Models.TicketDTO
+
+<style>
+    .form-bottom-border {
+        border: none;
+        border-bottom: 1px solid #e2e5ec;
+        border-radius: 0;
+        font-weight: 500
+    }
+</style>
+
+<div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="kt-portlet">
+                <div class="kt-portlet__head">
+                    <div class="kt-portlet__head-label">
+                        <h3 class="kt-portlet__head-title text-uppercase">
+                            Service Report
+                        </h3>
+                    </div>
+                    <div class="kt-portlet__head-toolbar">
+                        <div class="kt-portlet__head-wrapper">
+                            <div class="kt-portlet__head-actions">
+                                <a href="#" class="btn btn-brand btn-elevate btn-icon-sm">
+                                    <i class="la la-check"></i>
+                                    Approve
+                                </a>
+                                <a href="#" class="btn btn-danger btn-elevate btn-icon-sm">
+                                    <i class="la la-times"></i>
+                                    Reject
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form class="kt-form">
+                    <div class="kt-portlet__body">
+                        <div class="row">
+                            <div class="form-group col-xl-4 col-md-6">
+                                <label>Ticket Number</label>
+                                <input type="text" class="form-control form-bottom-border" value="AHC-12554">
+                            </div>
+                            <div class="form-group col-xl-4 col-md-6">
+                                <label>Customer ID</label>
+                                <input type="text" class="form-control form-bottom-border" value="154851">
+                            </div>
+                            <div class="form-group col-xl-4 col-md-6">
+                                <label>Customer Equipment ID</label>
+                                <input type="text" class="form-control form-bottom-border" value="5258452">
+                            </div>
+                            <div class="form-group col-xl-4 col-md-6">
+                                <label>Service Report Date</label>
+                                <input type="text" class="form-control form-bottom-border" value="11-12-2019">
+                            </div>
+                            <div class="form-group col-xl-4 col-md-6">
+                                <label>Service Report No.</label>
+                                <input type="text" class="form-control form-bottom-border" value="5750">
+                            </div>
+                            <div class="form-group col-xl-4 col-md-6">
+                                <label>Customer Name</label>
+                                <input type="text" class="form-control form-bottom-border" value="Vali Noor">
+                            </div>
+                            <div class="form-group col-xl-4 col-md-6">
+                                <label>Customer Location</label>
+                                <input type="text" class="form-control form-bottom-border" value="Hyderabad">
+                            </div>
+                            <div class="form-group col-xl-4 col-md-6">
+                                <label>Customer Telephone</label>
+                                <input type="text" class="form-control form-bottom-border" value="040-23831542">
+                            </div>
+                            <div class="form-group col-xl-4 col-md-6">
+                                <label>Customer Fax</label>
+                                <input type="text" class="form-control form-bottom-border" value="040-23831542">
+                            </div>
+                            <div class="form-group col-xl-4 col-md-6">
+                                <label>Customer Mobile No.</label>
+                                <input type="text" class="form-control form-bottom-border" value="+91-8686865185">
+                            </div>
+                            <div class="form-group col-xl-4 col-md-6">
+                                <label>Customer Email</label>
+                                <input type="text" class="form-control form-bottom-border" value="vali@gmail.com">
+                            </div>
+                            <div class="form-group col-xl-4 col-md-6">
+                                <label>Equipment Description</label>
+                                <input type="text" class="form-control form-bottom-border" value="Lorem ipsum dolor sit amet">
+                            </div>
+                            <div class="form-group col-xl-4 col-md-6">
+                                <label>Equipment Model</label>
+                                <input type="text" class="form-control form-bottom-border" value="Hos-554956">
+                            </div>
+                            <div class="form-group col-xl-4 col-md-6">
+                                <label>Equipment Serial No.</label>
+                                <input type="text" class="form-control form-bottom-border" value="1523">
+                            </div>
+                            <div class="form-group col-xl-4 col-md-6">
+                                <label>Equipment P.O No.</label>
+                                <input type="text" class="form-control form-bottom-border" value="47874">
+                            </div>
+                            <div class="form-group col-xl-4 col-md-6">
+                                <label>Manufacturer</label>
+                                <input type="text" class="form-control form-bottom-border" value="cisco">
+                            </div>
+                            <div class="form-group col-xl-4 col-md-6">
+                                <label>Installation Date</label>
+                                <input type="text" class="form-control form-bottom-border" value="11-12-2019">
+                            </div>
+                            <div class="form-group col-xl-4 col-md-6">
+                                <label>Warranty End Date</label>
+                                <input type="text" class="form-control form-bottom-border" value="10-12-2025">
+                            </div>
+                            <div class="form-group col-xl-4 col-md-6">
+                                <label>Next PPM Shedule</label>
+                                <input type="text" class="form-control form-bottom-border" value="20-12-2019">
+                            </div>
+                            <div class="form-group col-xl-4 col-md-6">
+                                <label>Customer Call Date & Time</label>
+                                <input type="text" class="form-control form-bottom-border" value="05-12-2019 10:30 AM">
+                            </div>
+                            <div class="form-group col-xl-4 col-md-6">
+                                <label>Service Start Date & Time</label>
+                                <input type="text" class="form-control form-bottom-border" value="22-12-2019 12:00 PM">
+                            </div>
+                            <div class="form-group col-xl-4 col-md-6">
+                                <label>Service End Date & Time</label>
+                                <input type="text" class="form-control form-bottom-border" value="22-12-2025 11:59 PM">
+                            </div>
+                            <div class="form-group col-xl-4 col-md-6">
+                                <label>Work Hours</label>
+                                <input type="text" class="form-control form-bottom-border" value="8">
+                            </div>
+                            <div class="form-group col-xl-12">
+                                <label>Total Charges</label>
+                                <input type="text" class="form-control form-bottom-border" value="SAR 2020">
+                            </div>
+                            <div class="form-group col-xl-12">
+                                <label>Report Type</label>
+                                <input type="text" class="form-control form-bottom-border" value="Installation">
+                            </div>
+                            <div class="form-group col-xl-12">
+                                <label for="exampleTextarea">Problem Description</label>
+                                <textarea class="form-control" rows="3"></textarea>
+                            </div>
+                            <div class="form-group col-xl-12">
+                                <label for="exampleTextarea">Activities Done</label>
+                                <textarea class="form-control" rows="3"></textarea>
+                            </div>
+                            <hr />
+                            <div class="form-group col-md-4">
+                                <label>Name Of Engineer</label>
+                                <h5>
+                                    Vali Noor<br />
+                                    <small>11-12-2019 04:00 PM</small>
+                                </h5>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Name Of Engineer</label>
+                                <h5>
+                                    Vali Noor<br />
+                                    <small>11-12-2019 04:00 PM</small>
+                                </h5>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Name Of Engineer</label>
+                                <h5>
+                                    Vali Noor<br />
+                                    <small>11-12-2019 04:00 PM</small>
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
