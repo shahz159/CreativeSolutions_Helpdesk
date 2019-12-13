@@ -247,7 +247,7 @@ namespace HelpDesk.Web.Controllers
                         else
                             obj.AccountId = accntid;
 
-                        if (obj.Description == null)
+                        if (obj.Description==null)
                             obj.Description = "";
 
                         HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/TicketsAPI/NewInsertTicketRequest", obj);
