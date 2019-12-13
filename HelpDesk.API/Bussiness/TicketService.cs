@@ -25,10 +25,15 @@ namespace HelpDesk.API.Bussiness
                     while (data.Read())
                     {
                         obj.message = data["message"].ToString();
+                        
                     }
                 }
                 else
                     obj.message = "0";
+                if (obj.message == "1")
+                {
+                    //Send Email
+                }
             }
             catch (Exception ex)
             {
