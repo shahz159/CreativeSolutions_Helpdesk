@@ -237,3 +237,11 @@ Stack Trace:
    at HelpDesk.API.DatabaseConnector.DbConnector.ExecuteReader(String cmdText, SqlParameter[] cmdParms) in E:\VS19\HelpDesk.API\DatabaseConnector\DbConnector.cs:line 55
    at HelpDesk.API.DataAccess.AssetModel.InsertUpdateAsset(AssetDTO obj) in E:\VS19\HelpDesk.API\DataAccess\AssetModel.cs:line 145
 
+********** 13-12-2019 15:23:27 **********
+Exception Type: System.Data.SqlClient.SqlException
+Exception: Procedure or function 'uspNewTicketRequest' expects parameter '@xml', which was not supplied.
+Source: TicketModel -> NewTicketRequest
+Stack Trace: 
+   at HelpDesk.API.DatabaseConnector.DbConnector.ExecuteReader(String cmdText, SqlParameter[] cmdParms) in D:\My Stuff\AHC Helpdesk\SourceCode\HelpDesk.API\DatabaseConnector\DbConnector.cs:line 55
+   at HelpDesk.API.DataAccess.TicketModel.NewTicketRequest(TicketDTO obj) in D:\My Stuff\AHC Helpdesk\SourceCode\HelpDesk.API\DataAccess\TicketModel.cs:line 32
+
