@@ -188,6 +188,7 @@ namespace HelpDesk.Web.Controllers
                     CommonHeader.setHeaders(client);
                     try
                     {
+                         
                         if (TicketDocument != null)
                         {
                             var xmldoc_docs = new XmlDocument();
@@ -196,6 +197,13 @@ namespace HelpDesk.Web.Controllers
 
                             foreach (HttpPostedFileBase item in TicketDocument)
                             {
+                                if (item==null)
+                                {
+                                    obj.ContentType = "";
+                                    obj.Url = "";
+                                    obj.multipledocuments_xml = "";
+                                    break;
+                                }
                                 var parentelement = xmldoc_docs.CreateElement("Row");
                                 var filepath_xml = xmldoc_docs.CreateElement("filepath");
                                 var ContentType_xml = xmldoc_docs.CreateElement("ContentType");
@@ -232,6 +240,7 @@ namespace HelpDesk.Web.Controllers
                         {
                             obj.ContentType = "";
                             obj.Url = "";
+                            obj.multipledocuments_xml = "";
                         }
 
                         obj.CreatedBy = userid;
@@ -1385,6 +1394,13 @@ namespace HelpDesk.Web.Controllers
                     }
                 }
             }
+        }
+
+        public ActionResult ServiceReportPV(long TicketNumber)
+        {
+            TicketDTO obj = new TicketDTO();
+            obj.TicketNumber = TicketNumber;
+            return PartialView("ServiceReportPreviewPV", obj);
         }
     }
 }

@@ -82,20 +82,18 @@
 
             var initTable1 = function () {
                 var table = $('#kt_table_1');
-
                 // begin first table
                 table.DataTable({
-                    responsive: true
+                    responsive: true,
+                    "order": [[ 0, "desc" ]]
                 });
             };
 
             return {
-
                 //main function to initiate the module
                 init: function () {
                     initTable1();
                 },
-
             };
 
         }();
@@ -111,7 +109,7 @@
         $('#kt_select2_15').select2();
 
         async function TicketDetails(id) {
-             document.getElementById("loader").style.display = "block";
+            document.getElementById("loader").style.display = "block";
             $('#Upper_div').hide();
 
             await $.ajax({
