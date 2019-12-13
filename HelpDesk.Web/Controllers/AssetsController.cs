@@ -235,7 +235,7 @@ namespace HelpDesk.Web.Controllers
                         AssetsDTO obj = new AssetsDTO();
                         //obj.CompanyId = comid;
                         obj.CreatedBy = userid;
-
+                        obj.RoleId = roleid;
                         HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/AssetAPI/NewGetAssetList", obj);
                         if (responseMessage.IsSuccessStatusCode)
                         {

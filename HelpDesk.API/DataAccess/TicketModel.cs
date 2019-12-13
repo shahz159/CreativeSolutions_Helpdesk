@@ -27,7 +27,8 @@ namespace HelpDesk.API.DataAccess
                     new SqlParameter("@CreatedBy",obj.CreatedBy),
                     new SqlParameter("@OrganizationId",obj.OrganizationId),
                     new SqlParameter("@DocumentUrl",obj.Url),
-                    new SqlParameter("@ContentType",obj.ContentType) 
+                    new SqlParameter("@ContentType",obj.ContentType) ,
+                    new SqlParameter("@xml",obj.multipledocuments_xml)
                 };
                 return DbConnector.ExecuteReader("uspNewTicketRequest", para);
             }

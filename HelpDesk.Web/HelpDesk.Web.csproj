@@ -309,7 +309,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1596</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:1596/</IISUrl>
+          <IISUrl>http://localhost:1597/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

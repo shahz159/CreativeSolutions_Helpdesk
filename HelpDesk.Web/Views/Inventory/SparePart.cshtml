@@ -16,16 +16,16 @@
             </div>
             @if (Model.RoleId == 502)
             {
-            <div class="kt-portlet__head-toolbar">
-                <div class="kt-portlet__head-wrapper">
-                    <div class="kt-portlet__head-actions">
-                        <a href="@Url.Action("NewSparePart","Inventory")" class="btn btn-brand btn-elevate btn-icon-sm">
-                            <i class="la la-plus"></i>
-                            New Spare Part
-                        </a>
+                <div class="kt-portlet__head-toolbar">
+                    <div class="kt-portlet__head-wrapper">
+                        <div class="kt-portlet__head-actions">
+                            <a href="@Url.Action("NewSparePart","Inventory")" class="btn btn-brand btn-elevate btn-icon-sm">
+                                <i class="la la-plus"></i>
+                                New Spare Part
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
             }
         </div>
         <div class="kt-portlet__body">
@@ -68,8 +68,8 @@
                                         </select>
 
                                         @*@Html.DropDownListFor(model => model.WarehouseId, (IEnumerable<SelectListItem>
-                                         )ViewData["ddlWarehouseLst"], "--Please Select --",
-                                         new { id = "ddlWarehouse", @class = "form-control kt-select2", @onchange = "BindList()" })*@
+                                            )ViewData["ddlWarehouseLst"], "--Please Select --",
+                                            new { id = "ddlWarehouse", @class = "form-control kt-select2", @onchange = "BindList()" })*@
                                     </div>
                                 </div>
                             </div>
@@ -79,70 +79,72 @@
             </div>
         </div>
         <div class="kt-portlet__body pt-0">
-           <div id="sparepartlst_div">
+            <div id="sparepartlst_div">
 
-           </div>
+            </div>
         </div>
         @*<div class="kt-portlet__foot">
-            <div class="kt-section">
-                <p class="kt-section__content">
-                    <div class="kt-pagination  kt-pagination--brand">
-                        <ul class="kt-pagination__links">
-                            <li class="kt-pagination__link--first">
-                                <a href="#"><i class="fa fa-angle-double-left kt-font-brand"></i></a>
-                            </li>
-                            <li class="kt-pagination__link--next">
-                                <a href="#"><i class="fa fa-angle-left kt-font-brand"></i></a>
-                            </li>
-                            <li class="kt-pagination__link--active">
-                                <a href="#">1</a>
-                            </li>
-                            <li>
-                                <a href="#">2</a>
-                            </li>
-                            <li>
-                                <a href="#">3</a>
-                            </li>
-                            <li>
-                                <a href="#">...</a>
-                            </li>
+                <div class="kt-section">
+                    <p class="kt-section__content">
+                        <div class="kt-pagination  kt-pagination--brand">
+                            <ul class="kt-pagination__links">
+                                <li class="kt-pagination__link--first">
+                                    <a href="#"><i class="fa fa-angle-double-left kt-font-brand"></i></a>
+                                </li>
+                                <li class="kt-pagination__link--next">
+                                    <a href="#"><i class="fa fa-angle-left kt-font-brand"></i></a>
+                                </li>
+                                <li class="kt-pagination__link--active">
+                                    <a href="#">1</a>
+                                </li>
+                                <li>
+                                    <a href="#">2</a>
+                                </li>
+                                <li>
+                                    <a href="#">3</a>
+                                </li>
+                                <li>
+                                    <a href="#">...</a>
+                                </li>
 
-                            <li>
-                                <a href="#">10</a>
-                            </li>
-                            <li>
-                                <a href="#">11</a>
-                            </li>
-                            <li>
-                                <a href="#">12</a>
-                            </li>
-                            <li class="kt-pagination__link--prev">
-                                <a href="#"><i class="fa fa-angle-right kt-font-brand"></i></a>
-                            </li>
-                            <li class="kt-pagination__link--last">
-                                <a href="#"><i class="fa fa-angle-double-right kt-font-brand"></i></a>
-                            </li>
-                        </ul>
-                        <div class="kt-pagination__toolbar">
-                            <select class="form-control kt-font-brand" style="width: 60px;">
-                                <option value="10">10</option>
-                                <option value="20">20</option>
-                                <option value="30">30</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                            </select>
-                            <span class="pagination__desc">
-                                Displaying 10 of 230 records
-                            </span>
+                                <li>
+                                    <a href="#">10</a>
+                                </li>
+                                <li>
+                                    <a href="#">11</a>
+                                </li>
+                                <li>
+                                    <a href="#">12</a>
+                                </li>
+                                <li class="kt-pagination__link--prev">
+                                    <a href="#"><i class="fa fa-angle-right kt-font-brand"></i></a>
+                                </li>
+                                <li class="kt-pagination__link--last">
+                                    <a href="#"><i class="fa fa-angle-double-right kt-font-brand"></i></a>
+                                </li>
+                            </ul>
+                            <div class="kt-pagination__toolbar">
+                                <select class="form-control kt-font-brand" style="width: 60px;">
+                                    <option value="10">10</option>
+                                    <option value="20">20</option>
+                                    <option value="30">30</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                <span class="pagination__desc">
+                                    Displaying 10 of 230 records
+                                </span>
+                            </div>
                         </div>
-                    </div> 
-                </p>
-            </div>
-        </div>*@
+                    </p>
+                </div>
+            </div>*@
     </div>
 </div>
 
-@section Scripts{
+@section  Scripts{
+    <script src="~/assets/js/datatables.bundle.js"></script>
+    <script src="~/assets/js/datatable.js"></script>
     <script src="~/assets/js/select2.js"></script>
     <script>
         $('#loader').hide();
@@ -168,7 +170,7 @@
                 datatype: "json",
                 data: { id: $('#ddlWarehouse').val() },
                 success: function (data) {
-                    
+
                     $('#sparepartlst_div').html(data);
                     $('#loader').hide();
                 },
@@ -178,7 +180,7 @@
                 }
             });
         }
-        
+
     </script>
 }
 

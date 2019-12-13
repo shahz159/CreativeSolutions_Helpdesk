@@ -60,11 +60,11 @@
                                         )ViewData["ddlProductList"], "--Please Select --",
                                         new { id = "ddlProduct", @class = "form-control kt-select2", @onchange = "BindModels()" })
 
-                                                    @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
+                                                    @*@Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })*@
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="example-text-input" class="col-sm-2 col-form-label">System No / Serial No</label>
+                                                <label for="example-text-input" class="col-sm-2 col-form-label">System Id / Serial No</label>
                                                 <div class="col-sm-9">
                                                     @Html.DropDownListFor(model => model.AMId, (IEnumerable<SelectListItem>)ViewData["ddlModels"], "--Please Select --",
 new { id = "ddlModels", @class = "form-control select2-allow-clear" })
@@ -84,7 +84,16 @@ new { id = "ddlModels", @class = "form-control select2-allow-clear" })
                                             <div class="form-group row">
                                                 <label for="example-text-input" class="col-sm-2 col-form-label">Enter Description</label>
                                                 <div class="col-sm-9">
-                                                    @Html.TextBoxFor(m => m.Description, new { id = "txtlastname", @class = "form-control" })
+                                                    @Html.TextAreaFor(m => m.Description, new
+                                                    {
+                                                        id = "txtdescription",
+                                                   @class = "form-control",
+                                                        @rows = "4",
+                                                        @cols = "20",
+                                                        @onchange = "checkwhitespace()"
+                                                    })
+                                                    <p style="float: right;"><span id="spn_cnt">0</span>/1000</p>
+                                                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -102,11 +111,16 @@ new { id = "ddlModels", @class = "form-control select2-allow-clear" })
                                                 <label class="col-sm-2"></label>
                                                 <div class="col-sm-9">
                                                     <div class="custom-file">
-                                                        <input type="file" class="custom-file-input" id="customFile" name="TicketDocument" accept="image/x-png,image/gif,image/jpeg">
+                                                        <input type="file" class="custom-file-input" id="customFile" name="TicketDocument" accept="image/x-png,image/gif,image/jpeg" multiple>
                                                         <label id="file_value" class="custom-file-label text-left" for="customFile">Choose file</label>
                                                     </div>
                                                 </div>
                                             </div>
+                                            @*<div class="form-group row">
+                                                <div class="col-md-2">
+                                                    <img src="~/assets/images/default.jpg" alt=""/>
+                                                </div>
+                                            </div>*@
                                         </div>
                                         <div class="kt-portlet__foot">
                                             <div class="kt-form__actions">
@@ -140,8 +154,22 @@ new { id = "ddlModels", @class = "form-control select2-allow-clear" })
     <script src="~/assets/js/select2.js"></script>
 
     <script>
-        document.getElementById("loader").style.display = "none";
+        function checkwhitespace() {
+            var txt = $('#txtdescription').val();
+            var val = (txt === null || txt.match(/^ *$/) !== null);
+            if (val == true) {
+                $('#txtdescription').val('');
+            }
+        }
+        function isEmptyOrSpaces(str) {
+            return str === null || str.match(/^ *$/) !== null;
+        }
 
+        document.getElementById("loader").style.display = "none";
+        $("#txtdescription").keyup(function () {
+            var lnght = $('#txtdescription').val().length;
+            $('#spn_cnt').html(lnght);
+        });
         $("#customFile").change(function () {
             $("#file_value").text(this.files[0].name);
         });
@@ -169,15 +197,40 @@ new { id = "ddlModels", @class = "form-control select2-allow-clear" })
             }
             $("#customFile").on("change", function () {
                 debugger
-                var fileExtension = ['jpeg', 'jpg', 'PNG', 'png'];
-                if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
-                    $("#customFile").val(null);
-                    $('#file_value').html('Choose file');
-                    alert("Only '.jpeg','.jpg','png' formats are allowed.");
+                var fileUpload = document.getElementById("customFile");
+                var sub = 0;
+
+                for (var i = 0; i < fileUpload.files.length; i++) {
+                    var fileExtension = ['image/PNG','image/png','image/jpg','image/jpeg','jpeg', 'jpg', 'PNG', 'png'];
+                    var contentType = fileUpload.files.item(i).type;
+                    //alert(contentType);
+                    var valu = 0;
+
+                    for (var j = 0; j < fileExtension.length; j++) {
+                        if (contentType == fileExtension[j]) {
+                            valu = 1;
+                        }
+                    }
+                    if (valu == 0) {
+                        $("#customFile").val(null);
+                        $('#file_value').html('Choose file');
+                        valu = 0;
+                        alert("Only '.jpeg','.jpg','png' formats are allowed.");
+                        sub = 1;
+                    }
+
+                    //if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+                    //    $("#customFile").val(null);
+                    //    $('#file_value').html('Choose file');
+                    //    alert("Only '.jpeg','.jpg','png' formats are allowed.");
+                    //}
+                    //else {
+                    //    //var files = !!this.files ? this.files : [];
+                    //    //if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
+                    //}
                 }
-                else {
-                    //var files = !!this.files ? this.files : [];
-                    //if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
+                if (sub == 0) {
+                    $('#file_value').html(fileUpload.files.length +'  '+ 'files.');
                 }
             });
         });
