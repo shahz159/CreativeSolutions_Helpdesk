@@ -18,92 +18,23 @@
                 </span>
                 <h3 class="kt-portlet__head-title">Assets List</h3>
             </div>
-            <div class="kt-portlet__head-toolbar">
-                <div class="kt-portlet__head-wrapper">
-                    <div class="kt-portlet__head-actions">
-                        <a href="@Url.Action("NewAssest","Assets")" class="btn btn-brand btn-elevate btn-icon-sm">
-                            <i class="la la-plus"></i>
-                            New Asset
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="kt-portlet__body">
-            @*<div class="kt-form kt-form--label-right">
-                    <div class="row align-items-center">
-                        <div class="col-xl-12 order-2 order-xl-1">
-                            <div class="row align-items-center">
-                                <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
-                                    <div class="kt-form__group">
-                                        <div class="kt-form__label">
-                                            <label>Account</label>
-                                        </div>
-                                        <div class="kt-form__control">
-                                            <select class="form-control kt-select2" id="kt_select2_12">
-                                                <option>All</option>
-                                                <option>King Faisal Specialist Hospital - Riyadh</option>
-                                                <option>King Faisal Specialist Hospital - Jeddah</option>
-                                                <option>King Abdullah Bin Abdulaziz University Hospital</option>
-                                                <option>King Abdullah Medical City</option>
-                                                <option>King Fahad Specialist Hospital Dammam</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
-                                    <div class="kt-form__group">
-                                        <div class="kt-form__label">
-                                            <label>Product</label>
-                                        </div>
-                                        <div class="kt-form__control">
-                                            <select class="form-control kt-select2" id="kt_select2_13">
-                                                <option value="">All</option>
-                                                <option value="1">Script Pro</option>
-                                                <option value="2">JVM</option>
-                                                <option value="3">BAXTER-TPN</option>
-                                                <option value="4">TALYST</option>
-                                                <option value="5">PALEX</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
-                                    <div class="kt-form__group">
-                                        <div class="kt-form__label">
-                                            <label>Service Engineer</label>
-                                        </div>
-                                        <div class="kt-form__control">
-                                            <select class="form-control kt-select2" id="kt_select2_14">
-                                                <option>All</option>
-                                                <option>Vali Noor</option>
-                                                <option>Hajarath Vali</option>
-                                                <option>Noor Basha</option>
-                                                <option>Hussain Baig</option>
-                                                <option>Md Shujath</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
-                                    <div class="kt-form__group">
-                                        <div class="kt-form__label">
-                                            <label>Status</label>
-                                        </div>
-                                        <div class="kt-form__control">
-                                            <select class="form-control kt-select2" id="kt_select2_15">
-                                                <option value="">All</option>
-                                                <option value="1">New</option>
-                                                <option value="2">Inprogress</option>
-                                                <option value="3">Resolved</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+            @if (Model.RoleId != 505)
+            {
+                <div class="kt-portlet__head-toolbar">
+                    <div class="kt-portlet__head-wrapper">
+                        <div class="kt-portlet__head-actions">
+                            <a href="@Url.Action("NewAssest","Assets")" class="btn btn-brand btn-elevate btn-icon-sm">
+                                <i class="la la-plus"></i>
+                                New Asset
+                            </a>
                         </div>
                     </div>
-                </div>*@
+                </div>
+            }
+
+        </div>
+        <div class="kt-portlet__body">
+            
         </div>
         <div class="kt-portlet__body pt-0">
             <div class="table-responsive">

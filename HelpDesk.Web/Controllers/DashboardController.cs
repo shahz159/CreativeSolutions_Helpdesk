@@ -35,7 +35,7 @@ namespace HelpDesk.Web.Controllers
                     try
                     {
                         int userid = int.Parse(Session["SSUserId"].ToString());
-                        //int roleid = int.Parse(Session["SSRoleId"].ToString());
+                        int roleid = int.Parse(Session["SSRoleId"].ToString());
                         //int comid = int.Parse(Session["SSCompanyId"].ToString());
                         //int orgid = int.Parse(Session["SSOrganizationId"].ToString());
                         TicketDTO obj = new TicketDTO();
@@ -95,6 +95,7 @@ namespace HelpDesk.Web.Controllers
                                 }
                             }
                         }
+                        obj.RoleId = roleid;
                         return View(obj);
                     }
                     catch (Exception ex)

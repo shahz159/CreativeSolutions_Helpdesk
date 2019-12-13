@@ -1,5 +1,5 @@
 ﻿@model HelpDesk.Web.Models.TicketDTO
-@section Styles{}
+
 @foreach (var item in Model.TicketList)
 {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -47,11 +47,11 @@
                                             <i class="la la-clock-o"></i>
                                             Pause
                                         </a>
-                                        <a onclick="ViewSparePartRequestDiv()" href="#" class="btn btn-brand btn-elevate btn-icon-sm" data-toggle="modal" data-target="#kt_modal_4">
+                                        <a onclick="ViewSparePartRequestDiv()" class="btn btn-brand btn-elevate btn-icon-sm" data-toggle="modal" data-target="#kt_modal_4">
                                             <i class="la la-reply"></i>
                                             Request Spare Part
                                         </a>
-                                        <a onclick="UpdateStatus(6)" href="#" class="btn btn-brand btn-elevate btn-icon-sm">
+                                        <a onclick="UpdateStatus(6)" class="btn btn-brand btn-elevate btn-icon-sm">
                                             <i class="la la-check"></i>
                                             Resolve Ticket
                                         </a>
@@ -60,7 +60,7 @@
                                     {
                                         if (item.Status == 6)
                                         {
-                                            <a onclick="UpdateStatus(7)" href="#" class="btn btn-brand btn-elevate btn-icon-sm">
+                                            <a onclick="UpdateStatus(7)" class="btn btn-brand btn-elevate btn-icon-sm">
                                                 <i class="la la-check"></i>
                                                 Close Ticket
                                             </a>
@@ -70,19 +70,12 @@
                                     {
                                         if (item.Status == 6)
                                         {
-                                            <a href="#" class="btn btn-brand btn-elevate btn-icon-sm">
+                                            <a class="btn btn-brand btn-elevate btn-icon-sm">
                                                 <i class="la la-check"></i>
-                                                Resolve Ticket
+                                                Resolved
                                             </a>
                                         }
                                     }
-                                    @*@if (item.Status == 6)
-                                        {
-                                            <a onclick="UpdateStatus(7)" href="#" class="btn btn-brand btn-elevate btn-icon-sm">
-                                                <i class="la la-check"></i>
-                                                Resolve Ticket
-                                            </a>
-                                        }*@
                                 </div>
                             </div>
                         </div>
@@ -118,7 +111,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div id="Sparepartrequest_Div" style="display:none" class="kt-portlet__body">
                         <h2 class="mb-4">Spare Part Request</h2>
                         <div class="form-group mb-3">
@@ -247,8 +239,6 @@
                                             <p>
                                                 @item.Description
                                             </p>
-                                            @*@item.CreatedOn.ToString("MM/dd/yyyy")*@
-
                                         </div>
                                     </div>
                                 </div>
@@ -257,7 +247,6 @@
                             <div class="kt-widget__bottom">
                                 <ul class="ticketbar">
                                     @{
-
                                         int cntstatus = Model.StatusLst.Count();
                                         int deft = 1;
                                     }
@@ -274,9 +263,6 @@
 
                                         deft = deft + 1;
                                     }
-                                    @*<li class="active">New Ticket</li>
-                                        <li class="active">In Progress</li>
-                                        <li>Resolved</li>*@
                                 </ul>
                             </div>
                         </div>
@@ -333,6 +319,10 @@
                                 <td>: @item.TicketNumber</td>
                             </tr>
                             <tr>
+                                <td>Location</td>
+                                <td>: @item.Area</td>
+                            </tr>
+                            <tr>
                                 <td>Account</td>
                                 <td>: @item.AccountName</td>
                             </tr>
@@ -358,27 +348,31 @@
                             </tr>
                         </table>
                     </div>
-                    <div class="kt-portlet__head">
-                        <div class="kt-portlet__head-label">
-                            <h3 class="kt-portlet__head-title">
-                                Documents Attached
-                            </h3>
+                    @if (Model.UrlList.Count() > 0)
+                    {
+                        <div class="kt-portlet__head">
+                            <div class="kt-portlet__head-label">
+                                <h3 class="kt-portlet__head-title">
+                                    Documents Attached
+                                </h3>
+                            </div>
                         </div>
-                    </div>
-                    <div class="kt-portlet__body">
-                        <a data-toggle="modal" href="#full" class="text-dark">
-                            <i class="fa fa-file fa-3x" aria-hidden="true"></i>
-                            <h6 class="mt-2">Document</h6>
-                        </a>
-                    </div>
+                        <div class="kt-portlet__body">
+                            @foreach (var url_items in Model.UrlList)
+                            {
+                                <a data-toggle="modal" href="#full" onclick="ViewDocument(@url_items.Url, @url_items.ContentType)" class="text-dark">
+                                    <i class="fa fa-file fa-3x" aria-hidden="true"></i>
+                                    <h6 class="mt-2">Document</h6>
+                                </a>
+                            }
+                        </div>
+                    }
+
                 </div>
             </div>
         </div>
-        <!--begin:: Portlet-->
-        <!--end:: Portlet-->
         <div class="row">
             <div class="col-xl-12">
-                <!--begin:: Widgets/Order Statistics-->
                 <div class="kt-portlet kt-portlet--tabs kt-portlet--height-fluid">
                     <div class="kt-portlet__head">
                         <div class="kt-portlet__head-label">
@@ -389,7 +383,7 @@
                     </div>
                     <div class="kt-portlet__body">
                         <div class="kt-widget4">
-                            @if (Model.CommentsList != null)
+                            @if (Model.CommentsList.Count() > 0)
                             {
                                 foreach (var cmtitem in Model.CommentsList)
                                 {
@@ -410,7 +404,7 @@
                         </div>
                     </div>
                     <div class="kt-portlet__foot">
-                        <form>
+                        <div>
                             <h4 class="kt-portlet__head-title">Post A Comment</h4>
                             <div class="form-group">
                                 <textarea class="form-control" id="exampleTextarea" rows="3" placeholder="Type notes"></textarea>
@@ -420,12 +414,11 @@
                                     <a class="btn btn-label-brand btn-bold" onclick="AddComments(@item.TicketNumber)">Add notes</a>
                                 </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!--end:: Widgets/Order Statistics-->
     </div>
 
     <div class="modal fade" id="full" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
@@ -436,17 +429,15 @@
                     <h4 class="modal-title">Document</h4>
                 </div>
                 <div class="modal-body">
-
-                    <img style="width:99%;" src="@item.Url" />
-
+                    <div id="TextBoxContainerCategories4">
+                    </div>
+                    @*<img style="width:99%;" src="@item.Url" />*@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
                 </div>
             </div>
-            <!-- /.modal-content -->
         </div>
-        <!-- /.modal-dialog -->
     </div>
 
     <input type="hidden" id="hdnTicketNumber" value="@item.TicketNumber" />
@@ -457,13 +448,11 @@
 
 <script src="~/assets/js/bootstrap-datepicker.js"></script>
 <script src="~/assets/js/select2.js"></script>
-<script>
+<script type="text/javascript">
     $(document).ready(function () {
         document.getElementById("loader").style.display = "none";
-
         $('#ddlreportType,#ddlwarehouse,#ddlsparehouse,#ddlsparehouseA,#ddlwarehouseA').select2({
         });
-
         $('input[type=radio][name=warehouseASG]').change(function () {
             if (this.value == 'A') {
                 $('#assigned_warehouse_div').show();
@@ -474,7 +463,6 @@
                 $('#other_warehouse_div').show();
             }
         });
-
         var arrows;
         if (KTUtil.isRTL()) {
             arrows = {
@@ -487,17 +475,17 @@
                 rightArrow: '<i class="la la-angle-right"></i>'
             }
         }
-
-         $('#txtResponseTime').datetimepicker({
+        $('#txtResponseTime').datetimepicker({
             todayHighlight: true,
             autoclose: true,
             format: 'yyyy.mm.dd hh:ii'
-         });
-
-
-
+        });
     });
-
+    function ViewDocument(url, type) {
+        var district = "<div id='TextBoxContainerCategories4'>";
+        district = district + '<img style="width:99%;" src="' + url + '"/>'
+        return $('#TextBoxContainerCategories4').html(district);
+    }
     function AddComments() {
         document.getElementById("loader").style.display = "block";
         var Commentstext = $('#exampleTextarea').val();
@@ -529,9 +517,7 @@
             }
         });
     }
-
     function AddSparePartRequest() {
-        debugger
         var jsonary = [];
         $('#tbl_spareparts tr').each(function () {
             if (this.id != "") {
@@ -572,10 +558,8 @@
                 }
             });
         }
-
     }
-     function AddSparePartRequestA() {
-        debugger
+    function AddSparePartRequestA() {
         var jsonary = [];
         $('#tbl_spareparts_ag tr').each(function () {
             if (this.id != "") {
@@ -618,19 +602,9 @@
         }
 
     }
-
     function ViewSparePartRequestDiv() {
         $('#Sparepartrequest_Div').slideToggle();
-        //var hdn = $('#hdnAssignedWarehouseId').val();
-        //var radioValue = $("input[name='warehouseASG']:checked").val();
-        //if (radioValue=="A") {
-        //    $("#ddlwarehouseA").val(hdn).trigger('change');
-        //}
-        //else if (radioValue=="O") {
-        //    $("#ddlwarehouseO").val(hdn).trigger('change');
-        //}
     }
-
     function enablevaluesparepart(id) {
         $("#ddlsparehouse option[value*='" + id + "']").removeAttr('disabled');
         $('#' + id).remove();
@@ -698,7 +672,6 @@
             document.getElementById("loader").style.display = "none";
         }
     }
-
     function bindSparePartDataA() {
         document.getElementById("loader").style.display = "block";
         var sparepartid = $('#ddlsparehouseA').val();
@@ -754,7 +727,7 @@
             }
         });
     }
-    //Assigned Warehouse on change 
+    //Assigned Warehouse on change
     function bindSparePartsOnChange() {
          $.ajax({
             type: 'POST',
@@ -778,21 +751,7 @@
             }
         });
     }
-
-    //function bindsparepart(val) {
-    //    var warehouseid = 0;
-    //    if (val == 1) {
-    //        warehouseid = $('#ddlwarehouseA').val();
-    //    }
-    //    else if (val == 2) {
-    //        warehouseid = $('#ddlwarehouse').val();
-    //    }
-    //    var warehouseid = $('#hdnAssignedWarehouseId').val();
-    //    bindsparepartSubFuntion(warehouseid);
-    //}
-
     function bindsparepartSubFuntion() {
-        debugger
         document.getElementById("loader").style.display = "block";
 
         $.ajax({
@@ -818,7 +777,6 @@
             }
         });
     }
-
     function AddResponsetime() {
         var datetime = $('#txtResponseTime').val();
         var reportid = $('#ddlreportType').val();
@@ -855,10 +813,10 @@
     function ViewResponseDiv() {
         $('#AddResponseTime_Div').slideToggle();
     }
-    function UpdateStatus(val) {
+    async function UpdateStatus(val) {
         document.getElementById("loader").style.display = "block";
         var ticketnumber = $('#hdnTicketNumber').val();
-        $.ajax({
+        await $.ajax({
             type: 'POST',
             url: '@Url.Action("UpdateTicketStatus")', // we are calling json method
             dataType: 'json',
@@ -866,24 +824,21 @@
             success: function (data) {
                 var v = data.success;
                 if (v == true) {
-                    TicketDetails($('#hdnTicketNumber').val());
+                    document.getElementById("loader").style.display = "none";
+                    var ticketno = $('#hdnTicketNumber').val();
+                    TicketDetails(ticketno)
                 }
                 else {
+                    document.getElementById("loader").style.display = "none";
                     alert('Some thing went wrong');
                 }
-                document.getElementById("loader").style.display = "none";
             },
             error: function (ex) {
                 document.getElementById("loader").style.display = "none";
-                alert('Failed to retrieve models.' + ex);
+                alert('Failed to retrieve details.' + ex);
             }
         });
     }
-    function readmre(id) {
-            $("#" + id).text(($("#" + id).text() == 'Read Less') ? 'Read More' : 'Read Less');
-            $("#div_" + id).slideToggle();
-        }
-
 </script>
 
 

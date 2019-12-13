@@ -20,7 +20,7 @@ namespace HelpDesk.API.Controllers
         /// <summary>
         /// New Ticket Request
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="obj"></param>NewSystemUserTickets
         /// <returns></returns>
         [ResponseType(typeof(TicketDTO))]
         public IHttpActionResult NewInsertTicketRequest(TicketDTO obj)

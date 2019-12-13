@@ -14,10 +14,11 @@ namespace HelpDesk.Web.Models
         public int ModelId { get; set; }
         public string message { get; set; }
         public string datasetxml { get; set; }
-        public string Description { get; set; }        
 
         [Required(ErrorMessage = "required", AllowEmptyStrings = false)]
-        public int ProductId { get; set; }
+        public string Description { get; set; }
+
+        public int? ProductId { get; set; }
 
         [Required(ErrorMessage = "required")]
         public int AMId { get; set; }
@@ -37,6 +38,7 @@ namespace HelpDesk.Web.Models
         public long CreatedBy { get; set; }
         public int OrganizationId { get; set; }
         public string Url { get; set; }
+        public string multipledocuments_xml { get; set; }
         public string ContentType { get; set; }
         public long TicketNumber { get; set; }
         public string Comments { get; set; }
@@ -45,11 +47,13 @@ namespace HelpDesk.Web.Models
         public string ModelName { get; set; }
         public string SystemNo { get; set; }
         public string FullName { get; set; }
+        public string Area { get; set; }
         public string ProductName { get; set; }
         public IEnumerable<TicketDTO> TicketList { get; set; }
         public IEnumerable<TicketDTO> ProductList { get; set; }
         public IEnumerable<TicketDTO> ModelList { get; set; }
         public IEnumerable<TicketDTO> ReportList { get; set; }
+        public IEnumerable<TicketDTO> UrlList { get; set; }
         public long UserId { get; set; }
         public string SerialNo { get; set; }
         public DateTime CreatedOn { get; set; }
