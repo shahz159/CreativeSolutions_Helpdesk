@@ -1,0 +1,150 @@
+﻿@model HelpDesk.Web.Models.LoginDTO
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>login</title>
+    <link href="~/assets/css/login.css" rel="stylesheet" />
+    <link href="~/assets/plugins/global/plugins.bundle.css" rel="stylesheet" />
+    <link href="~/assets/css/style.bundle.css" rel="stylesheet" />
+    <style>
+        .kt-login__btn-primary {
+            line-height: 30px;
+        }
+    </style>
+</head>
+<body class="kt-page--loading-enabled kt-page--loading kt-header--fixed kt-header--minimize-topbar kt-header-mobile--fixed kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-subheader--enabled kt-subheader--transparent kt-page--loading">
+    
+    <div class="kt-grid kt-grid--ver kt-grid--root kt-page">
+        <div class="kt-grid kt-grid--hor kt-grid--root  kt-login kt-login--v1" id="kt_login">
+            <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--desktop kt-grid--ver-desktop kt-grid--hor-tablet-and-mobile">
+
+                <!--begin::Aside-->
+                <div class="kt-grid__item kt-grid__item--order-tablet-and-mobile-2 kt-grid kt-grid--hor kt-login__aside" style="background-image: url(http://csadms.com/AHCHelpdesk/assets/images/login-bg.jpg);">
+                    
+                    <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver">
+                        <div class="kt-grid__item kt-grid__item--middle">
+                            <h3 class="kt-login__title">Welcome to AHC Helpdesk!</h3>
+                            <h4 class="kt-login__subtitle">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                tempor incididunt ut labore et dolore magna aliqua.
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="kt-grid__item">
+                        <div class="kt-login__info">
+                            <div class="kt-login__copyright">
+                                &copy 2018 AHC Helpdesk.
+                            </div>
+                            <div class="kt-login__menu">
+                                <a href="#" class="kt-link">Privacy</a>
+                                <a href="#" class="kt-link">Legal</a>
+                                <a href="#" class="kt-link">Contact</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 
+                <div class="kt-grid__item kt-grid__item--fluid  kt-grid__item--order-tablet-and-mobile-1  kt-login__wrapper">
+                    @using (Html.BeginForm("Index", "Login", FormMethod.Post))
+                    {
+                    <div class="kt-login__body">
+
+                        <!--begin::Signin-->
+                        <div class="kt-login__form">
+                            <!--begin::Form-->
+                            <div class="kt-form" action="" novalidate="novalidate" id="kt_login_form">
+                                <div class="form-group">
+                                    @*<input class="form-control" type="text" placeholder="Username" name="username" autocomplete="off">*@
+                                    <input name="Email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+                                </div>
+                                <div class="form-group">
+                                    @*<input class="form-control" type="password" placeholder="Password" name="password" autocomplete="off">*@
+                                    <input name="Password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                                </div>
+
+                                <div class="kt-login__options mt-5">
+                                    @*<a href="/Home" class="btn btn-primary btn-font-md kt-btn">
+                        Login
+                    </a>*@
+                                    <input type="submit" class="btn btn-lg btn-primary btn-block text-uppercase" value="Login" />
+                                </div>
+                            </div>
+
+                            <!--begin::Divider-->
+                            <div class="kt-login__divider">
+                                <div class="kt-divider">
+                                    <span></span>
+                                    <span>OR</span>
+                                    <span></span>
+                                </div>
+                            </div>
+                            <!--end::Divider-->
+                            <!--begin::Options-->
+                            <!--begin::Action-->
+                            <div class="kt-login__actions">
+                                <a href="/Home/ForgetPassword" class="kt-link kt-login__link-forgot">
+                                    Forgot Password ?
+                                </a>
+                                <a href="@Url.Action("Signup","Login")" class="btn btn-primary btn-elevate kt-login__btn-primary">Signup</a>
+                            </div>
+                            <!--end::Action-->
+                            <!--end::Options-->
+                        </div>
+
+
+                        <!--end::Signin-->
+                    </div>
+                    }
+                    
+
+                    <!--end::Body-->
+                </div>
+                <!--end::Content-->
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        var KTAppOptions = {
+            "colors": {
+                "state": {
+                    "brand": "#3d94fb",
+                    "light": "#ffffff",
+                    "dark": "#282a3c",
+                    "primary": "#5867dd",
+                    "success": "#34bfa3",
+                    "info": "#3d94fb",
+                    "warning": "#ffb822",
+                    "danger": "#fd27eb"
+                },
+                "base": {
+                    "label": ["#c5cbe3", "#a1a8c3", "#3d4465", "#3e4466"],
+                    "shape": ["#f0f3ff", "#d9dffa", "#afb4d4", "#646c9a"]
+                }
+            }
+        };
+    </script>
+
+    <!-- end::Global Config -->
+    <!--begin::Global Theme Bundle(used by all pages) -->
+    <script src="~/assets/plugins/global/plugins.bundle.js"></script>
+    <script src="~/assets/js/scripts.bundle.js"></script>
+
+    <!--end::Global Theme Bundle -->
+    <!--begin::Page Scripts(used by this page) -->
+    @*<script src="assets/js/pages/custom/login/login-1.js" type="text/javascript"></script>*@
+
+    <!--end::Page Scripts -->
+</body>
+</html>
+
+
+
+ 

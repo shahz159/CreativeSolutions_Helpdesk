@@ -274,6 +274,11 @@
     <Content Include="Views\Inventory\SparePartsOverview.cshtml" />
     <Content Include="Views\Assets\ApprovalAssets.cshtml" />
     <Content Include="Views\Ticket\ServiceReportPreviewPV.cshtml" />
+    <Content Include="Views\Ticket\NewEnquiry.cshtml" />
+    <Content Include="Views\Ticket\Enquiries.cshtml" />
+    <Content Include="Views\Ticket\EnquiryDetailsPV.cshtml" />
+    <Content Include="Views\Inventory\SparePartDetailsPV.cshtml" />
+    <Content Include="Views\Inventory\ConsignmentApproval.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -5,71 +5,68 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <!-- begin:: Content -->
-<div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
-    <div class="kt-portlet">
-        <div class="kt-portlet__head kt-portlet__head--lg">
-            <div class="kt-portlet__head-label">
-                <span class="kt-portlet__head-icon">
-                    <i class="kt-font-brand flaticon2-line-chart"></i>
-                </span>
-                <h3 class="kt-portlet__head-title">Spare Part List</h3>
-            </div>
-            @if (Model.RoleId == 502)
-            {
-                <div class="kt-portlet__head-toolbar">
-                    <div class="kt-portlet__head-wrapper">
-                        <div class="kt-portlet__head-actions">
-                            <a href="@Url.Action("NewSparePart","Inventory")" class="btn btn-brand btn-elevate btn-icon-sm">
-                                <i class="la la-plus"></i>
-                                New Spare Part
-                            </a>
+    <div id="upper_div" class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
+        <div  class="kt-portlet">
+            <div class="kt-portlet__head kt-portlet__head--lg">
+                <div class="kt-portlet__head-label">
+                    <span class="kt-portlet__head-icon">
+                        <i class="kt-font-brand flaticon2-line-chart"></i>
+                    </span>
+                    <h3 class="kt-portlet__head-title">Spare Part List</h3>
+                </div>
+                @if (Model.RoleId == 502)
+                {
+                    <div class="kt-portlet__head-toolbar">
+                        <div class="kt-portlet__head-wrapper">
+                            <div class="kt-portlet__head-actions">
+                                <a href="@Url.Action("NewSparePart","Inventory")" class="btn btn-brand btn-elevate btn-icon-sm">
+                                    <i class="la la-plus"></i>
+                                    New Spare Part
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
-        </div>
-        <div class="kt-portlet__body">
-            <div class="kt-form kt-form--label-right">
-                <div class="row align-items-center">
-                    <div class="col-xl-12 order-2 order-xl-1">
-                        <div class="row align-items-center">
-                            <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
-                                <div class="kt-form__group">
-                                    <div class="kt-form__label">
-                                        <label>Warehouse</label>
-                                    </div>
-                                    <div class="kt-form__control">
-                                        <select id="ddlWarehouse" class="form-control" onchange="BindList()">
-                                            @if (Model.WarehouseList != null)
-                                            {
-                                                if (Model.RoleId == 502)
+                }
+            </div>
+            <div class="kt-portlet__body">
+                <div class="kt-form kt-form--label-right">
+                    <div class="row align-items-center">
+                        <div class="col-xl-12 order-2 order-xl-1">
+                            <div class="row align-items-center">
+                                <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
+                                    <div class="kt-form__group">
+                                        <div class="kt-form__label">
+                                            <label>Warehouse</label>
+                                        </div>
+                                        <div class="kt-form__control">
+                                            <select id="ddlWarehouse" class="form-control" onchange="BindList()">
+                                                @if (Model.WarehouseList != null)
                                                 {
-                                                    foreach (var rptr in Model.WarehouseList)
+                                                    if (Model.RoleId == 502)
                                                     {
-                                                        <option value="@rptr.WarehouseId">@rptr.WarehouseName</option>
+                                                        foreach (var rptr in Model.WarehouseList)
+                                                        {
+                                                            <option value="@rptr.WarehouseId">@rptr.WarehouseName</option>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <optgroup label="Assigned">
+                                                            @foreach (var rptr in Model.WarehouseList.Where(x => x.Gruop == "Assigned"))
+                                                            {
+                                                                <option value="@rptr.WarehouseId">@rptr.WarehouseName</option>
+                                                            }
+                                                        </optgroup>
+                                                        <optgroup label="Other">
+                                                            @foreach (var rptr in Model.WarehouseList.Where(x => x.Gruop == "Other"))
+                                                            {
+                                                                <option value="@rptr.WarehouseId">@rptr.WarehouseName</option>
+                                                            }
+                                                        </optgroup>
                                                     }
                                                 }
-                                                else
-                                                {
-                                                    <optgroup label="Assigned">
-                                                        @foreach (var rptr in Model.WarehouseList.Where(x => x.Gruop == "Assigned"))
-                                                        {
-                                                            <option value="@rptr.WarehouseId">@rptr.WarehouseName</option>
-                                                        }
-                                                    </optgroup>
-                                                    <optgroup label="Other">
-                                                        @foreach (var rptr in Model.WarehouseList.Where(x => x.Gruop == "Other"))
-                                                        {
-                                                            <option value="@rptr.WarehouseId">@rptr.WarehouseName</option>
-                                                        }
-                                                    </optgroup>
-                                                }
-                                            }
-                                        </select>
-
-                                        @*@Html.DropDownListFor(model => model.WarehouseId, (IEnumerable<SelectListItem>
-                                            )ViewData["ddlWarehouseLst"], "--Please Select --",
-                                            new { id = "ddlWarehouse", @class = "form-control kt-select2", @onchange = "BindList()" })*@
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -77,70 +74,15 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="kt-portlet__body pt-0">
-            <div id="sparepartlst_div">
+            <div class="kt-portlet__body pt-0">
+                <div id="sparepartlst_div">
 
+                </div>
             </div>
         </div>
-        @*<div class="kt-portlet__foot">
-                <div class="kt-section">
-                    <p class="kt-section__content">
-                        <div class="kt-pagination  kt-pagination--brand">
-                            <ul class="kt-pagination__links">
-                                <li class="kt-pagination__link--first">
-                                    <a href="#"><i class="fa fa-angle-double-left kt-font-brand"></i></a>
-                                </li>
-                                <li class="kt-pagination__link--next">
-                                    <a href="#"><i class="fa fa-angle-left kt-font-brand"></i></a>
-                                </li>
-                                <li class="kt-pagination__link--active">
-                                    <a href="#">1</a>
-                                </li>
-                                <li>
-                                    <a href="#">2</a>
-                                </li>
-                                <li>
-                                    <a href="#">3</a>
-                                </li>
-                                <li>
-                                    <a href="#">...</a>
-                                </li>
-
-                                <li>
-                                    <a href="#">10</a>
-                                </li>
-                                <li>
-                                    <a href="#">11</a>
-                                </li>
-                                <li>
-                                    <a href="#">12</a>
-                                </li>
-                                <li class="kt-pagination__link--prev">
-                                    <a href="#"><i class="fa fa-angle-right kt-font-brand"></i></a>
-                                </li>
-                                <li class="kt-pagination__link--last">
-                                    <a href="#"><i class="fa fa-angle-double-right kt-font-brand"></i></a>
-                                </li>
-                            </ul>
-                            <div class="kt-pagination__toolbar">
-                                <select class="form-control kt-font-brand" style="width: 60px;">
-                                    <option value="10">10</option>
-                                    <option value="20">20</option>
-                                    <option value="30">30</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                </select>
-                                <span class="pagination__desc">
-                                    Displaying 10 of 230 records
-                                </span>
-                            </div>
-                        </div>
-                    </p>
-                </div>
-            </div>*@
+        
     </div>
-</div>
+    <div id="details_div"></div>
 
 @section  Scripts{
     <script src="~/assets/js/datatables.bundle.js"></script>
@@ -160,7 +102,73 @@
                 return false;
             }
         });
+        function Sparepartdetails(id) {
+            document.getElementById("loader").style.display = "block";
+            $.ajax({
+                type: "Post",
+                url: '@Url.Action("SparePartDetails")',
+                datatype: "json",
+                data: { id: id },
+                success: function (data) {
+                    
+                    $('#upper_div').hide();
+                    $('#details_div').show('');
 
+                    $('#details_div').html('');
+                    $('#details_div').html(data);
+                    document.getElementById("loader").style.display = "none";
+                },
+                error: function () {
+                    alert('error');
+                    $('#details_div').html('');
+                    document.getElementById("loader").style.display = "none";
+                }
+            });
+        }
+        function CloseDetails() {
+            $('#upper_div').show();
+            $('#details_div').hide('');
+        }
+         function AddConsignment() {
+
+        document.getElementById("loader").style.display = "block";
+        var Commentstext = $('#exampleTextarea').val();
+
+        if (Commentstext == "") {
+            alert('Fields Required');
+            document.getElementById("loader").style.display = "none";
+            return false;
+        }
+
+        var Quantity = $('#txtquantity').val();
+        if (Quantity == "" && Quantity ==0) {
+             alert('Fields Required');
+            document.getElementById("loader").style.display = "none";
+            return false;
+        }
+
+        $.ajax({
+            type: "Post",
+            url: '@Url.Action("NewConsignmentJson")',
+            datatype: "json",
+            data: { txt: Commentstext,Quantity:Quantity ,SparePartId: $('#hdnSparePartId').val() },
+            success: function (data) {
+                var v = data.success;
+                if (v == true) {
+                    Sparepartdetails($('#hdnSparePartId').val());
+                }
+                else {
+                    alert('Some thing went wrong');
+                }
+                document.getElementById("loader").style.display = "none";
+            },
+            error: function () {
+                alert('error');
+                document.getElementById("loader").style.display = "none";
+            }
+        });
+
+    }
        //document.getElementById("loader").style.display = "block";
         function BindList() {
             $('#loader').show();

@@ -265,6 +265,39 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
+        public string GetEnquiryList(TicketDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@CompanyId",obj.CompanyId),
+                new SqlParameter("@UserId",obj.UserId),
+                new SqlParameter("@RoleId",obj.RoleId)
+                };
+                return DbConnector.ExecuteDataSet("uspGetEnquiries", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "TicketModel -> GetEnquiryList");
+                return null;
+            }
+        }
+
+        public string GetEnquiryDetails(TicketDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@EnquiryId",obj.EnquiryId)
+                };
+                return DbConnector.ExecuteDataSet("uspGetEnquiryDetails", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "TicketModel -> GetEnquiryDetails");
+                return null;
+            }
+        }
 
         
         public string GetServiceEngineerTicketsFilerts(TicketDTO obj)
@@ -316,6 +349,44 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
+
+
+        public SqlDataReader AddEnquirycomments(TicketDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@UserId",obj.UserId),
+                new SqlParameter("@EnquiyId",obj.EnquiryId),
+                new SqlParameter("@Comments",obj.message)
+                };
+                return DbConnector.ExecuteReader("uspAddEnquiryComments", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "TicketModel -> AddEnquirycomments");
+                return null;
+            }
+        }
+        public SqlDataReader AddEnquiry(TicketDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@ProductId",obj.ProductId),
+                new SqlParameter("@AMId",obj.AMId),
+                new SqlParameter("@Comments",obj.message),
+                new SqlParameter("@UserId",obj.UserId),
+                new SqlParameter("@CompanyId",obj.CompanyId),
+                };
+                return DbConnector.ExecuteReader("uspAddEnquiry", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "TicketModel -> AddEnquiry");
+                return null;
+            }
+        }
     }
 
     public interface ITicketModel
@@ -335,12 +406,17 @@ namespace HelpDesk.API.DataAccess
 
         string GetServiceEngineerTickets(TicketDTO obj);
         string GetSparePartRequestTickets(TicketDTO obj);
+        string GetEnquiryList(TicketDTO obj);
+        string GetEnquiryDetails(TicketDTO obj);
         string GetServiceEngineerTicketsFilerts(TicketDTO obj);
         string GetTicketDetails(TicketDTO obj);
         string GetSparePartListByWarehouseId(TicketDTO obj);
 
         SqlDataReader AddSparePartRequest(TicketDTO obj);
         SqlDataReader Addcomments(TicketDTO obj);
+
+        SqlDataReader AddEnquirycomments(TicketDTO obj);
+        SqlDataReader AddEnquiry(TicketDTO obj);
     }
 }
 

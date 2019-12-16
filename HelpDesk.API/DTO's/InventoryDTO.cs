@@ -7,12 +7,16 @@ namespace HelpDesk.API.DTO_s
 {
     public class InventoryDTO
     {
+        public int Statusid { get; set; }
+        public long ConsignmentId { get; set; }
         public string message { get; set; }
         public int WarehouseId { get; set; }
         public string WarehouseName { get; set; }
         public string WarehouseCode { get; set; }
         public bool Status { get; set; }
         public long CreatedBy { get; set; }
+        public int OrganizationId { get; set; }
+
         public int FlagId { get; set; }
         public int Organizationid { get; set; }
 
@@ -20,9 +24,11 @@ namespace HelpDesk.API.DTO_s
         public int Quantity { get; set; }
         public int BaseQuantity { get; set; }
         public long SparePartId { get; set; }
+        public string Comments { get; set; }
+
         public string SparePartName { get; set; }
         public string SparePartNumber { get; set; }
         public string Price { get; set; }
-
+        public string ConsignmentsJson { get; set; }
     }
 }

@@ -29,12 +29,19 @@ namespace HelpDesk.API.Controllers
             return Ok(result);
         }
 
+        [ResponseType(typeof(InventoryDTO))]
+        public IHttpActionResult NewInsertConsignment(InventoryDTO obj)
+        {
+            var result = service.InsertUpdateConsignment(obj);
+            return Ok(result);
+        }
+
         /// <summary>
         /// get spare part details by id
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-         
+
         [ResponseType(typeof(InventoryDTO))]
         public IHttpActionResult NewGetSparePartDetailsById(InventoryDTO obj)
         {
@@ -51,6 +58,13 @@ namespace HelpDesk.API.Controllers
         public IHttpActionResult NewSparePartList(InventoryDTO obj)
         {
             var result = service.SparePartList(obj);
+            return Ok(result);
+        }
+
+        [ResponseType(typeof(InventoryDTO))]
+        public IHttpActionResult NewConsignmentList(InventoryDTO obj)
+        {
+            var result = service.ConsignmentList(obj);
             return Ok(result);
         }
 
@@ -74,6 +88,14 @@ namespace HelpDesk.API.Controllers
         public IHttpActionResult NewCheckSparePartName(InventoryDTO obj)
         {
             var detail = service.CheckSparePartName(obj);
+            return Ok(detail);
+        }
+
+
+        [ResponseType(typeof(InventoryDTO))]
+        public IHttpActionResult NewConsignmentStatus(InventoryDTO obj)
+        {
+            var detail = service.ConsignmentStatus(obj);
             return Ok(detail);
         }
 

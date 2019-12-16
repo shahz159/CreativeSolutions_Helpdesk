@@ -520,7 +520,9 @@ namespace HelpDesk.Web.Controllers
                                             Accountsxml = dataRow.Field<string>("AccountsJson"),
                                             Productsxml = dataRow.Field<string>("ProductsJson"),
                                             SignUp = dataRow.Field<bool>("SignUp"),
-                                            UserId = dataRow.Field<long>("UserId")
+                                            UserId = dataRow.Field<long>("UserId"),
+                                            ProductName = dataRow.Field<string>("ProductsddlJson"),
+                                            AccountName = dataRow.Field<string>("AccountsddlJson"),
                                         }).ToList();
                                         obj.UsersList = userdetailslst;
                                         string accountsjson = obj.UsersList.FirstOrDefault().Accountsxml;
@@ -530,7 +532,17 @@ namespace HelpDesk.Web.Controllers
                                         string productsjson = obj.UsersList.FirstOrDefault().Productsxml;
                                         var model_pro = JsonConvert.DeserializeObject<List<UserDTO>>(productsjson);
                                         obj.ProductList = model_pro;
+
+
+                                        string accountsjsonddl = obj.UsersList.FirstOrDefault().AccountName;
+                                        var modelddl = JsonConvert.DeserializeObject<List<UserDTO>>(accountsjsonddl);
+                                        obj.AccountddlList = modelddl;
+
+                                        string productsjsonddl = obj.UsersList.FirstOrDefault().ProductName;
+                                        var model_prpddl = JsonConvert.DeserializeObject<List<UserDTO>>(productsjsonddl);
+                                        obj.ProductddlList = model_prpddl;
                                     }
+
                                     else
                                         obj.UsersList = userdetailslst;
                                 }
@@ -688,6 +700,39 @@ namespace HelpDesk.Web.Controllers
 
                     bool status = false;
                     HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/UserAPI/NewRemoveAccountOrProduct", obj);
+                    if (responseMessage.IsSuccessStatusCode)
+                    {
+                        var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                        var model = JsonConvert.DeserializeObject<AssetsDTO>(responseData);
+                        string msg = model.message;
+                        if (msg == "1")
+                            status = true;
+                        else if (msg == "2")
+                        {
+                            status = false;
+                        };
+                    }
+                    return Json(new { success = status });
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { success = false });
+                }
+            }
+        }
+
+        public async Task<JsonResult> AddProducts(long id,int ProductId)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                CommonHeader.setHeaders(client);
+                try
+                {
+                    UserDTO obj = new UserDTO();
+                    obj.UserId = id;
+                    obj.ProductId = ProductId;
+                    bool status = false;
+                    HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/UserAPI/NewAddUserProduct", obj);
                     if (responseMessage.IsSuccessStatusCode)
                     {
                         var responseData = responseMessage.Content.ReadAsStringAsync().Result;

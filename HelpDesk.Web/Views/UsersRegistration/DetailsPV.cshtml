@@ -61,7 +61,7 @@
                                 Accounts List
                             </h3>
                         </div>
-                        @if (item.SignUp == false)
+                        @*@if (item.SignUp == false)
                         {
                             <div class="kt-portlet__head-toolbar">
                                 <div class="kt-portlet__head-wrapper">
@@ -72,7 +72,7 @@
                                     </div>
                                 </div>
                             </div>
-                        }
+                        }*@
                     </div>
                     <div class="kt-portlet__body kt-portlet__body--fluid">
                         <div class="table-responsive">
@@ -80,23 +80,23 @@
                                 <thead>
                                     <tr>
                                         <th>Account Name</th>
-                                        @if (item.SignUp == false)
+                                        @*@if (item.SignUp == false)
                                         {
                                             <th>Actions</th>
-                                        }
+                                        }*@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr id="AddNew_tr" style="display:none;">
+                                    @*<tr id="AddNew_tr" style="display:none;">
                                         <td colspan="2">
-
                                             <div class="form-group mb-0 row">
                                                 <div class="col-sm-9">
                                                     <div class="input-group">
-                                                        <select class="form-control kt-select2" id="ddlEdAccount">
-                                                            <option value="M">Male</option>
-                                                            <option value="F">Female</option>
-                                                            <option value="O">Other</option>
+                                                        <select class="form-control kt-select2" id="ddlAccountUP">
+                                                            @foreach (var accountsddl in Model.AccountddlList)
+                                                            {
+                                                                <option value="@accountsddl.AccountId">@accountsddl.AccountName</option>
+                                                            }
                                                         </select>
                                                     </div>
                                                 </div>
@@ -104,23 +104,22 @@
                                                     <a class="btn btn-label-brand btn-bold">Submit</a>
                                                 </div>
                                             </div>
-
                                         </td>
-                                    </tr>
+                                    </tr>*@
                                     @if (Model.AccountList != null)
                                     {
                                         foreach (var itemacc in Model.AccountList)
                                         {
                                             <tr id="tra_@itemacc.MUPId">
                                                 <td>@itemacc.AccountName</td>
-                                                @if (item.SignUp == false)
+                                                @*@if (item.SignUp == false)
                                                 {
                                                     <td>
-                                                        <a href="#" onclick="RemoveAccountProduct(@itemacc.MUACId,1)">
+                                                        <a onclick="RemoveAccountProduct(@itemacc.MUACId,1)">
                                                             <i class="la la-trash la-2x"></i>
                                                         </a>
                                                     </td>
-                                                }
+                                                }*@
                                             </tr>
                                         }
                                     }
@@ -134,18 +133,19 @@
                                 Products List
                             </h3>
                         </div>
-                        @if (item.SignUp == false)
-                        {
-                            <div class="kt-portlet__head-toolbar">
-                                <div class="kt-portlet__head-wrapper">
-                                    <div class="kt-portlet__head-actions">
-                                        <a onclick="AddProductDiv()" class="btn btn-brand btn-sm btn-icon">
-                                            <i class="la la-plus"></i>
-                                        </a>
-                                    </div>
+
+                        <div class="kt-portlet__head-toolbar">
+                            <div class="kt-portlet__head-wrapper">
+                                <div class="kt-portlet__head-actions">
+                                    <a onclick="AddProductDiv()" class="btn btn-brand btn-sm btn-icon">
+                                        <i class="la la-plus"></i>
+                                    </a>
                                 </div>
                             </div>
-                        }
+                        </div>
+                        @*@if (item.SignUp == false)
+                        {
+                        }*@
                     </div>
                     <div class="kt-portlet__body kt-portlet__body--fluid">
                         <div class="table-responsive">
@@ -164,18 +164,18 @@
                                             <div class="form-group mb-0 row">
                                                 <div class="col-sm-9">
                                                     <div class="input-group">
-                                                        <select class="form-control kt-select2" id="ddlEdAccount">
-                                                            <option value="M">Male</option>
-                                                            <option value="F">Female</option>
-                                                            <option value="O">Other</option>
+                                                        <select class="form-control kt-select2" id="ddlProductsUP">
+                                                            @foreach (var productsddl in Model.ProductddlList)
+                                                            {
+                                                                <option value="@productsddl.ProductId"> @productsddl.ProductName </option>
+                                                            }
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3">
-                                                    <a class="btn btn-label-brand btn-bold">Submit</a>
+                                                    <a onclick="AddProductsUP(@item.UserId)" class="btn btn-label-brand btn-bold">Submit</a>
                                                 </div>
                                             </div>
-
                                         </td>
                                     </tr>
                                     @if (Model.ProductList != null)
@@ -262,10 +262,8 @@
     <script>
         $(document).ready(function () {
             //set initial state.
-            $('#ddlEdAccount').select2();
+            $('#ddlProductsUP').select2();
         });
-
       
-
     </script>
 }

@@ -188,7 +188,7 @@ namespace HelpDesk.Web.Controllers
                     CommonHeader.setHeaders(client);
                     try
                     {
-                         
+
                         if (TicketDocument != null)
                         {
                             var xmldoc_docs = new XmlDocument();
@@ -197,7 +197,7 @@ namespace HelpDesk.Web.Controllers
 
                             foreach (HttpPostedFileBase item in TicketDocument)
                             {
-                                if (item==null)
+                                if (item == null)
                                 {
                                     obj.ContentType = "";
                                     obj.Url = "";
@@ -551,9 +551,23 @@ namespace HelpDesk.Web.Controllers
                                             SparePartRequestJson = dataRow.Field<string>("SparePartRequestJson"),
                                             StatusJson = dataRow.Field<string>("StatusJson"),
                                             commentsjson = dataRow.Field<string>("commentsjson"),
-                                            Area = dataRow.Field<string>("Area")
+                                            Area = dataRow.Field<string>("Area"),
+                                            CreatedUserId = dataRow.Field<long>("CreatedUserId"),
+                                            Mobile = dataRow.Field<string>("Mobile"),
+                                            Email = dataRow.Field<string>("Email"),
+                                            POContract = dataRow.Field<string>("POContract"),
+                                            InstallationDate = dataRow.Field<string>("InstallationDate"),
+                                            IsContract = dataRow.Field<bool>("IsContract"),
+                                            WarrantyExpiryDate = dataRow.Field<string>("WarrantyExpiryDate"),
+                                            PPMDate = dataRow.Field<string>("PPMDate"),
+                                            ServiceStartDate = dataRow.Field<string>("ServiceStartDate"),
+                                            ReportTypeName = dataRow.Field<string>("ReportTypeName"),
+                                            ServiceEngineerResolvedDate = dataRow.Field<string>("ServiceEngineerResolvedDate"),
+                                            CustomerConfirmationDate = dataRow.Field<string>("CustomerConfirmationDate"),
+                                            ManagerConfirmationDate = dataRow.Field<string>("ManagerConfirmationDate"),
+                                            ManagerName = dataRow.Field<string>("ManagerName"),
+                                            Actioncomments = dataRow.Field<string>("Actioncomments")
                                         }).ToList();
-
 
                                         obj.TicketList = tickettlst;
 
@@ -1048,7 +1062,7 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
-        public async Task<ActionResult> UpdateTicketStatus(int id, long TicketNumber)
+        public async Task<ActionResult> UpdateTicketStatus(int id, long TicketNumber, string comments)
         {
             string ses = Convert.ToString(Session["SSUserId"]);
             if (string.IsNullOrEmpty(ses))
@@ -1069,7 +1083,7 @@ namespace HelpDesk.Web.Controllers
                         obj.CreatedBy = userid;
                         obj.Status = id;
                         obj.TicketNumber = TicketNumber;
-                        obj.Comments = "";
+                        obj.Comments = comments;
 
                         bool status = false;
                         HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/TicketsAPI/NewUpdateTicketStatus", obj);
@@ -1401,6 +1415,358 @@ namespace HelpDesk.Web.Controllers
             TicketDTO obj = new TicketDTO();
             obj.TicketNumber = TicketNumber;
             return PartialView("ServiceReportPreviewPV", obj);
+        }
+
+        public async Task<ActionResult> NewEnquiry()
+        {
+            TicketDTO obj = new TicketDTO();
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                      
+                        int userid = int.Parse(Session["SSUserId"].ToString());
+                        int roleid = int.Parse(Session["SSRoleId"].ToString());
+                        int comid = int.Parse(Session["SSCompanyId"].ToString());
+                        int orgid = int.Parse(Session["SSOrganizationId"].ToString());
+                        obj.CreatedBy = userid;
+                        obj.CompanyId = comid;
+                        obj.OrganizationId = orgid;
+
+                        List<TicketDTO> tickettlst = new List<TicketDTO>();
+                        List<TicketDTO> productlst = new List<TicketDTO>();
+                        List<TicketDTO> accountlst = new List<TicketDTO>();
+                        List<TicketDTO> companylst = new List<TicketDTO>();
+
+                        HttpResponseMessage responseMessageViewDocuments = await client.PostAsJsonAsync("api/TicketsAPI/NewSystemUserProducts", obj);
+                        if (responseMessageViewDocuments.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessageViewDocuments.Content.ReadAsStringAsync().Result;
+                            var docs = JsonConvert.DeserializeObject<TicketDTO>(responseData);
+
+                            var data = docs.datasetxml;
+                            if (data != null)
+                            {
+                                var document = new XmlDocument();
+                                document.LoadXml(data);
+                                DataSet ds = new DataSet();
+                                ds.ReadXml(new XmlNodeReader(document));
+                                if (ds.Tables.Count > 0)
+                                {
+                                    SelectList ddlusers = new SelectList("", "ProductId", "ProductName", 0);
+                                    if (ds.Tables[0].Rows.Count > 0)
+                                    {
+                                        productlst = ds.Tables[0].AsEnumerable().Select(dataRow => new TicketDTO
+                                        {
+                                            ProductName = dataRow.Field<string>("ProductName"),
+                                            ProductId = dataRow.Field<int>("ProductId")
+                                        }).ToList();
+
+
+                                        List<TicketDTO> _objStudent = productlst;
+                                        ddlusers = new SelectList(_objStudent, "ProductId", "ProductName", obj.ProductId);
+                                        ViewData["ddlProductList"] = ddlusers;
+                                    }
+                                    else
+                                    {
+                                        List<TicketDTO> _objStudent = productlst;
+                                        ddlusers = new SelectList(_objStudent, "ProductId", "ProductName", obj.ProductId);
+                                        ViewData["ddlProductList"] = ddlusers;
+                                    }
+
+                                    List<TicketDTO> _objStudew = new List<TicketDTO>();
+                                    SelectList ddlmodels = new SelectList("", "AMId", "ModelName", 0);
+
+                                    if (ds.Tables[3].Rows.Count > 0)
+                                    {
+                                        _objStudew = ds.Tables[3].AsEnumerable().Select(dataRow => new TicketDTO
+                                        {
+                                            ModelName = dataRow.Field<string>("ModelName"),
+                                            AMId = dataRow.Field<int>("AMId")
+                                        }).ToList();
+
+                                        List<TicketDTO> _objlst = _objStudew;
+                                        ddlmodels = new SelectList(_objlst, "AMId", "ModelName", obj.AMId);
+                                        ViewData["ddlModels"] = ddlmodels;
+                                    }
+                                    else
+                                    {
+                                        List<TicketDTO> _objStudent = _objStudew;
+                                        ddlmodels = new SelectList(_objStudent, "AMId", "ModelName", obj.AMId);
+                                        ViewData["ddlModels"] = ddlmodels;
+                                    }
+                                }
+                            }
+
+                            obj.RoleId = roleid;
+                            return View(obj);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        return RedirectToAction("Authenticate", "Authentication");
+                    }
+                }
+            }
+            return View(obj);
+        }
+
+        public async Task<ActionResult> AddEnquiry(string message,int ProductId,int AMId)
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        long userid = long.Parse(Session["SSUserId"].ToString());
+                        int roleid = int.Parse(Session["SSRoleId"].ToString());
+                        int comid = int.Parse(Session["SSCompanyId"].ToString());
+                        int orgid = int.Parse(Session["SSOrganizationId"].ToString());
+                        TicketDTO obj = new TicketDTO();
+                        obj.UserId = userid;
+                        obj.CompanyId = comid;
+                        obj.ProductId = ProductId;
+                        obj.AMId = AMId;
+                        obj.message = message;
+
+                        bool status = false;
+                        HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/TicketsAPI/NewEnquiry", obj);
+                        if (responseMessage.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                            var docs = JsonConvert.DeserializeObject<TicketDTO>(responseData);
+                            string msg = docs.message;
+                            if (msg == "1")
+                                status = true;
+                            else
+                            {
+                                status = false;
+                            };
+                        }
+                        return Json(new { success = status });
+                    }
+                    catch (Exception ex)
+                    {
+                        return Json(new { success = false });
+                    }
+                }
+            }
+        }
+        public async Task<ActionResult> Enquiries()
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                int userid = int.Parse(Session["SSUserId"].ToString());
+                int roleid = int.Parse(Session["SSRoleId"].ToString());
+                int comid = int.Parse(Session["SSCompanyId"].ToString());
+                int orgid = int.Parse(Session["SSOrganizationId"].ToString());
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        TicketDTO obj = new TicketDTO();
+                        obj.CompanyId = comid;
+                        obj.OrganizationId = orgid;
+                        obj.UserId = userid;
+                        obj.RoleId = roleid;
+
+                        List<TicketDTO> tickettlst = new List<TicketDTO>();
+
+                        HttpResponseMessage responseMessageViewDocuments = await client.PostAsJsonAsync("api/TicketsAPI/NewEnquiryList", obj);
+                        if (responseMessageViewDocuments.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessageViewDocuments.Content.ReadAsStringAsync().Result;
+                            var docs = JsonConvert.DeserializeObject<TicketDTO>(responseData);
+
+                            var data = docs.datasetxml;
+                            if (data != null)
+                            {
+                                var document = new XmlDocument();
+                                document.LoadXml(data);
+                                DataSet ds = new DataSet();
+                                ds.ReadXml(new XmlNodeReader(document));
+                                if (ds.Tables.Count > 0)
+                                {
+                                    if (ds.Tables[0].Rows.Count > 0)
+                                    {
+                                        tickettlst = ds.Tables[0].AsEnumerable().Select(dataRow => new TicketDTO
+                                        {
+                                            EnquiryId = dataRow.Field<long>("EnquiryId"),
+                                            Description = dataRow.Field<string>("Comments"),
+                                            EnquiryDate = dataRow.Field<string>("EnquiryDate"),
+                                            FullName = dataRow.Field<string>("FullName"),
+                                            ProductName = dataRow.Field<string>("ProductName"),
+                                            ProductCode = dataRow.Field<string>("ProductCode") ,
+                                            SerialNo=dataRow.Field<string>("SerialNo")
+                                        }).ToList();
+                                        obj.TicketList = tickettlst;
+                                    }
+                                    else
+                                        obj.TicketList = tickettlst;
+                                }
+                            }
+                        }
+                        return View(obj);
+                    }
+                    catch (Exception ex)
+                    {
+                        return RedirectToAction("Authenticate", "Authentication");
+                    }
+                }
+            }
+        }
+        public async Task<ActionResult> EnquiryDetails(long id)
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                //return Json("../Login/Index");
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        int userid = int.Parse(Session["SSUserId"].ToString());
+                        int roleid = int.Parse(Session["SSRoleId"].ToString());
+                        int comid = int.Parse(Session["SSCompanyId"].ToString());
+                        int orgid = int.Parse(Session["SSOrganizationId"].ToString());
+                        TicketDTO obj = new TicketDTO();
+                        obj.EnquiryId = id;
+                        obj.RoleId = roleid;
+                        obj.CompanyId = comid;
+                        obj.OrganizationId = orgid;
+
+                        List<TicketDTO> tickettlst = new List<TicketDTO>();
+
+                        HttpResponseMessage responseMessageViewDocuments = await client.PostAsJsonAsync("api/TicketsAPI/NewEnquiryDetails", obj);
+                        if (responseMessageViewDocuments.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessageViewDocuments.Content.ReadAsStringAsync().Result;
+                            var docs = JsonConvert.DeserializeObject<TicketDTO>(responseData);
+
+                            var data = docs.datasetxml;
+                            if (data != null)
+                            {
+                                var document = new XmlDocument();
+                                document.LoadXml(data);
+                                DataSet ds = new DataSet();
+                                ds.ReadXml(new XmlNodeReader(document));
+                                if (ds.Tables.Count > 0)
+                                {
+                                    if (ds.Tables[0].Rows.Count > 0)
+                                    {
+                                        tickettlst = ds.Tables[0].AsEnumerable().Select(dataRow => new TicketDTO
+                                        {
+                                            EnquiryId = dataRow.Field<long>("EnquiryId"),
+                                            Description = dataRow.Field<string>("Comments"),
+                                            EnquiryDate = dataRow.Field<string>("EnquiryDate"),
+                                            FullName = dataRow.Field<string>("FullName"),
+                                            ProductName = dataRow.Field<string>("ProductName"),
+                                            ProductCode = dataRow.Field<string>("ProductCode"),
+                                            Area = dataRow.Field<string>("Area"),
+                                            SerialNo = dataRow.Field<string>("SerialNo"),
+                                            SystemNo = dataRow.Field<string>("SystemNo"),
+                                            AccountName = dataRow.Field<string>("AccountName"),
+                                            AccountCode = dataRow.Field<string>("AccountCode"),
+                                            Email = dataRow.Field<string>("Email"),
+                                            Mobile = dataRow.Field<string>("Mobile"),
+                                            EmpID = dataRow.Field<string>("EmpID"),
+                                            commentsjson = dataRow.Field<string>("commentsjson")
+                                        }).ToList();
+
+                                        obj.TicketList = tickettlst;
+
+                                        string commentsj = obj.TicketList.FirstOrDefault().commentsjson;
+                                        var modalcomments = JsonConvert.DeserializeObject<List<TicketDTO>>(commentsj);
+                                        obj.CommentsList = modalcomments;
+                                    }
+                                    else
+                                        obj.TicketList = tickettlst;
+                                }
+                            }
+                        }
+                        return PartialView("EnquiryDetailsPV", obj);
+                    }
+                    catch (Exception ex)
+                    {
+                        return RedirectToAction("Index", "Login");
+                    }
+                }
+            }
+        }
+
+        public async Task<ActionResult> NewEnquiryComments(string txt, long EnquiryId)
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        long userid = long.Parse(Session["SSUserId"].ToString());
+                        int roleid = int.Parse(Session["SSRoleId"].ToString());
+                        int comid = int.Parse(Session["SSCompanyId"].ToString());
+                        int orgid = int.Parse(Session["SSOrganizationId"].ToString());
+
+                        TicketDTO obj = new TicketDTO();
+                        obj.EnquiryId = EnquiryId;
+                        obj.message = txt;
+                        obj.UserId = userid;
+
+                        bool status = false;
+                        HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/TicketsAPI/NewEnquiryComments", obj);
+                        if (responseMessage.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                            var docs = JsonConvert.DeserializeObject<TicketDTO>(responseData);
+                            string msg = docs.message;
+                            if (msg == "1")
+                                status = true;
+                            else
+                            {
+                                status = false;
+                            };
+                        }
+                        return Json(new { success = status });
+                    }
+                    catch (Exception ex)
+                    {
+                        TicketDTO obj = new TicketDTO();
+                        return Json(obj.ModelList);
+                    }
+                }
+            }
         }
     }
 }

@@ -39,6 +39,11 @@ namespace HelpDesk.Web.Models
         public IEnumerable<UserDTO> UsersList { get; set; }
         public IEnumerable<UserDTO> AccountList { get; set; }
         public IEnumerable<UserDTO> ProductList { get; set; }
+
+
+        public IEnumerable<UserDTO> AccountddlList { get; set; }
+        public IEnumerable<UserDTO> ProductddlList { get; set; }
+
         public long MUPId { get; set; }
         public long MUACId { get; set; }
         public DateTime CreatedOn { get; set; }

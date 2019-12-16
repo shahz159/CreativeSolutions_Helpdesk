@@ -227,7 +227,7 @@
                                 <div class="form-group">
                                     <div id="div_mobileNumber" class="input-group">
                                         <div class="input-group-prepend"><span class="input-group-text">+966</span></div>
-                                        <input class="form-control" autocomplete="off" type="text" value="" placeholder="xxx xxx xxxx" id="txtmobile" onkeyup="return isNumberKey(event)" onchange="mobilevalidation()">
+                                        <input class="form-control" autocomplete="off" type="text" value="" placeholder="xxx xxx xxxx" id="txtmobile" onkeypress="return isNumberKey(event)" onchange="mobilevalidation()">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -237,7 +237,7 @@
                                     <input class="form-control" type="password" autocomplete="new-password" placeholder="Password" onchange="PasswordLenght(1)" id="txtPassword">
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" type="password" autocomplete="new-password" placeholder="Conform Password" onchange="PasswordLenght(2)" id="txtConfirmPassword" onchange="checkPassword()">
+                                    <input class="form-control" type="password" autocomplete="new-password" placeholder="Conform Password" onchange="PasswordLenght(2)" id="txtConfirmPassword">
                                 </div>
                                 <div class="kt-login__actions">
                                     <a onclick="SaveUserDetails()" class="btn btn-primary btn-elevate kt-login__btn-primary">Submit</a>
@@ -483,13 +483,14 @@
             var charCode = (evt.which) ? evt.which : evt.keyCode
             if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
                 return false;
-
+             $('#hdnMobileValidation').val('0');
             var myLength = $("#txtmobile").val().length;
+            //alert(myLength);
             if (myLength > 21) {
                 $("#txtmobile").after('<span id="txtmobileerror" style="color:red;" class="error">Maximum Lenght 20</span>');
                 $('#hdnMobileValidation').val('1');
             }
-            else if (myLength < 10) {
+            else if (myLength < 7) {
                 $("#txtmobile").after('<span id="txtmobileerror" style="color:red;" class="error">Minimum Lenght 10</span>');
                 $('#hdnMobileValidation').val('1');
             } else {
@@ -674,6 +675,9 @@
                 }
             });
         }
+
+
+      
 
     </script>
     <!--end::Page Scripts -->

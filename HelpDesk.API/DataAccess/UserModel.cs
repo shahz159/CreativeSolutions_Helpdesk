@@ -59,6 +59,25 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
+        public SqlDataReader addproduct(UsersDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@CreatedBy",obj.CreatedBy),
+                new SqlParameter("@ProductId",obj.ProductId),
+                new SqlParameter("@UserId",obj.UserId)
+                };
+                return DbConnector.ExecuteReader("uspAddProduct", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "UserModel -> addproduct");
+                return null;
+            }
+        }
+
+        
         public SqlDataReader removeaccountorproduct(UsersDTO obj)
         {
             try
@@ -144,7 +163,7 @@ namespace HelpDesk.API.DataAccess
             try
             {
                 var para = new[] {
-                new SqlParameter("@CompanyId",obj.CompanyId)
+                new SqlParameter("@OrganizationId",obj.OrganizationId)
                 };
                 return DbConnector.ExecuteDataSet("uspGetSystemUsersSignup", para);
             }
@@ -230,6 +249,7 @@ namespace HelpDesk.API.DataAccess
         SqlDataReader CheckEmailExists(string email);
         SqlDataReader CheckEmpIdExists(string empid);
         SqlDataReader updateuserstatus(UsersDTO obj);
+        SqlDataReader addproduct(UsersDTO obj);
         SqlDataReader removeaccountorproduct(UsersDTO obj);
         SqlDataReader GetCompanyAccounts(UsersDTO obj);
         SqlDataReader GetCompanyProducts(UsersDTO obj);

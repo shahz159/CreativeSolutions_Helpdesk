@@ -26,9 +26,8 @@ namespace HelpDesk.API.Bussiness
                     while (data.Read())
                     {
                         obj.message = data["message"].ToString();
-                        obj.UserEmail = data["UserEmail"].ToString();
-                        obj.ServiceEngineerEmail = data["ServiceEngineerEmail"].ToString();
-                        
+                        //obj.UserEmail = data["UserEmail"].ToString();
+                        //obj.ServiceEngineerEmail = data["ServiceEngineerEmail"].ToString();
                     }
                 }
                 else
@@ -36,9 +35,9 @@ namespace HelpDesk.API.Bussiness
                 if (obj.message == "1")
                 {
                     //Send Email
-                    string UserEmail = obj.UserEmail;
-                    string ServiceEngineer = obj.ServiceEngineerEmail;
-                    SendEmail(UserEmail);
+                    //string UserEmail = obj.UserEmail;
+                    //string ServiceEngineer = obj.ServiceEngineerEmail;
+                    //SendEmail(UserEmail);
                 }
             }
             catch (Exception ex)
@@ -187,7 +186,51 @@ namespace HelpDesk.API.Bussiness
             }
             return obj;
         }
-        
+        public TicketDTO AddEnquirycomments(TicketDTO obj)
+        {
+            try
+            {
+                var data = model.AddEnquirycomments(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["message"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
+        public TicketDTO AddEnquiry(TicketDTO obj)
+        {
+            try
+            {
+                var data = model.AddEnquiry(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["message"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
+
         public TicketDTO GetSystemUserProducts(TicketDTO obj)
         {
             obj.datasetxml = model.GetSystemUserProducts(obj);
@@ -231,7 +274,19 @@ namespace HelpDesk.API.Bussiness
             obj.datasetxml = model.GetSparePartRequestTickets(obj);
             return obj;
         }
+        public TicketDTO GetEnquiryList(TicketDTO obj)
+        {
+            obj.datasetxml = model.GetEnquiryList(obj);
+            return obj;
+        }
+        public TicketDTO GetEnquiryDetails(TicketDTO obj)
+        {
+            obj.datasetxml = model.GetEnquiryDetails(obj);
+            return obj;
+        }
+
         
+
         public TicketDTO GetServiceEngineerTicketsFiletrs(TicketDTO obj)
         {
             obj.datasetxml = model.GetServiceEngineerTicketsFilerts(obj);
@@ -258,6 +313,8 @@ namespace HelpDesk.API.Bussiness
         TicketDTO AddResponseTime(TicketDTO obj);
         TicketDTO AddSparePartRequest(TicketDTO obj);
         TicketDTO Addcomments(TicketDTO obj);
+        TicketDTO AddEnquirycomments(TicketDTO obj);
+        TicketDTO AddEnquiry(TicketDTO obj);
 
         TicketDTO GetSystemUserProducts(TicketDTO obj);
         TicketDTO GetSystemUserModels(TicketDTO obj);
@@ -267,6 +324,8 @@ namespace HelpDesk.API.Bussiness
         TicketDTO GetServiceEngineerTickets(TicketDTO obj);
         TicketDTO GetDashboardCount(TicketDTO obj);
         TicketDTO GetSparePartRequestTickets(TicketDTO obj);
+        TicketDTO GetEnquiryDetails(TicketDTO obj);
+        TicketDTO GetEnquiryList(TicketDTO obj);
         TicketDTO GetServiceEngineerTicketsFiletrs(TicketDTO obj);
 
         TicketDTO GetTicketDetails(TicketDTO obj);

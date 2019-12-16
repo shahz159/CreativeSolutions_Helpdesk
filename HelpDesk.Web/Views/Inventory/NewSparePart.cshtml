@@ -51,7 +51,7 @@
                                                 <input name="SparePartNumber" class="form-control" type="text" value="@Model.SparePartNumber" placeholder="" id="txtNumber">
                                             </div>
                                         </div>
-                                        <div class="form-group row">
+                                        <div class="form-group row" style="display:none;">
                                             <label for="example-text-input" class="col-sm-2 col-form-label">Quantity</label>
                                             <div class="col-sm-9">
                                                 <input class="form-control" type="text" value="@Model.Quantity" placeholder="" id="txtquantity" onkeypress="return isNumberKey(event)">
@@ -158,14 +158,16 @@
             }
             //////////////////  txtquantity txtbasequantity txtprice
             var Quantity = $("#txtquantity").val();
-            if (Quantity == 0 ||Quantity == "") {
-                isvalid = false;
-                  $('#txtquantityerror').html('');
-                $("#txtquantity").after('<span id="txtquantityerror" style="color:red;" class="error">Field required.</span>');
-            }
-            else {
-                $('#txtquantityerror').html('');
-            }
+
+            //if (Quantity == 0 ||Quantity == "") {
+            //    isvalid = false;
+            //      $('#txtquantityerror').html('');
+            //    $("#txtquantity").after('<span id="txtquantityerror" style="color:red;" class="error">Field required.</span>');
+            //}
+            //else {
+            //    $('#txtquantityerror').html('');
+            //}
+
             ////////////////////////
             var BaseQuantity = $("#txtbasequantity").val();
             if (BaseQuantity == 0||BaseQuantity == "") {

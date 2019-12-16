@@ -1,0 +1,167 @@
+﻿@model HelpDesk.Web.Models.TicketDTO
+
+@{
+    ViewBag.Title = "NewEnquiry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
+    <!--Begin::Dashboard 3-->
+    <!--Begin::Row-->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 order-lg-1 order-xl-1">
+            <!--begin:: Widgets/Trends-->
+            <div class="kt-portlet kt-portlet--head--noborder kt-portlet--height-fluid">
+                <div class="kt-portlet__head kt-portlet__head--lg">
+                    <div class="kt-portlet__head-label">
+                        <span class="kt-portlet__head-icon">
+                            <i class="kt-font-brand flaticon2-line-chart"></i>
+                        </span>
+                        <h3 class="kt-portlet__head-title">
+                            New Enquiry
+                        </h3>
+                    </div>
+                </div>
+                <div class="kt-portlet__body kt-portlet__body--fluid kt-portlet__body--fit">
+                    <div class="kt-container  kt-grid__item kt-grid__item--fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!--begin::Form-->
+                                <form class="kt-form kt-form--label-right">
+                                    <div class="kt-portlet__body">
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-sm-2">Product</label>
+                                            <div class="col-sm-9">
+                                                @Html.DropDownListFor(model => model.ProductId, (IEnumerable<SelectListItem>
+                                     )ViewData["ddlProductList"], "--Please Select --",
+                                     new { id = "ddlProduct", @class = "form-control kt-select2", @onchange = "BindModels()" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-sm-2">Serial No.</label>
+                                            <div class="col-sm-9">
+                                                @Html.DropDownListFor(model => model.AMId, (IEnumerable<SelectListItem>)ViewData["ddlModels"], "--Please Select --",
+new { id = "ddlModels", @class = "form-control select2-allow-clear" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-sm-2">Description</label>
+                                            <div class="col-sm-9">
+                                                <textarea id="txtdescription" class="form-control"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="kt-portlet__foot">
+                                        <div class="kt-form__actions">
+                                            <div class="row">
+                                                <div class="col-2">
+                                                </div>
+                                                <div class="col-10">
+                                                    <a onclick="AddEnquiry()" class="btn btn-success">Submit</a>
+                                                    <button type="reset" class="btn btn-secondary">Cancel</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <!--end::Form-->
+                            </div>
+                            <!--end::Portlet-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end:: Widgets/Trends-->
+    </div>
+</div>
+@section Scripts{
+    <!-- Select 2 -->
+    <script src="~/assets/js/select2.js"></script>
+    <script>
+         document.getElementById("loader").style.display = "none";
+        $('#ddlProduct').select2();
+        $('#ddlModels').select2();
+
+
+        function AddEnquiry() {
+            debugger
+            var desc = $('#txtdescription').val();
+            var productid = $('#ddlProduct').val();
+            var amid = $('#ddlModels').val();
+            if (desc == null || desc == "") {
+                alert('fields required');
+                return false;
+            }
+            if (productid == "" || productid == null || productid == 0) {
+                alert('fields required');
+                return false;
+            }
+            if (amid == "" || amid == null || amid == 0) {
+                alert('fields required');
+                return false;
+            }
+
+            document.getElementById("loader").style.display = "block";
+            $.ajax({
+                type: "Post",
+                url: '@Url.Action("AddEnquiry")',
+                datatype: "json",
+                data: { message: desc, ProductId: productid, AMId: amid },
+                success: function (data) {
+                    var v = data.success;
+                    if (v == true) {
+                        location.reload();
+                    }
+                    else {
+                        alert('Some thing went wrong');
+                    }
+                    document.getElementById("loader").style.display = "none";
+                },
+                error: function () {
+                    alert('error');
+                    document.getElementById("loader").style.display = "none";
+                }
+            });
+        }
+          function BindModels() {
+             document.getElementById("loader").style.display = "block";
+
+             var AccountId = 0;
+             var role_idd = $('#hdnRoleId').val();
+             if (role_idd == 502 || role_idd == 501) {
+                 AccountId = $('#ddlAccounts').val();
+             }
+
+             $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetModels")', // we are calling json method
+                dataType: 'json',
+                data: { id: $("#ddlProduct").val(),acctid:AccountId },
+                success: function (data) {
+                    debugger
+                    var district = "<select id='ddlModels' class='form-control kt-select2'>";
+                    //district = district + '<option value="0">-- Select System No/Serial No ---</option>';
+                    for (var i = 0; i < data.length; i++) {
+
+                        district = district + '<option value=' + data[i].AMId + '>' + data[i].ModelName + '</option>';
+                    }
+                    district = district + '</select>';
+                    $('#ddlModels').html(district);
+                    document.getElementById("loader").style.display = "none";
+                },
+                error: function (ex) {
+                    document.getElementById("loader").style.display = "none";
+                    alert('Failed to retrieve models.' + ex);
+                }
+            });
+            return false;
+        }
+    </script>
+}
+ 
+
+
+
+
+

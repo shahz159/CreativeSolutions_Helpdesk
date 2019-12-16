@@ -245,3 +245,11 @@ Stack Trace:
    at HelpDesk.API.DatabaseConnector.DbConnector.ExecuteReader(String cmdText, SqlParameter[] cmdParms) in D:\My Stuff\AHC Helpdesk\SourceCode\HelpDesk.API\DatabaseConnector\DbConnector.cs:line 55
    at HelpDesk.API.DataAccess.TicketModel.NewTicketRequest(TicketDTO obj) in D:\My Stuff\AHC Helpdesk\SourceCode\HelpDesk.API\DataAccess\TicketModel.cs:line 32
 
+********** 12/16/2019 1:35:13 PM **********
+Exception Type: System.Data.SqlClient.SqlException
+Exception: Procedure or function 'uspAddEnquiry' expects parameter '@Comments', which was not supplied.
+Source: TicketModel -> AddEnquiry
+Stack Trace: 
+   at HelpDesk.API.DatabaseConnector.DbConnector.ExecuteReader(String cmdText, SqlParameter[] cmdParms) in E:\VS19\HelpDesk.API\DatabaseConnector\DbConnector.cs:line 55
+   at HelpDesk.API.DataAccess.TicketModel.AddEnquiry(TicketDTO obj) in E:\VS19\HelpDesk.API\DataAccess\TicketModel.cs:line 382
+
