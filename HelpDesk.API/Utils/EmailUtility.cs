@@ -27,6 +27,7 @@ namespace HelpDesk.API.Models
                 mMailMessage.Priority = MailPriority.Normal;
 
                 string SmtpServer = System.Configuration.ConfigurationManager.AppSettings["SMTPServer"];
+                string mailAuthenticate = System.Configuration.ConfigurationManager.AppSettings["mailAuthenticate"];                
                 int portNo = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["PortNo"]);
 
                 SmtpClient mSmtpClient = new SmtpClient(SmtpServer, portNo);
@@ -37,7 +38,7 @@ namespace HelpDesk.API.Models
                 mSmtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
 
                 string mailPassword = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["mailCredentialPassword"]);
-                mSmtpClient.Credentials = new System.Net.NetworkCredential(mailfrom, mailPassword);
+                mSmtpClient.Credentials = new System.Net.NetworkCredential(mailAuthenticate, mailPassword);
 
                 Information = "SMTP Server : " + SmtpServer + ", Port : " + portNo + ", Mail From : " + mailfrom + ", Mail Password :" + mailPassword + ".";
 

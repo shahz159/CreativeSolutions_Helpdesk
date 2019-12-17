@@ -9,7 +9,7 @@ using System.Web;
 
 namespace HelpDesk.API.Bussiness
 {
-    public class TicketService: ITicketService
+    public class TicketService : ITicketService
     {
         private readonly ITicketModel model;
         public TicketService(TicketModel _model)
@@ -26,19 +26,30 @@ namespace HelpDesk.API.Bussiness
                     while (data.Read())
                     {
                         obj.message = data["message"].ToString();
-                        obj.UserEmail = data["UserEmail"].ToString();
-                        obj.ServiceEngineerEmail = data["ServiceEngineerEmail"].ToString();
-                        
+                        if (obj.message == "1")
+                        {
+                            obj.TicketNumber = Convert.ToInt64(data["TicketNumber"].ToString());
+                            obj.CreatedDate = Convert.ToDateTime(data["CreatedOn"].ToString());
+                            obj.ProductName = data["ProductName"].ToString();
+                            obj.SystemId = data["SystemNo"].ToString();
+                            obj.AccountName = data["AccountName"].ToString();
+                            obj.Location = data["Area"].ToString();
+                            obj.ProblemDescription = data["Description"].ToString();
+                            obj.CustomerEmail = data["CustomerEmail"].ToString();
+                            obj.CustomerFullName = data["CustomerFullName"].ToString();
+                            obj.EngineerEmail = data["EngineerEmail"].ToString();
+                            obj.EngineerFullName = data["EngineerFullName"].ToString();
+                            obj.ServiceEngineerEmail = data["EngineerEmail"].ToString();
+                        }
                     }
                 }
                 else
                     obj.message = "0";
                 if (obj.message == "1")
                 {
-                    //Send Email
-                    string UserEmail = obj.UserEmail;
-                    string ServiceEngineer = obj.ServiceEngineerEmail;
-                    SendEmail(UserEmail);
+                    //Send Email to Customer                    
+                    SendEmailToCustomer(obj.TicketNumber, obj.CreatedDate, obj.ProductName, obj.SystemId, obj.AccountName, obj.Location, obj.ProblemDescription, obj.CustomerEmail, obj.CustomerFullName, obj.EngineerFullName);
+                    SendEmailToEngineer(obj.TicketNumber, obj.CreatedDate, obj.ProductName, obj.SystemId, obj.AccountName, obj.Location, obj.ProblemDescription, obj.ServiceEngineerEmail, obj.CustomerFullName, obj.EngineerFullName);
                 }
             }
             catch (Exception ex)
@@ -49,42 +60,63 @@ namespace HelpDesk.API.Bussiness
             return obj;
         }
 
-        private void SendEmail(string UserEmail)
+        private void SendEmailToEngineer(long TicketNumber, DateTime CreatedDate, string ProductName, string SystemId, string AccountName, string Location, string ProblemDescription, string ServiceEngineerEmail, string CustomerFullName, string EngineerFullName)
         {
             try
             {
-                // Hr Mail
+                // Customer Email
                 string htmlstr = @"";
                 StringBuilder HeaderHtml = new StringBuilder();
-               
-                HeaderHtml.Append("<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'><html xmlns='http://www.w3.org/1999/xhtml'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' /><title>AHC Helpdesk</title><link href='https://fonts.googleapis.com/css?family=Open+Sans&display=swap' rel='stylesheet'><style type='text/css'>body{font-family:'Open Sans',sans-serif;background:#f1f1f1;color:#0f0f0f;font-size:14px;padding:20px}.pb-15{padding-bottom:15px}.mb-15{margin-bottom:15px}.text-center{text-align:center}.button{padding:8px 12px;background-color:#2cafdd;border-radius:4px;color:#fff;text-decoration:none;display:inline-block;margin-bottom:15px}.button:hover{background-color:#0d96c6;transition:1s all}</style></head><body style='background-color: #f1f1f1; padding: 15px;'><table align='center' style='width: 600px; margin: 0 auto 0 auto;background-color: #fff;padding: 20px 15px;'><tr><td> <img src='ahc_logo.png' class='pb-15' height='44px;'><h4 style='color: #2cafdd'>Dear Vali Noor,</h4><p> Your ticket has been marked as resolved</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <a href='#' style='color: #2cafdd; text-decoration: none;'>Click Here</a></p><h4>Ticket Information :</h4><div style='width: 70px; height: 2px; background-color: #000;'></div><div style='background-color: #fff; padding-top: 20px; padding-bottom: 15px;'><table><tr><td>Ticket No</td><td>: AHS-10215</td></tr><tr><td>Resolved Date</td><td>: 03-12-2019</td></tr><tr><td>Register By</td><td>: Vali Noor</td></tr><tr><td>Status</td><td>: Resolved</td></tr><tr><td>Problem Description</td><td>: User cancel the order it shows the file or directory not found error</td></tr><tr><td>Resolved By</td><td>: Mirza Hussaini Baig</td></tr></table></div><table style='margin-bottom: 10px;'><tr><td> <a href='#' target='_blank' style='text-decoration: none; padding: 8px 12px;border: 1px solid #2cafdd; border-radius: 4px; color: #2cafdd; text-decoration: none;'>Button Click</a></td></tr></table><hr><div class='text-center'> <small>please do not hesitate to contact our customer Service support center <strong> +966593631341</strong>,<br> one of our representatives will do their best to assist you.</small></div></td></tr></table></body></html>");
 
-               
+                HeaderHtml.Append("<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'><html xmlns='http://www.w3.org/1999/xhtml'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' /><title>AHC Helpdesk</title><link href='https://fonts.googleapis.com/css?family=Open+Sans&display=swap' rel='stylesheet'><style type='text/css'>body{font-family:'Open Sans',sans-serif;background:#f1f1f1;color:#0f0f0f;font-size:14px;padding:20px}.pb-15{padding-bottom:15px}.mb-15{margin-bottom:15px}.text-center{text-align:center}.button{padding:8px 12px;background-color:#2cafdd;border-radius:4px;color:#fff;text-decoration:none;display:inline-block;margin-bottom:15px}.button:hover{background-color:#0d96c6;transition:1s all}</style></head><body style='background-color: #f1f1f1; padding: 15px;'><table align='center' style='width: 600px; margin: 0 auto 0 auto;background-color: #fff;padding: 20px 15px;'><tr><td> <img src='ahc_logo.png' class='pb-15' height='44px;'><h4 style='color: #2cafdd'>Dear ");
+                HeaderHtml.Append("" + EngineerFullName + ",</h4><p> This is an automated message from the AHC Helpdesk system to confirm that this ticket has been assigned to you. <a href='#' style='color: #2cafdd; text-decoration: none;'>Click Here</a></p><h4>Ticket Information :</h4><div style='width: 70px; height: 2px; background-color: #000;'></div><div style='background-color: #fff; padding-top: 20px; padding-bottom: 15px;'><table><tr>");
+                HeaderHtml.Append("<td>Ticket No</td><td>:" + TicketNumber + "</td>");
+                HeaderHtml.Append("</tr><tr><td>Created Date</td><td>: " + CreatedDate + "</td>");
+                HeaderHtml.Append("</tr><tr><td>Product</td><td>: " + ProductName + "</td>");
+                HeaderHtml.Append("</tr><tr><td>System Id</td><td>: " + SystemId + "</td>");
+                HeaderHtml.Append("</tr><tr><td>Account</td><td>: " + AccountName + "</td>");
+                HeaderHtml.Append("</tr><tr><td>Problem Description</td><td>: " + ProblemDescription + "</td>");
+                HeaderHtml.Append("</tr><tr><td>Assigned By</td><td>: " + CustomerFullName + "</td>");
+                HeaderHtml.Append("<table style='margin-bottom: 10px;'><tr><td> <a href='#' target='_blank' style='text-decoration: none; padding: 8px 12px;border: 1px solid #2cafdd; border-radius: 4px; color: #2cafdd; text-decoration: none;'>Button Click</a></td></tr></table><hr><div class='text-center'> <small>please do not hesitate to contact our customer Service support center <strong> +966593631341</strong>,<br> one of our representatives will do their best to assist you.</small></div></td></tr></table></body></html>");
+
                 htmlstr = HeaderHtml.ToString();
-                string Subject = "New Ticket Email";                
+                string Subject = "New Ticket Email";
                 string mailFrom = System.Configuration.ConfigurationManager.AppSettings["mailFrom"].ToString();
                 string mailHRBCC = string.Empty;
-                UserEmail = "m.baig@devboxsoftware.com";
-                Models.EmailUtility.sendEmail(mailFrom, UserEmail, htmlstr, Subject, mailHRBCC);
+                ServiceEngineerEmail = "hussainibaigm@gmail.com";
+                Models.EmailUtility.sendEmail(mailFrom, ServiceEngineerEmail, htmlstr, Subject, mailHRBCC);
+            }
+            catch (Exception)
+            {
 
-                ////Applicant Mail
-                //string htmlstr = @"";
-                //StringBuilder HeaderHtml = new StringBuilder();
-                //HeaderHtml.Append("<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'> <html xmlns='http://www.w3.org/1999/xhtml'> <head> <meta http-equiv='Content-Type' content='text/html;charset=utf-8' /> <title>Email</title> <style type='text/css'>body{background-color:#f1f1f1;font-size:16px}body table.main-table{padding:15px}td{padding-bottom:10px}.border{border-top:8px solid #c90}.border-1{border-top:2px solid #c90}.text-center{text-align:center}.text-left{text-align:left}.text-right{text-align:right}.text-justify{text-align:justify}.pad-b-10{padding-bottom:10px}.Discount{font-size:45px;color:#3E9FD2;width:450px;margin:0 auto;padding:5px 15px;border-radius:10px;background-color:#fff}</style> </head> <body bgcolor='#f1f1f1' style='background-color: #f1f1f1;padding:10px;'> <table align='center' class='main-table' style='width: 600px;margin:0 auto 0 auto;background-color:#fff;padding:15px;'> <tr> <td> <table width='100%'> <tr> <td> <img src='https://www.creative-sols.com/webassets/images/cs-images/logo-dark.png' /> </td> <td align='right'> <span>sales@creative-sols.com</span> <br /> <span>+966 593453627</span> </td> </tr> </table> </td> </tr> <tr> <th class='border pad-b-10'></th> </tr> <tr> <td> <h3> Dear Applicant Name,</h3> <p style='font-size: 18px;'>A Contact application has been submitted via website. We will get back you as soon as possible</p> </td> </tr> <tr> <td> <table width='100%'> <tr> <td width='20%'>Full Name:</td> <td>");
-                //HeaderHtml.Append(obj.Name);
-                //HeaderHtml.Append("</td> </tr> <tr> <td>Email</td> <td>");
-                //HeaderHtml.Append(obj.Email);
-                //HeaderHtml.Append("</td> </tr> <tr> <td>Phone Number:</td> <td>");
-                //HeaderHtml.Append(obj.CountryCode + ' ' + obj.Phone);
-                //HeaderHtml.Append("</td> </tr> <tr> <td valign='top'>Message:</td> <td>");
-                //HeaderHtml.Append(obj.Description);
-                //HeaderHtml.Append("</td> </tr> </table> </td> </tr> <tr> <th class='border-1'></th> </tr> <tr> <td align='center'> <p>As this is an automated response, please do not reply to this email.</p> </td> </tr> <tr> <th class='border'></th> </tr> <tr> <td> <p class='text-center'>© copyright Creative Solutions</p> <p class='text-center'>All rights reserved. Riyadh, Kingdom of Saudi Arabia</p> <center><table><tr><td> <a href='https://www.facebook.com/creativesolutionsksa' target='_blank'> <img src='https://www.creative-sols.com/assets/images/facebook.png' /> </a></td><td> <a href='https://twitter.com/Creative_sols' target='_blank'> <img src='https://www.creative-sols.com/assets/images/twitter.png' /> </a></td><td> <a href='https://accounts.google.com/ServiceLogin/identifier?passive=1209600&osid=1&continue=https%3A%2F%2Fplus.google.com%2F%2BCreativeSolutionsCoLtdRiyadh%2F&followup=https%3A%2F%2Fplus.google.com%2F%2BCreativeSolutionsCoLtdRiyadh%2F&flowName=GlifWebSignIn&flowEntry=ServiceLogin' target='_blank'> <img src='https://www.creative-sols.com/assets/images/googleplus.png' /> </a></td> ​<td> <a href='https://www.linkedin.com/company/creative-sols' target='_blank'> <img src='https://www.creative-sols.com/assets/images/linkedins.png' /> </a></td><td> <a href='https://www.youtube.com/user/creativesols' target='_blank'> <img src='https://www.creative-sols.com/assets/images/youtube.png' /> </a></td><td> <a href='#' target='_blank'> <img src='https://www.creative-sols.com/assets/images/map.png' /> </a></td></tr></table></center> </td> </tr> </table> </body> </html>");
-                //htmlstr = HeaderHtml.ToString();
-                //string Subject = "Your Contact Request Submitted Successful.";
-                //string mailTo = obj.Email;
-                //string mailfrom = System.Configuration.ConfigurationManager.AppSettings["mailFrom"].ToString();
-                //string mailBCC = string.Empty;
-                //UtilityEmail.sendEmail(mailfrom, mailTo, htmlstr, Subject, mailBCC);
+            }
+        }
+
+        private void SendEmailToCustomer(long TicketNumber, DateTime CreatedDate, string ProductName, string SystemId, string AccountName, string Location, string ProblemDescription, string CustomerEmail, string CustomerFullName, string EngineerFullName)
+        {
+            try
+            {
+                // Customer Email
+                string htmlstr = @"";
+                StringBuilder HeaderHtml = new StringBuilder();
+
+                HeaderHtml.Append("<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'><html xmlns='http://www.w3.org/1999/xhtml'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' /><title>AHC Helpdesk</title><link href='https://fonts.googleapis.com/css?family=Open+Sans&display=swap' rel='stylesheet'><style type='text/css'>body{font-family:'Open Sans',sans-serif;background:#f1f1f1;color:#0f0f0f;font-size:14px;padding:20px}.pb-15{padding-bottom:15px}.mb-15{margin-bottom:15px}.text-center{text-align:center}.button{padding:8px 12px;background-color:#2cafdd;border-radius:4px;color:#fff;text-decoration:none;display:inline-block;margin-bottom:15px}.button:hover{background-color:#0d96c6;transition:1s all}</style></head><body style='background-color: #f1f1f1; padding: 15px;'><table align='center' style='width: 600px; margin: 0 auto 0 auto;background-color: #fff;padding: 20px 15px;'><tr><td> <img src='ahc_logo.png' class='pb-15' height='44px;'><h4 style='color: #2cafdd'>Dear ");
+                HeaderHtml.Append("" + CustomerFullName + ",</h4><p> This is an automated message from the AHC Helpdesk System to confirm that this ticket has been created. Our aim to continuously provide a fast and efficient service.  . <a href='#' style='color: #2cafdd; text-decoration: none;'>Click Here</a></p><h4>Ticket Information :</h4><div style='width: 70px; height: 2px; background-color: #000;'></div><div style='background-color: #fff; padding-top: 20px; padding-bottom: 15px;'><table><tr>");
+                HeaderHtml.Append("<td>Ticket No</td><td>:" + TicketNumber + "</td>");
+                HeaderHtml.Append("</tr><tr><td>Created Date</td><td>: " + CreatedDate + "</td>");
+                HeaderHtml.Append("</tr><tr><td>Product</td><td>: " + ProductName + "</td>");
+                HeaderHtml.Append("</tr><tr><td>System Id</td><td>: " + SystemId + "</td>");
+                HeaderHtml.Append("</tr><tr><td>Account</td><td>: " + AccountName + "</td>");
+                HeaderHtml.Append("</tr><tr><td>Problem Description</td><td>: " + ProblemDescription + "</td>");
+                HeaderHtml.Append("</tr><tr><td>Assigned To</td><td>: " + EngineerFullName + "</td>");
+                HeaderHtml.Append("<table style='margin-bottom: 10px;'><tr><td> <a href='#' target='_blank' style='text-decoration: none; padding: 8px 12px;border: 1px solid #2cafdd; border-radius: 4px; color: #2cafdd; text-decoration: none;'>Button Click</a></td></tr></table><hr><div class='text-center'> <small>please do not hesitate to contact our customer Service support center <strong> +966593631341</strong>,<br> one of our representatives will do their best to assist you.</small></div></td></tr></table></body></html>");
+
+                htmlstr = HeaderHtml.ToString();
+                string Subject = "New Ticket Email";
+                string mailFrom = System.Configuration.ConfigurationManager.AppSettings["mailFrom"].ToString();
+                string mailHRBCC = string.Empty;
+                CustomerEmail = "hussainibaigm@gmail.com";
+                Models.EmailUtility.sendEmail(mailFrom, CustomerEmail, htmlstr, Subject, mailHRBCC);
             }
             catch (Exception)
             {
@@ -187,7 +219,7 @@ namespace HelpDesk.API.Bussiness
             }
             return obj;
         }
-        
+
         public TicketDTO GetSystemUserProducts(TicketDTO obj)
         {
             obj.datasetxml = model.GetSystemUserProducts(obj);
@@ -208,7 +240,7 @@ namespace HelpDesk.API.Bussiness
             obj.datasetxml = model.Getproducts(obj);
             return obj;
         }
-        
+
         public TicketDTO GetSystemUserTickets(TicketDTO obj)
         {
             obj.datasetxml = model.GetSystemUserTickets(obj);
@@ -225,13 +257,13 @@ namespace HelpDesk.API.Bussiness
             return obj;
         }
 
-        
+
         public TicketDTO GetSparePartRequestTickets(TicketDTO obj)
         {
             obj.datasetxml = model.GetSparePartRequestTickets(obj);
             return obj;
         }
-        
+
         public TicketDTO GetServiceEngineerTicketsFiletrs(TicketDTO obj)
         {
             obj.datasetxml = model.GetServiceEngineerTicketsFilerts(obj);
@@ -247,7 +279,7 @@ namespace HelpDesk.API.Bussiness
             obj.datasetxml = model.GetSparePartListByWarehouseId(obj);
             return obj;
         }
-        
+
     }
 
     public interface ITicketService
