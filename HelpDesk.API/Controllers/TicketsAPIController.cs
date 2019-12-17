@@ -208,5 +208,33 @@ namespace HelpDesk.API.Controllers
             var result = service.GetSparePartRequestTickets(obj);
             return Ok(result);
         }
+
+
+        #region Enquiry
+        [ResponseType(typeof(TicketDTO))]
+        public IHttpActionResult NewEnquiryComments(TicketDTO obj)
+        {
+            var result = service.AddEnquirycomments(obj);
+            return Ok(result);
+        }
+        [ResponseType(typeof(TicketDTO))]
+        public IHttpActionResult NewEnquiry(TicketDTO obj)
+        {
+            var result = service.AddEnquiry(obj);
+            return Ok(result);
+        }
+        [ResponseType(typeof(TicketDTO))]
+        public IHttpActionResult NewEnquiryList(TicketDTO obj)
+        {
+            var result = service.GetEnquiryList(obj);
+            return Ok(result);
+        }
+        [ResponseType(typeof(TicketDTO))]
+        public IHttpActionResult NewEnquiryDetails(TicketDTO obj)
+        {
+            var result = service.GetEnquiryDetails(obj);
+            return Ok(result);
+        }
+        #endregion
     }
 }

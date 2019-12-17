@@ -145,6 +145,22 @@ namespace HelpDesk.API.Controllers
             var result = service.updateStatus(obj);
             return Ok(result);
         }
+
+
+        [ResponseType(typeof(UsersDTO))]
+        public IHttpActionResult NewAddUserProduct(UsersDTO obj)
+        {
+            var result = service.addproduct(obj);
+            return Ok(result);
+        }
+
+        //[ResponseType(typeof(UsersDTO))]
+        //public IHttpActionResult NewAddUserAccount(UsersDTO obj)
+        //{
+        //    var result = service.addproduct(obj);
+        //    return Ok(result);
+        //}
+
         /// <summary>
         /// remove assigned account id or product id
         /// </summary>

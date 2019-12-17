@@ -7,6 +7,12 @@ namespace HelpDesk.Web.Models
 {
     public class InventoryDTO
     {
+        public int Statusid { get; set; }
+        public long ConsignmentId { get; set; }
+        public string AHCCode { get; set; }
+        public string Comments { get; set; }
+        public string ConsignmentsJson { get; set; }
+        public string ConsignmentDate { get; set; }
         public string Gruop { get; set; }
         public string message { get; set; }
         public int WarehouseId { get; set; }
@@ -29,6 +35,8 @@ namespace HelpDesk.Web.Models
         public IEnumerable<InventoryDTO> WarehouseList { get; set; }
         public IEnumerable<InventoryDTO> SparePartList { get; set; }
 
+        public IEnumerable<InventoryDTO> ConsignmentsList { get; set; }
 
+        public string Statustxt { get; set; }
     }
 }

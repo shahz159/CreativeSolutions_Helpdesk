@@ -169,6 +169,61 @@
                 }
             });
         }
+
+           function RemoveAccountProduct(id,type) {
+             $.ajax({
+                type: "Post",
+                url: '@Url.Action("removeAccountOrProduct")',
+                datatype: "json",
+                data: { id: id,type:type },
+                success: function (data) {
+                     var v = data.success;
+                    if (v == true) {
+                        document.getElementById("loader").style.display = "none";
+                        var userid = $('#hdnUserId').val();
+                        UserDetails(userid);
+                    }
+                    else {
+                        document.getElementById("loader").style.display = "none";
+                        alert('Some thing went wrong');
+                    }
+                },
+                error: function () {
+                    $('#userdetails').html('');
+                    document.getElementById("loader").style.display = "none";
+                }
+            });
+        }
+          function AddProductDiv() {
+            $('#AddNewProduct_tr').slideToggle("slow");
+        }
+         function AddProductsUP(id) {
+          
+            var ProductId = $('#ddlProductsUP').val();
+
+            $.ajax({
+                type: "Post",
+                url: '@Url.Action("AddProducts")',
+                datatype: "json",
+                data: { id: id,ProductId:ProductId },
+                success: function (data) {
+                     var v = data.success;
+                    if (v == true) {
+                        document.getElementById("loader").style.display = "none";
+                        var userid = $('#hdnUserId').val();
+                        UserDetails(userid);
+                    }
+                    else {
+                        document.getElementById("loader").style.display = "none";
+                        alert('Some thing went wrong');
+                    }
+                },
+                error: function () {
+                    $('#userdetails').html('');
+                    document.getElementById("loader").style.display = "none";
+                }
+            });
+        }
     </script>
 
 }

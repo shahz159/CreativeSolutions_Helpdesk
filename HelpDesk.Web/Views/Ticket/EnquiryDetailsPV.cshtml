@@ -1,0 +1,171 @@
+﻿@model HelpDesk.Web.Models.TicketDTO
+@*@{
+        ViewBag.Title = "Enquiries";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }*@
+
+@foreach (var item in Model.TicketList)
+{
+    <div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="kt-portlet ">
+                    <div class="kt-portlet__head kt-portlet__head--lg">
+                        <div class="kt-portlet__head-label">
+                            <span class="kt-portlet__head-icon">
+                                <i class="kt-font-brand flaticon2-line-chart"></i>
+                            </span>
+                            <h3 class="kt-portlet__head-title">Enquiry Details</h3>
+                        </div>
+                        <div class="kt-portlet__head-toolbar">
+                            <div class="kt-portlet__head-wrapper">
+                                <div class="kt-portlet__head-actions">
+                                    Date : <strong class="color-primary">@item.EnquiryDate</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body">
+                        <div class="kt-widget kt-widget--user-profile-3">
+                            <div class="kt-widget__top">
+                                <div class="kt-widget__content">
+                                    <div class="kt-widget__head">
+                                        <div class="kt-widget__title"> @item.ProductName - (@item.ProductCode)</div><br />
+                                    </div>
+                                    <table class="ticket-full-details table table-borderless table-sm">
+                                        <tr>
+                                            <td>Serial No.</td>
+                                            <td>: @item.SerialNo</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Account</td>
+                                            <td>: @item.AccountName - (@item.AccountCode)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Area</td>
+                                            <td>: @item.Area</td>
+                                        </tr>
+                                    </table>
+                                    <div class="kt-widget__info">
+                                        <div class="kt-widget__desc">
+                                            Description - @item.Description
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="kt-portlet kt-portlet--height-fluid">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                User Details
+                            </h3>
+                        </div>
+                        <a onclick="CloseDetails()" class="details-close-button btn btn-danger btn-sm btn-icon btn-circle position-absolute"><i class="la la-close"></i></a>
+                    </div>
+                    <div class="kt-portlet__body">
+                        <table class="ticket-full-details table table-borderless table-sm">
+                            <tr>
+                                <td>Employee ID</td>
+                                <td>: @item.EmpID</td>
+                            </tr>
+                            <tr>
+                                <td>Name</td>
+                                <td>: @item.FullName</td>
+                            </tr>
+                            <tr>
+                                <td>Email</td>
+                                <td>: @item.Email</td>
+                            </tr>
+                            <tr>
+                                <td>Phone</td>
+                                <td>: @item.Mobile</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--begin:: Portlet-->
+        <!--end:: Portlet-->
+        <div class="row">
+            <div class="col-xl-12">
+                <!--begin:: Widgets/Order Statistics-->
+                <div class="kt-portlet kt-portlet--tabs kt-portlet--height-fluid">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                Comments
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body">
+                        <div class="kt-widget4">
+                            @if (Model.CommentsList.Count() > 0)
+                            {
+                                foreach (var item_cc in Model.CommentsList)
+                                {
+                                    if (item_cc.ParentId == 1)
+                                    {
+                                        <div class="kt-widget4__item text-right">
+                                            <div class="kt-widget4__info">
+                                                <span class="kt-widget4__username">
+                                                    @item_cc.FullName <small>@item_cc.CommentsDate</small>
+                                                </span>
+                                                <p class="kt-widget4__text">
+                                                   @item_cc.Comments
+                                                </p>
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="kt-widget4__item">
+                                            <div class="kt-widget4__info">
+                                                <span class="kt-widget4__username">
+                                                    @item_cc.FullName <small>@item_cc.CommentsDate</small>
+                                                </span>
+                                                <p class="kt-widget4__text">
+                                                    @item_cc.Comments
+                                                </p>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            }
+
+                        </div>
+                    </div>
+                    <div class="kt-portlet__foot">
+                        <form>
+                            <h4 class="kt-portlet__head-title">Post A Comment</h4>
+                            <div class="form-group">
+                                <textarea class="form-control" id="exampleTextarea" rows="3" placeholder="Type notes"></textarea>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <a onclick="AddComments()" class="btn btn-label-brand btn-bold">Submit</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end:: Widgets/Order Statistics-->
+    </div>
+
+    <input type="hidden" id="hdnEnquiryId" value="@item.EnquiryId" />
+}
+
+
+
+<script>
+    document.getElementById("loader").style.display = "none";
+
+   
+</script>

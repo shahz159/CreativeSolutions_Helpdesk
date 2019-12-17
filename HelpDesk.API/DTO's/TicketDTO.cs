@@ -7,6 +7,8 @@ namespace HelpDesk.API.DTO_s
 {
     public class TicketDTO
     {
+        public long EnquiryId { get; set; }
+
         public string multipledocuments_xml { get; set; }
         public int ReportId { get; set; }
         public string  ReportTypeName { get; set; }

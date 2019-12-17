@@ -174,6 +174,30 @@ namespace HelpDesk.API.Bussiness
             }
             return obj;
         }
+        public UsersDTO addproduct(UsersDTO obj)
+        {
+            try
+            {
+                var data = model.addproduct(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["message"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
+
+        
     }
 
     public interface IUserService
@@ -183,6 +207,7 @@ namespace HelpDesk.API.Bussiness
         UsersDTO GetUserDetailsById(UsersDTO obj);
         UsersDTO GetUserList(UsersDTO obj);
         UsersDTO updateStatus(UsersDTO obj);
+        UsersDTO addproduct(UsersDTO obj);
         UsersDTO removeaccountproduct(UsersDTO obj);
         UsersDTO GetSystemUserforApprovalList(UsersDTO obj);
         UsersDTO GetSystemUserDetailsById(UsersDTO obj);

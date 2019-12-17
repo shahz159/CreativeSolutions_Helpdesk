@@ -8,6 +8,9 @@ namespace HelpDesk.Web.Models
 {
     public class TicketDTO
     {
+        public string EnquiryDate { get; set; }
+
+        public long EnquiryId { get; set; }
         public int FlagId { get; set; }
         public int RoleId { get; set; }
         public string PriorityText { get; set; }
@@ -49,6 +52,7 @@ namespace HelpDesk.Web.Models
         public string FullName { get; set; }
         public string Area { get; set; }
         public string ProductName { get; set; }
+        public string ProductCode { get; set; }
         public IEnumerable<TicketDTO> TicketList { get; set; }
         public IEnumerable<TicketDTO> ProductList { get; set; }
         public IEnumerable<TicketDTO> ModelList { get; set; }
@@ -65,6 +69,7 @@ namespace HelpDesk.Web.Models
         public int pagingNumber { get; set; }
 
         public int MappedWarehouseId { get; set; }
+        public string Actioncomments { get; set; }
         public string WarehouseJson { get; set; }
         public string SparePartRequestJson { get; set; }
         public string StatusJson { get; set; }
@@ -87,12 +92,29 @@ namespace HelpDesk.Web.Models
         public string Comment { get; set; }
         public string Commentsdate { get; set; }
         public string commentsjson { get; set; }
-
+        public int ParentId { get; set; }
+        public long ECommentsId { get; set; }
+       // public string CommentsDate { get; set; }
         public string Gruop { get; set; }
 
         public int NewTickets { get; set; }
         public int InProgressTickets { get; set; }
         public int ResolvedTickets { get; set; }
+        public string ManagerName { get; set; }
+        public string ManagerConfirmationDate { get; set; }
+        public string CustomerConfirmationDate { get; set; }
+        public string ServiceEngineerResolvedDate { get; set; }
+        public string ServiceStartDate { get; set; }
+        public string PPMDate { get; set; }
+        public string WarrantyExpiryDate { get; set; }
+        public bool IsContract { get; set; }
+        public string InstallationDate { get; set; }
+        public string POContract { get; set; }
+        public string Email { get; set; }
+        public string Mobile { get; set; }
+        public string AccountCode { get; set; }
+        public string EmpID { get; set; }
+        public long CreatedUserId { get; set; }
 
     }
 }

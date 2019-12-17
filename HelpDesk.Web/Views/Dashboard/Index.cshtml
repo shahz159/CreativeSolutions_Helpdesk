@@ -26,7 +26,15 @@
                     <div class="kt-widget26">
                         <div class="kt-widget26__content">
                             <span class="kt-widget26__number">@Model.NewTickets</span>
-                            <span class="kt-widget26__desc">New Tickets</span>
+                            @if (Model.RoleId == 503)
+                            {
+                                <span class="kt-widget26__desc"> In Progress</span>
+                            }
+                            else
+                            {
+                                <span class="kt-widget26__desc"> New</span>
+                            }
+
                         </div>
                     </div>
                 </div>
@@ -38,7 +46,15 @@
                     <div class="kt-widget26">
                         <div class="kt-widget26__content">
                             <span class="kt-widget26__number">@Model.InProgressTickets</span>
-                            <span class="kt-widget26__desc">In Progress Tickets</span>
+                            @if (Model.RoleId == 503)
+                            {
+                                <span class="kt-widget26__desc"> Action to Close</span>
+                            }
+                            else
+                            {
+                                <span class="kt-widget26__desc"> In Progress</span>
+                            }
+
                         </div>
                     </div>
                 </div>
@@ -50,7 +66,14 @@
                     <div class="kt-widget26">
                         <div class="kt-widget26__content">
                             <span class="kt-widget26__number">@Model.ResolvedTickets</span>
-                            <span class="kt-widget26__desc">Resolved Tickets</span>
+                            @if (Model.RoleId == 503)
+                            {
+                                <span class="kt-widget26__desc"> Closed</span>
+                            }
+                            else
+                            {
+                                <span class="kt-widget26__desc"> Resolved</span>
+                            }
                         </div>
                     </div>
                 </div>
@@ -69,115 +92,115 @@
                 </div>
             </div>*@
     </div>
-    
-    @*<div class="row">
-        <div class="col-xl-4 col-lg-4 order-lg-3 order-xl-1">
-            <div class="kt-portlet kt-portlet--height-fluid">
-                <div class="kt-portlet__head">
-                    <div class="kt-portlet__head-label">
-                        <h3 class="kt-portlet__head-title">
-                            New Tickets
-                        </h3>
-                    </div>
-                </div>
-                <div class="kt-portlet__body">
-                    <div class="kt-widget6">
-                        <div class="kt-widget6__head">
-                            <div class="kt-widget6__item">
-                                <span class="kt-font-bold">Ticket No.</span>
-                                <span class="kt-font-bold">Date</span>
-                                <span class="kt-font-bold">Service Engineer</span>
-                            </div>
-                        </div>
-                        <div class="kt-widget6__body">
-                            @if (Model.ReportList != null)
-                            {
-                                foreach (var item in Model.ReportList)
-                                {
-                                    <div class="kt-widget6__item">
-                                        <span>@item.TicketNumber</span>
-                                        <span>@item.CreatedOn</span>
-                                        <span>@item.FullName</span>
-                                    </div>
-                                }
-                            }
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="col-xl-4 col-lg-4 order-lg-3 order-xl-1">
-            <div class="kt-portlet kt-portlet--height-fluid">
-                <div class="kt-portlet__head">
-                    <div class="kt-portlet__head-label">
-                        <h3 class="kt-portlet__head-title">
-                            Pending Tickets
-                        </h3>
-                    </div>
-                </div>
-                <div class="kt-portlet__body">
-                    <div class="kt-widget6">
-                        <div class="kt-widget6__head">
-                            <div class="kt-widget6__item">
-                                <span class="kt-font-bold">Ticket No.</span>
-                                <span class="kt-font-bold">Date</span>
-                                <span class="kt-font-bold">Service Engineer</span>
-                            </div>
+    @*<div class="row">
+            <div class="col-xl-4 col-lg-4 order-lg-3 order-xl-1">
+                <div class="kt-portlet kt-portlet--height-fluid">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                New Tickets
+                            </h3>
                         </div>
-                        <div class="kt-widget6__body">
-                            @if (Model.WarehouseList != null)
-                            {
-                                foreach (var item in Model.WarehouseList)
+                    </div>
+                    <div class="kt-portlet__body">
+                        <div class="kt-widget6">
+                            <div class="kt-widget6__head">
+                                <div class="kt-widget6__item">
+                                    <span class="kt-font-bold">Ticket No.</span>
+                                    <span class="kt-font-bold">Date</span>
+                                    <span class="kt-font-bold">Service Engineer</span>
+                                </div>
+                            </div>
+                            <div class="kt-widget6__body">
+                                @if (Model.ReportList != null)
                                 {
-                                    <div class="kt-widget6__item">
-                                        <span>@item.TicketNumber</span>
-                                        <span>@item.CreatedOn</span>
-                                        <span>@item.FullName</span>
-                                    </div>
+                                    foreach (var item in Model.ReportList)
+                                    {
+                                        <div class="kt-widget6__item">
+                                            <span>@item.TicketNumber</span>
+                                            <span>@item.CreatedOn</span>
+                                            <span>@item.FullName</span>
+                                        </div>
+                                    }
                                 }
-                            }
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-xl-4 col-lg-4 order-lg-3 order-xl-1">
-            <div class="kt-portlet kt-portlet--height-fluid">
-                <div class="kt-portlet__head">
-                    <div class="kt-portlet__head-label">
-                        <h3 class="kt-portlet__head-title">
-                            Resolved Tickets
-                        </h3>
-                    </div>
-                </div>
-                <div class="kt-portlet__body">
-                    <div class="kt-widget6">
-                        <div class="kt-widget6__head">
-                            <div class="kt-widget6__item">
-                                <span class="kt-font-bold">Ticket No.</span>
-                                <span class="kt-font-bold">Date</span>
-                                <span class="kt-font-bold">Service Engineer</span>
-                            </div>
+
+            <div class="col-xl-4 col-lg-4 order-lg-3 order-xl-1">
+                <div class="kt-portlet kt-portlet--height-fluid">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                Pending Tickets
+                            </h3>
                         </div>
-                        <div class="kt-widget6__body">
-                            @if (Model.SparePartList != null)
-                            {
-                                foreach (var item in Model.SparePartList)
+                    </div>
+                    <div class="kt-portlet__body">
+                        <div class="kt-widget6">
+                            <div class="kt-widget6__head">
+                                <div class="kt-widget6__item">
+                                    <span class="kt-font-bold">Ticket No.</span>
+                                    <span class="kt-font-bold">Date</span>
+                                    <span class="kt-font-bold">Service Engineer</span>
+                                </div>
+                            </div>
+                            <div class="kt-widget6__body">
+                                @if (Model.WarehouseList != null)
                                 {
-                                    <div class="kt-widget6__item">
-                                        <span>@item.TicketNumber</span>
-                                        <span>@item.CreatedOn</span>
-                                        <span>@item.FullName</span>
-                                    </div>
+                                    foreach (var item in Model.WarehouseList)
+                                    {
+                                        <div class="kt-widget6__item">
+                                            <span>@item.TicketNumber</span>
+                                            <span>@item.CreatedOn</span>
+                                            <span>@item.FullName</span>
+                                        </div>
+                                    }
                                 }
-                            }
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>*@
+            <div class="col-xl-4 col-lg-4 order-lg-3 order-xl-1">
+                <div class="kt-portlet kt-portlet--height-fluid">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                Resolved Tickets
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body">
+                        <div class="kt-widget6">
+                            <div class="kt-widget6__head">
+                                <div class="kt-widget6__item">
+                                    <span class="kt-font-bold">Ticket No.</span>
+                                    <span class="kt-font-bold">Date</span>
+                                    <span class="kt-font-bold">Service Engineer</span>
+                                </div>
+                            </div>
+                            <div class="kt-widget6__body">
+                                @if (Model.SparePartList != null)
+                                {
+                                    foreach (var item in Model.SparePartList)
+                                    {
+                                        <div class="kt-widget6__item">
+                                            <span>@item.TicketNumber</span>
+                                            <span>@item.CreatedOn</span>
+                                            <span>@item.FullName</span>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>*@
 </div>
 
 

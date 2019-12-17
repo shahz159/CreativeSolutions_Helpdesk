@@ -6,6 +6,7 @@
         border-radius: 0;
         font-weight: 500
     }
+
     .form-control:disabled, .form-control[readonly] {
         background-color: #ffffff;
         opacity: 1;
@@ -63,7 +64,7 @@
                                                 <i class="la la-reply"></i>
                                                 Request Spare Part
                                             </a>
-                                            <a onclick="UpdateStatus(6)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                            <a onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
                                                 <i class="la la-info"></i>
                                                 Ticket Preview
                                             </a>
@@ -72,19 +73,81 @@
                                         {
                                             if (item.Status == 6)
                                             {
-                                                <a onclick="UpdateStatus(7)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                                <a onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
                                                     <i class="la la-check"></i>
-                                                    Close Ticket
+                                                    Ticket Preview
+                                                </a>
+                                            }
+                                            else if (item.Status == 13)
+                                            {
+                                                <a class="btn btn-brand btn-elevate btn-icon-sm">
+                                                    <i class="la la-check"></i>
+                                                    Confirmed
+                                                </a>
+                                                <a onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                                    <i class="la la-check"></i>
+                                                    Ticket Preview
                                                 </a>
                                             }
                                         }
-                                        else
+                                        else if (Model.RoleId == 504)
+                                        {
+                                            if (item.Status == 6)
+                                            {
+                                                <a class="btn btn-brand btn-elevate btn-icon-sm">
+                                                    <i class="la la-check"></i>
+                                                    Technician Resolved
+                                                </a>
+                                                <a onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                                    <i class="la la-check"></i>
+                                                    Ticket Preview
+                                                </a>
+                                            }
+                                            else if (item.Status == 13)
+                                            {
+                                                <a class="btn btn-brand btn-elevate btn-icon-sm">
+                                                    <i class="la la-check"></i>
+                                                    Customer Confirmed
+                                                </a>
+                                                <a onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                                    <i class="la la-check"></i>
+                                                    Ticket Preview
+                                                </a>
+                                            }
+                                        }
+                                        else if (Model.RoleId == 505)
                                         {
                                             if (item.Status == 6)
                                             {
                                                 <a class="btn btn-brand btn-elevate btn-icon-sm">
                                                     <i class="la la-check"></i>
                                                     Resolved
+                                                </a>
+                                                <a onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                                    <i class="la la-check"></i>
+                                                    Ticket Preview
+                                                </a>
+                                            }
+                                            else if (item.Status == 13)
+                                            {
+                                                <a class="btn btn-brand btn-elevate btn-icon-sm">
+                                                    <i class="la la-check"></i>
+                                                    Customer Confirmed
+                                                </a>
+                                                <a onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                                    <i class="la la-check"></i>
+                                                    Ticket Preview
+                                                </a>
+                                            }
+                                            else if (item.Status == 14)
+                                            {
+                                                <a class="btn btn-brand btn-elevate btn-icon-sm">
+                                                    <i class="la la-check"></i>
+                                                    Manager Confirmed
+                                                </a>
+                                                <a onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                                    <i class="la la-check"></i>
+                                                    Ticket Preview
                                                 </a>
                                             }
                                         }
@@ -372,25 +435,25 @@
                                 </div>
                             </div>
                             @*<div class="row p-4">
-                        <div class="col-md-4">
-                            <a href="" class="text-dark">
-                                <i class="fa fa-file fa-3x" aria-hidden="true"></i><br />
-                                <span class="mt-2">Document</span>
-                            </a>
-                        </div>
-                        <div class="col-md-4">
-                            <a href="" class="text-dark">
-                                <i class="fa fa-file fa-3x" aria-hidden="true"></i><br />
-                                <span class="mt-2">Document</span>
-                            </a>
-                        </div>
-                        <div class="col-md-4">
-                            <a href="" class="text-dark">
-                                <i class="fa fa-file fa-3x" aria-hidden="true"></i><br />
-                                <span class="mt-2">Document</span>
-                            </a>
-                        </div>
-                    </div>*@
+                                    <div class="col-md-4">
+                                        <a href="" class="text-dark">
+                                            <i class="fa fa-file fa-3x" aria-hidden="true"></i><br />
+                                            <span class="mt-2">Document</span>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a href="" class="text-dark">
+                                            <i class="fa fa-file fa-3x" aria-hidden="true"></i><br />
+                                            <span class="mt-2">Document</span>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a href="" class="text-dark">
+                                            <i class="fa fa-file fa-3x" aria-hidden="true"></i><br />
+                                            <span class="mt-2">Document</span>
+                                        </a>
+                                    </div>
+                                </div>*@
 
 
 
@@ -471,10 +534,35 @@
                                 <div class="kt-portlet__head-toolbar">
                                     <div class="kt-portlet__head-wrapper">
                                         <div class="kt-portlet__head-actions">
-                                            <a href="#" class="btn btn-brand btn-elevate btn-icon-sm">
-                                                <i class="la la-check"></i>
-                                                Resolve
-                                            </a>
+                                            @if (Model.RoleId == 505 && item.Status == 2)
+                                            {
+                                                <a onclick="UpdateStatus(6)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                                    <i class="la la-check"></i>
+                                                    Resolve
+                                                </a>
+                                            }
+                                            else if (Model.RoleId == 503 && item.Status == 6)
+                                            {
+                                                <a onclick="UpdateStatus(13)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                                    <i class="la la-check"></i>
+                                                    Confirm
+                                                </a>
+                                            }
+                                            else if (Model.RoleId == 504 && item.Status == 13)
+                                            {
+                                                <a onclick="UpdateStatus(14)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                                    <i class="la la-check"></i>
+                                                    Confirm
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a class="btn btn-blue-oleo btn-elevate btn-icon-sm">
+                                                    <i class="la la-check"></i>
+                                                    @item.Statustxt
+                                                </a>
+                                            }
+
                                             <a onclick="closeServiceReport()" class="details-close-button btn btn-danger btn-sm btn-icon btn-circle position-absolute"><i class="la la-close"></i></a>
                                         </div>
                                     </div>
@@ -485,99 +573,100 @@
                                     <div class="row">
                                         <div class="form-group col-xl-12">
                                             <label for="exampleTextarea">Activities Done</label>
-                                            <textarea class="form-control" rows="3"></textarea>
+                                            <textarea id="txtactivitydone" class="form-control" rows="3"></textarea>
                                         </div>
                                         <div class="form-group col-xl-12">
                                             <label for="exampleTextarea">Problem Description</label>
-                                            <textarea class="form-control form-bottom-border" name="ServiceRptr" disabled rows="3"></textarea>
+                                            @*<textarea class="form-control form-bottom-border" name="ServiceRptr" disabled rows="3" value="@item.Description"></textarea>*@
+                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.Description">
                                         </div>
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>Ticket Number</label>
-                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="AHC-12554">
+                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.TicketNumber">
                                         </div>
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>Customer ID</label>
-                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="154851">
+                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.CreatedUserId">
                                         </div>
                                         @*<div class="form-group col-xl-4 col-md-6">
-            <label>Customer Equipment ID</label>
-            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="5258452">
-        </div>
-        <div class="form-group col-xl-4 col-md-6">
-            <label>Service Report Date</label>
-            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="11-12-2019">
-        </div>*@
+                                                <label>Customer Equipment ID</label>
+                                                <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="5258452">
+                                            </div>
+                                            <div class="form-group col-xl-4 col-md-6">
+                                                <label>Service Report Date</label>
+                                                <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="11-12-2019">
+                                            </div>*@
                                         @*<div class="form-group col-xl-4 col-md-6">
-                                            <label>Service Report No.</label>
-                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="5750">
-                                        </div>*@
+                                                <label>Service Report No.</label>
+                                                <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="5750">
+                                            </div>*@
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>Customer Name</label>
-                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="Vali Noor">
+                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.CreatedUser">
                                         </div>
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>Customer Location</label>
-                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="Hyderabad">
+                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.Area">
                                         </div>
                                         @*<div class="form-group col-xl-4 col-md-6">
-            <label>Customer Telephone</label>
-            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="040-23831542">
-        </div>
-        <div class="form-group col-xl-4 col-md-6">
-            <label>Customer Fax</label>
-            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="040-23831542">
-        </div>*@
+                                                <label>Customer Telephone</label>
+                                                <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="040-23831542">
+                                            </div>
+                                            <div class="form-group col-xl-4 col-md-6">
+                                                <label>Customer Fax</label>
+                                                <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="040-23831542">
+                                            </div>*@
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>Customer Mobile No.</label>
-                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="+91-8686865185">
+                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.Mobile">
                                         </div>
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>Customer Email</label>
-                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="vali@gmail.com">
+                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.Email">
                                         </div>
                                         @*<div class="form-group col-xl-4 col-md-6">
-            <label>Equipment Description</label>
-            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="Lorem ipsum dolor sit amet">
-        </div>*@
+                                                <label>Equipment Description</label>
+                                                <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="Lorem ipsum dolor sit amet">
+                                            </div>*@
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>Equipment Model</label>
-                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="Hos-554956">
+                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.ModelName">
                                         </div>
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>Equipment Serial No.</label>
-                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="1523">
+                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.SerialNo">
                                         </div>
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>Equipment P.O No.</label>
-                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="47874">
+                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.POContract">
                                         </div>
                                         @*<div class="form-group col-xl-4 col-md-6">
-            <label>Manufacturer</label>
-            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="cisco">
-        </div>*@
+                                                <label>Manufacturer</label>
+                                                <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="cisco">
+                                            </div>*@
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>Installation Date</label>
-                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="11-12-2019">
+                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.InstallationDate">
                                         </div>
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>Warranty End Date</label>
-                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="10-12-2025">
+                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.WarrantyExpiryDate">
                                         </div>
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>Next PPM Shedule</label>
-                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="20-12-2019">
+                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.PPMDate">
                                         </div>
                                         @*<div class="form-group col-xl-4 col-md-6">
-            <label>Customer Call Date & Time</label>
-            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="05-12-2019 10:30 AM">
-        </div>*@
+                                                <label>Customer Call Date & Time</label>
+                                                <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="05-12-2019 10:30 AM">
+                                            </div>*@
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>Service Start Date & Time</label>
-                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="22-12-2019 12:00 PM">
+                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.ServiceStartDate">
                                         </div>
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>Service End Date & Time</label>
-                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="22-12-2025 11:59 PM">
+                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.ServiceEngineerResolvedDate">
                                         </div>
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>Work Hours</label>
@@ -585,12 +674,12 @@
                                         </div>
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>Report Type</label>
-                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="Installation">
+                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.ReportTypeName">
                                         </div>
                                         @*<div class="form-group col-xl-12">
-            <label>Total Charges</label>
-            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="SAR 2020">
-        </div>*@
+                                                <label>Total Charges</label>
+                                                <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="SAR 2020">
+                                            </div>*@
 
 
                                         <br />
@@ -602,8 +691,9 @@
                                         <div class="form-group col-md-4">
                                             <label> Engineer</label>
                                             <h5>
-                                                Not Resolved<br />
+                                                @item.FullName<br />
                                                 <small>
+                                                    @item.ServiceEngineerResolvedDate
                                                     @*11-12-2019 04:00 PM*@
                                                 </small>
                                             </h5>
@@ -611,24 +701,27 @@
                                         <div class="form-group col-md-4">
                                             <label> Customer</label>
                                             <h5>
-                                                Not Confirm/Acknowledge
+                                                @item.CreatedUser
                                                 <br />
-                                                <small></small>
+                                                <small>
+                                                    @item.CustomerConfirmationDate
+                                                </small>
                                             </h5>
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label> System Manager</label>
                                             <h5>
-                                                Not Confirm/Acknowledge
+                                                @item.ManagerName
                                                 <br />
-                                                <small></small>
+                                                <small>
+                                                    @item.ManagerConfirmationDate
+                                                </small>
                                             </h5>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -659,6 +752,7 @@
         <input type="hidden" id="hdnTicketNumber" value="@item.TicketNumber" />
         <input type="hidden" id="hdnAssignedWarehouseId" value="@item.MappedWarehouseId" />
 
+        <input type="hidden" id="hdnActionComments" value="@item.Actioncomments" />
     }
 </div>
 
@@ -671,6 +765,7 @@
     $(document).ready(function () {
         document.getElementById("loader").style.display = "none";
 
+        $('#txtactivitydone').val($('#hdnActionComments').val());
 
         //ServiceRptr
         $('input[type=text][name=ServiceRptr]').prop("disabled", true);
@@ -1043,39 +1138,47 @@
         $('#AddResponseTime_Div').slideToggle();
     }
     async function UpdateStatus(val) {
-
-        if (val == 6) {
-
-            @*await $.ajax({
-                type: 'POST',
-                url: '@Url.Action("ServiceReportPV")', // we are calling json method
-                dataType: 'json',
-                data: { TicketNumber: $('#hdnTicketNumber').val() },
-                success: function (data) {
-                    $('#div_pv_details').hide();
-                    $('#service_report_prw').show();
-                    document.getElementById("loader").style.display = "none";
-                    $('#service_report_prw').html(data);
-                },
-                error: function (ex) {
-                    document.getElementById("loader").style.display = "none";
-                    $('#service_report_prw').html('');
-                    alert('Failed to retrieve details.' + ex);
-                }
-            });*@
+         var ticketnumber = $('#hdnTicketNumber').val();
+        if (val == 00) {
             $('#div_pv_details').hide();
             $('#service_report_prw').show();
             $('#details_upper').hide();
         }
-        else {
-
-            document.getElementById("loader").style.display = "block";
-            var ticketnumber = $('#hdnTicketNumber').val();
+        else if (val==6) {
+            var txtdone = $('#txtactivitydone').val();
+            
             await $.ajax({
                 type: 'POST',
                 url: '@Url.Action("UpdateTicketStatus")', // we are calling json method
                 dataType: 'json',
-                data: { id: val, TicketNumber: ticketnumber },
+                data: { id: val, TicketNumber: ticketnumber, comments: txtdone },
+                success: function (data) {
+                    var v = data.success;
+                    if (v == true) {
+                        document.getElementById("loader").style.display = "none";
+                        var ticketno = $('#hdnTicketNumber').val();
+                        TicketDetails(ticketno)
+                    }
+                    else {
+                        document.getElementById("loader").style.display = "none";
+                        alert('Some thing went wrong');
+                    }
+                },
+                error: function (ex) {
+                    document.getElementById("loader").style.display = "none";
+                    alert('Failed to retrieve details.' + ex);
+                }
+            });
+        }
+        else {
+
+            document.getElementById("loader").style.display = "block";
+           
+            await $.ajax({
+                type: 'POST',
+                url: '@Url.Action("UpdateTicketStatus")', // we are calling json method
+                dataType: 'json',
+                data: { id: val, TicketNumber: ticketnumber, comments: ''  },
                 success: function (data) {
                     var v = data.success;
                     if (v == true) {

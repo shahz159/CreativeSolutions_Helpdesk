@@ -37,6 +37,30 @@ namespace HelpDesk.API.Bussiness
             }
             return obj;
         }
+        public InventoryDTO ConsignmentStatus(InventoryDTO obj)
+        {
+            try
+            {
+                var data = model.ConsignmentStatus(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["message"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
+
+        
 
         public InventoryDTO InsertUpdateSparePart(InventoryDTO obj)
         {
@@ -60,7 +84,29 @@ namespace HelpDesk.API.Bussiness
             }
             return obj;
         }
-
+        public InventoryDTO InsertUpdateConsignment(InventoryDTO obj)
+        {
+            try
+            {
+                var data = model.InsertUpdateConsginment(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["message"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
+        
         public InventoryDTO SparePartById(InventoryDTO vm)
         {
             var data = model.SparePartById(vm);
@@ -75,6 +121,7 @@ namespace HelpDesk.API.Bussiness
                     vm.Quantity = int.Parse(data["Quantity"].ToString());
                     vm.BaseQuantity = int.Parse(data["BaseQuantity"].ToString());
                     vm.Price = data["Price"].ToString();
+                    vm.ConsignmentsJson = data["ConsignmentsJson"].ToString();
                 }
                 data.Close();
             }
@@ -86,7 +133,12 @@ namespace HelpDesk.API.Bussiness
             obj.datasetxml = model.SparePartList(obj);
             return obj;
         }
-
+        public InventoryDTO ConsignmentList(InventoryDTO obj)
+        {
+            obj.datasetxml = model.ConsignmentList(obj);
+            return obj;
+        }
+        
         public InventoryDTO Warehouseddl(InventoryDTO obj)
         {
             obj.datasetxml = model.Warehouseddl(obj);
@@ -97,8 +149,11 @@ namespace HelpDesk.API.Bussiness
     public interface IInventoryService
     {
         InventoryDTO InsertUpdateSparePart(InventoryDTO obj);
+        InventoryDTO InsertUpdateConsignment(InventoryDTO obj);
         InventoryDTO CheckSparePartName(InventoryDTO obj);
+        InventoryDTO ConsignmentStatus(InventoryDTO obj);
         InventoryDTO SparePartList(InventoryDTO obj);
+        InventoryDTO ConsignmentList(InventoryDTO obj);
         InventoryDTO SparePartById(InventoryDTO obj);
         InventoryDTO Warehouseddl(InventoryDTO obj);
     }

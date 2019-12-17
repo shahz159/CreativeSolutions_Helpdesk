@@ -4,6 +4,9 @@
     ViewBag.Title = "Users";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@section  Styles{
+    <link href="~/assets/css/datatables.bundle.css" rel="stylesheet" />
+}
 <!-- begin:: Content -->
 <div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4" id="div_upper">
     <div class="kt-portlet">
@@ -25,56 +28,11 @@
                 </div>
             </div>
         </div>
-        <div class="kt-portlet__body">
-            <!--begin: Search Form -->
-            @*<div class="kt-form kt-form--label-right">
-                <div class="row align-items-center">
-                    <div class="col-xl-12 order-2 order-xl-1">
-                        <div class="row align-items-center">
-                            <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
-                                <div class="kt-form__group">
-                                    <div class="kt-form__label">
-                                        <label>Select Company</label>
-                                    </div>
-                                    <div class="kt-form__control">
-                                        <select class="form-control kt-select2" id="kt_select2_14">
-                                            <option>All</option>
-                                            <option>Vali Noor</option>
-                                            <option>Hajarath Vali</option>
-                                            <option>Noor Basha</option>
-                                            <option>Hussain Baig</option>
-                                            <option>Md Shujath</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
-                                <div class="kt-form__group">
-                                    <div class="kt-form__label">
-                                        <label>Account</label>
-                                    </div>
-                                    <div class="kt-form__control">
-                                        <select class="form-control kt-select2" id="kt_select2_12">
-                                            <option>All</option>
-                                            <option>King Faisal Specialist Hospital - Riyadh</option>
-                                            <option>King Faisal Specialist Hospital - Jeddah</option>
-                                            <option>King Abdullah Bin Abdulaziz University Hospital</option>
-                                            <option>King Abdullah Medical City</option>
-                                            <option>King Fahad Specialist Hospital Dammam</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>*@
-        </div>
 
         <div class="kt-portlet__body pt-0">
             <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead class="thead-light">
+                <table id="kt_table_1" class="table table-striped- table-bordered table-hover table-checkable">
+                    <thead>
                         <tr>
                             <th scope="col">Employee Id</th>
                             <th scope="col">Email</th>
@@ -98,7 +56,16 @@
                                     <td>
                                         @item.Accountsxml
                                     </td>
-                                    <td>@item.isActive</td>
+                                    <td>
+                                        @if (item.isActive == true)
+                                        {
+                                            <p>Active</p>
+                                        }
+                                        else
+                                        {
+                                            <p>In Active</p>
+                                        }
+                                    </td>
                                     <td align="center">
                                         <a onclick="ViewDetails(@item.UserId)">
                                             <i class="fa fa-eye"></i>
@@ -114,65 +81,6 @@
 
         </div>
 
-        <div class="kt-portlet__foot">
-            <div class="kt-section">
-                <p class="kt-section__content">
-                    <!--begin: Pagination-->
-                    <div class="kt-pagination  kt-pagination--brand">
-                        <ul class="kt-pagination__links">
-                            <li class="kt-pagination__link--first">
-                                <a href="#"><i class="fa fa-angle-double-left kt-font-brand"></i></a>
-                            </li>
-                            <li class="kt-pagination__link--next">
-                                <a href="#"><i class="fa fa-angle-left kt-font-brand"></i></a>
-                            </li>
-                            <li class="kt-pagination__link--active">
-                                <a href="#">1</a>
-                            </li>
-                            <li>
-                                <a href="#">2</a>
-                            </li>
-                            <li>
-                                <a href="#">3</a>
-                            </li>
-                            <li>
-                                <a href="#">...</a>
-                            </li>
-
-                            <li>
-                                <a href="#">10</a>
-                            </li>
-                            <li>
-                                <a href="#">11</a>
-                            </li>
-                            <li>
-                                <a href="#">12</a>
-                            </li>
-                            <li class="kt-pagination__link--prev">
-                                <a href="#"><i class="fa fa-angle-right kt-font-brand"></i></a>
-                            </li>
-                            <li class="kt-pagination__link--last">
-                                <a href="#"><i class="fa fa-angle-double-right kt-font-brand"></i></a>
-                            </li>
-                        </ul>
-                        <div class="kt-pagination__toolbar">
-                            <select class="form-control kt-font-brand" style="width: 60px;">
-                                <option value="10">10</option>
-                                <option value="20">20</option>
-                                <option value="30">30</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                            </select>
-                            <span class="pagination__desc">
-                                Displaying 10 of 230 records
-                            </span>
-                        </div>
-                    </div>
-
-                    <!--end: Pagination-->
-                </p>
-            </div>
-        </div>
     </div>
 </div>
 
@@ -180,13 +88,63 @@
 
 @section Scripts{
     <script src="~/assets/js/select2.js"></script>
+    <script src="~/assets/js/datatables.bundle.js"></script>
     <script>
+        var KTDatatablesBasicPaginations = function () {
+
+            var initTable1 = function () {
+                var table = $('#kt_table_1');
+                // begin first table
+                table.DataTable({
+                    responsive: true,
+                    "order": [[ 0, "desc" ]]
+                });
+            };
+
+            return {
+                //main function to initiate the module
+                init: function () {
+                    initTable1();
+                },
+            };
+
+        }();
+
+        jQuery(document).ready(function () {
+            KTDatatablesBasicPaginations.init();
+        });
          document.getElementById("loader").style.display = "none";
         $('#kt_select2_12').select2();
         $('#kt_select2_13').select2();
         $('#kt_select2_14').select2();
         $('#kt_select2_15').select2();
+        function AddProductsUP(id) {
+          
+            var ProductId = $('#ddlProductsUP').val();
 
+            $.ajax({
+                type: "Post",
+                url: '@Url.Action("AddProducts")',
+                datatype: "json",
+                data: { id: id,ProductId:ProductId },
+                success: function (data) {
+                     var v = data.success;
+                    if (v == true) {
+                        document.getElementById("loader").style.display = "none";
+                        var userid = $('#hdnUserId').val();
+                        ViewDetails(userid);
+                    }
+                    else {
+                        document.getElementById("loader").style.display = "none";
+                        alert('Some thing went wrong');
+                    }
+                },
+                error: function () {
+                    $('#userdetails').html('');
+                    document.getElementById("loader").style.display = "none";
+                }
+            });
+        }
 
         function ViewDetails(id){
                $.ajax({
@@ -214,11 +172,30 @@
         function AddProductDiv() {
             $('#AddNewProduct_tr').slideToggle("slow");
         }
-        function deleteAccount(id) {
-
-        }
-        function deleteproduct(id) {
-
+        
+        function RemoveAccountProduct(id,type) {
+             $.ajax({
+                type: "Post",
+                url: '@Url.Action("removeAccountOrProduct")',
+                datatype: "json",
+                data: { id: id,type:type },
+                success: function (data) {
+                     var v = data.success;
+                    if (v == true) {
+                        document.getElementById("loader").style.display = "none";
+                        var userid = $('#hdnUserId').val();
+                        ViewDetails(userid);
+                    }
+                    else {
+                        document.getElementById("loader").style.display = "none";
+                        alert('Some thing went wrong');
+                    }
+                },
+                error: function () {
+                    $('#userdetails').html('');
+                    document.getElementById("loader").style.display = "none";
+                }
+            });
         }
         function closeDetails() {
             $('#userdetails').hide();

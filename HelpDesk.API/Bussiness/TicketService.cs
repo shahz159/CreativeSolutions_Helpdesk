@@ -219,6 +219,50 @@ namespace HelpDesk.API.Bussiness
             }
             return obj;
         }
+        public TicketDTO AddEnquirycomments(TicketDTO obj)
+        {
+            try
+            {
+                var data = model.AddEnquirycomments(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["message"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
+        public TicketDTO AddEnquiry(TicketDTO obj)
+        {
+            try
+            {
+                var data = model.AddEnquiry(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["message"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
 
         public TicketDTO GetSystemUserProducts(TicketDTO obj)
         {
@@ -263,6 +307,18 @@ namespace HelpDesk.API.Bussiness
             obj.datasetxml = model.GetSparePartRequestTickets(obj);
             return obj;
         }
+        public TicketDTO GetEnquiryList(TicketDTO obj)
+        {
+            obj.datasetxml = model.GetEnquiryList(obj);
+            return obj;
+        }
+        public TicketDTO GetEnquiryDetails(TicketDTO obj)
+        {
+            obj.datasetxml = model.GetEnquiryDetails(obj);
+            return obj;
+        }
+
+        
 
         public TicketDTO GetServiceEngineerTicketsFiletrs(TicketDTO obj)
         {
@@ -290,6 +346,8 @@ namespace HelpDesk.API.Bussiness
         TicketDTO AddResponseTime(TicketDTO obj);
         TicketDTO AddSparePartRequest(TicketDTO obj);
         TicketDTO Addcomments(TicketDTO obj);
+        TicketDTO AddEnquirycomments(TicketDTO obj);
+        TicketDTO AddEnquiry(TicketDTO obj);
 
         TicketDTO GetSystemUserProducts(TicketDTO obj);
         TicketDTO GetSystemUserModels(TicketDTO obj);
@@ -299,6 +357,8 @@ namespace HelpDesk.API.Bussiness
         TicketDTO GetServiceEngineerTickets(TicketDTO obj);
         TicketDTO GetDashboardCount(TicketDTO obj);
         TicketDTO GetSparePartRequestTickets(TicketDTO obj);
+        TicketDTO GetEnquiryDetails(TicketDTO obj);
+        TicketDTO GetEnquiryList(TicketDTO obj);
         TicketDTO GetServiceEngineerTicketsFiletrs(TicketDTO obj);
 
         TicketDTO GetTicketDetails(TicketDTO obj);

@@ -1,0 +1,140 @@
+﻿@model HelpDesk.Web.Models.InventoryDTO
+
+@{
+    ViewBag.Title = "ConsignmentApproval";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section  Styles{
+    <link href="~/assets/css/datatables.bundle.css" rel="stylesheet" />
+}
+<!-- begin:: Content -->
+<div id="Upper_div" class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
+    <div class="kt-portlet">
+        <div class="kt-portlet__head kt-portlet__head--lg">
+            <div class="kt-portlet__head-label">
+                <span class="kt-portlet__head-icon">
+                    <i class="kt-font-brand flaticon2-line-chart"></i>
+                </span>
+                <h3 class="kt-portlet__head-title">Consignment List</h3>
+            </div>
+        </div>
+
+        <div class="kt-portlet__body pt-0">
+            <div class="table-responsive">
+                <table id="kt_table_1" class="table table-striped- table-bordered table-hover table-checkable">
+                    <thead>
+                        <tr>
+                            <th scope="col">WarehouseName</th>
+                            <th scope="col">SparePart Name</th>
+                            <th scope="col">AHCCode</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col"> ConsignmentDate</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.SparePartList != null)
+                        {
+                            foreach (var item in Model.SparePartList)
+                            {
+                                <tr>
+                                    <td>@item.WarehouseName</td>
+                                    <td>@item.SparePartName - (@item.SparePartNumber)</td>
+                                    <td>@item.AHCCode</td>
+                                    <td>@item.Quantity</td>
+                                    <td>@item.ConsignmentDate</td>
+                                    <td align="center">
+                                        <div class="page-toolbar">
+                                            <div class="btn-group pull-right">
+                                                <button type="button" class="btn green btn-sm btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                    Actions
+                                                  
+                                                </button>
+                                                <ul class="dropdown-menu pull-right" role="menu">
+                                                    <li>
+                                                        <a style="cursor:pointer;" onclick="UpdateStatus(2,@item.ConsignmentId)">
+                                                            <i class="icon-bell"></i> Approve
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a style="cursor:pointer;" onclick="UpdateStatus(3,@item.ConsignmentId)">
+                                                            <i class="icon-shield"></i> Reject
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!--begin: Section-->
+        </div>
+    </div>
+</div>
+<div id="ticket_details" style="display:none;"></div>
+@section Scripts{
+    <script src="~/assets/js/select2.js"></script>
+    <script src="~/assets/js/datatables.bundle.js"></script>
+    @*<script src="~/assets/js/datatable.js"></script>*@
+
+    <script>
+
+        var KTDatatablesBasicPaginations = function () {
+
+            var initTable1 = function () {
+                var table = $('#kt_table_1');
+                // begin first table
+                table.DataTable({
+                    responsive: true,
+                    "order": [[ 0, "desc" ]]
+                });
+            };
+
+            return {
+                //main function to initiate the module
+                init: function () {
+                    initTable1();
+                },
+            };
+
+        }();
+
+        jQuery(document).ready(function () {
+            KTDatatablesBasicPaginations.init();
+        });
+
+        document.getElementById("loader").style.display = "none";
+
+        function UpdateStatus(val,ConsignmentId) {
+              $.ajax({
+                type: 'POST',
+                url: '@Url.Action("UpdateConsignmentStatus")', // we are calling json method
+                dataType: 'json',
+                data: { id: val, ConsignmentId: ConsignmentId, comments: '' },
+                success: function (data) {
+                    var v = data.success;
+                    if (v == true) {
+                        location.reload();
+                    }
+                    else {
+                        document.getElementById("loader").style.display = "none";
+                        alert('Some thing went wrong');
+                    }
+                },
+                error: function (ex) {
+                    document.getElementById("loader").style.display = "none";
+                    alert('Failed to retrieve details.' + ex);
+                }
+            });
+        }
+
+    </script>
+}
+
+
+
