@@ -36,5 +36,15 @@ namespace HelpDesk.API.DTO_s
         public int PageSize { get; set; }
         public string UserEmail { get; set; }
         public string ServiceEngineerEmail { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public string ProductName { get; set; }
+        public string SystemId { get; set; }
+        public string AccountName { get; set; }
+        public string Location { get; set; }
+        public string ProblemDescription { get; set; }
+        public string CustomerFullName { get; set; }
+        public string CustomerEmail { get; set; }
+        public string EngineerEmail { get; set; }
+        public string EngineerFullName { get; set; }
     }
 }
