@@ -178,6 +178,7 @@ namespace HelpDesk.Web.Controllers
             }
             else
             {
+
                 long userid = long.Parse(Session["SSUserId"].ToString());
                 int compid = int.Parse(Session["SSCompanyId"].ToString());
                 int orgid = int.Parse(Session["SSOrganizationId"].ToString());
