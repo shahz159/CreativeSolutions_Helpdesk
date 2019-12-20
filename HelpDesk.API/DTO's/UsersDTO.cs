@@ -32,6 +32,7 @@ namespace HelpDesk.API.DTO_s
         public string ProductName { get; set; }
         public bool SignUp { get; set; }
         public long MUPId { get; set; }
-
+        public DateTime CreatedDate{get;set;}
+        public string SuperUserEmail { get; set; }
     }
 }
