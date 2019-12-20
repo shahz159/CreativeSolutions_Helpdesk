@@ -66,7 +66,7 @@
                                             </a>
                                             <a onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
                                                 <i class="la la-info"></i>
-                                                Ticket Preview
+                                                Service Report
                                             </a>
                                         }
                                         @if (Model.RoleId == 503)
@@ -75,18 +75,18 @@
                                             {
                                                 <a onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
                                                     <i class="la la-check"></i>
-                                                    Ticket Preview
+                                                    Service Report
                                                 </a>
                                             }
                                             else if (item.Status == 13)
                                             {
-                                                <a class="btn btn-brand btn-elevate btn-icon-sm">
-                                                    <i class="la la-check"></i>
-                                                    Confirmed
-                                                </a>
+                                                @*<a class="btn btn-brand btn-elevate btn-icon-sm">
+                                                        <i class="la la-check"></i>
+                                                        Confirmed
+                                                    </a>*@
                                                 <a onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
                                                     <i class="la la-check"></i>
-                                                    Ticket Preview
+                                                    Service Report
                                                 </a>
                                             }
                                         }
@@ -94,24 +94,24 @@
                                         {
                                             if (item.Status == 6)
                                             {
-                                                <a class="btn btn-brand btn-elevate btn-icon-sm">
-                                                    <i class="la la-check"></i>
-                                                    Technician Resolved
-                                                </a>
+                                                @*<a class="btn btn-brand btn-elevate btn-icon-sm">
+                                                        <i class="la la-check"></i>
+                                                        Technician Resolved
+                                                    </a>*@
                                                 <a onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
                                                     <i class="la la-check"></i>
-                                                    Ticket Preview
+                                                    Service Report
                                                 </a>
                                             }
                                             else if (item.Status == 13)
                                             {
-                                                <a class="btn btn-brand btn-elevate btn-icon-sm">
-                                                    <i class="la la-check"></i>
-                                                    Customer Confirmed
-                                                </a>
+                                                @*<a class="btn btn-brand btn-elevate btn-icon-sm">
+                                                        <i class="la la-check"></i>
+                                                        Customer Confirmed
+                                                    </a>*@
                                                 <a onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
                                                     <i class="la la-check"></i>
-                                                    Ticket Preview
+                                                    Service Report
                                                 </a>
                                             }
                                         }
@@ -119,35 +119,35 @@
                                         {
                                             if (item.Status == 6)
                                             {
-                                                <a class="btn btn-brand btn-elevate btn-icon-sm">
-                                                    <i class="la la-check"></i>
-                                                    Resolved
-                                                </a>
+                                                @*<a class="btn btn-brand btn-elevate btn-icon-sm">
+                                                        <i class="la la-check"></i>
+                                                        Resolved
+                                                    </a>*@
                                                 <a onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
                                                     <i class="la la-check"></i>
-                                                    Ticket Preview
+                                                    Service Report
                                                 </a>
                                             }
                                             else if (item.Status == 13)
                                             {
-                                                <a class="btn btn-brand btn-elevate btn-icon-sm">
-                                                    <i class="la la-check"></i>
-                                                    Customer Confirmed
-                                                </a>
+                                                @*<a class="btn btn-brand btn-elevate btn-icon-sm">
+                                                        <i class="la la-check"></i>
+                                                        Customer Confirmed
+                                                    </a>*@
                                                 <a onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
                                                     <i class="la la-check"></i>
-                                                    Ticket Preview
+                                                    Service Report
                                                 </a>
                                             }
                                             else if (item.Status == 14)
                                             {
-                                                <a class="btn btn-brand btn-elevate btn-icon-sm">
-                                                    <i class="la la-check"></i>
-                                                    Manager Confirmed
-                                                </a>
+                                                @*<a class="btn btn-brand btn-elevate btn-icon-sm">
+                                                        <i class="la la-check"></i>
+                                                        Manager Confirmed
+                                                    </a>*@
                                                 <a onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
                                                     <i class="la la-check"></i>
-                                                    Ticket Preview
+                                                    Service Report
                                                 </a>
                                             }
                                         }
@@ -557,10 +557,10 @@
                                             }
                                             else
                                             {
-                                                <a class="btn btn-blue-oleo btn-elevate btn-icon-sm">
+                                                @*<a class="btn btn-blue-oleo btn-elevate btn-icon-sm">
                                                     <i class="la la-check"></i>
                                                     @item.Statustxt
-                                                </a>
+                                                </a>*@
                                             }
 
                                             <a onclick="closeServiceReport()" class="details-close-button btn btn-danger btn-sm btn-icon btn-circle position-absolute"><i class="la la-close"></i></a>
@@ -1146,7 +1146,7 @@
         }
         else if (val==6) {
             var txtdone = $('#txtactivitydone').val();
-            
+
             await $.ajax({
                 type: 'POST',
                 url: '@Url.Action("UpdateTicketStatus")', // we are calling json method
@@ -1173,7 +1173,7 @@
         else {
 
             document.getElementById("loader").style.display = "block";
-           
+
             await $.ajax({
                 type: 'POST',
                 url: '@Url.Action("UpdateTicketStatus")', // we are calling json method
