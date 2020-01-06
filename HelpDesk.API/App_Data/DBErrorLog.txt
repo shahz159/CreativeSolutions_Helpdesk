@@ -316,3 +316,11 @@ Stack Trace:
    at HelpDesk.API.DatabaseConnector.DbConnector.ExecuteReader(String cmdText, SqlParameter[] cmdParms) in D:\My Stuff\AHC Helpdesk\SourceCode\HelpDesk.API\DatabaseConnector\DbConnector.cs:line 55
    at HelpDesk.API.DataAccess.UserModel.GetCompanyAccounts(UsersDTO obj) in D:\My Stuff\AHC Helpdesk\SourceCode\HelpDesk.API\DataAccess\UserModel.cs:line 105
 
+********** 24-12-2019 10:53:17 **********
+Exception Type: System.Data.SqlClient.SqlException
+Exception: Procedure or function 'uspUpdateTicketStatus' expects parameter '@ProblemDescription', which was not supplied.
+Source: UpdateTicketStatus -> UpdateTicketStatus
+Stack Trace: 
+   at HelpDesk.API.DatabaseConnector.DbConnector.ExecuteReader(String cmdText, SqlParameter[] cmdParms) in D:\My Stuff\AHC Helpdesk\SourceCode\HelpDesk.API\DatabaseConnector\DbConnector.cs:line 55
+   at HelpDesk.API.DataAccess.TicketModel.UpdateTicketStatus(TicketDTO obj) in D:\My Stuff\AHC Helpdesk\SourceCode\HelpDesk.API\DataAccess\TicketModel.cs:line 151
+
