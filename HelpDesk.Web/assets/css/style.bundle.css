@@ -10366,6 +10366,10 @@ input.btn.btn-label-skype {
   .btn.btn-icon {
     height: 3rem;
     width: 3rem; }
+    .btn.btn-icon.btn-xs, .btn-group-xs > .btn.btn-icon {
+        height: 1.5rem;
+        width: 1.5rem;
+    }
   .btn.btn-icon.btn-sm, .btn-group-sm > .btn.btn-icon {
     height: 2.5rem;
     width: 2.5rem; }
@@ -15246,7 +15250,7 @@ body.swal2-height-auto {
 
 @media (min-width: 1439px) {
   .kt-container {
-    width: 1380px;
+    width: 99%;
     margin: 0 auto; }
     .kt-container.kt-container--fluid {
       width: 100%;

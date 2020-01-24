@@ -7,8 +7,14 @@ namespace HelpDesk.Web.Models
 {
     public class AssetsDTO
     {
+        public string ProductJson { get; set; }
+        public string ModelJson { get; set; }
+        public string RegionJson { get; set; }
+        public string CityJson { get; set; }
         public bool IsRejected { get; set; }
         public DateTime PPMDate { get; set; }
+        public string isPPMDoneStr { get; set; }
+
         public bool isPPMDone { get; set; }
         public string PPMJson { get; set; }
         public IEnumerable<AssetsDTO> ProductList { get; set; }
@@ -16,6 +22,10 @@ namespace HelpDesk.Web.Models
         public IEnumerable<AssetsDTO> RegionList { get; set; }
         public IEnumerable<AssetsDTO> AssetsList { get; set; }
         public IEnumerable<AssetsDTO> PPMList { get; set; }
+        public IEnumerable<AssetsDTO> ModelList { get; set; }
+        public IEnumerable<AssetsDTO> CityList { get; set; }
+        public IEnumerable<AssetsDTO> UpdatedList { get; set; }
+        public string UpdatedJson { get; set; }
         public int AMId { get; set; }
         public int AccountId { get; set; }
         public int ProductId { get; set; }
@@ -40,6 +50,9 @@ namespace HelpDesk.Web.Models
         public bool IsContract { get; set; }
         public string POContract { get; set; }
         public DateTime WarrantyExpiryDate { get; set; }
+        public DateTime PreviousDate { get; set; }
+        public DateTime NewDate { get; set; }
+        public long UpdatedId { get; set; }
         public int PPMType { get; set; }
         public string SystemNo { get; set; }
         public bool IsApproved { get; set; }
@@ -57,5 +70,10 @@ namespace HelpDesk.Web.Models
         public int FlagId { get; set; }
         public string datasetxml { get; set; }
         public int OrganizationId { get; set; }
+
+        public long UpdatedAMId { get; set; }
+        public bool EditMode { get; set; }
+        public long APPMId { get; set; }
+        public int StatusId { get; set; }
     }
 }

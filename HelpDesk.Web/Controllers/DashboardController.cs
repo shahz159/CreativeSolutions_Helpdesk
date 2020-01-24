@@ -11,6 +11,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using System.Xml;
 
 
@@ -39,7 +40,7 @@ namespace HelpDesk.Web.Controllers
                         //int comid = int.Parse(Session["SSCompanyId"].ToString());
                         //int orgid = int.Parse(Session["SSOrganizationId"].ToString());
                         TicketDTO obj = new TicketDTO();
-                        //obj.RoleId = roleid;
+                        obj.RoleId = roleid;
                         //obj.CompanyId = comid;
                         //obj.OrganizationId = orgid;
                         obj.CreatedBy = userid;
@@ -70,7 +71,8 @@ namespace HelpDesk.Web.Controllers
                                             InProgressTickets = dataRow.Field<int>("InProgressTickets"),
                                             WarehouseJson = dataRow.Field<string>("InProgressTicketsJson"),
                                             ResolvedTickets = dataRow.Field<int>("ResolvedTickets"),
-                                            SparePartRequestJson = dataRow.Field<string>("ResolvedTicketsJson") 
+                                            SparePartRequestJson = dataRow.Field<string>("ResolvedTicketsJson") ,
+                                            message = dataRow.Field<string>("CountsJson")
                                         }).ToList();
                                         obj.TicketList = tickettlst;
 
@@ -89,6 +91,27 @@ namespace HelpDesk.Web.Controllers
                                         string sparepart = obj.TicketList.FirstOrDefault().SparePartRequestJson;
                                         var modelsp = JsonConvert.DeserializeObject<List<TicketDTO>>(sparepart);
                                         obj.SparePartList = modelsp;
+
+                                        string counts = obj.TicketList.FirstOrDefault().message;
+                                        var countssp = JsonConvert.DeserializeObject<List<TicketDTO>>(counts);
+                                        obj.CountLst = countssp;
+
+                                        string[] New_array = obj.CountLst.Select(I => Convert.ToString(I.New)).ToArray();
+                                        string[] Closed_array = obj.CountLst.Select(I => Convert.ToString(I.Closed)).ToArray();
+                                        string[] Resolved_array = obj.CountLst.Select(I => Convert.ToString(I.Resolved)).ToArray();
+                                        string[] Months_array = obj.CountLst.Select(I => Convert.ToString(I.Month)).ToArray();
+
+                                        obj.New_array = new JavaScriptSerializer().Serialize(New_array);
+                                        obj.Closed_array = new JavaScriptSerializer().Serialize(Closed_array);
+                                        obj.Resolved_array = new JavaScriptSerializer().Serialize(Resolved_array);
+                                        obj.Months_array = new JavaScriptSerializer().Serialize(Months_array);
+
+
+                                        string[] Pie_array=new string[3];
+                                        Pie_array[0] = obj.NewTickets.ToString();
+                                        Pie_array[1] = obj.InProgressTickets.ToString();
+                                        Pie_array[2] = obj.ResolvedTickets.ToString();
+                                        obj.Pie_array = new JavaScriptSerializer().Serialize(Pie_array);
                                     }
                                     else
                                         obj.TicketList = tickettlst;

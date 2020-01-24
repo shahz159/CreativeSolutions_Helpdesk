@@ -29,18 +29,18 @@
                                 <div class="col-md-12">
                                     <div class="kt-form kt-form--label-right">
                                         <div class="kt-portlet__body">
-                                            <div id="orgAdmin_div" style="display:none;">
-                                                <div class="form-group row">
-                                                    <label class="col-form-label col-sm-2">Select Company</label>
-                                                    <div class="col-sm-9">
-                                                        @Html.DropDownListFor(model => model.CompanyId, (IEnumerable<SelectListItem>
-                                            )ViewData["ddlComapanyList"], "--Please Select --",
-                                            new { id = "ddlCompany", @class = "form-control kt-select2", @onchange = "BindAccounts()" })
+                                            @*<div id="orgAdmin_div" style="display:none;">
+            <div class="form-group row">
+                <label class="col-form-label col-sm-2">Select Company</label>
+                <div class="col-sm-9">
+                    @Html.DropDownListFor(model => model.CompanyId, (IEnumerable<SelectListItem>
+        )ViewData["ddlComapanyList"], "--Please Select --",
+        new { id = "ddlCompany", @class = "form-control kt-select2", @onchange = "BindAccounts()" })
 
-                                                        @Html.ValidationMessageFor(model => model.CompanyId, "", new { @class = "text-danger" })
-                                                    </div>
-                                                </div>
-                                            </div>
+                    @Html.ValidationMessageFor(model => model.CompanyId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>*@
                                             <div id="supervisoradmin_div" style="display:none;">
                                                 <div class="form-group row">
                                                     <label class="col-form-label col-sm-2">Select Account</label>
@@ -53,25 +53,45 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
-                                                <label class="col-form-label col-sm-2">Select Product</label>
-                                                <div class="col-sm-9">
-                                                    @Html.DropDownListFor(model => model.ProductId, (IEnumerable<SelectListItem>
-                                        )ViewData["ddlProductList"], "--Please Select --",
-                                        new { id = "ddlProduct", @class = "form-control kt-select2", @onchange = "BindModels()" })
-
-                                                    @*@Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })*@
-                                                </div>
-                                            </div>
+                                            @*<div class="form-group row">
+                <label class="col-form-label col-sm-2">Select Product</label>
+                <div class="col-sm-9">
+                    @Html.DropDownListFor(model => model.AMId, (IEnumerable<SelectListItem>
+        )ViewData["ddlProductList"], "--Please Select --",
+        new { id = "ddlProduct", @class = "form-control kt-select2", @onchange = "BindModels()" })
+                </div>
+            </div>*@
                                             <div class="form-group row">
                                                 <label for="example-text-input" class="col-sm-2 col-form-label">System Id / Serial No</label>
                                                 <div class="col-sm-9">
                                                     @Html.DropDownListFor(model => model.AMId, (IEnumerable<SelectListItem>)ViewData["ddlModels"], "--Please Select --",
-new { id = "ddlModels", @class = "form-control select2-allow-clear" })
+new { id = "ddlModels", @class = "form-control select2-allow-clear", @onchange = "GetProductIdBySerial()" })
 
                                                     @Html.ValidationMessageFor(model => model.AMId, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
+                                            <div class="form-group row">
+                                                <label for="example-text-input" class="col-sm-2 col-form-label">Product</label>
+                                                <div class="col-sm-9">
+                                                    @Html.DropDownListFor(model => model.ProductId, (IEnumerable<SelectListItem>
+         )ViewData["ddlProductList"], "--Please Select --",
+         new { id = "ddlProduct", @class = "form-control kt-select2" })
+                                                </div>
+                                            </div>
+                                            @if (Model.RoleId == 501 || Model.RoleId == 502)
+                                            {
+                                                <div class="form-group row">
+                                                    <label for="example-text-input" class="col-sm-2 col-form-label">Ticket Type</label>
+                                                    <div class="col-sm-9">
+                                                        @Html.DropDownListFor(model => model.ReportId, (IEnumerable<SelectListItem>
+             )ViewData["ddlReportType"], "--Please Select --",
+             new { id = "ddlReportType", @class = "form-control kt-select2" })
+
+                                                        @Html.ValidationMessageFor(model => model.ReportId, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                            }
+                                           
                                             <div class="form-group row">
                                                 <label class="col-form-label col-sm-2">Select Priority</label>
                                                 <div class="col-sm-9">
@@ -107,20 +127,37 @@ new { id = "ddlModels", @class = "form-control select2-allow-clear" })
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group row" id="upload_doc_show" style="display: none">
-                                                <label class="col-sm-2"></label>
-                                                <div class="col-sm-9">
-                                                    <div class="custom-file">
-                                                        <input type="file" class="custom-file-input" id="customFile" name="TicketDocument" accept="image/x-png,image/gif,image/jpeg" multiple>
-                                                        <label id="file_value" class="custom-file-label text-left" for="customFile">Choose file</label>
+                                            <div id="upload_doc_show" style="display: none">
+                                                <div class="form-group row">
+                                                    <label class="col-sm-2"></label>
+                                                    <div class="col-sm-9">
+                                                        <div class="custom-file">
+                                                            <input type="file" class="custom-file-input" id="customFile" name="TicketDocument" accept="image/x-png,image/gif,image/jpeg">
+                                                            <label id="file_value" class="custom-file-label text-left" for="customFile">Choose file</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-sm-2"></label>
+                                                    <div class="col-md-9">
+                                                        <div id="div_images" class="row ticket-multi-imgs">
+                                                            @*<div class="col-md-2">
+                            <img src="~/assets/images/login-bg.jpg" />
+                            <a onclick="closeDetails()" class="details-close-button btn btn-danger btn-xs btn-icon btn-circle position-absolute"><i class="la la-close"></i></a>
+                        </div>
+                        <div class="col-md-2">
+                            <img src="~/assets/images/default.jpg" alt="" />
+                        </div>
+                        <div class="col-md-2">
+                            <img src="~/assets/images/default.jpg" alt="" />
+                        </div>
+                        <div class="col-md-2">
+                            <img src="~/assets/images/default.jpg" alt="" />
+                        </div>*@
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            @*<div class="form-group row">
-                                                    <div class="col-md-2">
-                                                        <img src="~/assets/images/default.jpg" alt=""/>
-                                                    </div>
-                                                </div>*@
                                         </div>
                                         <div class="kt-portlet__foot">
                                             <div class="kt-form__actions">
@@ -129,7 +166,7 @@ new { id = "ddlModels", @class = "form-control select2-allow-clear" })
                                                     </div>
                                                     <div class="col-10">
                                                         <input type="submit" class="btn btn-success" value="Submit" />
-                                                        <a class=" btn btn-secondary">Cancel</a>
+                                                        <a href="#" class=" btn btn-secondary">Cancel</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -153,6 +190,26 @@ new { id = "ddlModels", @class = "form-control select2-allow-clear" })
 @section Scripts{
     <script src="~/assets/js/select2.js"></script>
     <script>
+         $("#ddlProduct").prop("disabled", true);
+        function GetProductIdBySerial() {
+            var serialid = $('#ddlModels').val();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetProductsByAMId")', // we are calling json method
+                dataType: 'json',
+                data: { AMID: serialid },
+                success: function (data) {
+                    $('#ddlProduct').val(data.ProductId).trigger('change');
+                     $("#ddlProduct").prop("disabled", true);
+                    document.getElementById("loader").style.display = "none";
+                },
+                error: function (ex) {
+                    document.getElementById("loader").style.display = "none";
+                    alert('Failed to retrieve accounts.' + ex);
+                }
+            });
+        }
+
         function checkwhitespace() {
             var txt = $('#txtdescription').val();
             var val = (txt === null || txt.match(/^ *$/) !== null);
@@ -169,9 +226,9 @@ new { id = "ddlModels", @class = "form-control select2-allow-clear" })
             var lnght = $('#txtdescription').val().length;
             $('#spn_cnt').html(lnght);
         });
-        $("#customFile").change(function () {
-            $("#file_value").text(this.files[0].name);
-        });
+        //$("#customFile").change(function () {
+        //    $("#file_value").text(this.files[0].name);
+        //});
 
         function valueChanged() {
             if ($('#upload_doc').is(":checked"))
@@ -182,26 +239,27 @@ new { id = "ddlModels", @class = "form-control select2-allow-clear" })
 
         $(document).ready(function () {
             //set initial state.
-            $('#ddlProduct,#ddlModels,#ddlCompany,#ddlAccounts').select2({
+            $('#ddlProduct,#ddlModels,#ddlCompany,#ddlAccounts,#ddlReportType').select2({
             });
             //Div Show
             var role_id = $('#hdnRoleId').val();
             if (role_id == 502) {
                 $('#supervisoradmin_div').show();
-                $('#orgAdmin_div').hide();
+                //$('#orgAdmin_div').hide();
             }
             else if (role_id == 501) {
                 $('#supervisoradmin_div').show();
-                $('#orgAdmin_div').show();
+                //$('#orgAdmin_div').show();
             }
-            $("#customFile").on("change", function () {
-                debugger
+              $("#customFile").on("change", function () {
+
                 var fileUpload = document.getElementById("customFile");
                 var sub = 0;
-
+                debugger
                 for (var i = 0; i < fileUpload.files.length; i++) {
                     var fileExtension = ['image/PNG','image/png','image/jpg','image/jpeg','jpeg', 'jpg', 'PNG', 'png'];
                     var contentType = fileUpload.files.item(i).type;
+
                     //alert(contentType);
                     var valu = 0;
 
@@ -209,7 +267,21 @@ new { id = "ddlModels", @class = "form-control select2-allow-clear" })
                         if (contentType == fileExtension[j]) {
                             valu = 1;
                         }
+                        
                     }
+                    var rnd = Math.random();
+
+                      var file = fileUpload.files[i];
+                            var reader = new FileReader();
+
+                            reader.onload = function (event) {
+                                var dis = '<div id="div_'+rnd+'" class="col-md-2 mb-2">';
+                                dis = dis + '<img src="' + event.target.result + '" />';
+                                dis = dis + '<a class="" onclick="closeDetails('+rnd+')" class="details-close-button btn btn-danger btn-xs btn-icon btn-circle position-absolute"><i class="la la-close"></i></a>';
+                                dis = dis + '</div>";';
+                                $("#div_images").append(dis);
+                            }
+                            reader.readAsDataURL(file);
                     if (valu == 0) {
                         $("#customFile").val(null);
                         $('#file_value').html('Choose file');
@@ -217,23 +289,37 @@ new { id = "ddlModels", @class = "form-control select2-allow-clear" })
                         alert("Only '.jpeg','.jpg','png' formats are allowed.");
                         sub = 1;
                     }
+                    else {
+                        var data = new FormData();
+                        var files = $("#customFile").get(0).files;
+                        if (files.length > 0) {
+                            data.append("MyImages", files[0]);
+                        }
 
-                    //if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
-                    //    $("#customFile").val(null);
-                    //    $('#file_value').html('Choose file');
-                    //    alert("Only '.jpeg','.jpg','png' formats are allowed.");
-                    //}
-                    //else {
-                    //    //var files = !!this.files ? this.files : [];
-                    //    //if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
-                    //}
+                         $.ajax({
+                            url:'@Url.Action("UploadFile")',
+                            type: "POST",
+                            processData: false,
+                            contentType: false,
+                            data: data,
+                            success: function (response) {
+                                //alert('Ok');
+                            },
+                            error: function (er) {
+                                alert(er);
+                            }
+                        });
+                    }
                 }
                 if (sub == 0) {
                     $('#file_value').html(fileUpload.files.length +'  '+ 'files.');
                 }
             });
         });
+        function closeDetails(val) {
+            $('#div_' + val).hide();
 
+        }
         function BindAccounts() {
             document.getElementById("loader").style.display = "block";
             $.ajax({
@@ -269,13 +355,25 @@ new { id = "ddlModels", @class = "form-control select2-allow-clear" })
                 data: { id: $("#ddlAccounts").val() },
                 success: function (data) {
 
-                    var district = "<select id='ddlProduct' class='form-control kt-select2'>";
-                    district = district + '<option value="0">--Select Product--</option>';
-                    for (var i = 0; i < data.length; i++) {
-                        district = district + '<option value=' + data[i].ProductId + '>' + data[i].ProductName + '</option>';
+                    var district = "<select id='ddlModels' class='form-control kt-select2'>";
+                    district = district + '<option value="0">--Select System No/Serial No--</option>';
+                    for (var i = 0; i < data.ModelList.length; i++) {
+                        district = district + '<option value=' + data.ModelList[i].AMId + '>' + data.ModelList[i].ModelName + '</option>';
                     }
                     district = district + '</select>';
-                    $('#ddlProduct').html(district);
+                    $('#ddlModels').html(district);
+
+
+
+                    var district1 = "<select id='ddlProduct' class='form-control kt-select2'>";
+                    district1 = district1 + '<option value="0">--Product--</option>';
+                    for (var i = 0; i < data.ProductList.length; i++) {
+                        district1 = district1 + '<option value=' + data.ProductList[i].ProductId + '>' + data.ProductList[i].ProductName + '</option>';
+                    }
+                    district1 = district1 + '</select>';
+                    $('#ddlProduct').html(district1);
+
+
                     document.getElementById("loader").style.display = "none";
                 },
                 error: function (ex) {
@@ -318,6 +416,7 @@ new { id = "ddlModels", @class = "form-control select2-allow-clear" })
             });
             return false;
         }
+
     </script>
 }
 

@@ -29,6 +29,30 @@ namespace HelpDesk.API.Controllers
             var result = service.InsertUpdateAsset(obj);
             return Ok(result);
         }
+        /// <summary>
+        /// Add upadted asset data
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewUpdatedAsset(AssetDTO obj)
+        {
+            var result = service.UpdatedAsset(obj);
+            return Ok(result);
+        }
+
+        [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewVerifyAsset(AssetDTO obj)
+        {
+            var result = service.VerifyAsset(obj);
+            return Ok(result);
+        }
+        [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewUpdatePPMDate(AssetDTO obj)
+        {
+            var result = service.updateppmdate(obj);
+            return Ok(result);
+        }
 
         /// <summary>
         /// Get Asset List by CompanyId
@@ -98,6 +122,17 @@ namespace HelpDesk.API.Controllers
             return Ok(detail);
         }
         /// <summary>
+        /// PPM Date change list
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewPPMDateChangeRequest(AssetDTO obj)
+        {
+            var detail = service.GetPPMChnageRequest(obj);
+            return Ok(detail);
+        }
+        /// <summary>
         /// Update IsApproved or IsRejected status of Asset
         /// </summary>
         /// <param name="obj"></param>
@@ -106,6 +141,17 @@ namespace HelpDesk.API.Controllers
         public IHttpActionResult NewUpdateAssetStatus(AssetDTO obj)
         {
             var result = service.UpdateAssetStatus(obj);
+            return Ok(result);
+        }
+        /// <summary>
+        /// PPM date change record approval or reject
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewUpdatePPMDateChange(AssetDTO obj)
+        {
+            var result = service.UpdatePPMDateChangeRequest(obj);
             return Ok(result);
         }
     }

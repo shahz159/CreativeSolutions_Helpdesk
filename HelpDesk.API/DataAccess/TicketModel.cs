@@ -28,7 +28,8 @@ namespace HelpDesk.API.DataAccess
                     new SqlParameter("@OrganizationId",obj.OrganizationId),
                     new SqlParameter("@DocumentUrl",obj.Url),
                     new SqlParameter("@ContentType",obj.ContentType) ,
-                    new SqlParameter("@xml",obj.multipledocuments_xml)
+                    new SqlParameter("@xml",obj.multipledocuments_xml),
+                    new SqlParameter("@ReportId",obj.ReportId)
                 };
                 return DbConnector.ExecuteReader("uspNewTicketRequest", para);
             }
@@ -110,7 +111,9 @@ namespace HelpDesk.API.DataAccess
             try
             {
                 var para = new[] {
-                new SqlParameter("@AccountId",obj.AccountId)
+                new SqlParameter("@AccountId",obj.AccountId),
+                new SqlParameter("@UserId",obj.CreatedBy),
+                new SqlParameter("@RoleId",obj.RoleId)
                 };
                 return DbConnector.ExecuteDataSet("uspGetProductsByAccountId", para);
             }
@@ -146,7 +149,8 @@ namespace HelpDesk.API.DataAccess
                 new SqlParameter("@Status",obj.Status),
                 new SqlParameter("@CreatedBy",obj.CreatedBy),
                 new SqlParameter("@TicketNumber",obj.TicketNumber),
-                new SqlParameter("@Comments",obj.Comments)
+                new SqlParameter("@Comments",obj.Comments),
+                new SqlParameter("@ProblemDescription",obj.ProblemDescription)
                 };
                 return DbConnector.ExecuteReader("uspUpdateTicketStatus", para);
             }
@@ -163,8 +167,8 @@ namespace HelpDesk.API.DataAccess
                 var para = new[] { 
                 new SqlParameter("@ResponseTime",obj.ResponseTime),
                 new SqlParameter("@CreatedBy",obj.CreatedBy),
-                new SqlParameter("@TicketNumber",obj.TicketNumber),
-                new SqlParameter("@ReportTypeId",obj.ReportId)
+                new SqlParameter("@TicketNumber",obj.TicketNumber)
+                //new SqlParameter("@ReportTypeId",obj.ReportId)
                 };
                 return DbConnector.ExecuteReader("uspAddResponseTime", para);
             }
@@ -339,7 +343,8 @@ namespace HelpDesk.API.DataAccess
             {
                
                 var para = new[] {
-                new SqlParameter("@WarehouseId",obj.WarehouseId) 
+                new SqlParameter("@WarehouseId",obj.WarehouseId) ,
+                new SqlParameter("@TicketNumber",obj.TicketNumber)
                 };
                 return DbConnector.ExecuteDataSet("uspGetSparePartsByWHId", para);
             }
@@ -373,8 +378,6 @@ namespace HelpDesk.API.DataAccess
             try
             {
                 var para = new[] {
-                new SqlParameter("@ProductId",obj.ProductId),
-                new SqlParameter("@AMId",obj.AMId),
                 new SqlParameter("@Comments",obj.message),
                 new SqlParameter("@UserId",obj.UserId),
                 new SqlParameter("@CompanyId",obj.CompanyId),

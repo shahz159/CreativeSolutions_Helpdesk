@@ -6,11 +6,11 @@
             <thead>
                 <tr>
                     <th scope="col">Spare Part Name</th>
-                    <th scope="col">Spare Part Number</th>
+                    <th scope="col">Product Name</th>
                     <th scope="col">Quantity</th>
                     <th scope="col">BaseQuantity</th>
                     <th scope="col">Price</th>
-                    @if (Model.RoleId == 502)
+                    @if (Model.RoleId == 502 || Model.RoleId == 501) 
                     {
                         <th scope="col">Edit</th>
                     }
@@ -21,21 +21,21 @@
                 {
                     foreach (var item in Model.SparePartList)
                     {
-                        <tr>
-                            <td>@item.SparePartName</td>
-                            <td>@item.SparePartNumber</td>
-                            <td>@item.Quantity</td>
-                            <td>@item.BaseQuantity</td>
-                            <td>@item.Price</td>
-                            @if (Model.RoleId == 502)
-                            {
-                                <td align="center">
-                                    <a onclick="Sparepartdetails(@item.SparePartId)">
-                                        <i class="fa fa-eye"></i>
-                                    </a>
-                                </td>
-                            }
-                        </tr>
+                <tr>
+                    <td>@item.SparePartName</td>
+                    <td>@item.ProductName</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.BaseQuantity</td>
+                    <td>@item.Price</td>
+                    @if (Model.RoleId == 502 || Model.RoleId == 501)
+                    {
+                        <td align="center">
+                            <a href="#" onclick="Sparepartdetails(@item.SparePartId)">
+                                <i class="fa fa-eye"></i>
+                            </a>
+                        </td>
+                    }
+                </tr>
                     }
                 }
             </tbody>

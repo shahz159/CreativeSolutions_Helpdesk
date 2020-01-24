@@ -1,5 +1,8 @@
 ﻿@model HelpDesk.Web.Models.InventoryDTO
 
+
+
+
 <div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
     <!--Begin::Dashboard 3-->
     <!--Begin::Row-->
@@ -16,7 +19,21 @@
                             Sparepart Details
                         </h3>
                     </div>
-                    <a onclick="CloseDetails()" class="details-close-button btn btn-danger btn-sm btn-icon btn-circle position-absolute"><i class="la la-close"></i></a>
+                    @*<div class="kt-portlet__head-toolbar">
+                            <a class="btn btn-brand btn-elevate btn-icon-sm">
+                                Transfer
+                            </a>
+                        </div>*@
+                    @if (Model.RoleId == 501)
+                    {
+                        <div class="kt-portlet__head-toolbar">
+                            <a href="#" onclick="ViewEditDiv()">
+                                <i class="la la-edit la-2x"></i>
+                            </a>
+                        </div>
+                    }
+
+                    <a href="#" onclick="CloseDetails()" class="details-close-button btn btn-danger btn-sm btn-icon btn-circle position-absolute"><i class="la la-close"></i></a>
                 </div>
 
                 <div class="kt-portlet__body kt-portlet__body--fluid kt-portlet__body--fit">
@@ -25,87 +42,170 @@
                             <div class="col-md-12">
                                 <!--begin::Form-->
                                 <form class="kt-form kt-form--label-right">
-                                    <div class="kt-portlet__body">
-                                        <div class="table-responsive">
-                                            <table class="ticket-full-details table-borderless table-sm">
-                                                <tr>
-                                                    <td>Spare Part</td>
-                                                    <td>
-                                                        :
-                                                        @Model.SparePartName
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Price</td>
-                                                    <td>
-                                                        :
-                                                        @Model.Price
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Base stock</td>
-                                                    <td>:@Model.BaseQuantity </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Total Stock</td>
-                                                    <td>:@Model.Quantity</td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="kt-portlet__head">
-                                        <div class="kt-portlet__head-label">
-                                            <h3 class="kt-portlet__head-title">
-                                                Add Consignment
-                                            </h3>
-                                        </div>
-                                    </div>
-                                    <div class="kt-portlet__body">
-                                        <div class="form-group row">
-                                            <div class="col-sm-4">
-                                                <input class="form-control" id="txtquantity" onkeypress="return isNumberKey(event)" type="text" value="" placeholder="Enter Quantity">
+                                    @if (Model.RoleId == 501)
+                                    {
+                                        if (Model.WarehouseList.Count() > 0)
+                                        {
+                                            foreach (var con in Model.WarehouseList)
+                                            {
+                                                <div class="kt-portlet__body">
+                                                    <div id="div_SP" class="row">
+                                                        <div class="col-md-12">
+                                                            <form action="#">
+                                                                <div class="form-group row mb-1">
+                                                                    <label for="example-text-input" class="col-sm-2 col-form-label">Spare Part</label>
+                                                                    <div class="col-sm-9">
+                                                                        <label class="col-form-label"> : @con.SparePartName</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row mb-1">
+                                                                    <label for="example-text-input" class="col-sm-2 col-form-label">Price</label>
+                                                                    <div class="col-sm-9">
+                                                                        <label class="col-form-label"> : @con.Price</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row mb-1">
+                                                                    <label for="example-text-input" class="col-sm-2 col-form-label">Base stock</label>
+                                                                    <div class="col-sm-9">
+                                                                        <label class="col-form-label">  : @con.BaseQuantity</label>
+                                                                    </div>
+                                                                </div>
+                                                                @*<div class="form-group row mb-1">
+                                                                    <label for="example-text-input" class="col-sm-2 col-form-label">Total Stock</label>
+                                                                    <div class="col-sm-9">
+                                                                        <label class="col-form-label">  : @con.Quantity</label>
+                                                                    </div>
+                                                                </div>*@
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                    <div id="Edit_Row_div" class="row" style="display:none;">
+                                                        <div class="col-md-12">
+                                                            <form action="#">
+                                                                <div class="form-group row">
+                                                                    <label for="example-text-input" class="col-sm-2 col-form-label">Spare Part</label>
+                                                                    <div class="col-sm-9">
+                                                                        <input class="form-control" type="text" id="txtsparepartName" value="@con.SparePartName">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <label for="example-text-input" class="col-sm-2 col-form-label">Price</label>
+                                                                    <div class="col-sm-9">
+                                                                        <input class="form-control" type="text" id="txtPrice" value="@con.Price">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <label for="example-text-input" class="col-sm-2 col-form-label">Base stock</label>
+                                                                    <div class="col-sm-9">
+                                                                        <input class="form-control" type="text" id="txtbasequantity" value="@con.BaseQuantity">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <label for="example-text-input" class="col-sm-2 col-form-label">Total Stock</label>
+                                                                    <div class="col-sm-9">
+                                                                        <input style="background-color: #f1f1f1;" class="form-control" type="text" id="txtquantityE" onkeypress="return isNumberKey(event)"  value="@con.Quantity" disabled >
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <label class="col-sm-2"></label>
+                                                                    <div class="col-sm-9">
+                                                                        <a href="#" onclick="UpdateSparePart(@con.SparePartId)" class="btn btn-success">Update</a>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" id="hdnSparePartId" value="@Model.SparePartId" />
+                                            }
+                                        }
+                                    }
+                                    else if (Model.RoleId == 502)
+                                    {
+                                        <h2 class="pt-4">Total Quantity: @Model.Quantity</h2>
+                                        <div class="kt-portlet__head px-0">
+                                            <div class="kt-portlet__head-label">
+                                                <h3 class="kt-portlet__head-title">
+                                                    Transfer
+                                                </h3>
                                             </div>
-                                            <div class="col-sm-4">
-                                                <input class="form-control" id="exampleTextarea" type="text" value="" placeholder="Enter Comments">
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <a onclick="AddConsignment()" class="btn btn-success">Submit</a>
-                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="kt-portlet__head">
-                                        <div class="kt-portlet__head-label">
-                                            <h3 class="kt-portlet__head-title">
-                                                History
-                                            </h3>
-                                        </div>
-                                    </div>
-                                    <div class="kt-portlet__body kt-portlet__body--fluid">
-                                        <div class="table-responsive">
-                                            <table class="table table-hover table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Date</th>
-                                                        <th>Quantity</th>
-                                                        <th>Status</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @if (Model.ConsignmentsList.Count() > 0)
-                                                    {
-                                                        foreach (var con in Model.ConsignmentsList)
+                                        <div class="kt-portlet__body p-0 mb-4">
+                                            <div class="row mt-4">
+                                                <div class="col-lg-4">
+                                                    <label>Warehouse</label>
+                                                    <select class="form-control kt-select2" id="transfer_quantity" name="param">
+                                                        @foreach (var itemddl in Model.WHddlList)
                                                         {
-                                                            <tr>
-                                                                <td>@con.ConsignmentDate</td>
-                                                                <td>@con.Quantity</td>
-                                                                <td>@con.Statustxt</td>
-                                                            </tr>
+                                                            <option value="@itemddl.WarehouseId">@itemddl.WarehouseName</option>
                                                         }
-                                                    }
-                                                </tbody>
-                                            </table>
+                                                    </select>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <label>Quantity</label>
+                                                    <input class="form-control" type="text" value="" id="txttransferQuantity" onkeypress="return isNumberKey(event)" >
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <label class="d-block">&nbsp;</label>
+                                                    <a href="#" onclick="TransferQnantity()" class="btn btn-brand btn-elevate btn-icon-sm">Transfer</a>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
+
+
+                                        <div class="kt-portlet__head px-0">
+                                            <div class="kt-portlet__head-label">
+                                                <h3 class="kt-portlet__head-title">
+                                                    History
+                                                </h3>
+                                            </div>
+                                        </div>
+                                        <div class="kt-portlet__body px-0 kt-portlet__body--fluid">
+                                            <div class="table-responsive">
+                                                <table class="table table-hover table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Date</th>
+                                                            <th>Quantity</th>
+                                                            <th>Add/Remove Quantity</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (Model.WarehouseList.Count() > 0)
+                                                        {
+                                                            foreach (var con in Model.WarehouseList)
+                                                            {
+                                                                <tr>
+                                                                    <td>@con.ConsignmentDate</td>
+                                                                    <td>
+                                                                        @con.Stock
+                                                                        @*@if (con.RequestStatus == 2)
+                                                                            {
+                                                                                <p> - Approved</p>
+                                                                            }
+                                                                            else if (con.RequestStatus == 3)
+                                                                            {
+                                                                                <p> - Rejected</p>
+                                                                            }*@
+                                                                    </td>
+                                                                    <td>
+                                                                        @if (con.RequestPending == 1)
+                                                                        {
+                                                                            <p>Pending</p>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <a href="#" onclick="valuesparsing(@con.WarehousestockId,'@con.ConsignmentDate',@con.Stock)" class="btn btn-sm btn-info pr-2" data-toggle="modal" data-target="#myModal"><i class="la la-edit la-2x"></i></a>
+                                                                        }
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    }
                                 </form>
                                 <!--end::Form-->
                             </div>
@@ -118,30 +218,197 @@
         <!--end:: Widgets/Trends-->
     </div>
 </div>
-<input type="hidden" id="hdnSparePartId" value="@Model.SparePartId" />
+<input type="hidden" id="hdnWarehouseStockId" value="0" />
+<input type="hidden" id="hdnWarehouseStockIdTrasnsfer" value="@Model.WarehousestockId" />
 
+<!-- The Modal -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Quantity</h4>
+                <button type="button" class="close" data-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <table class="table table-borderless">
+                    <tr>
+                        <td>Date: </td>
+                        <td id="date_td">Dec 30 2019 10:35PM</td>
+                    </tr>
+                    <tr>
+                        <td>Quantity : </td>
+                        <td id="quantity_td">450</td>
+                    </tr>
+                    <tr>
+                        <td>Add/Remove : </td>
+                        <td>
+                            <div class="kt-radio-inline">
+                                <label class="kt-radio">
+                                    <input type="radio" name="Quantity" value="P" checked> Add
+                                    <span></span>
+                                </label>
+                                <label class="kt-radio">
+                                    <input type="radio" name="Quantity" value="M"> Remove
+                                    <span></span>
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Add/Remove Quantity :
+                        </td>
+                        <td>
+                            <input type="text" id="txtquantityAR" class="form-control" onkeypress="return isNumberKey(event)" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <a href="#" onclick="AddRemoveQuantity()" class="btn btn-info">Update</a>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+<input type="hidden" id="hdnWarehouseId" value="@Model.WarehouseId" />
+<input type="hidden" id="hdnSparePartidTrnsf" value="@Model.SparePartId" />
+<input type="hidden" id="hdnTotalQuantity" value="@Model.Quantity" />
+<script src="~/assets/js/select2.js"></script>
 <script>
-     function isNumberKey(evt) {
 
-            $('#txtmobileerror').text('');
-            //var e = evt || window.event;
-            var charCode = (evt.which) ? evt.which : evt.keyCode
-            if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
-                return false;
+    function TransferQnantity() {
+         document.getElementById("loader").style.display = "block";
+        
+        var WarehousestockId = $('#hdnWarehouseStockIdTrasnsfer').val();
 
-            //var myLength = $("#txtmobile").val().length;
-            //if (myLength > 21) {
-            //    $("#txtmobile").after('<span id="txtmobileerror" style="color:red;" class="error">Maximum Lenght 20</span>');
-            //    $('#hdnMobileValidation').val('1');
-            //}
-            //else if (myLength < 9) {
-            //    $("#txtmobile").after('<span id="txtmobileerror" style="color:red;" class="error">Minimum Lenght 10</span>');
-            //    $('#hdnMobileValidation').val('1');
-            //} else {
+        var Quantity = $('#txttransferQuantity').val();
+        if (Quantity == "" || Quantity == null) {
+            alert('fields required');
+            document.getElementById("loader").style.display = "none";
+            return false;
 
-            //    $('#hdnMobileValidation').val('0');
-            //}
-
-            return true;
         }
+        var total_qnty = $('#hdnTotalQuantity').val();
+        if (Quantity>=total_qnty) {
+            alert('Invalid Quantity');
+             document.getElementById("loader").style.display = "none";
+            return false;
+        }
+
+        var ToWHID = $('#transfer_quantity').val();
+        var SparePartId = $('#hdnSparePartidTrnsf').val();
+
+         $.ajax({
+                type: "Post",
+                url: '@Url.Action("TrasnferQuantity")',
+                datatype: "json",
+                data: { WarehousestockId: WarehousestockId,Quantity:Quantity,ToWHID:ToWHID,SparePartId:SparePartId },
+             success: function (data) {
+                    debugger
+                   var v = data.success;
+                    if (v == true) {
+                         document.getElementById("loader").style.display = "none";
+                        //$('#myModal').modal('toggle');
+                        SparepartdetailsPVVV($('#hdnSparePartidTrnsf').val(), $('#hdnWarehouseId').val());
+
+                    }
+                    else {
+                        alert('Some thing went wrong');
+                    }
+                    document.getElementById("loader").style.display = "none";
+                },
+             error: function () {
+                 document.getElementById("loader").style.display = "none";
+                      
+                       // $('#myModal').modal('toggle');
+                        SparepartdetailsPVVV($('#hdnSparePartidTrnsf').val(), $('#hdnWarehouseId').val());
+                }
+            });
+    }
+
+    function valuesparsing(id,date,stock) {
+        $('#hdnWarehouseStockId').val(id);
+        $('#date_td').html(date);
+        $('#quantity_td').html(stock);
+    }
+
+    function AddRemoveQuantity() {
+        debugger
+        var WarehousestockId = $('#hdnWarehouseStockId').val();
+        var Quantity = $('#txtquantityAR').val();
+        if (Quantity == "" || Quantity == null) {
+            alert('fields required');
+            return false;
+        }
+        var Type = $('input[name="Quantity"]:checked').val();
+        var Statusid = 0;
+        if (Type=="P") {
+            Statusid = 2;
+        }
+        else if (Type=="M") {
+            Statusid = 1;
+        }
+
+         $.ajax({
+                type: "Post",
+                url: '@Url.Action("AddStockChangeRequest")',
+                datatype: "json",
+                data: { WarehousestockId: WarehousestockId,Quantity:Quantity,Type:Type,Statusid:Statusid },
+             success: function (data) {
+                 
+                   var v = data.success;
+                    if (v == true) {
+                        $('#myModal').modal('toggle');
+                        SparepartdetailsPVVV($('#hdnSparePartidTrnsf').val(),$('#hdnWarehouseId').val());
+                    }
+                    else {
+                        alert('Some thing went wrong');
+                    }
+                    document.getElementById("loader").style.display = "none";
+                },
+                error: function () {
+                  $('#myModal').modal('toggle');
+                    SparepartdetailsPVVV($('#hdnSparePartidTrnsf').val(), $('#hdnWarehouseId').val());
+                }
+            });
+    }
+
+    function ViewEditDiv() {
+        $('#Edit_Row_div').show();
+        $('#div_SP').hide();
+    }
+
+    function isNumberKey(evt) {
+
+        $('#txtmobileerror').text('');
+        //var e = evt || window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode
+        if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+
+        //var myLength = $("#txtmobile").val().length;
+        //if (myLength > 21) {
+        //    $("#txtmobile").after('<span id="txtmobileerror" style="color:red;" class="error">Maximum Lenght 20</span>');
+        //    $('#hdnMobileValidation').val('1');
+        //}
+        //else if (myLength < 9) {
+        //    $("#txtmobile").after('<span id="txtmobileerror" style="color:red;" class="error">Minimum Lenght 10</span>');
+        //    $('#hdnMobileValidation').val('1');
+        //} else {
+
+        //    $('#hdnMobileValidation').val('0');
+        //}
+
+        return true;
+    }
+    $("#kt_select2_4").select2();
+    $("#transfer_quantity").select2();
 </script>

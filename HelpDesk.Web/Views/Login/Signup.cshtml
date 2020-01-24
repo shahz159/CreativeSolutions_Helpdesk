@@ -13,6 +13,7 @@
     <link href="~/assets/css/login.css" rel="stylesheet" />
     <link href="~/assets/plugins/global/plugins.bundle.css" rel="stylesheet" />
     <link href="~/assets/css/style.bundle.css" rel="stylesheet" />
+    <link href="~/assets/css/Styles.css" rel="stylesheet" />
     <style>
         .select2-selection__rendered {
             background: rgba(247, 247, 249, 0.7);
@@ -149,7 +150,7 @@
         }
     </style>
 
-   
+
 </head>
 <body class="kt-page--loading-enabled kt-page--loading kt-header--fixed kt-header--minimize-topbar kt-header-mobile--fixed kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-subheader--enabled kt-subheader--transparent kt-page--loading">
     <div id="loader" class="load-sec">
@@ -199,48 +200,55 @@
                                 <img src="~/assets/images/ahc_new_logo.png" height="50" class="mb-3" />
                                 <h3>SignUp</h3>
                             </div>
-                            <form class="kt-form" action="" novalidate="novalidate" id="kt_login_form">
-                                <div class="form-group mt-4">
+                            <form class="kt-form floating-form" action="" novalidate="novalidate" id="kt_login_form">
+                                <div class="form-group floating-label mt-4">
                                     <div id="Accounts_div">
-                                        <select class="form-control kt-select2" id="ddlAccounts" name="param">
+                                        <select class="form-control floating-select kt-select2" id="ddlAccounts" name="param" onclick="this.setAttribute('value', this.value);" value=" ">
                                         </select>
+                                        <label>Select Account</label>
                                     </div>
                                 </div>
-                                <div class="form-group mt-4">
+                                <div class="form-group floating-label mt-4">
                                     <div id="Products_div">
-                                        <select class="form-control kt-select2" id="ddlProducts" multiple>
+                                        <select class="form-control floating-select kt-select2" id="ddlProducts" onclick="this.setAttribute('value', this.value);" value=" " multiple>
                                             <option></option>
                                         </select>
+                                        <label>Select Product</label>
                                     </div>
 
                                 </div>
-                                <div class="form-group mt-4">
-                                    <input class="form-control" type="text" value="" placeholder="Enter Full Name" id="txtfullname">
+                                <div class="form-group floating-label mt-4">
+                                    <input class="form-control floating-input" type="text" value="" placeholder=" " id="txtfullname">
+                                    <label>Enter Full Name</label>
                                 </div>
-                                <div class="form-group mt-4">
-                                    <select class="form-control kt-select2" id="ddlGender">
+                                <div class="form-group floating-label mt-4">
+                                    <select class="form-control floating-select kt-select2" id="ddlGender">
                                         <option value="M">Male</option>
                                         <option value="F">Female</option>
                                         <option value="O">Other</option>
                                     </select>
+                                    <label>Gender</label>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group floating-label">
                                     <div id="div_mobileNumber" class="input-group">
                                         <div class="input-group-prepend"><span class="input-group-text">+966</span></div>
-                                        <input class="form-control" autocomplete="off" type="text" value="" placeholder="xxx xxx xxxx" id="txtmobile" onkeypress="return isNumberKey(event)" onchange="mobilevalidation()">
+                                        <input class="form-control floating-input" autocomplete="off" type="text" value="" placeholder="xxx xxx xxxx" id="txtmobile" onkeypress="return isNumberKey(event)" onchange="mobilevalidation()">
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <input id="txtSignupEmail" class="form-control" autocomplete="off" type="text" value="" placeholder="Enter Email Id" onchange="checkuseremail()">
+                                <div class="form-group floating-label">
+                                    <input id="txtSignupEmail" class="form-control floating-input" autocomplete="off" type="text" value="" placeholder=" " onchange="checkuseremail()">
+                                    <label>Enter Email Id</label>
                                 </div>
-                                <div class="form-group">
-                                    <input class="form-control" type="password" autocomplete="new-password" placeholder="Password" onchange="PasswordLenght(1)" id="txtPassword">
+                                <div class="form-group floating-label">
+                                    <input class="form-control floating-input" type="password" autocomplete="new-password" placeholder=" " onchange="PasswordLenght(1)" id="txtPassword">
+                                    <label>Password</label>
                                 </div>
-                                <div class="form-group">
-                                    <input class="form-control" type="password" autocomplete="new-password" placeholder="Conform Password" onchange="PasswordLenght(2)" id="txtConfirmPassword">
+                                <div class="form-group floating-label">
+                                    <input class="form-control floating-input" type="password" autocomplete="new-password" placeholder=" " onchange="PasswordLenght(2)" id="txtConfirmPassword">
+                                    <label>Conform Password</label>
                                 </div>
                                 <div class="kt-login__actions">
-                                    <a onclick="SaveUserDetails()" class="btn btn-primary btn-elevate kt-login__btn-primary">Submit</a>
+                                    <a href="#" onclick="SaveUserDetails()" class="btn btn-primary btn-elevate kt-login__btn-primary">Submit</a>
                                 </div>
                             </form>
                         </div>

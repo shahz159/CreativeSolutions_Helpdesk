@@ -46,6 +46,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="SautinSoft.PdfFocus, Version=7.1.9.17, Culture=neutral, PublicKeyToken=0b79b934109b3e9e, processorArchitecture=MSIL">
+      <HintPath>..\packages\sautinsoft.pdffocus.7.1.9.17\lib\net47\SautinSoft.PdfFocus.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -279,6 +282,13 @@
     <Content Include="Views\Ticket\EnquiryDetailsPV.cshtml" />
     <Content Include="Views\Inventory\SparePartDetailsPV.cshtml" />
     <Content Include="Views\Inventory\ConsignmentApproval.cshtml" />
+    <Content Include="Views\Ticket\DashboardTickets.cshtml" />
+    <Content Include="Views\Inventory\SparePartMaster.cshtml" />
+    <Content Include="Views\Inventory\StockConsignment.cshtml" />
+    <Content Include="Views\Inventory\StockList.cshtml" />
+    <Content Include="Views\UsersRegistration\Profile.cshtml" />
+    <Content Include="Views\Inventory\PdfToHtml.cshtml" />
+    <Content Include="Views\Assets\PPMDatesApproval.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,213 +1,425 @@
 ﻿@model HelpDesk.Web.Models.TicketDTO
 
 @{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.Title = "Index";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
 
-    @if (Model.RoleId == 503)
-    {
+	@if (Model.RoleId == 503)
+	{
 
-        <a href="@Url.Action("NewTicket","Ticket")" class="btn btn-brand btn-elevate btn-icon-sm" style="margin-left:87%">
-            <i class="la la-plus"></i>
-            New Ticket
-        </a>
+		<a href="@Url.Action("NewTicket","Ticket")" class="btn btn-brand btn-elevate btn-icon-sm" style="margin-left:87%">
+			<i class="la la-plus"></i>
+			New Ticket
+		</a>
 
-    }
+	}
 
-    <!--Begin::Dashboard 3-->
-    <!--Begin::Row-->
-    <div class="row">
-        <div class="col-sm-8 col-md-4 col-lg-4">
-            <div class="kt-portlet kt-portlet--border-bottom-brand">
-                <div class="kt-portlet__body kt-portlet__body--fluid">
-                    <div class="kt-widget26">
-                        <div class="kt-widget26__content">
-                            <span class="kt-widget26__number">@Model.NewTickets</span>
-                            @if (Model.RoleId == 503)
-                            {
-                                <span class="kt-widget26__desc"> In Progress</span>
-                            }
-                            else
-                            {
-                                <span class="kt-widget26__desc"> New</span>
-                            }
+	<!--Begin::Dashboard 3-->
+	<!--Begin::Row-->
+	<div class="row">
+		<div class="col-sm-8 col-md-4 col-lg-4">
+			<div class="kt-portlet kt-portlet--border-bottom-brand">
+				<div class="kt-portlet__body kt-portlet__body--fluid">
+					<div class="kt-widget26">
+						<div class="kt-widget26__content">
+							<span class="kt-widget26__number">@Model.NewTickets</span>
+							@if (Model.RoleId == 503 || Model.RoleId == 504)
+							{
+								<a style="text-decoration: underline; cursor: pointer;" href="@Url.Action("DashboardTickets","Ticket",new { id=1})" class="kt-widget26__desc"> In Progress</a>
+							}
+							else
+							{
+								<span class="kt-widget26__desc"> New</span>
+							}
 
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-8 col-md-4 col-lg-4">
-            <div class="kt-portlet kt-portlet--border-bottom-success">
-                <div class="kt-portlet__body kt-portlet__body--fluid">
-                    <div class="kt-widget26">
-                        <div class="kt-widget26__content">
-                            <span class="kt-widget26__number">@Model.InProgressTickets</span>
-                            @if (Model.RoleId == 503)
-                            {
-                                <span class="kt-widget26__desc"> Action to Close</span>
-                            }
-                            else
-                            {
-                                <span class="kt-widget26__desc"> In Progress</span>
-                            }
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-8 col-md-4 col-lg-4">
+			<div class="kt-portlet kt-portlet--border-bottom-success">
+				<div class="kt-portlet__body kt-portlet__body--fluid">
+					<div class="kt-widget26">
+						<div class="kt-widget26__content">
+							<span class="kt-widget26__number">@Model.InProgressTickets</span>
+							@if (Model.RoleId == 503 || Model.RoleId == 504)
+							{
+								<a style="text-decoration: underline; cursor: pointer;" href="@Url.Action("DashboardTickets","Ticket",new { id=2})" class="kt-widget26__desc"> Action to Close</a>
+							}
+							else
+							{
+								<span class="kt-widget26__desc"> In Progress</span>
+							}
 
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-8 col-md-4 col-lg-4">
-            <div class="kt-portlet kt-portlet--border-bottom-danger">
-                <div class="kt-portlet__body kt-portlet__body--fluid">
-                    <div class="kt-widget26">
-                        <div class="kt-widget26__content">
-                            <span class="kt-widget26__number">@Model.ResolvedTickets</span>
-                            @if (Model.RoleId == 503)
-                            {
-                                <span class="kt-widget26__desc"> Closed</span>
-                            }
-                            else
-                            {
-                                <span class="kt-widget26__desc"> Resolved</span>
-                            }
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        @*<div class="col-sm-6 col-md-3 col-lg-3">
-                <div class="kt-portlet kt-portlet--border-bottom-warning">
-                    <div class="kt-portlet__body kt-portlet__body--fluid">
-                        <div class="kt-widget26">
-                            <div class="kt-widget26__content">
-                                <span class="kt-widget26__number">556</span>
-                                <span class="kt-widget26__desc">Equipment Installed</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>*@
-    </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-8 col-md-4 col-lg-4">
+			<div class="kt-portlet kt-portlet--border-bottom-danger">
+				<div class="kt-portlet__body kt-portlet__body--fluid">
+					<div class="kt-widget26">
+						<div class="kt-widget26__content">
+							<span class="kt-widget26__number">@Model.ResolvedTickets</span>
+							@if (Model.RoleId == 503 || Model.RoleId == 504)
+							{
+								<a style="text-decoration: underline; cursor: pointer;" href="@Url.Action("DashboardTickets","Ticket",new { id=3})" class="kt-widget26__desc"> Closed</a>
+							}
+							else
+							{
+								<span class="kt-widget26__desc"> Resolved</span>
+							}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		@*<div class="col-sm-6 col-md-3 col-lg-3">
+				<div class="kt-portlet kt-portlet--border-bottom-warning">
+					<div class="kt-portlet__body kt-portlet__body--fluid">
+						<div class="kt-widget26">
+							<div class="kt-widget26__content">
+								<span class="kt-widget26__number">556</span>
+								<span class="kt-widget26__desc">Equipment Installed</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>*@
+	</div>
 
-    @*<div class="row">
-            <div class="col-xl-4 col-lg-4 order-lg-3 order-xl-1">
-                <div class="kt-portlet kt-portlet--height-fluid">
-                    <div class="kt-portlet__head">
-                        <div class="kt-portlet__head-label">
-                            <h3 class="kt-portlet__head-title">
-                                New Tickets
-                            </h3>
-                        </div>
-                    </div>
-                    <div class="kt-portlet__body">
-                        <div class="kt-widget6">
-                            <div class="kt-widget6__head">
-                                <div class="kt-widget6__item">
-                                    <span class="kt-font-bold">Ticket No.</span>
-                                    <span class="kt-font-bold">Date</span>
-                                    <span class="kt-font-bold">Service Engineer</span>
-                                </div>
-                            </div>
-                            <div class="kt-widget6__body">
-                                @if (Model.ReportList != null)
-                                {
-                                    foreach (var item in Model.ReportList)
-                                    {
-                                        <div class="kt-widget6__item">
-                                            <span>@item.TicketNumber</span>
-                                            <span>@item.CreatedOn</span>
-                                            <span>@item.FullName</span>
-                                        </div>
-                                    }
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+	<div class="row">
+		<div class="col-xl-6 col-lg-5 order-lg-6 order-xl-6">
+			<div class="kt-portlet kt-portlet--height-fluid">
+				<div class="kt-portlet__body">
+					<div data-gr-c-s-loaded="true">
+						<div>
+							<canvas id="chart-area" class="chartjs-render-monitor"></canvas>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-6 col-lg-7 order-lg-6 order-xl-6">
+			<div class="kt-portlet kt-portlet--height-fluid">
+				<div class="kt-portlet__body">
+					<div data-gr-c-s-loaded="true">
+						<div>
+							<canvas id="canvas" style="display: block; width: 1215px; height: 607px;" width="1215" height="607" class="chartjs-render-monitor"></canvas>
+						</div>
+					</div>
 
-            <div class="col-xl-4 col-lg-4 order-lg-3 order-xl-1">
-                <div class="kt-portlet kt-portlet--height-fluid">
-                    <div class="kt-portlet__head">
-                        <div class="kt-portlet__head-label">
-                            <h3 class="kt-portlet__head-title">
-                                Pending Tickets
-                            </h3>
-                        </div>
-                    </div>
-                    <div class="kt-portlet__body">
-                        <div class="kt-widget6">
-                            <div class="kt-widget6__head">
-                                <div class="kt-widget6__item">
-                                    <span class="kt-font-bold">Ticket No.</span>
-                                    <span class="kt-font-bold">Date</span>
-                                    <span class="kt-font-bold">Service Engineer</span>
-                                </div>
-                            </div>
-                            <div class="kt-widget6__body">
-                                @if (Model.WarehouseList != null)
-                                {
-                                    foreach (var item in Model.WarehouseList)
-                                    {
-                                        <div class="kt-widget6__item">
-                                            <span>@item.TicketNumber</span>
-                                            <span>@item.CreatedOn</span>
-                                            <span>@item.FullName</span>
-                                        </div>
-                                    }
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-4 col-lg-4 order-lg-3 order-xl-1">
-                <div class="kt-portlet kt-portlet--height-fluid">
-                    <div class="kt-portlet__head">
-                        <div class="kt-portlet__head-label">
-                            <h3 class="kt-portlet__head-title">
-                                Resolved Tickets
-                            </h3>
-                        </div>
-                    </div>
-                    <div class="kt-portlet__body">
-                        <div class="kt-widget6">
-                            <div class="kt-widget6__head">
-                                <div class="kt-widget6__item">
-                                    <span class="kt-font-bold">Ticket No.</span>
-                                    <span class="kt-font-bold">Date</span>
-                                    <span class="kt-font-bold">Service Engineer</span>
-                                </div>
-                            </div>
-                            <div class="kt-widget6__body">
-                                @if (Model.SparePartList != null)
-                                {
-                                    foreach (var item in Model.SparePartList)
-                                    {
-                                        <div class="kt-widget6__item">
-                                            <span>@item.TicketNumber</span>
-                                            <span>@item.CreatedOn</span>
-                                            <span>@item.FullName</span>
-                                        </div>
-                                    }
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>*@
+				</div>
+			</div>
+		</div>
+
+
+	</div>
 </div>
+@*<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.js"></script>*@
+<script src="https://www.chartjs.org/dist/2.9.3/Chart.min.js"></script>
 
+<input type="hidden" id="hdnNewAry" value="@Model.New_array" />
+<input type="hidden" id="hdnResolvedAry" value="@Model.Resolved_array" />
+<input type="hidden" id="hdnClosedAry" value="@Model.Closed_array" />
+<input type="hidden" id="hdnMonthsAry" value="@Model.Months_array" />
+<input type="hidden" id="hdnPie" value="@Model.Pie_array" />
 
+<input type="hidden" id="hdnRoleId" value="@Model.RoleId" />
+
+<script>
+
+</script>
 @section  Scripts{
-    <script>
-        $('#loader').hide();
-    </script>
+	<script>
+		'use strict';
+
+		window.chartColors = {
+			red: 'rgb(255, 99, 132)',
+			orange: 'rgb(255, 159, 64)',
+			yellow: 'rgb(255, 205, 86)',
+			green: 'rgb(75, 192, 192)',
+			blue: 'rgb(54, 162, 235)',
+			purple: 'rgb(153, 102, 255)',
+			grey: 'rgb(201, 203, 207)'
+		};
+
+		(function (global) {
+			var MONTHS = [
+				'January',
+				'February',
+				'March',
+				'April',
+				'May',
+				'June',
+				'July',
+				'August',
+				'September',
+				'October',
+				'November',
+				'December'
+			];
+
+			var COLORS = [
+				'#4dc9f6',
+				'#f67019',
+				'#f53794',
+				'#537bc4',
+				'#acc236',
+				'#166a8f',
+				'#00a950',
+				'#58595b',
+				'#8549ba'
+			];
+
+			var Samples = global.Samples || (global.Samples = {});
+			var Color = global.Color;
+
+			Samples.utils = {
+				// Adapted from http://indiegamr.com/generate-repeatable-random-numbers-in-js/
+				srand: function (seed) {
+					this._seed = seed;
+				},
+
+				rand: function (min, max) {
+					var seed = this._seed;
+					min = min === undefined ? 0 : min;
+					max = max === undefined ? 1 : max;
+					this._seed = (seed * 9301 + 49297) % 233280;
+					return min + (this._seed / 233280) * (max - min);
+				},
+
+				numbers: function (config) {
+					var cfg = config || {};
+					var min = cfg.min || 0;
+					var max = cfg.max || 1;
+					var from = cfg.from || [];
+					var count = cfg.count || 8;
+					var decimals = cfg.decimals || 8;
+					var continuity = cfg.continuity || 1;
+					var dfactor = Math.pow(10, decimals) || 0;
+					var data = [];
+					var i, value;
+
+					for (i = 0; i < count; ++i) {
+						value = (from[i] || 0) + this.rand(min, max);
+						if (this.rand() <= continuity) {
+							data.push(Math.round(dfactor * value) / dfactor);
+						} else {
+							data.push(null);
+						}
+					}
+
+					return data;
+				},
+
+				labels: function (config) {
+					var cfg = config || {};
+					var min = cfg.min || 0;
+					var max = cfg.max || 100;
+					var count = cfg.count || 8;
+					var step = (max - min) / count;
+					var decimals = cfg.decimals || 8;
+					var dfactor = Math.pow(10, decimals) || 0;
+					var prefix = cfg.prefix || '';
+					var values = [];
+					var i;
+
+					for (i = min; i < max; i += step) {
+						values.push(prefix + Math.round(dfactor * i) / dfactor);
+					}
+
+					return values;
+				},
+
+				months: function (config) {
+					var cfg = config || {};
+					var count = cfg.count || 12;
+					var section = cfg.section;
+					var values = [];
+					var i, value;
+
+					for (i = 0; i < count; ++i) {
+						value = MONTHS[Math.ceil(i) % 12];
+						values.push(value.substring(0, section));
+					}
+
+					return values;
+				},
+
+				color: function (index) {
+					return COLORS[index % COLORS.length];
+				},
+
+				transparentize: function (color, opacity) {
+					var alpha = opacity === undefined ? 0.5 : 1 - opacity;
+					return Color(color).alpha(alpha).rgbString();
+				}
+			};
+
+			// DEPRECATED
+			window.randomScalingFactor = function () {
+				return Math.round(Samples.utils.rand(-100, 100));
+			};
+
+			// INITIALIZATION
+
+			Samples.utils.srand(Date.now());
+
+			// Google Analytics
+			/* eslint-disable */
+			if (document.location.hostname.match(/^(www\.)?chartjs\.org$/)) {
+				(function (i, s, o, g, r, a, m) {
+					i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+						(i[r].q = i[r].q || []).push(arguments)
+					}, i[r].l = 1 * new Date(); a = s.createElement(o),
+						m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+				})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+				ga('create', 'UA-28909194-3', 'auto');
+				ga('send', 'pageview');
+			}
+			/* eslint-enable */
+
+		}(this));
+	</script>
+	<script>
+		$('#loader').hide();
+
+		var randomScalingFactor = function () {
+			return Math.round(Math.random() * 100);
+		};
+		debugger
+        
+		var value = $('#hdnMonthsAry').val(); //retrieve array
+        value = JSON.parse(value);
+
+		var value_new = $('#hdnNewAry').val(); //retrieve array
+        value_new = JSON.parse(value_new);
+
+		var value_closed = $('#hdnClosedAry').val(); //retrieve array
+        value_closed = JSON.parse(value_closed);
+
+		var value_resolved = $('#hdnResolvedAry').val(); //retrieve array
+        value_resolved = JSON.parse(value_resolved);
+		 
+		var config = {
+			type: 'bar',
+			data: {
+				labels: value,
+				//                    [['June', '2015'], 'July', 'August', 'September'],
+				datasets: [{
+					label: 'New Tickets',
+					fill: false,
+					backgroundColor: window.chartColors.red,
+					borderColor: window.chartColors.red,
+					data: value_new
+					//                   [
+					//	15,
+					//	10,
+					//                   5,
+					//                   9
+					//]
+				}, {
+					label: 'Resolved Tickets',
+					fill: false,
+					backgroundColor: window.chartColors.blue,
+					borderColor: window.chartColors.blue,
+					data: value_resolved,
+				},
+				{
+					label: 'Closed Tickets',
+					fill: false,
+					backgroundColor: window.chartColors.green,
+					borderColor: window.chartColors.green,
+					data: value_closed,
+				}
+				]
+			},
+			options: {
+				responsive: true,
+				title: {
+					display: true
+					//text: 'Graphical View of New,In Progress and Resolved Tickets of Last 3 Months'
+				},
+				//scales: {
+				//	yAxes: [{
+				//		gridLines: {
+				//			drawBorder: false,
+				//			color: ['pink', 'red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'purple']
+				//		}
+				//	}]
+				//},
+			}
+		};
+
+		window.onload = function () {
+			var ctx = document.getElementById('canvas').getContext('2d');
+			window.myLine = new Chart(ctx, config);
+
+			var ctx1 = document.getElementById('chart-area').getContext('2d');
+			window.myPie = new Chart(ctx1, config1);
+		};
+
+
+	</script>
+
+	<script>
+		var randomScalingFactor = function () {
+			return Math.round(Math.random() * 100);
+        };
+		var value_pie = $('#hdnPie').val(); //retrieve array
+        value_pie = JSON.parse(value_pie);
+		//
+
+        var labels_ary = [];
+
+        var roleid = $('#hdnRoleId').val();
+        if (roleid == 505) {
+            labels_ary = [
+                'New',
+                'In Progress',
+                'Resolved'
+            ];
+        }
+        else {
+            labels_ary = [
+                'In Progress',
+                'Action to Close',
+                'Closed'
+            ];
+        }
+
+        
+
+		
+
+
+
+		var config1 = {
+			type: 'pie',
+			data: {
+				datasets: [{
+					data: value_pie,
+					backgroundColor: [
+						window.chartColors.red,
+						window.chartColors.blue,
+						window.chartColors.green
+					],
+					label: 'Dataset 1'
+				}],
+				labels: labels_ary
+			},
+			options: {
+				responsive: true
+			}
+		};
+
+		var colorNames = Object.keys(window.chartColors);
+
+	</script>
 }
-
-

@@ -31,6 +31,7 @@ namespace HelpDesk.API.DTO_s
         public long TicketNumber { get; set; }
         public int WarehouseId { get; set; }
         public string Comments { get; set; }
+        public string ProblemDescription { get; set; }
         public DateTime ResponseTime { get; set; }
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
@@ -41,7 +42,6 @@ namespace HelpDesk.API.DTO_s
         public string SystemId { get; set; }
         public string AccountName { get; set; }
         public string Location { get; set; }
-        public string ProblemDescription { get; set; }
         public string CustomerFullName { get; set; }
         public string CustomerEmail { get; set; }
         public string EngineerEmail { get; set; }

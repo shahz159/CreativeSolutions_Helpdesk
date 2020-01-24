@@ -71,6 +71,15 @@ namespace HelpDesk.API.Bussiness
             data.Close();
             return List;
         }
+        public IEnumerable<UsersDTO> GetCompanyManagerAccounts(UsersDTO obj)
+        {
+            var data = model.GetCompanyManagerAccounts(obj);
+            var List = CustomDataReaderToGenericExtension.GetDataObjects<UsersDTO>(data);
+            data.Close();
+            return List;
+        }
+
+        
         public IEnumerable<UsersDTO> GetCompanyProducts(UsersDTO obj)
         {
             var data = model.GetCompanyProducts(obj);
@@ -78,6 +87,15 @@ namespace HelpDesk.API.Bussiness
             data.Close();
             return List;
         }
+        public IEnumerable<UsersDTO> GetCompanyProductsRoleWise(UsersDTO obj)
+        {
+            var data = model.GetCompanyProductsRoleWise(obj);
+            var List = CustomDataReaderToGenericExtension.GetDataObjects<UsersDTO>(data);
+            data.Close();
+            return List;
+        }
+
+
         
         public UsersDTO GetUserDetailsById(UsersDTO obj)
         {
@@ -123,7 +141,29 @@ namespace HelpDesk.API.Bussiness
             }
             return obj;
         }
-
+        public UsersDTO UpdateUserInfoBasic(UsersDTO obj)
+        {
+            try
+            {
+                var data = model.UpdateUser(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["message"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
+        
         public UsersDTO RoleCompanyDropDowns(UsersDTO obj)
         {
             obj.datasetxml = model.RoleCompanyDropDowns(obj);
@@ -196,24 +236,50 @@ namespace HelpDesk.API.Bussiness
             }
             return obj;
         }
+        public UsersDTO addaccount(UsersDTO obj)
+        {
+            try
+            {
+                var data = model.addAccount(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["message"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
 
         
     }
 
     public interface IUserService
     {
+        UsersDTO UpdateUserInfoBasic(UsersDTO obj);
         UsersDTO NewUser(UsersDTO obj);
         UsersDTO RoleCompanyDropDowns(UsersDTO obj);
         UsersDTO GetUserDetailsById(UsersDTO obj);
         UsersDTO GetUserList(UsersDTO obj);
         UsersDTO updateStatus(UsersDTO obj);
         UsersDTO addproduct(UsersDTO obj);
+        UsersDTO addaccount(UsersDTO obj);
         UsersDTO removeaccountproduct(UsersDTO obj);
         UsersDTO GetSystemUserforApprovalList(UsersDTO obj);
         UsersDTO GetSystemUserDetailsById(UsersDTO obj);
         UsersDTO CheckEmailExists(string email);
         UsersDTO CheckEmpIdExists(string empid);
         IEnumerable<UsersDTO> GetCompanyAccounts(UsersDTO obj);
+        IEnumerable<UsersDTO> GetCompanyManagerAccounts(UsersDTO obj);
         IEnumerable<UsersDTO> GetCompanyProducts(UsersDTO obj);
+        IEnumerable<UsersDTO> GetCompanyProductsRoleWise(UsersDTO obj);
     }
 }

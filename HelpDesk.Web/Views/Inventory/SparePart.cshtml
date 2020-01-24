@@ -14,7 +14,7 @@
                     </span>
                     <h3 class="kt-portlet__head-title">Spare Part List</h3>
                 </div>
-                @if (Model.RoleId == 502)
+                @if (Model.RoleId == 501)
                 {
                     <div class="kt-portlet__head-toolbar">
                         <div class="kt-portlet__head-wrapper">
@@ -42,7 +42,7 @@
                                             <select id="ddlWarehouse" class="form-control" onchange="BindList()">
                                                 @if (Model.WarehouseList != null)
                                                 {
-                                                    if (Model.RoleId == 502)
+                                                    if (Model.RoleId == 501 || Model.RoleId == 502)
                                                     {
                                                         foreach (var rptr in Model.WarehouseList)
                                                         {
@@ -108,7 +108,7 @@
                 type: "Post",
                 url: '@Url.Action("SparePartDetails")',
                 datatype: "json",
-                data: { id: id },
+                data: { id: id,WarehouseId:0 },
                 success: function (data) {
                     
                     $('#upper_div').hide();

@@ -32,11 +32,11 @@
                                 <form id="myform" class="kt-form kt-form--label-right">
                                     <div class="kt-portlet__body">
                                         <div class="form-group row">
-                                            <label class="col-form-label col-sm-2">Select Warehouse</label>
+                                            <label class="col-form-label col-sm-2">Select Product</label>
                                             <div class="col-sm-9">
-                                                @Html.DropDownListFor(model => model.WarehouseId, (IEnumerable<SelectListItem>
-                                       )ViewData["ddlWarehouseLst"], "--Please Select --",
-                                       new { id = "ddlWarehouse", @class = "form-control kt-select2",@onchange="checksparepartname()" })
+                                                @Html.DropDownListFor(model => model.ProductId, (IEnumerable<SelectListItem>
+                                       )ViewData["ddlProductLst"], "--Please Select --",
+                                       new { id = "ddlProduct", @class = "form-control kt-select2"})
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -76,8 +76,8 @@
                                                 <div class="col-2">
                                                 </div>
                                                 <div class="col-10">
-                                                    <a id="achr_btn" onclick="SaveSparePartDetails()" class="btn btn-success">Submit</a>
-                                                    <a class="btn btn-secondary">Cancel</a>
+                                                    <a href="#" id="achr_btn" onclick="SaveSparePartDetails()" class="btn btn-success">Submit</a>
+                                                    <a href="#" class="btn btn-secondary">Cancel</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -108,7 +108,7 @@
         //document.getElementById("loader").style.display = "block";
         $(document).ready(function () {
             //set initial state.
-            $('#ddlWarehouse').select2({
+            $('#ddlProduct').select2({
             });
             var flag = $('#hdnFlagId').val();
             if (flag == 1) {
@@ -125,14 +125,14 @@
             debugger
             var isvalid = true;
             ///////////////////////
-            var WarehouseId = $('#ddlWarehouse').val();
-            if (WarehouseId == "") {
+            var ProductId = $('#ddlProduct').val();
+            if (ProductId == "") {
                 isvalid = false;
-                $('#txtddlWarehouseerror').html('');
-                $("#ddlWarehouse").after('<span id="txtddlWarehouseerror" style="color:red;" class="error">Field required.</span>');
+                $('#txtddlProducterror').html('');
+                $("#ddlProduct").after('<span id="txtddlProducterror" style="color:red;" class="error">Field required.</span>');
             }
             else {
-                $('#txtddlWarehouseerror').html('');
+                $('#txtddlProducterror').html('');
             }
 
             ////////////////////////////////
@@ -196,7 +196,7 @@
                     url: '@Url.Action("NewSparePartJson")', // we are calling json method
                     dataType: 'json',
                     data: {
-                        WarehouseId: WarehouseId, SparePartName: SparePartName, SparePartNumber: Number, Quantity: Quantity, BaseQuantity: BaseQuantity, Price: Price,
+                        ProductId: ProductId, SparePartName: SparePartName, SparePartNumber: Number, Quantity: Quantity, BaseQuantity: BaseQuantity, Price: Price,
                         FlagId: $('#hdnFlagId').val(), SparePartId: $('#hdnSparePartId').val()
                     },
                       success: function (data) {
