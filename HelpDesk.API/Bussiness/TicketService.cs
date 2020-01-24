@@ -126,6 +126,7 @@ namespace HelpDesk.API.Bussiness
 
             }
         }
+        
 
         public TicketDTO GetUnderApprovalTickets(TicketDTO obj)
         {
@@ -209,11 +210,11 @@ namespace HelpDesk.API.Bussiness
                 {
                     while (data.Read())
                     {
-                        obj.message = data["message"].ToString();
+                        obj.message = data["message"].ToString();                        
                     }
                 }
                 else
-                    obj.message = "0";
+                    obj.message = "0";                
             }
             catch (Exception ex)
             {
