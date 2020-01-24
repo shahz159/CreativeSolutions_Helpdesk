@@ -30,6 +30,13 @@ namespace HelpDesk.API.Controllers
             return Ok(result);
         }
 
+        [ResponseType(typeof(UsersDTO))]
+        public IHttpActionResult NewUpdateUserInfo(UsersDTO obj)
+        {
+            var result = service.UpdateUserInfoBasic(obj);
+            return Ok(result);
+        }
+
         /// <summary>
         /// Get User Details by id
         /// </summary>
@@ -76,6 +83,13 @@ namespace HelpDesk.API.Controllers
             var list = service.GetCompanyAccounts(obj);
             return list;
         }
+
+        public IEnumerable<UsersDTO> NewGetManagerAccountList(UsersDTO obj)
+        {
+            var list = service.GetCompanyManagerAccounts(obj);
+            return list;
+        }
+
         /// <summary>
         /// Get Product List by Company id
         /// </summary>
@@ -84,6 +98,12 @@ namespace HelpDesk.API.Controllers
         public IEnumerable<UsersDTO> NewGetProductList(UsersDTO obj)
         {
             var list = service.GetCompanyProducts(obj);
+            return list;
+        }
+
+        public IEnumerable<UsersDTO> NewGetProductListRolwWise(UsersDTO obj)
+        {
+            var list = service.GetCompanyProductsRoleWise(obj);
             return list;
         }
 
@@ -151,6 +171,14 @@ namespace HelpDesk.API.Controllers
         public IHttpActionResult NewAddUserProduct(UsersDTO obj)
         {
             var result = service.addproduct(obj);
+            return Ok(result);
+        }
+
+
+        [ResponseType(typeof(UsersDTO))]
+        public IHttpActionResult NewAddUserAccount(UsersDTO obj)
+        {
+            var result = service.addaccount(obj);
             return Ok(result);
         }
 

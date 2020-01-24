@@ -31,40 +31,40 @@
                                     <div class="kt-portlet__head-actions">
                                         @if ((item.Status == 8 || item.Status == 5) && (Model.RoleId == 501 || Model.RoleId == 502))
                                         {
-                                            <a onclick="UpdateStatus(9)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                            <a href="#" onclick="UpdateStatus(9)" class="btn btn-brand btn-elevate btn-icon-sm">
                                                 <i class="la la-check"></i>
                                                 Approve
                                             </a>
-                                            <a onclick="UpdateStatus(10)" class="btn btn-danger btn-elevate btn-icon-sm">
+                                            <a href="#" onclick="UpdateStatus(10)" class="btn btn-danger btn-elevate btn-icon-sm">
                                                 <i class="la la-close"></i>
                                                 Reject
                                             </a>
                                         }
                                         @if (Model.RoleId == 505 && item.Status == 1)
                                         {
-                                            <a id="anchr_addresponse" onclick="ViewResponseDiv()" class="btn btn-brand btn-elevate btn-icon-sm">
+                                            <a href="#" id="anchr_addresponse" onclick="ViewResponseDiv()" class="btn btn-brand btn-elevate btn-icon-sm">
                                                 <i class="la la-clock-o"></i>
                                                 Add Response Time
                                             </a>
                                         }
                                         @if (Model.RoleId == 505 && (item.Status == 12 || item.Status == 4 || item.Status == 9))
                                         {
-                                            <a onclick="UpdateStatus(3)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                            <a href="#" onclick="UpdateStatus(3)" class="btn btn-brand btn-elevate btn-icon-sm">
                                                 <i class="la la-clock-o"></i>
                                                 Start
                                             </a>
                                         }
                                         @if (Model.RoleId == 505 && item.Status == 2)
                                         {
-                                            <a onclick="UpdateStatus(4)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                            <a href="#" onclick="UpdateStatus(4)" class="btn btn-brand btn-elevate btn-icon-sm">
                                                 <i class="la la-clock-o"></i>
                                                 Pause
                                             </a>
-                                            <a onclick="ViewSparePartRequestDiv()" class="btn btn-brand btn-elevate btn-icon-sm" data-toggle="modal" data-target="#kt_modal_4">
+                                            <a href="#" onclick="ViewSparePartRequestDiv()" class="btn btn-brand btn-elevate btn-icon-sm" data-toggle="modal" data-target="#kt_modal_4">
                                                 <i class="la la-reply"></i>
-                                                Request Spare Part
+                                                Required Spare Part
                                             </a>
-                                            <a onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                            <a href="#" onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
                                                 <i class="la la-info"></i>
                                                 Service Report
                                             </a>
@@ -73,18 +73,18 @@
                                         {
                                             if (item.Status == 6)
                                             {
-                                                <a onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                                <a href="#" onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
                                                     <i class="la la-check"></i>
                                                     Service Report
                                                 </a>
                                             }
-                                            else if (item.Status == 13)
+                                            else if (item.Status == 13 || item.Status == 7)
                                             {
                                                 @*<a class="btn btn-brand btn-elevate btn-icon-sm">
                                                         <i class="la la-check"></i>
                                                         Confirmed
                                                     </a>*@
-                                                <a onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                                <a href="#" onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
                                                     <i class="la la-check"></i>
                                                     Service Report
                                                 </a>
@@ -98,18 +98,18 @@
                                                         <i class="la la-check"></i>
                                                         Technician Resolved
                                                     </a>*@
-                                                <a onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                                <a href="#" onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
                                                     <i class="la la-check"></i>
                                                     Service Report
                                                 </a>
                                             }
-                                            else if (item.Status == 13)
+                                            else if (item.Status == 13 || item.Status == 7)
                                             {
                                                 @*<a class="btn btn-brand btn-elevate btn-icon-sm">
                                                         <i class="la la-check"></i>
                                                         Customer Confirmed
                                                     </a>*@
-                                                <a onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                                <a href="#" onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
                                                     <i class="la la-check"></i>
                                                     Service Report
                                                 </a>
@@ -123,29 +123,18 @@
                                                         <i class="la la-check"></i>
                                                         Resolved
                                                     </a>*@
-                                                <a onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                                <a href="#" onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
                                                     <i class="la la-check"></i>
                                                     Service Report
                                                 </a>
                                             }
-                                            else if (item.Status == 13)
+                                            else if (item.Status == 13 || item.Status == 7)
                                             {
                                                 @*<a class="btn btn-brand btn-elevate btn-icon-sm">
                                                         <i class="la la-check"></i>
                                                         Customer Confirmed
                                                     </a>*@
-                                                <a onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
-                                                    <i class="la la-check"></i>
-                                                    Service Report
-                                                </a>
-                                            }
-                                            else if (item.Status == 14)
-                                            {
-                                                @*<a class="btn btn-brand btn-elevate btn-icon-sm">
-                                                        <i class="la la-check"></i>
-                                                        Manager Confirmed
-                                                    </a>*@
-                                                <a onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                                <a href="#" onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
                                                     <i class="la la-check"></i>
                                                     Service Report
                                                 </a>
@@ -154,7 +143,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <a onclick="closeDetails()" class="details-close-button btn btn-danger btn-sm btn-icon btn-circle position-absolute"><i class="la la-close"></i></a>
+                            <a href="#" onclick="closeDetails()" class="details-close-button btn btn-danger btn-sm btn-icon btn-circle position-absolute"><i class="la la-close"></i></a>
                         </div>
                         <div id="AddResponseTime_Div" style="display:none" class="kt-portlet__body">
                             <div class="form-group mb-0 row">
@@ -170,24 +159,25 @@
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="input-group date">
-                                        <select id="ddlreportType" class="form-control">
-                                            @if (Model.ReportList != null)
-                                            {
-                                                foreach (var rptr in Model.ReportList)
+                                        <span class="pt-2 h4 color-primary"><strong> @item.ReportTypeName </strong></span>
+                                        @*<select id="ddlreportType" class="form-control">
+                                                @if (Model.ReportList != null)
                                                 {
-                                                    <option value="@rptr.ReportId">@rptr.ReportTypeName</option>
+                                                    foreach (var rptr in Model.ReportList)
+                                                    {
+                                                        <option value="@rptr.ReportId">@rptr.ReportTypeName</option>
+                                                    }
                                                 }
-                                            }
-                                        </select>
+                                            </select>*@
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
-                                    <a onclick="AddResponsetime()" class="btn btn-label-brand btn-bold">Submit</a>
+                                    <a href="#" onclick="AddResponsetime()" class="btn btn-label-brand btn-bold">Submit</a>
                                 </div>
                             </div>
                         </div>
                         <div id="Sparepartrequest_Div" style="display:none" class="kt-portlet__body">
-                            <h2 class="mb-4">Spare Part Request</h2>
+                            <h2 class="mb-4">Required Spare Part</h2>
                             <div class="form-group mb-3">
                                 <div class="kt-radio-inline">
                                     <label class="kt-radio">
@@ -200,48 +190,51 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="form-group mb-0 row" id="assigned_warehouse_div" style="display:block;">
-                                <div class="col-sm-4">
-                                    <div class="input-group">
-                                        <select id="ddlwarehouseA" class="form-control" onchange="bindSparePartsOnChange()">
-                                            @if (Model.WarehouseList != null)
-                                            {
-                                                <option value="0">--Please Select--</option>
-                                                foreach (var rptr in Model.WarehouseList.Where(x => x.Gruop == "Assigned"))
+                            <div class="form-group mb-0" id="assigned_warehouse_div" style="display:block;">
+                                <div class="row mb-4">
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <select id="ddlwarehouseA" class="form-control" onchange="bindSparePartsOnChange()">
+                                                @if (Model.WarehouseList != null)
                                                 {
-                                                    <option value="@rptr.WarehouseId">@rptr.WarehouseName</option>
+                                                    <option value="0">--Please Select--</option>
+                                                    foreach (var rptr in Model.WarehouseList.Where(x => x.Gruop == "Assigned"))
+                                                    {
+                                                        <option value="@rptr.WarehouseId">@rptr.WarehouseName</option>
+                                                    }
                                                 }
-                                            }
-                                        </select>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date">
+                                            <select id="ddlsparehouseA" class="form-control" onchange="bindSparePartDataA()">
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-8">
-                                    <div class="input-group date">
-                                        <select id="ddlsparehouseA" class="form-control" onchange="bindSparePartDataA()">
-                                        </select>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div id="spareparts_div">
+                                            <table id="tbl_spareparts_ag" class="table table-bordered table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th> # </th>
+                                                        <th> Spare Part </th>
+                                                        <th> Price </th>
+                                                        <th> select quantity </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tr_div_ag">
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
-                                <br />
-                                <br />
-                                <br />
-                                <div class="col-sm-12">
-                                    <div id="spareparts_div">
-                                        <table id="tbl_spareparts_ag" class="table table-bordered table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th> # </th>
-                                                    <th> Spare Part </th>
-                                                    <th> Price </th>
-                                                    <th> select quantity </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="tr_div_ag">
-                                            </tbody>
-                                        </table>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <a href="#" onclick="AddSparePartRequestA()" class="btn btn-label-brand btn-bold">Submit</a>
                                     </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <a onclick="AddSparePartRequestA()" class="btn btn-label-brand btn-bold">Submit</a>
                                 </div>
                             </div>
                             <div class="form-group mb-0 row" id="other_warehouse_div" style="display:none;">
@@ -285,7 +278,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
-                                    <a onclick="AddSparePartRequest()" class="btn btn-label-brand btn-bold">Submit</a>
+                                    <a href="#" onclick="AddSparePartRequest()" class="btn btn-label-brand btn-bold">Submit</a>
                                 </div>
                             </div>
                         </div>
@@ -412,7 +405,7 @@
                                     <td>: @item.ModelName</td>
                                 </tr>
                                 <tr>
-                                    <td>System No.</td>
+                                    <td>System Id</td>
                                     <td>: @item.SystemNo</td>
                                 </tr>
                                 <tr>
@@ -436,19 +429,19 @@
                             </div>
                             @*<div class="row p-4">
                                     <div class="col-md-4">
-                                        <a href="" class="text-dark">
+                                        <a href="#" class="text-dark">
                                             <i class="fa fa-file fa-3x" aria-hidden="true"></i><br />
                                             <span class="mt-2">Document</span>
                                         </a>
                                     </div>
                                     <div class="col-md-4">
-                                        <a href="" class="text-dark">
+                                        <a href="#" class="text-dark">
                                             <i class="fa fa-file fa-3x" aria-hidden="true"></i><br />
                                             <span class="mt-2">Document</span>
                                         </a>
                                     </div>
                                     <div class="col-md-4">
-                                        <a href="" class="text-dark">
+                                        <a href="#" class="text-dark">
                                             <i class="fa fa-file fa-3x" aria-hidden="true"></i><br />
                                             <span class="mt-2">Document</span>
                                         </a>
@@ -460,14 +453,37 @@
 
 
                             <div class="row p-4">
+                                @{
+                                    int asa = 1;
+                                }
+
                                 @foreach (var url_items in Model.UrlList)
                                 {
                                     <div class="col-md-4">
-                                        <a data-toggle="modal" href="#full" onclick="ViewDocument(@url_items.Url, @url_items.ContentType)" class="text-dark">
+                                        <a data-toggle="modal" href="#full_@asa" class="text-dark">
                                             <i class="fa fa-file fa-3x" aria-hidden="true"></i>
                                             <h6 class="mt-2">Document</h6>
                                         </a>
                                     </div>
+
+                                    <div class="modal fade" id="full_@asa" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+                                        <div class="modal-dialog modal-full">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                                    <h4 class="modal-title">Document</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <img style="width:99%;" src="@url_items.Url" />
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    asa = asa + 1;
                                 }
                             </div>
                         }
@@ -513,7 +529,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col">
-                                        <a class="btn btn-label-brand btn-bold" onclick="AddComments(@item.TicketNumber)">Add notes</a>
+                                        <a href="#" class="btn btn-label-brand btn-bold" onclick="AddComments(@item.TicketNumber)">Add notes</a>
                                     </div>
                                 </div>
                             </div>
@@ -534,36 +550,42 @@
                                 <div class="kt-portlet__head-toolbar">
                                     <div class="kt-portlet__head-wrapper">
                                         <div class="kt-portlet__head-actions">
-                                            @if (Model.RoleId == 505 && item.Status == 2)
+                                            @if (item.Status == 7)
                                             {
-                                                <a onclick="UpdateStatus(6)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                                <a href="#" class="btn btn-brand btn-elevate btn-icon-sm">
                                                     <i class="la la-check"></i>
-                                                    Resolve
+                                                    Closed
                                                 </a>
-                                            }
-                                            else if (Model.RoleId == 503 && item.Status == 6)
-                                            {
-                                                <a onclick="UpdateStatus(13)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                                <a href="#" onclick="PrintServiceReport()" class="btn btn-brand btn-elevate btn-icon-sm">
                                                     <i class="la la-check"></i>
-                                                    Confirm
-                                                </a>
-                                            }
-                                            else if (Model.RoleId == 504 && item.Status == 13)
-                                            {
-                                                <a onclick="UpdateStatus(14)" class="btn btn-brand btn-elevate btn-icon-sm">
-                                                    <i class="la la-check"></i>
-                                                    Confirm
+                                                    Print
                                                 </a>
                                             }
                                             else
                                             {
-                                                @*<a class="btn btn-blue-oleo btn-elevate btn-icon-sm">
-                                                    <i class="la la-check"></i>
-                                                    @item.Statustxt
-                                                </a>*@
+                                                if (Model.RoleId == 505 && item.Status == 2)
+                                                {
+                                                    <a href="#" onclick="UpdateStatus(6)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                                        <i class="la la-check"></i>
+                                                        Resolve
+                                                    </a>
+                                                }
+                                                else if (Model.RoleId == 503 && item.Status == 6)
+                                                {
+                                                    <a href="#" onclick="UpdateStatus(13)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                                        <i class="la la-check"></i>
+                                                        Confirm
+                                                    </a>
+                                                }
+                                                else if (Model.RoleId == 504 && item.Status == 13)
+                                                {
+                                                    <a href="#" onclick="UpdateStatus(14)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                                        <i class="la la-check"></i>
+                                                        Confirm
+                                                    </a>
+                                                }
                                             }
-
-                                            <a onclick="closeServiceReport()" class="details-close-button btn btn-danger btn-sm btn-icon btn-circle position-absolute"><i class="la la-close"></i></a>
+                                            <a href="#" onclick="closeServiceReport()" class="details-close-button btn btn-danger btn-sm btn-icon btn-circle position-absolute"><i class="la la-close"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -572,14 +594,30 @@
                                 <div class="kt-portlet__body">
                                     <div class="row">
                                         <div class="form-group col-xl-12">
-                                            <label for="exampleTextarea">Activities Done</label>
-                                            <textarea id="txtactivitydone" class="form-control" rows="3"></textarea>
+                                            <label for="exampleTextarea">Problem Description</label>
+                                            @if (Model.RoleId == 505 && item.Status == 2)
+                                            {
+                                                <textarea onchange="checkwhitespacepd()" id="txtproblemdescription" class="form-control" rows="3" @(Model.RoleId == 505 ? "" : "disabled")></textarea>
+                                                <p style="float: right;"><span id="spn_cnt_pd">0</span>/1000</p>
+                                            }
+                                            else
+                                            {
+                                                <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.ProblemDescription">
+                                            }
                                         </div>
                                         <div class="form-group col-xl-12">
-                                            <label for="exampleTextarea">Problem Description</label>
-                                            @*<textarea class="form-control form-bottom-border" name="ServiceRptr" disabled rows="3" value="@item.Description"></textarea>*@
-                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.Description">
+                                            <label for="exampleTextarea">Activities Done</label>
+                                            @if (Model.RoleId == 505 && item.Status == 2)
+                                            {
+                                                <textarea onchange="checkwhitespace()" id="txtactivitydone" class="form-control" rows="3" @(Model.RoleId == 505 ? "" : "disabled")></textarea>
+                                                <p style="float: right;"><span id="spn_cnt">0</span>/1000</p>
+                                            }
+                                            else
+                                            {
+                                                <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.Actioncomments">
+                                            }
                                         </div>
+
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>Ticket Number</label>
                                             <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.TicketNumber">
@@ -588,18 +626,7 @@
                                             <label>Customer ID</label>
                                             <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.CreatedUserId">
                                         </div>
-                                        @*<div class="form-group col-xl-4 col-md-6">
-                                                <label>Customer Equipment ID</label>
-                                                <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="5258452">
-                                            </div>
-                                            <div class="form-group col-xl-4 col-md-6">
-                                                <label>Service Report Date</label>
-                                                <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="11-12-2019">
-                                            </div>*@
-                                        @*<div class="form-group col-xl-4 col-md-6">
-                                                <label>Service Report No.</label>
-                                                <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="5750">
-                                            </div>*@
+
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>Customer Name</label>
                                             <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.CreatedUser">
@@ -608,14 +635,7 @@
                                             <label>Customer Location</label>
                                             <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.Area">
                                         </div>
-                                        @*<div class="form-group col-xl-4 col-md-6">
-                                                <label>Customer Telephone</label>
-                                                <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="040-23831542">
-                                            </div>
-                                            <div class="form-group col-xl-4 col-md-6">
-                                                <label>Customer Fax</label>
-                                                <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="040-23831542">
-                                            </div>*@
+
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>Customer Mobile No.</label>
                                             <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.Mobile">
@@ -624,10 +644,7 @@
                                             <label>Customer Email</label>
                                             <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.Email">
                                         </div>
-                                        @*<div class="form-group col-xl-4 col-md-6">
-                                                <label>Equipment Description</label>
-                                                <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="Lorem ipsum dolor sit amet">
-                                            </div>*@
+
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>Equipment Model</label>
                                             <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.ModelName">
@@ -640,10 +657,7 @@
                                             <label>Equipment P.O No.</label>
                                             <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.POContract">
                                         </div>
-                                        @*<div class="form-group col-xl-4 col-md-6">
-                                                <label>Manufacturer</label>
-                                                <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="cisco">
-                                            </div>*@
+
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>Installation Date</label>
                                             <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.InstallationDate">
@@ -656,10 +670,7 @@
                                             <label>Next PPM Shedule</label>
                                             <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.PPMDate">
                                         </div>
-                                        @*<div class="form-group col-xl-4 col-md-6">
-                                                <label>Customer Call Date & Time</label>
-                                                <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="05-12-2019 10:30 AM">
-                                            </div>*@
+
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>Service Start Date & Time</label>
                                             <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.ServiceStartDate">
@@ -668,20 +679,16 @@
                                             <label>Service End Date & Time</label>
                                             <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.ServiceEngineerResolvedDate">
                                         </div>
+                                        @*@if (item.Status == 7)
+                                            {}*@
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>Work Hours</label>
-                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="8">
+                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.WorkHours">
                                         </div>
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>Report Type</label>
                                             <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.ReportTypeName">
                                         </div>
-                                        @*<div class="form-group col-xl-12">
-                                                <label>Total Charges</label>
-                                                <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="SAR 2020">
-                                            </div>*@
-
-
                                         <br />
                                         <br />
                                         <br />
@@ -730,24 +737,7 @@
             </div>
         </div>
 
-        <div class="modal fade" id="full" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog modal-full">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                        <h4 class="modal-title">Document</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div id="TextBoxContainerCategories4">
-                        </div>
-                        @*<img style="width:99%;" src="@item.Url" />*@
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+
 
         <input type="hidden" id="hdnTicketNumber" value="@item.TicketNumber" />
         <input type="hidden" id="hdnAssignedWarehouseId" value="@item.MappedWarehouseId" />
@@ -763,9 +753,11 @@
 <script src="~/assets/js/select2.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
+
+
         document.getElementById("loader").style.display = "none";
 
-        $('#txtactivitydone').val($('#hdnActionComments').val());
+        //$('#txtactivitydone').val($('#hdnActionComments').val());
 
         //ServiceRptr
         $('input[type=text][name=ServiceRptr]').prop("disabled", true);
@@ -799,13 +791,49 @@
             autoclose: true,
             format: 'yyyy.mm.dd hh:ii'
         });
+
+
+        $("#txtactivitydone").keyup(function () {
+            var lnght = $('#txtactivitydone').val().length;
+            $('#spn_cnt').html(lnght);
+        });
+         $("#txtproblemdescription").keyup(function () {
+            var lnght = $('#txtproblemdescription').val().length;
+            $('#spn_cnt_pd').html(lnght);
+        });
+
     });
+
+    function PrintServiceReport() {
+        //var divToPrint = document.getElementById("ticket_details");
+        //newWin = window.open("");
+        //newWin.document.write(divToPrint.outerHTML);
+        //newWin.print();
+        //newWin.close();
+         window.print();
+    }
+
+    function checkwhitespace() {
+        var txt = $('#txtactivitydone').val();
+        var val = (txt === null || txt.match(/^ *$/) !== null);
+        if (val == true) {
+            $('#txtactivitydone').val('');
+        }
+    }
+    function checkwhitespacepd() {
+        var txt = $('#txtproblemdescription').val();
+        var val = (txt === null || txt.match(/^ *$/) !== null);
+        if (val == true) {
+            $('#txtproblemdescription').val('');
+        }
+    }
     function closeServiceReport() {
         $('#div_pv_details').show();
         $('#service_report_prw').hide();
         $('#details_upper').show();
     }
-    function ViewDocument(url, type) {
+    function ViewDocument(url) {
+        debugger
         var district = "<div id='TextBoxContainerCategories4'>";
         district = district + '<img style="width:99%;" src="' + url + '"/>'
         return $('#TextBoxContainerCategories4').html(district);
@@ -975,7 +1003,7 @@
                     else if (basequantity == 0) {
                         qty = quantity;
                     }
-                    district = district + '<select id="ddlqnty_' + data[0].SparePartId + '" class="col-md-12" > ';
+                    district = district + '<select id="ddlqnty_' + data[0].SparePartId + '" class="form-control" > ';
                     for (var i = 1; i <= qty; i++) {
                         district = district + '<option>' + i + '</option>';
                     }
@@ -1033,7 +1061,7 @@
                 else if (basequantity == 0) {
                     qty = quantity;
                 }
-                district = district + '<select id="ddlqnty_'+data[0].SparePartId+'" class="col-md-12" > ';
+                district = district + '<select id="ddlqnty_'+data[0].SparePartId+'" class="form-control" > ';
                 for (var i = 1; i <= qty; i++) {
                     district = district + '<option>' + i + '</option>';
                 }
@@ -1057,7 +1085,7 @@
             type: 'POST',
             url: '@Url.Action("GetSparePartList")', // we are calling json method
             dataType: 'json',
-            data: { warehouseid: $('#ddlwarehouseA').val()},
+            data: { warehouseid: $('#ddlwarehouseA').val(),TicketNumber:$('#hdnTicketNumber').val()},
             success: function (data) {
 
                 var district = "<select id='ddlsparehouseA' class='form-control kt-select2' multiple>";
@@ -1082,7 +1110,7 @@
             type: 'POST',
             url: '@Url.Action("GetSparePartList")', // we are calling json method
             dataType: 'json',
-            data: { warehouseid: $('#ddlwarehouse').val()},
+            data: { warehouseid: $('#ddlwarehouse').val(),TicketNumber:$('#hdnTicketNumber').val()},
             success: function (data) {
 
                 var district = "<select id='ddlsparehouse' class='form-control kt-select2' multiple>";
@@ -1103,21 +1131,21 @@
     }
     function AddResponsetime() {
         var datetime = $('#txtResponseTime').val();
-        var reportid = $('#ddlreportType').val();
+        //var reportid = $('#ddlreportType').val();
         if (datetime == null || datetime == "") {
             alert('fields required');
             return false;
         }
-        if (reportid == "" || reportid == null || reportid==0) {
-            alert('fields required');
-            return false;
-        }
+        //if (reportid == "" || reportid == null || reportid==0) {
+        //    alert('fields required');
+        //    return false;
+        //}
         document.getElementById("loader").style.display = "block";
         $.ajax({
             type: "Post",
             url: '@Url.Action("AddResponseTime")',
             datatype: "json",
-            data: { ResponseTime: datetime, ReportId: reportid,TicketNumber:$('#hdnTicketNumber').val() },
+            data: { ResponseTime: datetime,TicketNumber:$('#hdnTicketNumber').val() },
             success: function (data) {
                 var v = data.success;
                 if (v == true) {
@@ -1146,12 +1174,18 @@
         }
         else if (val==6) {
             var txtdone = $('#txtactivitydone').val();
+            var problemdesc = $('#txtproblemdescription').val();
+
+            if (txtdone=="N/A" && problemdesc=="N/A") {
+                alert('fields required');
+                return false;
+            }
 
             await $.ajax({
                 type: 'POST',
                 url: '@Url.Action("UpdateTicketStatus")', // we are calling json method
                 dataType: 'json',
-                data: { id: val, TicketNumber: ticketnumber, comments: txtdone },
+                data: { id: val, TicketNumber: ticketnumber, comments: txtdone,problemdescription:problemdesc },
                 success: function (data) {
                     var v = data.success;
                     if (v == true) {
@@ -1178,7 +1212,7 @@
                 type: 'POST',
                 url: '@Url.Action("UpdateTicketStatus")', // we are calling json method
                 dataType: 'json',
-                data: { id: val, TicketNumber: ticketnumber, comments: ''  },
+                data: { id: val, TicketNumber: ticketnumber, comments: '',problemdescription:''  },
                 success: function (data) {
                     var v = data.success;
                     if (v == true) {

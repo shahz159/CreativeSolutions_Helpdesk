@@ -12,70 +12,78 @@
     <link href="~/assets/css/login.css" rel="stylesheet" />
     <link href="~/assets/plugins/global/plugins.bundle.css" rel="stylesheet" />
     <link href="~/assets/css/style.bundle.css" rel="stylesheet" />
+    <link href="~/assets/css/Styles.css" rel="stylesheet" />
     <style>
         .kt-login__btn-primary {
             line-height: 30px;
         }
+
     </style>
 </head>
 <body class="kt-page--loading-enabled kt-page--loading kt-header--fixed kt-header--minimize-topbar kt-header-mobile--fixed kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-subheader--enabled kt-subheader--transparent kt-page--loading">
-    
+
     <div class="kt-grid kt-grid--ver kt-grid--root kt-page">
         <div class="kt-grid kt-grid--hor kt-grid--root  kt-login kt-login--v1" id="kt_login">
             <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--desktop kt-grid--ver-desktop kt-grid--hor-tablet-and-mobile">
 
                 <!--begin::Aside-->
                 <div class="kt-grid__item kt-grid__item--order-tablet-and-mobile-2 kt-grid kt-grid--hor kt-login__aside" style="background-image: url(/assets/images/login-bg.jpg);">
-                    
+
                     <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver">
                         <div class="kt-grid__item kt-grid__item--middle">
                             <h3 class="kt-login__title">Welcome to AHC Helpdesk!</h3>
-                            <h4 class="kt-login__subtitle">
+                            <h4 class="kt-login__subtitle mb-0">
                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                                 tempor incididunt ut labore et dolore magna aliqua.
                             </h4>
                         </div>
                     </div>
-                    <div class="kt-grid__item">
+                    <div class="kt-grid__item d_none_1024">
                         <div class="kt-login__info">
                             <div class="kt-login__copyright">
                                 &copy 2018 AHC Helpdesk.
                             </div>
-                            <div class="kt-login__menu">
-                                <a href="#" class="kt-link">Privacy</a>
-                                <a href="#" class="kt-link">Legal</a>
-                                <a href="#" class="kt-link">Contact</a>
+                            <div class="kt-login__menu kt-label-font-color-1">
+                                Powered By <a href="https://www.creative-sols.com/" target="_blank" class="kt-link">Creative Solutions</a>
                             </div>
+                            @*<div class="kt-login__menu">
+            <a href="#" class="kt-link">Privacy</a>
+            <a href="#" class="kt-link">Legal</a>
+            <a href="#" class="kt-link">Contact</a>
+        </div>*@
                         </div>
                     </div>
                 </div>
-                 
+
                 <div class="kt-grid__item kt-grid__item--fluid  kt-grid__item--order-tablet-and-mobile-1  kt-login__wrapper">
-                    @using (Html.BeginForm("Index", "Login", FormMethod.Post))
-                    {
+
                     <div class="kt-login__body">
 
                         <!--begin::Signin-->
                         <div class="kt-login__form">
+                            <div class="kt-login__title">
+                                @*<img src="~/assets/images/ahc_new_logo.png" height="50" class="mb-3" />*@
+                                <img src="~/assets/images/ahc_new_logo.png" height="50" class="mb-3" />
+                                <h3>Log In</h3>
+                            </div>
                             <!--begin::Form-->
-                            <div class="kt-form" action="" novalidate="novalidate" id="kt_login_form">
-                                <div class="form-group">
+                            @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { @class = "kt-form floating-form login-form", @id = "kt_login_form" }))
+                            {
+                                <div class="form-group floating-label">
                                     @*<input class="form-control" type="text" placeholder="Username" name="username" autocomplete="off">*@
-                                    <input name="Email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+                                    <input name="Email" type="email" id="inputEmail" class="form-control floating-input" placeholder=" " required autofocus>
+                                    <label>Email address</label>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group floating-label">
                                     @*<input class="form-control" type="password" placeholder="Password" name="password" autocomplete="off">*@
-                                    <input name="Password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                                    <input name="Password" type="password" id="inputPassword" class="form-control floating-input" placeholder=" " required>
+                                    <label>Password</label>
                                 </div>
-
                                 <div class="kt-login__options mt-5">
-                                    @*<a href="/Home" class="btn btn-primary btn-font-md kt-btn">
-                        Login
-                    </a>*@
+                                    @*<a href="/Home" class="btn btn-primary btn-font-md kt-btn">Login</a>*@
                                     <input type="submit" class="btn btn-lg btn-primary btn-block text-uppercase" value="Login" />
                                 </div>
-                            </div>
-
+                            }
                             <!--begin::Divider-->
                             <div class="kt-login__divider">
                                 <div class="kt-divider">
@@ -100,12 +108,22 @@
 
                         <!--end::Signin-->
                     </div>
-                    }
-                    
 
                     <!--end::Body-->
                 </div>
                 <!--end::Content-->
+                <div class="kt-grid__item kt-grid kt-grid--hor kt-login__aside d_block_1024">
+                    <div class="kt-grid__item">
+                        <div class="kt-login__info mt-0">
+                            <div class="kt-login__copyright">
+                                &copy 2018 AHC Helpdesk.
+                            </div>
+                            <div class="kt-login__menu kt-label-font-color-1">
+                                Powered By <a href="#" class="kt-link">Creative Solutions</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -147,4 +165,4 @@
 
 
 
- 
+

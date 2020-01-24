@@ -51,7 +51,7 @@ namespace HelpDesk.API.DataAccess
             try
             {
                 var para = new[] {
-                new SqlParameter("@WarehouseId",obj.WarehouseId),
+                new SqlParameter("@ProductId",obj.ProductId),
                 new SqlParameter("@Name",obj.SparePartName),
                  new SqlParameter("@Number",obj.SparePartNumber),
                 new SqlParameter("@Quantity",obj.Quantity),
@@ -60,7 +60,7 @@ namespace HelpDesk.API.DataAccess
                 new SqlParameter("@CreatedBy",obj.CreatedBy),
                 new SqlParameter("@FlagId",obj.FlagId),
                  new SqlParameter("@SparePartId",obj.SparePartId),
-                new SqlParameter("@OrganizationId",obj.Organizationid) 
+                new SqlParameter("@OrganizationId",obj.OrganizationId) 
                 };
                 return DbConnector.ExecuteReader("uspInserUpdateSpareParts", para);
             }
@@ -75,11 +75,13 @@ namespace HelpDesk.API.DataAccess
             try
             {
                 var para = new[] {
-                new SqlParameter("@Sparepartid",obj.SparePartId),
-                new SqlParameter("@quantity",obj.Quantity),
-                 new SqlParameter("@comments",obj.Comments),
-                new SqlParameter("@userid",obj.CreatedBy) ,
+                //new SqlParameter("@Sparepartid",obj.SparePartId),
+                //new SqlParameter("@quantity",obj.Quantity),
+                //new SqlParameter("@comments",obj.Comments),
+                new SqlParameter("@Json",obj.message),
+                    new SqlParameter("@userid",obj.CreatedBy),
                 new SqlParameter("@OrganizationId",obj.OrganizationId)
+                //new SqlParameter("@WarehouseId",obj.WarehouseId)
                 };
                 return DbConnector.ExecuteReader("uspAddConsignments", para);
             }
@@ -89,15 +91,75 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
-        
-        public SqlDataReader SparePartById(InventoryDTO obj)
+        public SqlDataReader UpdateSparePart(InventoryDTO obj)
         {
             try
             {
                 var para = new[] {
-                new SqlParameter("@SparePartId",obj.SparePartId) 
+                new SqlParameter("@SparePartName",obj.SparePartName),
+                new SqlParameter("@Price",obj.Price),
+                new SqlParameter("@Quantity",obj.Quantity),
+                new SqlParameter("@BaseQuantity",obj.BaseQuantity),
+                new SqlParameter("@SparepartId",obj.SparePartId)
                 };
-                return DbConnector.ExecuteReader("uspGetSparepartById", para);
+                return DbConnector.ExecuteReader("uspUpdateSparePart", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "InventoryModel -> UpdateSparePart");
+                return null;
+            }
+        }
+        public SqlDataReader stockchnage(InventoryDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@WarehouseStockId",obj.WarehousestockId),
+                new SqlParameter("@Quantity",obj.Quantity),
+                new SqlParameter("@Type",obj.Type),
+                new SqlParameter("@Status",obj.Statusid),
+                new SqlParameter("@CreatedBy",obj.CreatedBy),
+                new SqlParameter("@Organizationid",obj.OrganizationId)
+                };
+                return DbConnector.ExecuteReader("uspStockApproval", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "InventoryModel -> stockchnage");
+                return null;
+            }
+        }
+        public SqlDataReader transferquantity(InventoryDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@Quantity",obj.Quantity),
+                new SqlParameter("@ToWHId",obj.ToWarehouseId),
+                new SqlParameter("@SparePartId",obj.SparePartId),
+                new SqlParameter("@CreatedBy",obj.CreatedBy),
+                new SqlParameter("@WarehousestockId",obj.WarehousestockId)
+                };
+                return DbConnector.ExecuteReader("uspTransferQuantity", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "InventoryModel -> transferquantity");
+                return null;
+            }
+        }
+
+        
+        public string SparePartById(InventoryDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@SparePartId",obj.SparePartId) ,
+                new SqlParameter("@WarehouseId",obj.WarehouseId)
+                };
+                return DbConnector.ExecuteDataSet("uspGetSparepartById", para);
             }
             catch (Exception ex)
             {
@@ -105,13 +167,53 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
+        public string SparePartByIdSP(InventoryDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@SparePartId",obj.SparePartId) ,
+                new SqlParameter("@WarehouseId",obj.WarehouseId)
+                };
+                return DbConnector.ExecuteDataSet("uspGetSPDetails", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "InventoryModel -> SparePartById");
+                return null;
+            }
+        }
+
+        
         public string SparePartList(InventoryDTO obj)
         {
             try
             {
                 var para = new[] {
+                new SqlParameter("@OrganizationId",obj.OrganizationId)
+                };
+                return DbConnector.ExecuteDataSet("uspGetSparePartMasterList", para);
+
+                //Get SparePart by WarehouseId
+                //var para = new[] {
+                //new SqlParameter("@Warehouseid",obj.WarehouseId),
+                //new SqlParameter("@OrganizationId",obj.OrganizationId) 
+                //};
+                //return DbConnector.ExecuteDataSet("uspGetSparePartList", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "InventoryModel -> SparePartList");
+                return null;
+            }
+        }
+        public string SparePartListByWHId(InventoryDTO obj)
+        {
+            try
+            {
+                var para = new[] {
                 new SqlParameter("@Warehouseid",obj.WarehouseId),
-                new SqlParameter("@OrganizationId",obj.Organizationid) 
+                new SqlParameter("@OrganizationId",obj.OrganizationId)
                 };
                 return DbConnector.ExecuteDataSet("uspGetSparePartList", para);
             }
@@ -121,12 +223,13 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
+        
         public string ConsignmentList(InventoryDTO obj)
         {
             try
             {
                 var para = new[] {
-                new SqlParameter("@OrganizationId",obj.Organizationid)
+                new SqlParameter("@OrganizationId",obj.OrganizationId)
                 };
                 return DbConnector.ExecuteDataSet("uspGetPendingConsignment", para);
             }
@@ -142,7 +245,7 @@ namespace HelpDesk.API.DataAccess
             try
             {
                 var para = new[] {
-                new SqlParameter("@OrganizationId",obj.Organizationid),
+                new SqlParameter("@OrganizationId",obj.OrganizationId),
                 new SqlParameter("@UserId",obj.CreatedBy)
                 };
                 return DbConnector.ExecuteDataSet("uspGetWarehouseddl", para);
@@ -159,11 +262,16 @@ namespace HelpDesk.API.DataAccess
     {
         SqlDataReader InsertUpdateSparePart(InventoryDTO obj);
         SqlDataReader InsertUpdateConsginment(InventoryDTO obj);
+        SqlDataReader UpdateSparePart(InventoryDTO obj);
+        SqlDataReader stockchnage(InventoryDTO obj);
+        SqlDataReader transferquantity(InventoryDTO obj);
         SqlDataReader CheckSparePartName(InventoryDTO obj);
         SqlDataReader ConsignmentStatus(InventoryDTO obj);
         string SparePartList(InventoryDTO obj);
+        string SparePartListByWHId(InventoryDTO obj);
         string ConsignmentList(InventoryDTO obj);
-        SqlDataReader SparePartById(InventoryDTO obj);
+        string SparePartById(InventoryDTO obj);
+        string SparePartByIdSP(InventoryDTO obj);
         string Warehouseddl(InventoryDTO obj);
     }
 }

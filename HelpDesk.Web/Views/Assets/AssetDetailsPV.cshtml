@@ -5,192 +5,937 @@
         margin-bottom: 5px;
     }
 </style>
-<div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
-    <!--Begin::Dashboard 3-->
-    <!--Begin::Row-->
-    <div class="row">
-        <div class="col-lg-12 col-xl-12 order-lg-1 order-xl-1">
-            <div class="kt-portlet kt-portlet--head--noborder kt-portlet--height-fluid">
+@if (Model.RoleId == 501 && Model.EditMode == true)
+{
+    <div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
+        <!--Begin::Dashboard 3-->
+        <!--Begin::Row-->
+        <div class="row">
+            <div class="col-lg-12 col-xl-12 order-lg-1 order-xl-1">
+                <div class="kt-portlet kt-portlet--head--noborder kt-portlet--height-fluid">
+                    <div class="kt-portlet__head kt-portlet__head--lg">
+                        <div class="kt-portlet__head-label">
+                            <span class="kt-portlet__head-icon">
+                                <i class="kt-font-brand flaticon2-line-chart"></i>
+                            </span>
+                            <h3 class="kt-portlet__head-title">
+                                Approval
+                            </h3>
+                        </div>
+                        <div class="kt-portlet__head-toolbar">
+                            <div class="kt-portlet__head-wrapper">
+                                @if (Model.RoleId == 501)
+                                {
+
+                                    <a href ="#" onclick="AssetApproval(1)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                        <i class="la la-check"></i>
+                                        Approve
+                                        </a>
+                                        <a href ="#" onclick="AssetApproval(2)" class="btn btn-danger btn-elevate btn-icon-sm">
+                                            <i class="la la-close"></i>
+                                            Reject
+                                            </a>
+                                        }
+                    </div>
+                </div>
+                <a href ="#" onclick="closeDetails()" class="details-close-button btn btn-danger btn-sm btn-icon btn-circle position-absolute"><i class="la la-close"></i></a>
+            </div>
+            <div class="kt-portlet__body kt-portlet__body--fluid kt-portlet__body--fit">
+                <div class="kt-container  kt-grid__item kt-grid__item--fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="kt-form kt-form--label-right">
+                                <div class="kt-portlet__body all-details-view">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered">
+                                                    <tr>
+                                                        <td>Product</td>
+                                                        <td>@Model.ProductName </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Model</td>
+                                                        <td>@Model.ModelName </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Region</td>
+                                                        <td>@Model.RegionName </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Serial No</td>
+                                                        <td>@Model.SerialNo</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>City</td>
+                                                        <td>@Model.CityName </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>Station Name</td>
+                                                        <td>@Model.StationName </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>IP Address</td>
+                                                        <td>@Model.IPAddress </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Configuration</td>
+                                                        <td>@Model.Configuration </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Location</td>
+                                                        <td>@Model.Area </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered">
+                                                    @if (Model.UpdatedList != null)
+                                                    {
+                                                        foreach (var item in Model.UpdatedList)
+                                                        {
+                                                            if (Model.ProductName == item.ProductName)
+                                                            {
+                                                                <tr>
+                                                                    <td>Product</td>
+                                                                    <td>@item.ProductName </td>
+                                                                </tr>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <tr class="bg-light">
+                                                                    <td>Product</td>
+                                                                    <td>@item.ProductName </td>
+                                                                </tr>
+                                                            }
+                                                            if (Model.ModelName == item.ModelName)
+                                                            {
+                                                                <tr>
+                                                                    <td>Model</td>
+                                                                    <td>@item.ModelName </td>
+                                                                </tr>
+                                                            }
+                                                            else
+                                                            {
+                                                                <tr class="bg-light">
+                                                                    <td>Model</td>
+                                                                    <td>@item.ModelName </td>
+                                                                </tr>
+                                                            }
+                                                            if (Model.RegionName == item.RegionName)
+                                                            {
+                                                                <tr>
+                                                                    <td>Region</td>
+                                                                    <td>@item.RegionName </td>
+                                                                </tr>
+                                                            }
+                                                            else
+                                                            {
+                                                                <tr class="bg-light">
+                                                                    <td>Region</td>
+                                                                    <td>@item.RegionName </td>
+                                                                </tr>
+                                                            }
+                                                            if (Model.SerialNo == item.SerialNo)
+                                                            {
+                                                                <tr>
+                                                                    <td>Serial No</td>
+                                                                    <td>@item.SerialNo </td>
+                                                                </tr>
+                                                            }
+
+                                                            else
+                                                            {
+                                                                <tr class="bg-light">
+                                                                    <td>SerialNo</td>
+                                                                    <td>@item.SerialNo </td>
+                                                                </tr>
+                                                            }
+                                                            if (Model.CityName == item.CityName)
+                                                            {
+                                                                <tr>
+                                                                    <td>City</td>
+                                                                    <td>@item.CityName </td>
+                                                                </tr>
+                                                            }
+                                                            else
+                                                            {
+                                                                <tr class="bg-light">
+                                                                    <td>City</td>
+                                                                    <td>@item.CityName </td>
+                                                                </tr>
+                                                            }
+                                                            if (Model.StationName == item.StationName)
+                                                            {
+                                                                <tr>
+                                                                    <td>Station Name</td>
+                                                                    <td>@item.StationName </td>
+                                                                </tr>
+                                                            }
+                                                            else
+                                                            {
+                                                                <tr class="bg-light">
+                                                                    <td>Station Name</td>
+                                                                    <td>@item.StationName </td>
+                                                                </tr>
+                                                            }
+                                                            if (Model.IPAddress == item.IPAddress)
+                                                            {
+                                                                <tr>
+                                                                    <td>IP Address</td>
+                                                                    <td>@item.IPAddress </td>
+                                                                </tr>
+                                                            }
+                                                            else
+                                                            {
+                                                                <tr class="bg-light">
+                                                                    <td>IP Address</td>
+                                                                    <td>@item.IPAddress </td>
+                                                                </tr>
+                                                            }
+                                                            if (Model.Configuration == item.Configuration)
+                                                            {
+                                                                <tr>
+                                                                    <td>Configuration</td>
+                                                                    <td>@item.Configuration </td>
+                                                                </tr>
+                                                            }
+                                                            else
+                                                            {
+                                                                <tr class="bg-light">
+                                                                    <td> Configuration</td>
+                                                                    <td>@item.Configuration </td>
+                                                                </tr>
+                                                            }
+                                                            if (Model.Area == item.Area)
+                                                            {
+                                                                <tr>
+                                                                    <td>Location</td>
+                                                                    <td>@item.Area </td>
+                                                                </tr>
+                                                            }
+                                                            else
+                                                            {
+                                                                <tr class="bg-light">
+                                                                    <td> Location</td>
+                                                                    <td>@item.Area </td>
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    }
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*<div class="kt-portlet__foot">
+                    <div class="kt-form__actions text-right">
+                        <a onclick="AssetApproval(1)" class="btn btn-success"> Accept </a>
+                        <a onclick="AssetApproval(2)" class="btn btn-danger"> Reject </a>
+                    </div>
+                </div>*@
+        </div>
+    </div>
+</div>
+</div>
+}
+@if (Model.RoleId != 505 && Model.RoleId != 504)
+{
+    <div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
+        <!--Begin::Dashboard 3-->
+        <!--Begin::Row-->
+        <div class="row">
+            <div class="col-lg-12 col-xl-12 order-lg-1 order-xl-1">
+                <div class="kt-portlet kt-portlet--head--noborder kt-portlet--height-fluid">
+                    <div class="kt-portlet__head kt-portlet__head--lg">
+                        <div class="kt-portlet__head-label">
+                            <span class="kt-portlet__head-icon">
+                                <i class="kt-font-brand flaticon2-line-chart"></i>
+                            </span>
+                            <h3 class="kt-portlet__head-title">
+                                Editable
+                            </h3>
+                        </div>
+
+                        @if (Model.RoleId == 501 && Model.EditMode == true)
+                        {
+
+                        }
+                        else
+                        {
+                            <div class="kt-portlet__head-toolbar">
+                                <div class="kt-portlet__head-wrapper">
+                                    @if (Model.RoleId == 501)
+                                    {
+                                        if (Model.IsApproved == false && Model.IsRejected == false)
+                                        {
+                                            <a href ="#" onclick="UpdateStatus(1)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                                <i class="la la-check"></i>
+                                                Approve
+                                                </a>
+                                                <a href ="#" onclick="UpdateStatus(2)" class="btn btn-danger btn-elevate btn-icon-sm">
+                                                    <i class="la la-close"></i>
+                                                    Reject
+                                                    </a>
+                                                }
+                                                else if (Model.IsApproved == true)
+                                                {
+                                                    <i class="btn btn-brand btn-elevate btn-icon-sm">
+                                                        <i class="la la-check"></i>
+                                                        Approved
+                                                    </i>
+                                                }
+                                                else if (Model.IsRejected == true)
+                                                {
+                                                    <i class="btn btn-danger btn-elevate btn-icon-sm">
+                                                        <i class="la la-close"></i>
+                                                        Rejected
+                                                    </i>
+                                                }
+                                            }
+                        </div>
+                    </div>
+                    <a href ="#" onclick="closeDetails()" class="details-close-button btn btn-danger btn-sm btn-icon btn-circle position-absolute">
+                        <i class="la la-close"></i></a>
+                    }
+                </div>
+                <div class="kt-portlet__body kt-portlet__body--fluid kt-portlet__body--fit">
+                    <div class="kt-container  kt-grid__item kt-grid__item--fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form class="kt-form kt-form--label-right">
+                                    <div class="kt-portlet__body all-details-view">
+                                        <div class="row">
+                                            <div class="form-group col-lg-6">
+                                                <label class="col-form-label">Product</label>
+                                                <div>
+                                                    <select class="form-control kt-select2" id="ddlproductE" onchange="BindModels()">
+                                                        @if (Model.ProductList != null)
+                                                        {
+                                                            foreach (var item in Model.ProductList)
+                                                            {
+                                                                if (Model.ProductId == item.ProductId)
+                                                                {
+                                                                    <option value="@item.ProductId" selected>@item.ProductName</option>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <option value="@item.ProductId">@item.ProductName</option>
+                                                                }
+                                                            }
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-lg-6">
+                                                <label class="col-form-label">Modal</label>
+                                                <div>
+                                                    <select class="form-control kt-select2" id="ddlModelE">
+                                                        @if (Model.ModelList != null)
+                                                        {
+                                                            foreach (var item in Model.ModelList)
+                                                            {
+                                                                if (Model.ModelId == item.ModelId)
+                                                                {
+                                                                    <option value="@item.ModelId" selected>@item.ModelName</option>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <option value="@item.ModelId">@item.ModelName</option>
+                                                                }
+                                                            }
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-lg-6">
+                                                <label class="col-form-label">Station Name</label>
+                                                <div>
+                                                    <input class="form-control" id="txtstationNameE" type="text" value="@Model.StationName">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-lg-6">
+                                                <label class="col-form-label">Configuration</label>
+                                                <div>
+                                                    <input class="form-control" id="txtconfigurationE" type="text" value="@Model.Configuration">
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-lg-6">
+                                                <label class="col-form-label">Serial Number</label>
+                                                <div>
+                                                    <input class="form-control" type="text" id="txtSerialNumberE" value="@Model.SerialNo">
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-lg-6">
+                                                <label class="col-form-label">Location</label>
+                                                <div>
+                                                    <input class="form-control" id="txtlocationE" type="text" value="@Model.Area">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-lg-6">
+                                                <label class="col-form-label">Select Region</label>
+                                                <div>
+                                                    <select class="form-control kt-select2" id="ddlregionE" onchange="BindCity()">
+                                                        @if (Model.RegionList != null)
+                                                        {
+                                                            foreach (var item in Model.RegionList)
+                                                            {
+                                                                if (Model.RegionId == item.RegionId)
+                                                                {
+                                                                    <option value="@item.RegionId" selected>@item.RegionName</option>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <option value="@item.RegionId">@item.RegionName</option>
+                                                                }
+                                                            }
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-lg-6">
+                                                <label class="col-form-label">Select City</label>
+                                                <div>
+                                                    <select class="form-control kt-select2" id="ddlcityE">
+                                                        @if (Model.CityList != null)
+                                                        {
+                                                            foreach (var item in Model.CityList)
+                                                            {
+                                                                if (Model.CityId == item.CityId)
+                                                                {
+                                                                    <option value="@item.CityId" selected>@item.CityName</option>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <option value="@item.CityId">@item.CityName</option>
+                                                                }
+                                                            }
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-lg-12">
+                                                <label class="col-form-label">IP Address</label>
+                                                <div class="row">
+                                                    <div class="col-lg-2">
+                                                        <input class="form-control" id="txtipaddressE0" type="text" value="@Model.IPAddress">
+                                                    </div>
+                                                    <div class="col-lg-2">
+                                                        <input class="form-control" id="txtipaddressE1" type="text" value="@Model.IPAddress">
+                                                    </div>
+                                                    <div class="col-lg-2">
+                                                        <input class="form-control" id="txtipaddressE2" type="text" value="@Model.IPAddress">
+                                                    </div>
+                                                    <div class="col-lg-2">
+                                                        <input class="form-control" id="txtipaddressE3" type="text" value="@Model.IPAddress">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <input type="hidden" id="hdnIpAddress" value="@Model.IPAddress" />
+                                            @if (Model.RoleId == 502)
+                                            {
+                                                <div class="form-group col-md-12">
+                                                    <label>&nbsp;</label>
+                                                    <div>
+                                                        <a href ="#" onclick="AddUpdatedDetails()" class="btn btn-success">Submit</a>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
                 <div class="kt-portlet__head kt-portlet__head--lg">
                     <div class="kt-portlet__head-label">
                         <span class="kt-portlet__head-icon">
                             <i class="kt-font-brand flaticon2-line-chart"></i>
                         </span>
                         <h3 class="kt-portlet__head-title">
-                            Assest Details
+                            Non-Editable
                         </h3>
                     </div>
-                    <div class="kt-portlet__head-toolbar">
-                        <div class="kt-portlet__head-wrapper">
-                            @if (Model.RoleId == 501)
-                            {
-                                if (Model.IsApproved == false && Model.IsRejected == false)
-                                {
-                                    <a onclick="UpdateStatus(1)" class="btn btn-brand btn-elevate btn-icon-sm">
-                                        <i class="la la-check"></i>
-                                        Approve
-                                    </a>
-                                    <a onclick="UpdateStatus(2)" class="btn btn-danger btn-elevate btn-icon-sm">
-                                        <i class="la la-close"></i>
-                                        Reject
-                                    </a>
-                                }
-                                else if (Model.IsApproved == true)
-                                {
-                                    <i class="btn btn-brand btn-elevate btn-icon-sm">
-                                        <i class="la la-check"></i>
-                                        Approved
-                                    </i>
-                                }
-                                else if (Model.IsRejected == true)
-                                {
-                                    <i class="btn btn-danger btn-elevate btn-icon-sm">
-                                        <i class="la la-close"></i>
-                                        Rejected
-                                    </i>
-                                }
-                            }
-
-                        </div>
-                    </div>
-                    <a onclick="closeDetails()" class="details-close-button btn btn-danger btn-sm btn-icon btn-circle position-absolute"><i class="la la-close"></i></a>
                 </div>
                 <div class="kt-portlet__body kt-portlet__body--fluid kt-portlet__body--fit">
                     <div class="kt-container  kt-grid__item kt-grid__item--fluid">
                         <div class="row">
                             <div class="col-md-12">
-                                <!--begin::Form-->
+
                                 <form class="kt-form kt-form--label-right">
                                     <div class="kt-portlet__body all-details-view">
-                                        <div class="form-group row">
-                                            <label class="col-form-label col-sm-3 text-left">Select Account</label>
-                                            <div class="col-sm-9"><label class="col-form-label">: @Model.AccountName</label></div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-form-label col-sm-3 text-left">Select Product</label>
-                                            <div class="col-sm-9"><label class="col-form-label">: @Model.ProductName</label></div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-form-label col-sm-3 text-left">Select Model</label>
-                                            <div class="col-sm-9"><label class="col-form-label">: @Model.ModelName</label></div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-form-label col-sm-3 text-left">Station Name</label>
-                                            <div class="col-sm-9"><label class="col-form-label">: @Model.StationName</label></div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label text-left">IP Address</label>
-                                            <div class="col-sm-9"><label class="col-form-label">: @Model.IPAddress</label></div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label text-left">Serial Number</label>
-                                            <div class="col-sm-9"><label class="col-form-label">: @Model.SerialNo</label></div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label text-left">Configuration</label>
-                                            <div class="col-sm-9"><label class="col-form-label">: @Model.Configuration</label></div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label text-left">Location</label>
-                                            <div class="col-sm-9"><label class="col-form-label">: @Model.Area</label></div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-form-label col-sm-3 text-left">Select Region</label>
-                                            <div class="col-sm-9"><label class="col-form-label">: @Model.RegionName</label></div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-form-label col-sm-3 text-left">Select City</label>
-                                            <div class="col-sm-9"><label class="col-form-label">: @Model.CityName</label></div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-form-label col-sm-3 text-left">Installation Date</label>
-                                            <div class="col-sm-9"><label class="col-form-label">: @Model.InstallationDate</label></div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label text-left">Is Contract</label>
-                                            <div class="col-sm-9"><label class="col-form-label">: @Model.IsContract</label></div>
-                                        </div>
-
-                                        @if (Model.IsContract == true)
-                                        {
-                                            <div class="form-group mb-0">
-                                                <h5 class="contract-head">Contract Details</h5>
-                                                <hr />
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-sm-3 col-form-label text-left">PO Contract</label>
-                                                <div class="col-sm-9"><label class="col-form-label">: @Model.POContract</label></div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-form-label col-sm-3 text-left">Warranty Contract Expiry Date</label>
-                                                <div class="col-sm-9"><label class="col-form-label">: @Model.WarrantyExpiryDate</label></div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-form-label col-sm-3 text-left">Select PPM</label>
-                                                <div class="col-sm-9"><label class="col-form-label">: @Model.PPMType Months</label></div>
-                                            </div>
-                                        }
-
-                                        @if (Model.PPMList.Count() > 0)
-                                        {
-                                            <div class="form-group row">
-                                                <div class="col-sm-8">
-                                                    <div class="table-responsive">
-                                                        <table class="table table-bordered table-hover">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>PPM Date</th>
-                                                                    <th>Is Done</th>
-
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                @foreach (var item in Model.PPMList)
-                                                                {
-                                                                    <tr>
-                                                                        <td>@item.PPMDate</td>
-                                                                        <td>@item.isPPMDone</td>
-                                                                    </tr>
-                                                                }
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
+                                        <div class="row">
+                                            <div class="form-group col-lg-6">
+                                                <label class="col-form-label">Account</label>
+                                                <div>
+                                                    <input class="form-control" type="text" value="@Model.AccountName" disabled>
                                                 </div>
                                             </div>
-                                        }
+                                            <div class="form-group col-lg-6">
+                                                <label class="col-form-label">System ID</label>
+                                                <div>
+                                                    <input class="form-control" type="text" value="@Model.SystemNo" disabled>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-lg-6">
+                                                <label class="col-form-label">Installation Date</label>
+                                                <div>
+                                                    <input class="form-control" type="text" value="@Model.InstallationDate" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-lg-6">
+                                                <label class="col-form-label">Is Contract</label>
+                                                <div>
+                                                    <input class="form-control" type="text" value="@Model.IsContract" disabled>
+                                                </div>
+                                            </div>
+                                            @if (Model.IsContract == true)
+                                            {
+                                                @*<div class="form-group mb-0">
+                                                        <h5 class="contract-head">Contract Details</h5>
+                                                        <hr />
+                                                    </div>*@
+                                                <div class="form-group col-lg-6">
+                                                    <label class="col-form-label">PO Contract</label>
+                                                    <div>
+                                                        <input class="form-control" type="text" value="@Model.POContract" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-lg-6">
+                                                    <label class="col-form-label">Warranty Contract Expiry Date</label>
+                                                    <div>
+                                                        <input class="form-control" type="text" value="@Model.WarrantyExpiryDate" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-lg-6">
+                                                    <label class="col-form-label">PPM-Months</label>
+                                                    <div>
+                                                        <input class="form-control" type="text" value="@Model.PPMType" disabled>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
                                     </div>
-                                    @*<div class="kt-portlet__foot">
-                                            <div class="kt-form__actions">
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <a class="btn btn-success">Edit</a>
-                                                        <a class="btn btn-secondary">Cancel</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>*@
                                 </form>
-                                <!--end::Form-->
                             </div>
-                            <!--end::Portlet-->
                         </div>
                     </div>
                 </div>
+
+                @if (Model.PPMList.Count() > 0)
+                {
+                    <div class="kt-portlet__body kt-portlet__body--fluid kt-portlet__body--fit">
+                        <div class="kt-container  kt-grid__item kt-grid__item--fluid">
+                            <div class="form-group row">
+                                <div class="col-sm-8">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>PPM Date</th>
+                                                    <th>Is Done</th>
+                                                    <th>Edit</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model.PPMList)
+                                                {
+                                                    <tr>
+                                                        <td>@item.isPPMDoneStr</td>
+                                                        <td>@item.isPPMDone</td>
+                                                        <td>
+                                                            <a href ="#" onclick="GetAPPMId(@item.APPMId,'@item.isPPMDoneStr')" data-toggle="modal" data-target="#kt_modal_4_2">
+                                                                <i class="fa fa-edit"></i>
+                                                                </a>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
-
-
-            <!--begin:: Widgets/Trends-->
-
         </div>
-        <!--end:: Widgets/Trends-->
     </div>
+</div>
+}
+<div>
+    @if (Model.RoleId == 505 || Model.RoleId == 504 )
+    {
+        <div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
+            <div class="row">
+                <div class="col-lg-12 col-xl-12 order-lg-1 order-xl-1">
+                    <div class="kt-portlet kt-portlet--head--noborder kt-portlet--height-fluid">
+                        <div class="kt-portlet__head kt-portlet__head--lg">
+                            <div class="kt-portlet__head-label">
+                                <span class="kt-portlet__head-icon">
+                                    <i class="kt-font-brand flaticon2-line-chart"></i>
+                                </span>
+                                <h3 class="kt-portlet__head-title">
+                                    Asset List
+                                </h3>
+                                <a href ="#" onclick="closeDetails()" class="details-close-button btn btn-danger btn-sm btn-icon btn-circle position-absolute"><i class="la la-close"></i></a>
+                            </div>
+                        </div>
+                        <div class="kt-portlet__body kt-portlet__body--fluid kt-portlet__body--fit">
+                            <div class="kt-container  kt-grid__item kt-grid__item--fluid">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <form class="kt-form kt-form--label-right">
+                                            <div class="kt-portlet__body all-details-view">
+                                                <div class="row">
+                                                    <div class="form-group col-lg-6">
+                                                        <label class="col-form-label">Account</label>
+                                                        <div>
+                                                            <input class="form-control" type="text" value="@Model.AccountName" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-lg-6">
+                                                        <label class="col-form-label">System ID</label>
+                                                        <div>
+                                                            <input class="form-control" type="text" value="@Model.SystemNo" disabled>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group col-lg-6">
+                                                        <label class="col-form-label">Installation Date</label>
+                                                        <div>
+                                                            <input class="form-control" type="text" value="@Model.InstallationDate" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-lg-6">
+                                                        <label class="col-form-label">Product</label>
+                                                        <div>
+                                                            <select class="form-control kt-select2" id="" onchange="BindModels()" disabled>
+                                                                @if (Model.ProductList != null)
+                                                                {
+                                                                    foreach (var item in Model.ProductList)
+                                                                    {
+                                                                        if (Model.ProductId == item.ProductId)
+                                                                        {
+                                                                            <option value="@item.ProductId" selected>@item.ProductName</option>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <option value="@item.ProductId">@item.ProductName</option>
+                                                                        }
+                                                                    }
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-lg-6">
+                                                        <label class="col-form-label">Modal</label>
+                                                        <div>
+                                                            <select class="form-control kt-select2" id="" disabled>
+                                                                @if (Model.ModelList != null)
+                                                                {
+                                                                    foreach (var item in Model.ModelList)
+                                                                    {
+                                                                        if (Model.ModelId == item.ModelId)
+                                                                        {
+                                                                            <option value="@item.ModelId" selected>@item.ModelName</option>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <option value="@item.ModelId">@item.ModelName</option>
+                                                                        }
+                                                                    }
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-lg-6">
+                                                        <label class="col-form-label">Station Name</label>
+                                                        <div>
+                                                            <input class="form-control" id="" type="text" value="@Model.StationName" disabled>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group col-lg-6">
+                                                        <label class="col-form-label">Configuration</label>
+                                                        <div>
+                                                            <input class="form-control" id="" type="text" value="@Model.Configuration" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-lg-6">
+                                                        <label class="col-form-label">Serial Number</label>
+                                                        <div>
+                                                            <input class="form-control" type="text" id="" value="@Model.SerialNo" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-lg-6">
+                                                        <label class="col-form-label">Location</label>
+                                                        <div>
+                                                            <input class="form-control" id="" type="text" value="@Model.Area" disabled>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group col-lg-6">
+                                                        <label class="col-form-label">Select Region</label>
+                                                        <div>
+                                                            <select class="form-control kt-select2" id="" disabled>
+                                                                @if (Model.RegionList != null)
+                                                                {
+                                                                    foreach (var item in Model.RegionList)
+                                                                    {
+                                                                        if (Model.RegionId == item.RegionId)
+                                                                        {
+                                                                            <option value="@item.RegionId" selected>@item.RegionName</option>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <option value="@item.RegionId">@item.RegionName</option>
+                                                                        }
+                                                                    }
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-lg-6">
+                                                        <label class="col-form-label">Select City</label>
+                                                        <div>
+                                                            <select class="form-control kt-select2" id="" disabled>
+                                                                @if (Model.CityList != null)
+                                                                {
+                                                                    foreach (var item in Model.CityList)
+                                                                    {
+                                                                        if (Model.CityId == item.CityId)
+                                                                        {
+                                                                            <option value="@item.CityId" selected>@item.CityName</option>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <option value="@item.CityId">@item.CityName</option>
+                                                                        }
+                                                                    }
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-lg-6">
+                                                        <label class="col-form-label">IP Address</label>
+                                                        <div>
+                                                            <input class="form-control" id="" type="text" value="@Model.IPAddress" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-lg-6">
+                                                        <label class="col-form-label">Is Contract</label>
+                                                        <div>
+                                                            <input class="form-control" type="text" value="@Model.IsContract" disabled>
+                                                        </div>
+                                                    </div>
+                                                    @if (Model.IsContract == true)
+                                                    {
+
+                                                        <div class="form-group col-lg-6">
+                                                            <label class="col-form-label">PO Contract</label>
+                                                            <div>
+                                                                <input class="form-control" type="text" value="@Model.POContract" disabled>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-lg-6">
+                                                            <label class="col-form-label">Warranty Contract Expiry Date</label>
+                                                            <div>
+                                                                <input class="form-control" type="text" value="@Model.WarrantyExpiryDate" disabled>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-lg-6">
+                                                            <label class="col-form-label">PPM-Months</label>
+                                                            <div>
+                                                                <input class="form-control" type="text" value="@Model.PPMType" disabled>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @if (Model.PPMList.Count() > 0)
+                        {
+                            <div class="kt-portlet__body kt-portlet__body--fluid kt-portlet__body--fit">
+                                <div class="kt-container  kt-grid__item kt-grid__item--fluid">
+                                    <div class="form-group row">
+                                        <div class="col-sm-8">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>PPM Date</th>
+                                                            <th>Is Done</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var item in Model.PPMList)
+                                                        {
+                                                            <tr>
+                                                                <td>@item.isPPMDoneStr</td>
+                                                                <td>@item.isPPMDone</td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 </div>
 <input type="hidden" id="hdnAssetId" value="@Model.AMId" />
 
-@section Scripts{
-    <script>
-        $('#loader').hide();
-       
 
-    </script>
-}
+<!--begin::Modal-->
+<div class="modal fade" id="kt_modal_4_2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Update Shedule</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="message-text" class="form-control-label">Shedule Date:</label>
+                        <h2 id="date_header"> 26-12-2019 </h2>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="form-control-label">Select Date:</label>
+                        <div class="input-group date">
+                            <input type="text" class="form-control" readonly placeholder="Select date" id="kt_datepicker_2" />
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="la la-calendar-check-o"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a href ="#" onclick="UpdatePPMScheduleDate()" class="btn btn-primary">Update Shedule</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end::Modal-->
+
+<input type="hidden" id="hdnAMId" value="@Model.AMId" />
+<input type="hidden" id="hdnUpdatedAMId" value="@Model.UpdatedAMId" />
+<input type="hidden" id="hdnAPPMId" value="0" />
+
+<script src="~/assets/js/bootstrap-datepicker.js"></script>
+<script src="~/assets/js/select2.js"></script>
+<script>
+
+    $('#loader').hide();
+
+    var names = $('#hdnIpAddress').val();
+    var nameArr = names.split('.');
+    for (var i = 0; i < nameArr.length; i++) {
+        $('#txtipaddressE' + i).val(nameArr[i]);
+    }
+    //hdnIpAddress
+
+    //$('#Editable').select2();
+    //$('#Editable1').select2();
+    //$('#Editable2').select2();
+    //$('#Editable3').select2();
+     function GetAPPMId(id,date) {
+        debugger
+         $('#hdnAPPMId').val(id);
+         $('#date_header').html(date);
+    }
+
+     function UpdatePPMScheduleDate() {
+         
+        var APPMId = $('#hdnAPPMId').val();
+        if (APPMId == 0 || APPMId == null) {
+            alert('fields requried');
+            return false;
+        }
+        var date = $('#kt_datepicker_2').val();
+        if (date == '' || date == null) {
+            alert('fields requried');
+            return false;
+        }
+
+        $.ajax({
+            type: "Post",
+            url: '@Url.Action("UpdatePPMSchedule")',
+            datatype: "json",
+            data: { APPMId: APPMId, InstallationDate: date },
+            success: function (data) {
+                var v = data.success;
+                if (v == true) {
+                    $('#kt_modal_4_2').modal('toggle');
+                    alert('Request Sent Successfully');
+                    ViewAssetDetails($('#hdnAMId').val());
+                }
+                else {
+                    alert('Some thing went wrong');
+                }
+                document.getElementById("loader").style.display = "none";
+            },
+            error: function () {
+                document.getElementById("loader").style.display = "none";
+            }
+        });
+    }
+      function AssetApproval(val) {
+        debugger
+        var UpdatedAMId = $('#hdnUpdatedAMId').val();
+        var AMId = $('#hdnAMId').val();
+        $.ajax({
+            type: "Post",
+            url: '@Url.Action("AssetUpdateApproval")',
+            datatype: "json",
+            data: { StatusId: val, UpdatedAMId: UpdatedAMId, AMId: AMId },
+            success: function (data) {
+                var v = data.success;
+                if (v == true) {
+                    alert('Updated Successfully');
+                    ViewAssetDetails($('#hdnAMId').val());
+                }
+                else {
+                    alert('Some thing went wrong');
+                }
+                document.getElementById("loader").style.display = "none";
+            },
+            error: function () {
+                document.getElementById("loader").style.display = "none";
+            }
+        });
+    }
+</script>
+

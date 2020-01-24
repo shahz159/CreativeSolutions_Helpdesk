@@ -67,7 +67,7 @@
                                         }
                                     </td>
                                     <td align="center">
-                                        <a onclick="ViewDetails(@item.UserId)">
+                                        <a href="#" onclick="ViewDetails(@item.UserId)">
                                             <i class="fa fa-eye"></i>
                                         </a>
                                     </td>
@@ -118,6 +118,34 @@
         $('#kt_select2_13').select2();
         $('#kt_select2_14').select2();
         $('#kt_select2_15').select2();
+        function AddAccountssUP(id) {
+         
+            var AccountId = $('#ddlAccountUP').val();
+
+            $.ajax({
+                type: "Post",
+                url: '@Url.Action("AddAccounts")',
+                datatype: "json",
+                data: { id: id, AccountId: AccountId },
+                success: function (data) {
+                     var v = data.success;
+                    if (v == true) {
+                        document.getElementById("loader").style.display = "none";
+                        var userid = $('#hdnUserId').val();
+                        ViewDetails(userid);
+                    }
+                    else {
+                        document.getElementById("loader").style.display = "none";
+                        alert('Some thing went wrong');
+                    }
+                },
+                error: function () {
+                    $('#userdetails').html('');
+                    document.getElementById("loader").style.display = "none";
+                }
+            });
+        }
+
         function AddProductsUP(id) {
           
             var ProductId = $('#ddlProductsUP').val();
@@ -146,7 +174,8 @@
             });
         }
 
-        function ViewDetails(id){
+        function ViewDetails(id) {
+             document.getElementById("loader").style.display = "block";
                $.ajax({
                 type: "Post",
                 url: '@Url.Action("UserDetails")',
@@ -168,6 +197,7 @@
         function AddAccountDiv() {
             $('#AddNew_tr').slideToggle("slow");
         }
+
         //AddNewProduct_tr
         function AddProductDiv() {
             $('#AddNewProduct_tr').slideToggle("slow");
@@ -201,6 +231,91 @@
             $('#userdetails').hide();
             $('#div_upper').show();
         }
+         function ViewEditabledivs() {
+             
+            $('#tr_fullname_dtl').hide();
+            $('#tr_gender_dtl').hide();
+             $('#tr_mobileno_dtl').hide();
+             
+
+            $('#tr_fullname').show();
+            $('#tr_gender').show();
+             $('#tr_mobileno').show();
+             $('#div_buttons_Pinfo').show();
+             $('#tr_role').show();
+        }
+
+        function CloseDiv() {
+            $('#tr_fullname_dtl').show();
+            $('#tr_gender_dtl').show();
+            $('#tr_mobileno_dtl').show();
+
+            $('#tr_fullname').hide();
+            $('#tr_gender').hide();
+            $('#tr_mobileno').hide();
+            $('#div_buttons_Pinfo').hide();
+        }
+            function isNumberKey(evt) {
+
+            $('#txtmobileno').text('');
+            //var e = evt || window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode
+            if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+            return true;
+        }
+        function UpdateuserBasicInfo() {
+            var fullname = $('#txtfullname').val();
+            if (fullname=="") {
+                alert('fields required');
+                return false;
+            }
+            var gender = $('#ddlgender').val();
+            if (gender=="") {
+                alert('fields required');
+                return false;
+            }
+            var mobileno = $('#txtmobileno').val();
+             if (mobileno=="") {
+                alert('fields required');
+                return false;
+            }
+            debugger
+            var roleid = 0;
+            var signup = $('#hdnSignup').val();
+            
+            if (signup == 1) {
+                roleid = $('#ddlRole').val();
+                if (roleid == "" || roleid == null) {
+                    alert('fields required');
+                    return false;
+                }
+            }
+
+             $.ajax({
+                type: "Post",
+                url: '@Url.Action("UpdateUserInfo")',
+                datatype: "json",
+                 data: { fullname: fullname, gender: gender, mobileno: mobileno, userid: $('#hdnUserId').val(),roleid:roleid },
+                success: function (data) {
+                     var v = data.success;
+                    if (v == true) {
+                        document.getElementById("loader").style.display = "none";
+                        var userid = $('#hdnUserId').val();
+                        ViewDetails(userid);
+                    }
+                    else {
+                        document.getElementById("loader").style.display = "none";
+                        alert('Some thing went wrong');
+                    }
+                },
+                error: function () {
+                    $('#userdetails').html('');
+                    document.getElementById("loader").style.display = "none";
+                }
+            });
+        }
+
     </script>
 }
 

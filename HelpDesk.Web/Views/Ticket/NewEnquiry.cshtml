@@ -29,7 +29,7 @@
                                 <!--begin::Form-->
                                 <form class="kt-form kt-form--label-right">
                                     <div class="kt-portlet__body">
-                                        <div class="form-group row">
+                                        @*<div class="form-group row">
                                             <label class="col-form-label col-sm-2">Product</label>
                                             <div class="col-sm-9">
                                                 @Html.DropDownListFor(model => model.ProductId, (IEnumerable<SelectListItem>
@@ -43,7 +43,7 @@
                                                 @Html.DropDownListFor(model => model.AMId, (IEnumerable<SelectListItem>)ViewData["ddlModels"], "--Please Select --",
 new { id = "ddlModels", @class = "form-control select2-allow-clear" })
                                             </div>
-                                        </div>
+                                        </div>*@
                                         <div class="form-group row">
                                             <label class="col-form-label col-sm-2">Description</label>
                                             <div class="col-sm-9">
@@ -57,7 +57,7 @@ new { id = "ddlModels", @class = "form-control select2-allow-clear" })
                                                 <div class="col-2">
                                                 </div>
                                                 <div class="col-10">
-                                                    <a onclick="AddEnquiry()" class="btn btn-success">Submit</a>
+                                                    <a href="#" onclick="AddEnquiry()" class="btn btn-success">Submit</a>
                                                     <button type="reset" class="btn btn-secondary">Cancel</button>
                                                 </div>
                                             </div>
@@ -80,34 +80,34 @@ new { id = "ddlModels", @class = "form-control select2-allow-clear" })
     <script src="~/assets/js/select2.js"></script>
     <script>
          document.getElementById("loader").style.display = "none";
-        $('#ddlProduct').select2();
-        $('#ddlModels').select2();
+        //$('#ddlProduct').select2();
+        //$('#ddlModels').select2();
 
 
         function AddEnquiry() {
-            debugger
+           
             var desc = $('#txtdescription').val();
-            var productid = $('#ddlProduct').val();
-            var amid = $('#ddlModels').val();
+            //var productid = $('#ddlProduct').val();
+            //var amid = $('#ddlModels').val();
             if (desc == null || desc == "") {
                 alert('fields required');
                 return false;
             }
-            if (productid == "" || productid == null || productid == 0) {
-                alert('fields required');
-                return false;
-            }
-            if (amid == "" || amid == null || amid == 0) {
-                alert('fields required');
-                return false;
-            }
+            //if (productid == "" || productid == null || productid == 0) {
+            //    alert('fields required');
+            //    return false;
+            //}
+            //if (amid == "" || amid == null || amid == 0) {
+            //    alert('fields required');
+            //    return false;
+            //}
 
             document.getElementById("loader").style.display = "block";
             $.ajax({
                 type: "Post",
                 url: '@Url.Action("AddEnquiry")',
                 datatype: "json",
-                data: { message: desc, ProductId: productid, AMId: amid },
+                data: { message: desc },
                 success: function (data) {
                     var v = data.success;
                     if (v == true) {

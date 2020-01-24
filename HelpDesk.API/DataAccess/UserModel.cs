@@ -26,7 +26,6 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
-
         public SqlDataReader CheckEmpIdExists(string empid)
         {
             try
@@ -42,7 +41,7 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
-         public SqlDataReader updateuserstatus(UsersDTO obj)
+        public SqlDataReader updateuserstatus(UsersDTO obj)
         {
             try
             {
@@ -76,8 +75,23 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
-
-        
+        public SqlDataReader addAccount(UsersDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@CreatedBy",obj.CreatedBy),
+                new SqlParameter("@AccountId",obj.AccountId),
+                new SqlParameter("@UserId",obj.UserId)
+                };
+                return DbConnector.ExecuteReader("uspAddAccount", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "UserModel -> addproduct");
+                return null;
+            }
+        }
         public SqlDataReader removeaccountorproduct(UsersDTO obj)
         {
             try
@@ -110,6 +124,23 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
+        public SqlDataReader GetCompanyManagerAccounts(UsersDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@CompanyId",obj.CompanyId),
+                new SqlParameter("@RoleId",obj.RoleId)
+                };
+                return DbConnector.ExecuteReader("uspGetCompanyManagerExistsAccounts", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "UserModel -> GetCompanyManagerAccounts");
+                return null;
+            }
+        }
+        
         public SqlDataReader GetCompanyProducts(UsersDTO obj)
         {
             try
@@ -118,6 +149,22 @@ namespace HelpDesk.API.DataAccess
                 new SqlParameter("@CompanyId",obj.CompanyId),
                 };
                 return DbConnector.ExecuteReader("uspGetProductsByCompanyId", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "UserModel -> GetCompanyProducts");
+                return null;
+            }
+        }
+        public SqlDataReader GetCompanyProductsRoleWise(UsersDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@CompanyId",obj.CompanyId),
+                new SqlParameter("@RoleId",obj.RoleId)
+                };
+                return DbConnector.ExecuteReader("uspGetProductsByCompanyIdRoleWise", para);
             }
             catch (Exception ex)
             {
@@ -219,7 +266,26 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
-
+        public SqlDataReader UpdateUser(UsersDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@UserId",obj.UserId),
+                new SqlParameter("@FullName",obj.FullName),
+                 new SqlParameter("@Gender",obj.Gender),
+                new SqlParameter("@Mobile",obj.Mobile),
+                new SqlParameter("@RoleId",obj.RoleId)
+                };
+                return DbConnector.ExecuteReader("uspUpdatebasicUserInfo", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "UserModel -> UpdateUser");
+                return null;
+            }
+        }
+        
         public string RoleCompanyDropDowns(UsersDTO obj)
         {
             try
@@ -241,6 +307,7 @@ namespace HelpDesk.API.DataAccess
     public interface IUserModel
     {
         SqlDataReader NewUser(UsersDTO obj);
+        SqlDataReader UpdateUser(UsersDTO obj);
         string RoleCompanyDropDowns(UsersDTO obj);
         string GetUserDetailsById(UsersDTO obj);
         string GetUserList(UsersDTO obj);
@@ -250,9 +317,12 @@ namespace HelpDesk.API.DataAccess
         SqlDataReader CheckEmpIdExists(string empid);
         SqlDataReader updateuserstatus(UsersDTO obj);
         SqlDataReader addproduct(UsersDTO obj);
+        SqlDataReader addAccount(UsersDTO obj);
         SqlDataReader removeaccountorproduct(UsersDTO obj);
         SqlDataReader GetCompanyAccounts(UsersDTO obj);
+        SqlDataReader GetCompanyManagerAccounts(UsersDTO obj);
         SqlDataReader GetCompanyProducts(UsersDTO obj);
+        SqlDataReader GetCompanyProductsRoleWise(UsersDTO obj);
 
     }
 }
