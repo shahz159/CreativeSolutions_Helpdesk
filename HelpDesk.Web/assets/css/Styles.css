@@ -5,8 +5,15 @@
 .color-primary {
     color: #2cafdd !important;
 }
-
-.ticketbar {
+.bg-secondery {
+    background-color: #1B75BC !important;
+    color: #fff;
+}
+    .bg-secondery:hover {
+        background-color: #2cafdd !important;
+        color: #fff;
+    }
+     .ticketbar {
     width: 100%;
     padding: 20px 0 0;
 }

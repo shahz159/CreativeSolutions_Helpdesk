@@ -155,11 +155,14 @@
     <Content Include="assets\css\style.bundle.css" />
     <Content Include="assets\css\Styles.css" />
     <Content Include="assets\css\wizard-1.css" />
+    <Content Include="assets\images\AHC_Bottom_Banner.png" />
     <Content Include="assets\images\ahc_new_logo.png" />
     <Content Include="assets\images\default.jpg" />
+    <Content Include="assets\images\Login-Background-Image.jpg" />
     <Content Include="assets\images\login-bg.jpg" />
     <Content Include="assets\images\logo-5-sm.png" />
     <Content Include="assets\images\logo-5.png" />
+    <Content Include="assets\images\User_Bage_Banner.png" />
     <Content Include="assets\js\basic-datatables.js" />
     <Content Include="assets\js\bootstrap-datepicker.js" />
     <Content Include="assets\js\bootstrap-datetimepicker.js" />

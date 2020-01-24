@@ -50,17 +50,18 @@
       color: #74788d; }
     .kt-login.kt-login--v1 .kt-login__wrapper .kt-login__head .kt-login__signup-link {
       color: #3d94fb; }
-  .kt-login.kt-login--v1 .kt-login__wrapper .kt-login__body {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    height: 100%; }
+    .kt-login.kt-login--v1 .kt-login__wrapper .kt-login__body {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        /*align-items: center;
+        height: 100%;*/
+    }
     .kt-login.kt-login--v1 .kt-login__wrapper .kt-login__body .kt-login__form {
       width: 100%;
       max-width: 450px; }
