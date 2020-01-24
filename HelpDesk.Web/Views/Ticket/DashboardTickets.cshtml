@@ -1,0 +1,166 @@
+﻿@model HelpDesk.Web.Models.TicketDTO
+
+@{
+    ViewBag.Title = "DashboardTickets";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section  Styles{
+    <link href="~/assets/css/datatables.bundle.css" rel="stylesheet" />
+}
+<!-- begin:: Content -->
+<div id="Upper_div" class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
+    <div class="kt-portlet">
+        <div class="kt-portlet__body pt-0">
+            <div class="table-responsive">
+                <table id="kt_table_1" class="table table-striped- table-bordered table-hover table-checkable">
+                    <thead>
+                        <tr>
+                            <th scope="col">Ticket No</th>
+                            <th scope="col">System Id</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">Product</th>
+                            <th scope="col">Service Engineer</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.val == 1)
+                        {
+                            if (Model.ReportList != null)
+                            {
+                                foreach (var item in Model.ReportList)
+                                {
+                                    <tr>
+                                        <td>@item.TicketNumber</td>
+                                        <td>@item.SystemNo</td>
+                                        <td>@item.Area</td>
+                                        <td>@item.ProductName</td>
+                                        <td>@item.FullName</td>
+                                        <td>@item.Statustxt</td>
+                                        <td align="center">
+                                            <a href="#" onclick="TicketDetails(@item.TicketNumber)">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        }
+                        else if (Model.val == 2)
+                        {
+                            if (Model.WarehouseList != null)
+                            {
+                                foreach (var item in Model.WarehouseList)
+                                {
+                                    <tr>
+                                        <td>@item.TicketNumber</td>
+                                        <td>@item.SystemNo</td>
+                                        <td>@item.Area</td>
+                                        <td>@item.ProductName</td>
+                                        <td>@item.FullName</td>
+                                        <td>@item.Statustxt</td>
+                                        <td align="center">
+                                            <a href="#" onclick="TicketDetails(@item.TicketNumber)">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        }
+                        else if (Model.val == 3)
+                        {
+                            if (Model.SparePartList != null)
+                            {
+                                foreach (var item in Model.SparePartList)
+                                {
+                                    <tr>
+                                        <td>@item.TicketNumber</td>
+                                        <td>@item.SystemNo</td>
+                                        <td>@item.Area</td>
+                                        <td>@item.ProductName</td>
+                                        <td>@item.FullName</td>
+                                        <td>@item.Statustxt</td>
+                                        <td align="center">
+                                            <a href="#" onclick="TicketDetails(@item.TicketNumber)">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        }
+
+
+
+                    </tbody>
+                </table>
+            </div>
+            <!--begin: Section-->
+        </div>
+    </div>
+</div>
+<div id="ticket_details" style="display:none;"></div>
+@section Scripts{
+    <script src="~/assets/js/select2.js"></script>
+    <script src="~/assets/js/datatables.bundle.js"></script>
+    @*<script src="~/assets/js/datatable.js"></script>*@
+
+    <script>
+
+        var KTDatatablesBasicPaginations = function () {
+
+            var initTable1 = function () {
+                var table = $('#kt_table_1');
+                // begin first table
+                table.DataTable({
+                    responsive: true,
+                    "order": [[ 0, "desc" ]]
+                });
+            };
+
+            return {
+                //main function to initiate the module
+                init: function () {
+                    initTable1();
+                },
+            };
+
+        }();
+
+        jQuery(document).ready(function () {
+            KTDatatablesBasicPaginations.init();
+        });
+
+        document.getElementById("loader").style.display = "none";
+
+        async function TicketDetails(id) {
+            document.getElementById("loader").style.display = "block";
+            $('#Upper_div').hide();
+
+            await $.ajax({
+                type: "Post",
+                url: '@Url.Action("TicketDetails")',
+                datatype: "json",
+                data: { id: id },
+                success: function (data) {
+                    document.getElementById("loader").style.display = "none";
+                    $('#ticket_details').show();
+                    $('#ticket_details').html(data);
+                },
+                error: function () {
+                    $('#ticket_details').html('');
+                    document.getElementById("loader").style.display = "none";
+                }
+            });
+        }
+
+        function closeDetails() {
+            $('#Upper_div').show();
+            $('#ticket_details').hide();
+        }
+    </script>
+}
+
+

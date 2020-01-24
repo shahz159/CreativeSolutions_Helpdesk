@@ -171,7 +171,7 @@
                                                 </span>
                                             </div>
                                         </div>
-                                        <div id="Contarct_Div" class="p-4 mb-4" style="display: none">
+                                        <div id="Contarct_Div" class="p-4" style="display: none">
                                             <h5 class="contract-head">Contract Details</h5>
                                             <hr class="mb-4" />
                                             <div class="form-group row">
@@ -212,8 +212,8 @@
                                                 <div class="col-2">
                                                 </div>
                                                 <div class="col-10">
-                                                    <a onclick="AddUpdate()" class="btn btn-success">Submit</a>
-                                                    <a class="btn btn-secondary">Cancel</a>
+                                                    <a href="" onclick="AddUpdate()" class="btn btn-success">Submit</a>
+                                                    <a href="" class="btn btn-secondary">Cancel</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -375,7 +375,7 @@
             var ip3 = $('#txtipaddress3').val();
             var ip4 = $('#txtipaddress4').val();
             IPAddress = ip1 + '.' + ip2 + '.' + ip3 + '.' + ip4;
-            alert(IPAddress);
+            //alert(IPAddress);
             var SerialNo = $('#txtserialnumber').val();
              if (SerialNo == "" || SerialNo == null) {
                 val = 1;

@@ -38,6 +38,8 @@ namespace HelpDesk.Web.Controllers
                         AssetsDTO obj = new AssetsDTO();
                         obj.CompanyId = comid;
                         obj.OrganizationId = orgid;
+                        obj.CreatedBy = userid;
+                        obj.RoleId = roleid;
 
                         List<AssetsDTO> productlst = new List<AssetsDTO>();
                         List<AssetsDTO> accountlst = new List<AssetsDTO>();
@@ -286,6 +288,28 @@ namespace HelpDesk.Web.Controllers
                             string accountsjson = obj.PPMJson;
                             var model = JsonConvert.DeserializeObject<List<AssetsDTO>>(accountsjson);
                             obj.PPMList = model;
+
+
+                            string productsjson = obj.ProductJson;
+                            var model_pro = JsonConvert.DeserializeObject<List<AssetsDTO>>(productsjson);
+                            obj.ProductList = model_pro;
+
+                            string modeljson = obj.ModelJson;
+                            var model_model = JsonConvert.DeserializeObject<List<AssetsDTO>>(modeljson);
+                            obj.ModelList = model_model;
+
+                            string regionjson = obj.RegionJson;
+                            var model_region = JsonConvert.DeserializeObject<List<AssetsDTO>>(regionjson);
+                            obj.RegionList = model_region;
+
+                            string cityjson = obj.CityJson;
+                            var model_city = JsonConvert.DeserializeObject<List<AssetsDTO>>(cityjson);
+                            obj.CityList = model_city;
+
+                            string updatedjson = obj.UpdatedJson;
+                            var model_updated = JsonConvert.DeserializeObject<List<AssetsDTO>>(updatedjson);
+                            obj.UpdatedList = model_updated;
+
                         }
                         obj.RoleId = roleid;
                         return PartialView("AssetDetailsPV", obj);
@@ -340,6 +364,53 @@ namespace HelpDesk.Web.Controllers
                         obj.AMId = AMId;
                         bool status = false;
                         HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/AssetAPI/NewUpdateAssetStatus", obj);
+                        if (responseMessage.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                            var docs = JsonConvert.DeserializeObject<TicketDTO>(responseData);
+                            string msg = docs.message;
+                            if (msg == "1")
+                                status = true;
+                            else if (msg == "2")
+                            {
+                                status = true;
+                            };
+                        }
+                        return Json(new { success = status });
+                    }
+                    catch (Exception ex)
+                    {
+                        TicketDTO obj = new TicketDTO();
+                        return Json(obj.ModelList);
+                    }
+                }
+            }
+        }
+
+        public async Task<ActionResult> PPMDateUpdateAssetStatus(int statusid, long UpdatedId)
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        long userid = long.Parse(Session["SSUserId"].ToString());
+
+                        AssetsDTO obj = new AssetsDTO();
+
+                        obj.CreatedBy = userid;
+                        obj.UpdatedId = UpdatedId;
+                        obj.StatusId = statusid;
+
+                        bool status = false;
+                        HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/AssetAPI/NewUpdatePPMDateChange", obj);
                         if (responseMessage.IsSuccessStatusCode)
                         {
                             var responseData = responseMessage.Content.ReadAsStringAsync().Result;
@@ -443,6 +514,221 @@ namespace HelpDesk.Web.Controllers
                     catch (Exception ex)
                     {
                         return RedirectToAction("Authenticate", "Authentication");
+                    }
+                }
+            }
+        }
+
+        public async Task<ActionResult> PPMDatesApproval()
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                //int userid = int.Parse(Session["SSUserId"].ToString());
+                //int roleid = int.Parse(Session["SSRoleId"].ToString());
+                //int comid = int.Parse(Session["SSCompanyId"].ToString());
+                int orgid = int.Parse(Session["SSOrganizationId"].ToString());
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        AssetsDTO obj = new AssetsDTO();
+                        obj.OrganizationId = orgid;
+                        List<AssetsDTO> tickettlst = new List<AssetsDTO>();
+
+                        HttpResponseMessage responseMessageViewDocuments = await client.PostAsJsonAsync("api/AssetAPI/NewPPMDateChangeRequest", obj);
+                        if (responseMessageViewDocuments.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessageViewDocuments.Content.ReadAsStringAsync().Result;
+                            var docs = JsonConvert.DeserializeObject<AssetsDTO>(responseData);
+
+                            var data = docs.datasetxml;
+                            if (data != null)
+                            {
+                                var document = new XmlDocument();
+                                document.LoadXml(data);
+                                DataSet ds = new DataSet();
+                                ds.ReadXml(new XmlNodeReader(document));
+                                if (ds.Tables.Count > 0)
+                                {
+                                    if (ds.Tables[0].Rows.Count > 0)
+                                    {
+                                        tickettlst = ds.Tables[0].AsEnumerable().Select(dataRow => new AssetsDTO
+                                        {
+                                            AccountId = dataRow.Field<int>("AccountId"),
+                                            AccountName = dataRow.Field<string>("AccountName"),
+                                            AccountCode = dataRow.Field<string>("AccountCode"),
+                                            ProductId = dataRow.Field<int>("ProductId"),
+                                            ProductName = dataRow.Field<string>("ProductName"),
+                                            ProductCode = dataRow.Field<string>("ProductCode"),
+                                            ModelId = dataRow.Field<int>("ModelId"),
+                                            ModelName = dataRow.Field<string>("ModelName"),
+                                            StationName = dataRow.Field<string>("StationName"),
+                                            IPAddress = dataRow.Field<string>("IPAddress"),
+                                            SerialNo = dataRow.Field<string>("SerialNo"),
+
+                                            Configuration = dataRow.Field<string>("Configuration"),
+                                            Area = dataRow.Field<string>("Area"),
+                                            RegionName = dataRow.Field<string>("RegionName"),
+                                            RegionId = dataRow.Field<int>("RegionId"),
+                                            CityId = dataRow.Field<int>("CityId"),
+                                            CityName = dataRow.Field<string>("CityName"),
+                                            InstallationDate = dataRow.Field<DateTime>("InstallationDate"),
+                                            IsContract = dataRow.Field<bool>("IsContract"),
+                                            POContract = dataRow.Field<string>("POContract"),
+                                            WarrantyExpiryDate = dataRow.Field<DateTime>("WarrantyExpiryDate"),
+                                            AMId = dataRow.Field<int>("AMId"),
+                                            FullName = dataRow.Field<string>("FullName"),
+                                            PreviousDate = dataRow.Field<DateTime>("PreviousDate"),
+                                            NewDate = dataRow.Field<DateTime>("NewDate"),
+                                            UpdatedId = dataRow.Field<long>("UpdatedId")
+
+                                        }).ToList();
+                                        obj.AssetsList = tickettlst;
+                                    }
+                                    else
+                                        obj.AssetsList = tickettlst;
+                                }
+                            }
+                        }
+
+
+                        return View(obj);
+                    }
+                    catch (Exception ex)
+                    {
+                        return RedirectToAction("Authenticate", "Authentication");
+                    }
+                }
+            }
+        }
+
+
+        public async Task<ActionResult> AddUpdatingAssetDetails(AssetsDTO obj)
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        long userid = long.Parse(Session["SSUserId"].ToString());
+
+                        obj.CreatedBy = userid;
+                        
+                        bool status = false;
+                        HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/AssetAPI/NewUpdatedAsset", obj);
+                        if (responseMessage.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                            var docs = JsonConvert.DeserializeObject<TicketDTO>(responseData);
+                            string msg = docs.message;
+                            if (msg == "1")
+                                status = true;
+                            else if (msg == "2")
+                            {
+                                status = true;
+                            };
+                        }
+                        return Json(new { success = status });
+                    }
+                    catch (Exception ex)
+                    {
+                        return Json(new { success = false });
+                    }
+                }
+            }
+        }
+        public async Task<ActionResult> AssetUpdateApproval(AssetsDTO obj)
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        long userid = long.Parse(Session["SSUserId"].ToString());
+
+                        obj.CreatedBy = userid;
+
+                        bool status = false;
+                        HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/AssetAPI/NewVerifyAsset", obj);
+                        if (responseMessage.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                            var docs = JsonConvert.DeserializeObject<TicketDTO>(responseData);
+                            string msg = docs.message;
+                            if (msg == "1")
+                                status = true;
+                            else if (msg == "2")
+                            {
+                                status = true;
+                            };
+                        }
+                        return Json(new { success = status });
+                    }
+                    catch (Exception ex)
+                    {
+                        return Json(new { success = false });
+                    }
+                }
+            }
+        }
+
+        public async Task<ActionResult> UpdatePPMSchedule(AssetsDTO obj)
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        long userid = long.Parse(Session["SSUserId"].ToString());
+
+                        obj.CreatedBy = userid;
+
+                        bool status = false;
+                        HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/AssetAPI/NewUpdatePPMDate", obj);
+                        if (responseMessage.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                            var docs = JsonConvert.DeserializeObject<TicketDTO>(responseData);
+                            string msg = docs.message;
+                            if (msg == "1")
+                                status = true;
+                            else if (msg == "2")
+                            {
+                                status = true;
+                            };
+                        }
+                        return Json(new { success = status });
+                    }
+                    catch (Exception ex)
+                    {
+                        return Json(new { success = false });
                     }
                 }
             }

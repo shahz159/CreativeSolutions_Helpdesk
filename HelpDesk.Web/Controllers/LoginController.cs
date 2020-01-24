@@ -78,6 +78,9 @@ namespace HelpDesk.Web.Controllers
                                     Session["SSAccountId"] = AccountId;
                                     Session["SSRoleName"] = RoleName;
                                     Session["SSEmail"] = Email;
+
+                                    List<TicketDTO> multipleimages= new List<TicketDTO>();
+                                    Session["MultipleImagesLst" + UserId] = multipleimages;
                                 }
                                 return RedirectToAction("Index", "Dashboard");
                             }

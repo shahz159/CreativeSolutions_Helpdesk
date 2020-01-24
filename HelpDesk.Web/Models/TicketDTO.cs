@@ -8,11 +8,14 @@ namespace HelpDesk.Web.Models
 {
     public class TicketDTO
     {
+        public long WarehouseStockId { get; set; }
+
         public string EnquiryDate { get; set; }
 
         public long EnquiryId { get; set; }
         public int FlagId { get; set; }
         public int RoleId { get; set; }
+        public int val { get; set; }
         public string PriorityText { get; set; }
         public int ModelId { get; set; }
         public string message { get; set; }
@@ -29,6 +32,7 @@ namespace HelpDesk.Web.Models
         public string Priority { get; set; }
         public string CreatedUser { get; set; }
         public string ReportsJson { get; set; }
+        [Required(ErrorMessage = "required", AllowEmptyStrings = false)]
         public int ReportId { get; set; }
         public string ReportTypeName { get; set; }
 
@@ -45,6 +49,8 @@ namespace HelpDesk.Web.Models
         public string ContentType { get; set; }
         public long TicketNumber { get; set; }
         public string Comments { get; set; }
+        public string ProblemDescription { get; set; }
+        public string WorkHours { get; set; }
         public DateTime ResponseTime { get; set; }
         public string AccountName { get; set; }
         public string ModelName { get; set; }
@@ -116,6 +122,19 @@ namespace HelpDesk.Web.Models
         public string EmpID { get; set; }
         public long CreatedUserId { get; set; }
 
+        public IEnumerable<TicketDTO> CountLst { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
+        public string Month { get; set; }
+        public string Year { get; set; }
+        public int New { get; set; }
+        public int Closed { get; set; }
+        public int Resolved { get; set; }
+        public string New_array { get; set; }
+        public string Closed_array { get; set; }
+        public string Resolved_array { get; set; }
+        public string Months_array { get; set; }
+        public string Pie_array { get; set; }
     }
 }
 

@@ -5,8 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<!-- begin:: Content -->
 <div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
-
     <!--Begin::Dashboard 3-->
     <!--Begin::Row-->
     <div class="row">
@@ -125,8 +125,8 @@
                                                 <div class="col-2">
                                                 </div>
                                                 <div class="col-10">
-                                                    <a onclick="SaveUserDetails()" class="btn btn-success">Submit</a>
-                                                    <a class="btn btn-secondary">Cancel</a>
+                                                    <a href="#" onclick="SaveUserDetails()" class="btn btn-success">Submit</a>
+                                                    <a href="#" class="btn btn-secondary">Cancel</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -165,7 +165,7 @@
         });
 
         function SaveUserDetails() {
-            debugger
+
             var isvalid = true;
             ///////////////////////
             var RoleId = $('#ddlRole').val();
@@ -195,7 +195,7 @@
 
             //////////////////////
             var Accounts = [];
-            if (RoleId == 505) {
+            if (RoleId == 505|| RoleId == 502) {
                 Accounts = $("#ddlAccountM").val();
                 if (Accounts=="") {
                     isvalid = false;
@@ -319,7 +319,7 @@
             if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
                 return false;
 
-          
+
             return true;
         }
 
@@ -341,13 +341,13 @@
 
             } else {
                 $('#hdnMobileValidation').val('0');
-            } 
+            }
 
         }
 
         function ViewDivs() {
             var selected_role = $('#ddlRole').val();
-            if (selected_role == 505) {
+            if (selected_role == 505 || selected_role == 502) {
                 $('#div_Multiselect').show();
                 $('#div_SingleSelect').hide();
             }
@@ -398,7 +398,7 @@
              }
              $.ajax({
                  type: 'POST',
-                 url: '@Url.Action("GetProducts")', // we are calling json method
+                 url: '@Url.Action("GetRoleProducts")', // we are calling json method
                  dataType: 'json',
                  data: { id: companyid },
                  success: function (data) {
@@ -423,9 +423,9 @@
 
         function BindAccounts() {
 
-              document.getElementById("loader").style.display = "block";
-              var companyid = 0;
-              var roleid = $('#hdnRoleId').val();
+            document.getElementById("loader").style.display = "block";
+            var companyid = 0;
+            var roleid = $('#hdnRoleId').val();
             if (roleid == 501) {
                 companyid = $("#ddlCompany").val();
             }
@@ -437,41 +437,39 @@
                 document.getElementById("loader").style.display = "none";
                 return false;
             }
-
             if (companyid == "") {
                 document.getElementById("loader").style.display = "none";
                 return false;
             }
-             $.ajax({
+            $.ajax({
                 type: 'POST',
-                url: '@Url.Action("GetAccounts")', // we are calling json method
+                url: '@Url.Action("GetRoleAccounts")', // we are calling json method
                 dataType: 'json',
-                data: { id: companyid },
+                data: { id: companyid,RoleId:selected_role },
                 success: function (data) {
-                    
+
                     var district = "";
                     //district = district + "<select id='ddlAccount' class='form-control kt-select2'>";
-                      var selected_role = $('#ddlRole').val();
-                    if (selected_role == 505) {
+                    var selected_role = $('#ddlRole').val();
+
+                    if (selected_role == 505 || selected_role == 502) {
                         district = district + "<select id='ddlAccountM' class='form-control kt-select2' multiple>";
                     }
                     else {
                         district = district + "<select id='ddlAccountS' class='form-control kt-select2'>";
                     }
-
-
-                   // var district = "<select id='ddlAccount' class='form-control kt-select2'>";
-                    district = district + '<option value="0">--Select Model--</option>';
+                    // var district = "<select id='ddlAccount' class='form-control kt-select2'>";
+                    district = district + '<option value="0">--Select Account--</option>';
                     for (var i = 0; i < data.length; i++) {
 
                         district = district + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
                     }
                     district = district + '</select>';
-                     if (selected_role == 505) {
+                    if (selected_role == 505 || selected_role == 502) {
                         $('#ddlAccountM').html(district);
                     }
                     else {
-                         $('#ddlAccountS').html(district);
+                        $('#ddlAccountS').html(district);
                     }
 
                     document.getElementById("loader").style.display = "none";
@@ -481,8 +479,7 @@
                     document.getElementById("loader").style.display = "none";
                     alert('Failed to retrieve accounts.' + ex);
                 }
-             });
-
+            });
             return false;
         }
 
@@ -571,6 +568,8 @@
                 }
             });
         }
+
+
 
     </script>
 }

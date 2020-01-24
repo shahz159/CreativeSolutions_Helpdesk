@@ -63,6 +63,15 @@ namespace HelpDesk.API.Bussiness
                         obj.FullName = data["FullName"].ToString();
                         obj.AMId = int.Parse(data["AMId"].ToString());
                         obj.PPMJson = data["PPMJson"].ToString();
+
+                        obj.ModelJson = data["ModelsJson"].ToString();
+                        obj.ProductJson = data["ProductJson"].ToString();
+                        obj.RegionJson = data["RegionJson"].ToString();
+                        obj.CityJson = data["CityJson"].ToString();
+                        obj.UpdatedJson = data["UpdatedAMJson"].ToString();
+
+                        obj.UpdatedAMId = long.Parse(data["UpdatedAMId"].ToString());
+                        obj.EditMode = bool.Parse(data["EditMode"].ToString());
                     }
                 }
             }
@@ -97,6 +106,11 @@ namespace HelpDesk.API.Bussiness
             obj.datasetxml = model.GetApprovalAssets(obj);
             return obj;
         }
+        public AssetDTO GetPPMChnageRequest(AssetDTO obj)
+        {
+            obj.datasetxml = model.GetPPMChangeDateRequestList(obj);
+            return obj;
+        }
 
         
         public IEnumerable<AssetDTO> GetModel(AssetDTO obj)
@@ -128,6 +142,74 @@ namespace HelpDesk.API.Bussiness
             }
             return obj;
         }
+        public AssetDTO UpdatedAsset(AssetDTO obj)
+        {
+            try
+            {
+                var data = model.UpdatedAsset(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["message"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
+        public AssetDTO VerifyAsset(AssetDTO obj)
+        {
+            try
+            {
+                var data = model.VerifyAsset(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["message"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
+        public AssetDTO updateppmdate(AssetDTO obj)
+        {
+            try
+            {
+                var data = model.UpdatePPMDate(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["message"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
+        
+
         public AssetDTO UpdateAssetStatus(AssetDTO obj)
         {
             try
@@ -150,18 +232,47 @@ namespace HelpDesk.API.Bussiness
             }
             return obj;
         }
+        public AssetDTO UpdatePPMDateChangeRequest(AssetDTO obj)
+        {
+            try
+            {
+                var data = model.UpdatePPMChangeRequest(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["message"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
+
+        
         #endregion
     }
 
     public interface IAssetService
     {
         AssetDTO InsertUpdateAsset(AssetDTO obj);
+        AssetDTO UpdatedAsset(AssetDTO obj);
+        AssetDTO VerifyAsset(AssetDTO obj);
+        AssetDTO updateppmdate(AssetDTO obj);
         IEnumerable<AssetDTO> GetAssetList(AssetDTO obj);
         IEnumerable<AssetDTO> GetCity(AssetDTO obj);
         IEnumerable<AssetDTO> GetModel(AssetDTO obj);
         AssetDTO GetAssetById(AssetDTO obj);
         AssetDTO GetDropDowns(AssetDTO obj);
         AssetDTO GetApprovalAssets(AssetDTO obj);
+        AssetDTO GetPPMChnageRequest(AssetDTO obj);
         AssetDTO UpdateAssetStatus(AssetDTO obj);
+        AssetDTO UpdatePPMDateChangeRequest(AssetDTO obj);
     }
 }

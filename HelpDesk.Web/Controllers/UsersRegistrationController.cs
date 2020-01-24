@@ -247,6 +247,45 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
+        public async Task<JsonResult> GetRoleAccounts(int id,int RoleId)
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return Json("Index", "Login");
+            }
+            else
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        UserDTO obj = new UserDTO();
+                        obj.CompanyId = id;
+                        obj.RoleId = RoleId;
+
+                        List<UserDTO> modellst = new List<UserDTO>();
+                        SelectList ddlaccounts = new SelectList("", "AccountId", "AccountName", 0);
+                        HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/UserAPI/NewGetManagerAccountList", obj);
+                        if (responseMessage.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                            var model = JsonConvert.DeserializeObject<List<AssetsDTO>>(responseData);
+                            List<AssetsDTO> _objModelLst = model;
+                            ddlaccounts = new SelectList(_objModelLst, "AccountId", "AccountName", 0);
+                        }
+                        return Json(new SelectList(ddlaccounts, "Value", "Text"));
+                    }
+                    catch (Exception ex)
+                    {
+                        TicketDTO obj = new TicketDTO();
+                        return Json(obj.ProductList);
+                    }
+                }
+              
+            }
+        }
         //NewUser
         [HttpPost]
         public async Task<ActionResult> NewUser(UserDTO obj)
@@ -356,6 +395,34 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
+        public async Task<JsonResult> GetRoleProducts(int id)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                CommonHeader.setHeaders(client);
+                try
+                {
+                    UserDTO obj = new UserDTO();
+                    obj.CompanyId = id;
+                    List<UserDTO> modellst = new List<UserDTO>();
+                    SelectList ddlproducts = new SelectList("", "ProductId", "ProductName", 0);
+                    HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/UserAPI/NewGetProductListRolwWise", obj);
+                    if (responseMessage.IsSuccessStatusCode)
+                    {
+                        var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                        var model = JsonConvert.DeserializeObject<List<AssetsDTO>>(responseData);
+                        List<AssetsDTO> _objModelLst = model;
+                        ddlproducts = new SelectList(_objModelLst, "ProductId", "ProductName", 0);
+                    }
+                    return Json(new SelectList(ddlproducts, "Value", "Text"));
+                }
+                catch (Exception ex)
+                {
+                    TicketDTO obj = new TicketDTO();
+                    return Json(obj.ProductList);
+                }
+            }
+        }
         public async Task<JsonResult> GetModels(int id)
         {
             using (HttpClient client = new HttpClient())
@@ -383,7 +450,6 @@ namespace HelpDesk.Web.Controllers
             }
 
         }
-
         public async Task<JsonResult> CheckUserEmail(string useremail)
         {
             using (HttpClient client = new HttpClient())
@@ -420,7 +486,6 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
-
         public async Task<JsonResult> CheckUserEmployeeId(string useremail)
         {
             using (HttpClient client = new HttpClient())
@@ -457,7 +522,6 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
-
         public async Task<ActionResult> UserDetails(long id) 
         {
             string ses = Convert.ToString(Session["SSUserId"]);
@@ -525,6 +589,7 @@ namespace HelpDesk.Web.Controllers
                                             AccountName = dataRow.Field<string>("AccountsddlJson"),
                                         }).ToList();
                                         obj.UsersList = userdetailslst;
+                                        
                                         string accountsjson = obj.UsersList.FirstOrDefault().Accountsxml;
                                         var model = JsonConvert.DeserializeObject<List<UserDTO>>(accountsjson);
                                         obj.AccountList = model;
@@ -566,7 +631,6 @@ namespace HelpDesk.Web.Controllers
             }
             
         }
-
         public async Task<ActionResult> SignupUsers()
         {
             string ses = Convert.ToString(Session["SSUserId"]);
@@ -637,7 +701,6 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
-
         public async Task<JsonResult> UpdateUserStatus(int id,long userid)
         {
             using (HttpClient client = new HttpClient())
@@ -720,7 +783,6 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
-
         public async Task<JsonResult> AddProducts(long id,int ProductId)
         {
             using (HttpClient client = new HttpClient())
@@ -750,6 +812,178 @@ namespace HelpDesk.Web.Controllers
                 catch (Exception ex)
                 {
                     return Json(new { success = false });
+                }
+            }
+        }
+        public async Task<JsonResult> AddAccounts(long id, int AccountId)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                CommonHeader.setHeaders(client);
+                try
+                {
+                    UserDTO obj = new UserDTO();
+                    obj.UserId = id;
+                    obj.AccountId = AccountId;
+                    bool status = false;
+                    HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/UserAPI/NewAddUserAccount", obj);
+                    if (responseMessage.IsSuccessStatusCode)
+                    {
+                        var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                        var model = JsonConvert.DeserializeObject<AssetsDTO>(responseData);
+                        string msg = model.message;
+                        if (msg == "1")
+                            status = true;
+                        else if (msg == "2")
+                        {
+                            status = false;
+                        };
+                    }
+                    return Json(new { success = status });
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { success = false });
+                }
+            }
+        }
+
+        public async Task<JsonResult> UpdateUserInfo(string fullname, string gender,string mobileno,long userid,int roleid)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                CommonHeader.setHeaders(client);
+                try
+                {
+                    UserDTO obj = new UserDTO();
+                    obj.UserId = userid;
+                    obj.FullName = fullname;
+                    obj.Gender = gender;
+                    obj.Mobile = mobileno;
+                    obj.RoleId = roleid;
+
+                    bool status = false;
+                    HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/UserAPI/NewUpdateUserInfo", obj);
+                    if (responseMessage.IsSuccessStatusCode)
+                    {
+                        var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                        var model = JsonConvert.DeserializeObject<AssetsDTO>(responseData);
+                        string msg = model.message;
+                        if (msg == "1")
+                            status = true;
+                        else if (msg == "2")
+                        {
+                            status = false;
+                        };
+                    }
+                    return Json(new { success = status });
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { success = false });
+                }
+            }
+        }
+
+        public async Task<ActionResult> Profile()
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                int userid = int.Parse(Session["SSUserId"].ToString());
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        UserDTO obj = new UserDTO();
+                        obj.UserId = userid;
+
+                        List<UserDTO> rolelst = new List<UserDTO>();
+                        List<UserDTO> companylst = new List<UserDTO>();
+                        List<UserDTO> productlst = new List<UserDTO>();
+
+                        List<UserDTO> userdetailslst = new List<UserDTO>();
+
+                        HttpResponseMessage responseMessageViewDocuments = await client.PostAsJsonAsync("api/UserAPI/NewGetUserDetailsById", obj);
+                        if (responseMessageViewDocuments.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessageViewDocuments.Content.ReadAsStringAsync().Result;
+                            var docs = JsonConvert.DeserializeObject<UserDTO>(responseData);
+
+                            var data = docs.datasetxml;
+                            if (data != null)
+                            {
+                                var document = new XmlDocument();
+                                document.LoadXml(data);
+                                DataSet ds = new DataSet();
+                                ds.ReadXml(new XmlNodeReader(document));
+                                if (ds.Tables.Count > 0)
+                                {
+                                    //userdetailslst
+                                    if (ds.Tables[0].Rows.Count > 0)
+                                    {
+                                        userdetailslst = ds.Tables[0].AsEnumerable().Select(dataRow => new UserDTO
+                                        {
+                                            RoleId = dataRow.Field<int>("RoleId"),
+                                            RoleName = dataRow.Field<string>("RoleName"),
+                                            EmpId = dataRow.Field<string>("EmpId"),
+                                            FullName = dataRow.Field<string>("FullName"),
+                                            Gender = dataRow.Field<string>("Gender"),
+                                            Mobile = dataRow.Field<string>("Mobile"),
+                                            Email = dataRow.Field<string>("Email"),
+                                            Password = dataRow.Field<string>("Password"),
+                                            isApproved = dataRow.Field<bool>("isApproved"),
+                                            isActive = dataRow.Field<bool>("isActive"),
+                                            OrganizationId = dataRow.Field<int>("OrganizationId"),
+                                            CompanyId = dataRow.Field<int>("CompanyId"),
+                                            CompanyName = dataRow.Field<string>("CompanyName"),
+                                            Accountsxml = dataRow.Field<string>("AccountsJson"),
+                                            Productsxml = dataRow.Field<string>("ProductsJson"),
+                                            SignUp = dataRow.Field<bool>("SignUp"),
+                                            UserId = dataRow.Field<long>("UserId"),
+                                            ProductName = dataRow.Field<string>("ProductsddlJson"),
+                                            AccountName = dataRow.Field<string>("AccountsddlJson"),
+                                        }).ToList();
+                                        obj.UsersList = userdetailslst;
+
+                                        string accountsjson = obj.UsersList.FirstOrDefault().Accountsxml;
+                                        var model = JsonConvert.DeserializeObject<List<UserDTO>>(accountsjson);
+                                        obj.AccountList = model;
+
+                                        string productsjson = obj.UsersList.FirstOrDefault().Productsxml;
+                                        var model_pro = JsonConvert.DeserializeObject<List<UserDTO>>(productsjson);
+                                        obj.ProductList = model_pro;
+
+
+                                        string accountsjsonddl = obj.UsersList.FirstOrDefault().AccountName;
+                                        var modelddl = JsonConvert.DeserializeObject<List<UserDTO>>(accountsjsonddl);
+                                        obj.AccountddlList = modelddl;
+
+                                        string productsjsonddl = obj.UsersList.FirstOrDefault().ProductName;
+                                        var model_prpddl = JsonConvert.DeserializeObject<List<UserDTO>>(productsjsonddl);
+                                        obj.ProductddlList = model_prpddl;
+                                    }
+
+                                    else
+                                        obj.UsersList = userdetailslst;
+                                }
+                            }
+                            SelectList ddlaccounts = new SelectList("", "AccountId", "AccountName", 0);
+                            List<UserDTO> _objStudent = rolelst;
+                            ddlaccounts = new SelectList(_objStudent, "AccountId", "AccountName", obj.AccountId);
+                            ViewData["ddlAccountLst"] = ddlaccounts;
+                        }
+                        return View(obj);
+                    }
+                    catch (Exception ex)
+                    {
+                        return RedirectToAction("Authenticate", "Authentication");
+                    }
                 }
             }
         }

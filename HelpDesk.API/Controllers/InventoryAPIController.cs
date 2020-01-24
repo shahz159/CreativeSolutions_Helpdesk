@@ -36,6 +36,27 @@ namespace HelpDesk.API.Controllers
             return Ok(result);
         }
 
+        [ResponseType(typeof(InventoryDTO))]
+        public IHttpActionResult NewUpdateSparePart(InventoryDTO obj)
+        {
+            var result = service.UpdateSparePart(obj);
+            return Ok(result);
+        }
+
+        [ResponseType(typeof(InventoryDTO))]
+        public IHttpActionResult NewStockChangeRequest(InventoryDTO obj)
+        {
+            var result = service.StockChange(obj);
+            return Ok(result);
+        }
+
+        [ResponseType(typeof(InventoryDTO))]
+        public IHttpActionResult NewTrasnferQuantity(InventoryDTO obj)
+        {
+            var result = service.TrasnferQuantity(obj);
+            return Ok(result);
+        }
+
         /// <summary>
         /// get spare part details by id
         /// </summary>
@@ -49,6 +70,13 @@ namespace HelpDesk.API.Controllers
             return Ok(detail);
         }
 
+        [ResponseType(typeof(InventoryDTO))]
+        public IHttpActionResult NewGetSparePartDetailsByIdSP(InventoryDTO obj)
+        {
+            var detail = service.SparePartByIdSP(obj);
+            return Ok(detail);
+        }
+
         /// <summary>
         /// Get Spare Part List for Organization admin and Comany Admin user
         /// </summary>
@@ -58,6 +86,13 @@ namespace HelpDesk.API.Controllers
         public IHttpActionResult NewSparePartList(InventoryDTO obj)
         {
             var result = service.SparePartList(obj);
+            return Ok(result);
+        }
+
+        [ResponseType(typeof(InventoryDTO))]
+        public IHttpActionResult NewSparePartListByWHId(InventoryDTO obj)
+        {
+            var result = service.SparePartListByWHId(obj);
             return Ok(result);
         }
 
@@ -77,7 +112,7 @@ namespace HelpDesk.API.Controllers
         public IHttpActionResult NewGetWarehouseDropDowns(InventoryDTO obj)
         {
             var result = service.Warehouseddl(obj);
-            return Ok(result);
+            return Ok(result); 
         }
         /// <summary>
         /// check spare part name
@@ -90,7 +125,6 @@ namespace HelpDesk.API.Controllers
             var detail = service.CheckSparePartName(obj);
             return Ok(detail);
         }
-
 
         [ResponseType(typeof(InventoryDTO))]
         public IHttpActionResult NewConsignmentStatus(InventoryDTO obj)

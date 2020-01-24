@@ -1,0 +1,123 @@
+﻿@model HelpDesk.Web.Models.UserDTO
+
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .kt-widget.kt-widget--user-profile-1 .kt-widget__body .kt-widget__content .kt-widget__info{
+        align-items: start;
+    }
+</style>
+@foreach (var item in Model.UsersList)
+{
+    <div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <!--begin:: Widgets/Applications/User/Profile1-->
+                <div class="kt-portlet kt-portlet--height-fluid-">
+                    <div class="kt-portlet__head  kt-portlet__head--noborder">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body kt-portlet__body--fit-y">
+
+                        <!--begin::Widget -->
+                        <div class="kt-widget kt-widget--user-profile-1">
+                            <div class="kt-widget__head">
+                                <div class="kt-widget__media">
+                                    <img src="~/assets/images/default.jpg" alt="image">
+                                </div>
+                                <div class="kt-widget__content">
+                                    <div class="kt-widget__section">
+                                        <a href="#" class="kt-widget__username">
+                                            @item.FullName
+                                        </a>
+                                        <span class="kt-widget__subtitle">
+                                            @item.Email
+                                        </span>
+                                        <span class="kt-widget__subtitle">
+                                            @item.Mobile
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="kt-widget__body">
+                                <div class="kt-widget__content">
+                                    <div class="kt-widget__info">
+                                        <span class="kt-widget__label">Gender:</span>
+
+                                        @if (item.Gender == "M")
+                                        {
+                                            <span class="kt-widget__data">Male</span>
+                                        }
+                                        else if (item.Gender == "F")
+                                        {
+                                            <span class="kt-widget__data">Female</span>
+                                        }
+                                        else if (item.Gender == "O")
+                                        {
+                                            <span class="kt-widget__data">Other</span>
+                                        }
+
+                                    </div>
+                                    <hr />
+                                    <div class="kt-widget__info">
+                                        <span class="kt-widget__label">Account:</span>
+                                        <span class="kt-widget__data text-right">
+                                            @if (Model.AccountList.Count() > 0)
+                                            {
+                                                foreach (var itemAcct in Model.AccountList)
+                                                {
+                                                    @itemAcct.AccountName <br />
+                                                }
+                                            }
+                                        </span>
+                                    </div>
+                                    <hr />
+                                    <div class="kt-widget__info">
+                                        <span class="kt-widget__label">Products:</span>
+                                        <span class="kt-widget__data text-right">
+                                                @if (Model.ProductList.Count() > 0)
+                                                {
+                                                    foreach (var item_prct in Model.ProductList)
+                                                    {
+                                                        @item_prct.ProductName <br />
+                                                    }
+                                                }
+                                            @*Script Pro, GPI, JVM Repacking, Palex, Talyst*@
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!--end::Widget -->
+
+                    </div>
+
+                </div>
+
+                <!--end:: Widgets/Applications/User/Profile1-->
+
+            </div>
+
+        </div>
+
+    </div>
+}
+
+
+<script>
+    document.getElementById("loader").style.display = "none";
+</script>
+
+
+

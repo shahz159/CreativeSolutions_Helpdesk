@@ -18,7 +18,7 @@
                 </span>
                 <h3 class="kt-portlet__head-title">Assets List</h3>
             </div>
-            @if (Model.RoleId != 505)
+            @if (Model.RoleId != 505 && Model.RoleId != 504)
             {
                 <div class="kt-portlet__head-toolbar">
                     <div class="kt-portlet__head-wrapper">
@@ -34,13 +34,63 @@
 
         </div>
         <div class="kt-portlet__body">
-            
+            <!--begin: Search Form -->
+            <div class="kt-form kt-form--label-right">
+                <div class="row align-items-center">
+                    <div class="col-xl-12 order-2 order-xl-1">
+                        <div class="row align-items-center">
+                            <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                                <div class="kt-form__group">
+                                    <div class="kt-form__label">
+                                        <label>Service Account</label>
+                                    </div>
+                                    <div class="kt-form__control">
+                                        <div id="div_filters_Account">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                                <div class="kt-form__group">
+                                    <div class="kt-form__label">
+                                        <label>Service Product</label>
+                                    </div>
+                                    <div class="kt-form__control">
+                                        <div id="div_filters_Product">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                                <div class="kt-form__group">
+                                    <div class="kt-form__label">
+                                        <label>Service Model</label>
+                                    </div>
+                                    <div class="kt-form__control">
+                                        <div id="div_filters_model">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
         <div class="kt-portlet__body pt-0">
             <div class="table-responsive">
                 <table class="table table-striped- table-bordered table-hover table-checkable" id="kt_table_1">
                     <thead>
                         <tr>
+                            <th scope="col">Account</th>
+                            <th scope="col">Product</th>
+                            <th scope="col">Model</th>
+
                             <th scope="col">Station Name</th>
                             <th scope="col">Serial No.</th>
                             <th scope="col">Location</th>
@@ -55,18 +105,23 @@
                             foreach (var item in Model.AssetsList)
                             {
                                 <tr>
+                                    <td>@item.AccountName</td>
+                                    <td>@item.ProductName</td>
+                                    <td>@item.ModelName</td>
+
+
                                     <td>@item.StationName</td>
                                     <td>@item.SerialNo</td>
                                     <td>@item.Area</td>
                                     <td>
-                                    @if (item.IsContract==true)
-                                    {
-                                        <p>Yes</p>
-                                    }
-                                    else
-                                    {
-                                        <p>No</p>
-                                    }
+                                        @if (item.IsContract == true)
+                                        {
+                                            <p>Yes</p>
+                                        }
+                                        else
+                                        {
+                                            <p>No</p>
+                                        }
                                     </td>
                                     <td>
                                         @if (item.isActive == false && item.IsApproved == false && item.IsRejected == false)
@@ -83,7 +138,7 @@
                                         }
                                     </td>
                                     <td align="center">
-                                        <a onclick="ViewAssetDetails(@item.AMId)">
+                                        <a href="#" onclick="ViewAssetDetails(@item.AMId)">
                                             <i class="fa fa-eye"></i>
                                         </a>
                                     </td>
@@ -96,31 +151,106 @@
             <!--begin: href="@Url.Action("AssetDetails","Assets")" Section-->
         </div>
     </div>
-</div>
-<div id="asset_details" style="display:none;"></div>
-@section  Scripts{
-    <script src="~/assets/js/datatables.bundle.js"></script>
-    <script>
-        $('#loader').hide();
-        var KTDatatablesBasicPaginations = function () {
-            var initTable1 = function () {
-                var table = $('#kt_table_1');
-                // begin first table
-                table.DataTable({
-                    responsive: true
-                });
-            };
-            return {
-                //main function to initiate the module
-                init: function () {
-                    initTable1();
-                },
-            };
-        }();
+                    </div>
+                    <div id="asset_details" style="display:none;"></div>
 
-        jQuery(document).ready(function () {
-            KTDatatablesBasicPaginations.init();
+                    @section  Scripts{
+                        <script src="~/assets/js/datatables.bundle.js"></script>
+                        <script>
+        $('#loader').hide();
+        //var KTDatatablesBasicPaginations = function () {
+        //    var initTable1 = function () {
+        //        var table = $('#kt_table_1');
+        //        // begin first table
+        //        table.DataTable({
+        //            responsive: true
+
+        //        });
+        //    };
+        //    return {
+        //        //main function to initiate the module
+        //        init: function () {
+        //            initTable1();
+        //        },
+        //    };
+        //}();
+
+        //jQuery(document).ready(function () {
+        //    KTDatatablesBasicPaginations.init();
+        //});
+
+
+        $(document).ready(function () {
+            $('#kt_table_1').DataTable({
+                initComplete: function () {
+                    this.api().columns().every(function () {
+                        var column = this;
+                        if (column.index() == 2) {  //skip if column 0
+                            $(column.header()).append("<br>")
+                            var select = $('<select class = "form-control kt-select2"><option value="" disabled selected>Select Model</option></select>')
+                                .appendTo(
+                                    //$(column.header())
+                                    $('#div_filters_model')
+                                )
+                                .on('change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                    );
+
+                                    column
+                                        .search(val ? '^' + val + '$' : '', true, false)
+                                        .draw();
+                                });
+                              column.data().unique().sort().each(function (d, j) {
+                                select.append('<option value="' + d + '">' + d + '</option>')
+                            });
+                        }  //end of if div_filters_Product
+                        else if (column.index() == 1) {  //skip if column 0
+                            $(column.header()).append("<br>")
+                            var select = $('<select class = "form-control kt-select2"><option value="" disabled selected>Select Product</option></select>')
+                                .appendTo(
+                                    //$(column.header())
+                                    $('#div_filters_Product')
+                                )
+                                .on('change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                    );
+
+                                    column
+                                        .search(val ? '^' + val + '$' : '', true, false)
+                                        .draw();
+                                });
+                            column.data().unique().sort().each(function (d, j) {
+                                select.append('<option value="' + d + '">' + d + '</option>')
+                            });
+                        }  //end of if
+                         else if (column.index() == 0) {  //skip if column 0
+                            $(column.header()).append("<br>")
+                            var select = $('<select class = "form-control kt-select2"><option value="" disabled selected>Select Account</option></select>')
+                                .appendTo(
+                                    //$(column.header())
+                                    $('#div_filters_Account')
+                                )
+                                .on('change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                    );
+
+                                    column
+                                        .search(val ? '^' + val + '$' : '', true, false)
+                                        .draw();
+                                });
+                            column.data().unique().sort().each(function (d, j) {
+                                select.append('<option value="' + d + '">' + d + '</option>')
+                            });
+                        }
+
+                    });
+                }
+            });
         });
+
          function closeDetails() {
             $('#Upper_div').show();
             $('#asset_details').hide();
@@ -147,9 +277,149 @@
             });
         }
 
-    </script>
+        function AddUpdatedDetails() {
+            debugger
+        var ProductId = $('#ddlproductE').val();
+        if (ProductId == 0 || ProductId == null) {
+            alert('Fields required');
+            return false;
+        }
+        var ModelId = $('#ddlModelE').val();
+        if (ModelId == 0 || ModelId == null) {
+            alert('Fields required');
+            return false;
+        }
+        var RegionId = $('#ddlregionE').val();
+        if (RegionId == 0 || RegionId == null) {
+            alert('Fields required');
+            return false;
+        }
+        var CityId = $('#ddlcityE').val();
+        if (CityId == 0 || CityId == null) {
+            alert('Fields required');
+            return false;
+        }
+        var Configuration = $('#txtconfigurationE').val();
+        if (Configuration == '' || Configuration == null) {
+            alert('Fields required');
+            return false;
+        }
+        var StationName = $('#txtstationNameE').val();
+        if (StationName == '' || StationName == null) {
+            alert('Fields required');
+            return false;
+        }
+        var Area = $('#txtlocationE').val();
+        if (Area == '' || Area == null) {
+            alert('Fields required');
+            return false;
+        }
 
 
-}
+
+            var IPAddress = '';
+            var ip1 = $('#txtipaddressE0').val();
+            if (ip1 == '' || ip1 == null) {
+                ip1 = 0;
+            }
+            var ip2 = $('#txtipaddressE1').val();
+             if (ip2 == '' || ip2 == null) {
+                ip2 = 0;
+            }
+            var ip3 = $('#txtipaddressE2').val();
+             if (ip3 == '' || ip3 == null) {
+                ip3 = 0;
+            }
+            var ip4 = $('#txtipaddressE3').val();
+              if (ip4 == '' || ip4 == null) {
+                ip4 = 0;
+            }
+
+            IPAddress = ip1 + '.' + ip2 + '.' + ip3 + '.' + ip4;
+             var SerialNumber = $('#txtSerialNumberE').val();
+            if (SerialNumber == '' || SerialNumber == null) {
+                alert('Fields required');
+                return false;
+            }
+
+
+         var AMId = $('#hdnAMId').val();
+        $.ajax({
+            type: "Post",
+            url: '@Url.Action("AddUpdatingAssetDetails")',
+            datatype: "json",
+            data: { ProductId: ProductId,ModelId:ModelId,RegionId:RegionId,CityId:CityId,Configuration:Configuration,StationName:StationName,Area:Area,IPAddress:IPAddress,AMId:AMId,SerialNo:SerialNumber },
+            success: function (data) {
+                var v = data.success;
+                if (v == true) {
+                    alert('Request Sent for Approval');
+                    ViewAssetDetails($('#hdnAMId').val());
+                }
+                else {
+                    alert('Some thing went wrong');
+                }
+                document.getElementById("loader").style.display = "none";
+            },
+            error: function () {
+                document.getElementById("loader").style.display = "none";
+            }
+        });
+    }
+
+
+
+          function BindModels() {
+             document.getElementById("loader").style.display = "block";
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetModels")', // we are calling json method
+                dataType: 'json',
+                data: { id: $("#ddlproductE").val() },
+                success: function (data) {
+                    debugger
+                    var district = "<select id='ddlModelE' class='form-control kt-select2'>";
+                    district = district + '<option value="0">--Select Model--</option>';
+                    for (var i = 0; i < data.length; i++) {
+
+                        district = district + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    district = district + '</select>';
+                    $('#ddlModelE').html(district);
+                    document.getElementById("loader").style.display = "none";
+                },
+                error: function (ex) {
+                    document.getElementById("loader").style.display = "none";
+                    alert('Failed to retrieve models.' + ex);
+                }
+            });
+            return false;
+        }
+        function BindCity() {
+            document.getElementById("loader").style.display = "block";
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetCity")', // we are calling json method
+                dataType: 'json',
+                data: { id: $("#ddlregionE").val() },
+                success: function (data) {
+                    var district = "<select id='ddlcityE' class='form-control kt-select2'>";
+                    district = district + '<option value="0">--Select City--</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        district = district + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    district = district + '</select>';
+                    $('#ddlcityE').html(district);
+                    document.getElementById("loader").style.display = "none";
+
+                },
+                error: function (ex) {
+                    document.getElementById("loader").style.display = "none";
+                    alert('Failed to retrieve cities.' + ex);
+                }
+            });
+            return false;
+        }
+                        </script>
+                    }
 
 

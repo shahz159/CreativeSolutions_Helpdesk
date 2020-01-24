@@ -1,0 +1,217 @@
+﻿@model HelpDesk.Web.Models.InventoryDTO
+
+@{
+    ViewBag.Title = "StockList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- begin:: Content -->
+<div id="upper_div" class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
+    <div class="kt-portlet">
+        <div class="kt-portlet__head kt-portlet__head--lg">
+            <div class="kt-portlet__head-label">
+                <span class="kt-portlet__head-icon">
+                    <i class="kt-font-brand flaticon2-line-chart"></i>
+                </span>
+                <h3 class="kt-portlet__head-title">Stock List</h3>
+            </div>
+            @if (Model.RoleId == 502)
+            {
+                <div class="kt-portlet__head-toolbar">
+                    <div class="kt-portlet__head-wrapper">
+                        <div class="kt-portlet__head-actions">
+                            <a href="@Url.Action("StockConsignment","Inventory")" class="btn btn-brand btn-elevate btn-icon-sm">
+                                <i class="la la-plus"></i>
+                                Add Stock
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="kt-portlet__body">
+            <div class="kt-form kt-form--label-right">
+                <div class="row align-items-center">
+                    <div class="col-xl-12 order-2 order-xl-1">
+                        <div class="row align-items-center">
+                            <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
+                                <div class="kt-form__group">
+                                    <div class="kt-form__label">
+                                        <label>Warehouse</label>
+                                    </div>
+                                    <div class="kt-form__control">
+                                        <select id="ddlWarehouse" class="form-control" onchange="BindList()">
+                                            @if (Model.WarehouseList != null)
+                                            {
+                                                if (Model.RoleId == 501 || Model.RoleId == 502)
+                                                {
+                                                    foreach (var rptr in Model.WarehouseList)
+                                                    {
+                                                        <option value="@rptr.WarehouseId">@rptr.WarehouseName</option>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <optgroup label="Assigned">
+                                                        @foreach (var rptr in Model.WarehouseList.Where(x => x.Gruop == "Assigned"))
+                                                        {
+                                                            <option value="@rptr.WarehouseId">@rptr.WarehouseName</option>
+                                                        }
+                                                    </optgroup>
+                                                    <optgroup label="Other">
+                                                        @foreach (var rptr in Model.WarehouseList.Where(x => x.Gruop == "Other"))
+                                                        {
+                                                            <option value="@rptr.WarehouseId">@rptr.WarehouseName</option>
+                                                        }
+                                                    </optgroup>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="kt-portlet__body pt-0">
+            <div id="sparepartlst_div">
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<div id="details_div"></div>
+
+@section  Scripts{
+    <script src="~/assets/js/datatables.bundle.js"></script>
+    <script src="~/assets/js/datatable.js"></script>
+    <script src="~/assets/js/select2.js"></script>
+    <script>
+        $('#loader').hide();
+        $('#ddlWarehouse').select2();
+        $('#kt_select2_13').select2();
+        $('#kt_select2_14').select2();
+        $('#kt_select2_15').select2();
+
+        $("#ddlWarehouse option").each(function () {
+            var val = $(this).val();
+            if (val != "") {
+                $("#ddlWarehouse").val(val).trigger('change');
+                return false;
+            }
+        });
+
+        function SparepartdetailsPVVV(id, warehouseid) {
+            debugger
+            document.getElementById("loader").style.display = "block";
+            $.ajax({
+                type: "Post",
+                url: '@Url.Action("SparePartDetails")',
+                datatype: "json",
+                data: { id: id,WarehouseId:warehouseid },
+                success: function (data) {
+                    $('#upper_div').hide();
+                    $('#details_div').show('');
+                    $('#details_div').html('');
+                    $('#details_div').html(data);
+                    document.getElementById("loader").style.display = "none";
+                },
+                error: function () {
+                    alert('error');
+                    $('#details_div').html('');
+                    document.getElementById("loader").style.display = "none";
+                }
+            });
+        }
+
+        function Sparepartdetails(id) {
+            
+            document.getElementById("loader").style.display = "block";
+            $.ajax({
+                type: "Post",
+                url: '@Url.Action("SparePartDetails")',
+                datatype: "json",
+                data: { id: id,WarehouseId:$("#ddlWarehouse").val() },
+                success: function (data) {
+                    $('#upper_div').hide();
+                    $('#details_div').show('');
+                    $('#details_div').html('');
+                    $('#details_div').html(data);
+                    document.getElementById("loader").style.display = "none";
+                },
+                error: function () {
+                    alert('error');
+                    $('#details_div').html('');
+                    document.getElementById("loader").style.display = "none";
+                }
+            });
+        }
+        function CloseDetails() {
+            $('#upper_div').show();
+            $('#details_div').hide('');
+        }
+         function AddConsignment() {
+
+        document.getElementById("loader").style.display = "block";
+        var Commentstext = $('#exampleTextarea').val();
+
+        if (Commentstext == "") {
+            alert('Fields Required');
+            document.getElementById("loader").style.display = "none";
+            return false;
+        }
+
+        var Quantity = $('#txtquantity').val();
+        if (Quantity == "" && Quantity ==0) {
+             alert('Fields Required');
+            document.getElementById("loader").style.display = "none";
+            return false;
+        }
+
+        $.ajax({
+            type: "Post",
+            url: '@Url.Action("NewConsignmentJson")',
+            datatype: "json",
+            data: { txt: Commentstext,Quantity:Quantity ,SparePartId: $('#hdnSparePartId').val() },
+            success: function (data) {
+                var v = data.success;
+                if (v == true) {
+                    Sparepartdetails($('#hdnSparePartId').val());
+                }
+                else {
+                    alert('Some thing went wrong');
+                }
+                document.getElementById("loader").style.display = "none";
+            },
+            error: function () {
+                alert('error');
+                document.getElementById("loader").style.display = "none";
+            }
+        });
+
+    }
+       //document.getElementById("loader").style.display = "block";
+        function BindList() {
+            $('#loader').show();
+            $.ajax({
+                type: "Post",
+                url: '@Url.Action("SparePartListByWarehouseId")',
+                datatype: "json",
+                data: { id: $('#ddlWarehouse').val() },
+                success: function (data) {
+
+                    $('#sparepartlst_div').html(data);
+                    $('#loader').hide();
+                },
+                error: function () {
+                    $('#userdetails').html('');
+                    $('#loader').hide();
+                }
+            });
+        }
+
+    </script>
+}

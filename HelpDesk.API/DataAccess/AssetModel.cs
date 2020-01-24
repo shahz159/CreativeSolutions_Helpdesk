@@ -70,7 +70,9 @@ namespace HelpDesk.API.DataAccess
                 var para = new[]
                 {
                     new SqlParameter("@CompanyId",obj.CompanyId),
-                    new SqlParameter("@OrganizationId",obj.OrganizationId)
+                    new SqlParameter("@OrganizationId",obj.OrganizationId),
+                    new SqlParameter("@UserId",obj.CreatedBy),
+                    new SqlParameter("@RoleId",obj.RoleId)
                 };
                 return DbConnector.ExecuteDataSet("UspGetDropDownsAssetManagement", para);
             }
@@ -150,6 +152,75 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
+        public SqlDataReader UpdatedAsset(AssetDTO obj)
+        {
+            try
+            {
+                var para = new[]
+                {
+                   
+                    new SqlParameter("@ProductId",obj.ProductId),
+                    new SqlParameter("@ModelId",obj.ModelId),
+                    new SqlParameter("@StationName",obj.StationName),
+                    new SqlParameter("@IPAddress",obj.IPAddress),
+                    new SqlParameter("@Configuration",obj.Configuration),
+                    new SqlParameter("@Area",obj.Area),
+                    new SqlParameter("@RegionId",obj.RegionId),
+                    new SqlParameter("@CityId",obj.CityId),
+                    new SqlParameter("@isActive",obj.isActive),
+                    new SqlParameter("@CreatedBy",obj.CreatedBy),
+                    new SqlParameter("@AMId",obj.AMId) ,
+                    new SqlParameter("@SerialNo",obj.SerialNo)
+                };
+                return DbConnector.ExecuteReader("uspAddUpdatingRecord", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "AssetModel -> UpdatedAsset");
+                return null;
+            }
+        }
+        public SqlDataReader VerifyAsset(AssetDTO obj)
+        {
+            try
+            {
+                var para = new[]
+                {
+
+                    new SqlParameter("@UpdateAMId",obj.UpdatedAMId),
+                    new SqlParameter("@Status",obj.StatusId),
+                    new SqlParameter("@CreatedBy",obj.CreatedBy),
+                    new SqlParameter("@AMId",obj.AMId) 
+                };
+                return DbConnector.ExecuteReader("uspVerifyUpdatedAssets", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "AssetModel -> VerifyAsset");
+                return null;
+            }
+        }
+        public SqlDataReader UpdatePPMDate(AssetDTO obj)
+        {
+            try
+            {
+                var para = new[]
+                {
+
+                    new SqlParameter("@APPMId",obj.APPMId),
+                    new SqlParameter("@date",obj.InstallationDate) ,
+                    new SqlParameter("@UserId",obj.CreatedBy)
+                };
+                return DbConnector.ExecuteReader("uspUpdateScheduleDate", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "AssetModel -> VerifyAsset");
+                return null;
+            }
+        }
+        
+
         public SqlDataReader UpdateAssetStatus(AssetDTO obj)
         {
             try
@@ -168,18 +239,57 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
+        public SqlDataReader UpdatePPMChangeRequest(AssetDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@Status",obj.StatusId),
+                new SqlParameter("@UserId",obj.CreatedBy),
+                new SqlParameter("@UpdatedId",obj.UpdatedId)
+                };
+                return DbConnector.ExecuteReader("uspUpdatePPMDateRequest", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "AssetModel -> UpdatePPMChangeRequest");
+                return null;
+            }
+        }
+        
+        public string GetPPMChangeDateRequestList(AssetDTO obj)
+        {
+            try
+            {
+                var para = new[]
+                {
+                    new SqlParameter("@OrganizationId",obj.OrganizationId)
+                };
+                return DbConnector.ExecuteDataSet("uspGetPPMDateChangeRequestList", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "AssetModel -> GetPPMChangeDateRequestList");
+                return null;
+            }
+        }
     }
 
     public interface IAssetModel
     {
+        string GetPPMChangeDateRequestList(AssetDTO obj);
         string GetDropDownList(AssetDTO obj);
         string GetApprovalAssets(AssetDTO obj);
         SqlDataReader GetCity(AssetDTO obj);
         SqlDataReader GetModels(AssetDTO obj);
 
         SqlDataReader InsertUpdateAsset(AssetDTO obj);
+        SqlDataReader UpdatedAsset(AssetDTO obj);
+        SqlDataReader VerifyAsset(AssetDTO obj);
+        SqlDataReader UpdatePPMDate(AssetDTO obj);
         SqlDataReader GetAssetList(AssetDTO obj);
         SqlDataReader UpdateAssetStatus(AssetDTO obj);
+        SqlDataReader UpdatePPMChangeRequest(AssetDTO obj);
         SqlDataReader GetAssetDetailsById(AssetDTO obj);
 
     }

@@ -106,33 +106,120 @@ namespace HelpDesk.API.Bussiness
             }
             return obj;
         }
-        
-        public InventoryDTO SparePartById(InventoryDTO vm)
+        public InventoryDTO UpdateSparePart(InventoryDTO obj)
         {
-            var data = model.SparePartById(vm);
-            if (data.HasRows)
+            try
             {
-                while (data.Read())
+                var data = model.UpdateSparePart(obj);
+                if (data.HasRows)
                 {
-                    vm.SparePartId = long.Parse(data["SparePartId"].ToString());
-                    vm.WarehouseId = int.Parse(data["WarehouseId"].ToString());
-                    vm.SparePartName =data["SparePartName"].ToString();
-                    vm.SparePartNumber = data["SparePartNumber"].ToString();
-                    vm.Quantity = int.Parse(data["Quantity"].ToString());
-                    vm.BaseQuantity = int.Parse(data["BaseQuantity"].ToString());
-                    vm.Price = data["Price"].ToString();
-                    vm.ConsignmentsJson = data["ConsignmentsJson"].ToString();
+                    while (data.Read())
+                    {
+                        obj.message = data["message"].ToString();
+                    }
                 }
-                data.Close();
+                else
+                    obj.message = "0";
             }
-            return vm;
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
         }
+        public InventoryDTO StockChange(InventoryDTO obj)
+        {
+            try
+            {
+                var data = model.stockchnage(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["message"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
+        public InventoryDTO TrasnferQuantity(InventoryDTO obj)
+        {
+            try
+            {
+                var data = model.transferquantity(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["message"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
+        
 
+
+        public InventoryDTO SparePartById(InventoryDTO obj)
+        {
+
+            obj.datasetxml = model.SparePartById(obj);
+            return obj;
+
+            //var data = model.SparePartById(vm);
+            //if (data.HasRows)
+            //{
+            //    while (data.Read())
+            //    {
+            //        vm.SparePartId = long.Parse(data["SparePartId"].ToString());
+            //        vm.ProductId = int.Parse(data["ProductId"].ToString());
+            //        vm.SparePartName =data["SparePartName"].ToString();
+            //        vm.SparePartNumber = data["SparePartNumber"].ToString();
+            //        vm.Quantity = int.Parse(data["Quantity"].ToString());
+            //        vm.BaseQuantity = int.Parse(data["BaseQuantity"].ToString());
+            //        vm.Price = data["Price"].ToString();
+            //        vm.ConsignmentsJson = data["ConsignmentsJson"].ToString();
+            //        vm.WarehouseJson = data["WarehouseJson"].ToString();
+            //    }
+            //    data.Close();
+            //}
+            //return vm;
+        }
+        public InventoryDTO SparePartByIdSP(InventoryDTO obj)
+        {
+
+            obj.datasetxml = model.SparePartByIdSP(obj);
+            return obj;
+           
+        }
+        
         public InventoryDTO SparePartList(InventoryDTO obj)
         {
             obj.datasetxml = model.SparePartList(obj);
             return obj;
         }
+
+        public InventoryDTO SparePartListByWHId(InventoryDTO obj)
+        {
+            obj.datasetxml = model.SparePartListByWHId(obj);
+            return obj;
+        }
+        
         public InventoryDTO ConsignmentList(InventoryDTO obj)
         {
             obj.datasetxml = model.ConsignmentList(obj);
@@ -150,11 +237,16 @@ namespace HelpDesk.API.Bussiness
     {
         InventoryDTO InsertUpdateSparePart(InventoryDTO obj);
         InventoryDTO InsertUpdateConsignment(InventoryDTO obj);
+        InventoryDTO UpdateSparePart(InventoryDTO obj);
+        InventoryDTO StockChange(InventoryDTO obj);
+        InventoryDTO TrasnferQuantity(InventoryDTO obj);
         InventoryDTO CheckSparePartName(InventoryDTO obj);
         InventoryDTO ConsignmentStatus(InventoryDTO obj);
         InventoryDTO SparePartList(InventoryDTO obj);
+        InventoryDTO SparePartListByWHId(InventoryDTO obj);
         InventoryDTO ConsignmentList(InventoryDTO obj);
         InventoryDTO SparePartById(InventoryDTO obj);
+        InventoryDTO SparePartByIdSP(InventoryDTO obj);
         InventoryDTO Warehouseddl(InventoryDTO obj);
     }
 }

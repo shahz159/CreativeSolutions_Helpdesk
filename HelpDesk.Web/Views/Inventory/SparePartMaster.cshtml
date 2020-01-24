@@ -1,0 +1,248 @@
+﻿@model HelpDesk.Web.Models.InventoryDTO
+
+@{
+    ViewBag.Title = "SparePartMaster";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section  Styles{
+    <link href="~/assets/css/datatables.bundle.css" rel="stylesheet" />
+}
+<!-- begin:: Content -->
+<div id="upper_div" class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
+    <div class="kt-portlet">
+        <div class="kt-portlet__head kt-portlet__head--lg">
+            <div class="kt-portlet__head-label">
+                <span class="kt-portlet__head-icon">
+                    <i class="kt-font-brand flaticon2-line-chart"></i>
+                </span>
+                <h3 class="kt-portlet__head-title">Spare Part List</h3>
+            </div>
+            <div class="kt-portlet__head-toolbar">
+                <div class="kt-portlet__head-wrapper">
+                    <div class="kt-portlet__head-actions">
+                        <a href="@Url.Action("NewSparePart","Inventory")" class="btn btn-brand btn-elevate btn-icon-sm">
+                            <i class="la la-plus"></i>
+                            New Spare Part
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="kt-portlet__body">
+
+        </div>
+        <div class="kt-portlet__body pt-0">
+            <div class="table-responsive">
+                <table class="table table-striped- table-bordered table-hover table-checkable" id="kt_table_1">
+                    <thead>
+                        <tr>
+                            <th scope="col">Spare Part Name</th>
+                            <th scope="col">Spare Part Number</th>
+                            @*<th scope="col">Quantity</th>*@
+                            <th scope="col">BaseQuantity</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Edit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.SparePartList != null)
+                        {
+                            foreach (var item in Model.SparePartList)
+                            {
+                                <tr>
+                                    <td>@item.SparePartName</td>
+                                    <td>@item.SparePartNumber</td>
+                                    @*<td>@item.Quantity</td>*@
+                                    <td>@item.BaseQuantity</td>
+                                    <td>@item.Price</td>
+                                    @if (Model.RoleId == 501)
+                                    {
+                                        <td align="center">
+                                            <a href="#" onclick="Sparepartdetails(@item.SparePartId)">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                        </td>
+                                    }
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!--begin: href="@Url.Action("AssetDetails","Assets")" Section-->
+        </div>
+    </div>
+</div>
+<div id="details_div"></div>
+@section  Scripts{
+    <script src="~/assets/js/datatables.bundle.js"></script>
+    <script>
+        $('#loader').hide();
+        var KTDatatablesBasicPaginations = function () {
+            var initTable1 = function () {
+                var table = $('#kt_table_1');
+                // begin first table
+                table.DataTable({
+                    responsive: true
+                });
+            };
+            return {
+                //main function to initiate the module
+                init: function () {
+                    initTable1();
+                },
+            };
+        }();
+
+        jQuery(document).ready(function () {
+            KTDatatablesBasicPaginations.init();
+        });
+        function Sparepartdetails(id) {
+            document.getElementById("loader").style.display = "block";
+            $.ajax({
+                type: "Post",
+                url: '@Url.Action("SparePartDetails")',
+                datatype: "json",
+                data: { id: id,WarehouseId:0 },
+                success: function (data) {
+
+                    $('#upper_div').hide();
+                    $('#details_div').show('');
+
+                    $('#details_div').html('');
+                    $('#details_div').html(data);
+                    document.getElementById("loader").style.display = "none";
+                },
+                error: function () {
+                    alert('error');
+                    $('#details_div').html('');
+                    document.getElementById("loader").style.display = "none";
+                }
+            });
+        }
+        function CloseDetails() {
+            $('#upper_div').show();
+            $('#details_div').hide('');
+        }
+        function AddConsignment() {
+
+            document.getElementById("loader").style.display = "block";
+            var Commentstext = $('#exampleTextarea').val();
+
+            if (Commentstext == "") {
+                alert('Fields Required');
+                document.getElementById("loader").style.display = "none";
+                return false;
+            }
+            var WarehouseId = $('#kt_select2_4').val();
+            if (WarehouseId == "") {
+                alert('Fields Required');
+                document.getElementById("loader").style.display = "none";
+                return false;
+            }
+
+            var Quantity = $('#txtquantity').val();
+            if (Quantity == "" && Quantity == 0) {
+                alert('Fields Required');
+                document.getElementById("loader").style.display = "none";
+                return false;
+            }
+
+            $.ajax({
+                type: "Post",
+                url: '@Url.Action("NewConsignmentJson")',
+                datatype: "json",
+                data: {warehouseid:WarehouseId, txt: Commentstext, Quantity: Quantity, SparePartId: $('#hdnSparePartId').val() },
+                success: function (data) {
+                    var v = data.success;
+                    if (v == true) {
+                        Sparepartdetails($('#hdnSparePartId').val());
+                    }
+                    else {
+                        alert('Some thing went wrong');
+                    }
+                    document.getElementById("loader").style.display = "none";
+                },
+                error: function () {
+                    alert('error');
+                    document.getElementById("loader").style.display = "none";
+                }
+            });
+
+        }
+        //document.getElementById("loader").style.display = "block";
+        function BindList() {
+            $('#loader').show();
+            $.ajax({
+                type: "Post",
+                url: '@Url.Action("SparePartListByWarehouseId")',
+                datatype: "json",
+                data: { id: $('#ddlWarehouse').val() },
+                success: function (data) {
+
+                    $('#sparepartlst_div').html(data);
+                    $('#loader').hide();
+                },
+                error: function () {
+                    $('#userdetails').html('');
+                    $('#loader').hide();
+                }
+            });
+        }
+
+        function UpdateSparePart(id) {
+             
+            document.getElementById("loader").style.display = "block";
+            var SparePartName = $('#txtsparepartName').val();
+            if (SparePartName == "") {
+                alert('Fields Required');
+                document.getElementById("loader").style.display = "none";
+                return false;
+            }
+            //txtPrice
+            var Price = $('#txtPrice').val();
+            if (Price == "") {
+                alert('Fields Required');
+                document.getElementById("loader").style.display = "none";
+                return false;
+            }
+            //txtbasequantity
+            var BaseQuantity = $('#txtbasequantity').val();
+            if (BaseQuantity == "") {
+                alert('Fields Required');
+                document.getElementById("loader").style.display = "none";
+                return false;
+            }
+            //txtquantity
+            var Quantity = $('#txtquantityE').val();
+            if (Quantity == "") {
+                alert('Fields Required');
+                document.getElementById("loader").style.display = "none";
+                return false;
+            }
+            $.ajax({
+                type: "Post",
+                url: '@Url.Action("UpdateSparePart")',
+                datatype: "json",
+                data: {SparePartName:SparePartName, Price: Price, Quantity: Quantity, BaseQuantity:BaseQuantity, SparePartId:id},
+                success: function (data) {
+                    var v = data.success;
+                    if (v == true) {
+                        Sparepartdetails($('#hdnSparePartId').val());
+                    }
+                    else {
+                        alert('Some thing went wrong');
+                    }
+                    document.getElementById("loader").style.display = "none";
+                },
+                error: function () {
+                    alert('error');
+                    document.getElementById("loader").style.display = "none";
+                }
+            });
+        }
+    </script>
+}
+
+
+

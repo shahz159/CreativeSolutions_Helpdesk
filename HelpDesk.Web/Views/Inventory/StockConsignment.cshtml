@@ -1,0 +1,350 @@
+﻿@model HelpDesk.Web.Models.InventoryDTO
+
+@{
+    ViewBag.Title = "StockConsignment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
+    <!--Begin::Dashboard 3-->
+    <!--Begin::Row-->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 order-lg-1 order-xl-1">
+            <!--begin:: Widgets/Trends-->
+            <div class="kt-portlet kt-portlet--head--noborder kt-portlet--height-fluid">
+                <div class="kt-portlet__head kt-portlet__head--lg">
+                    <div class="kt-portlet__head-label">
+                        <span class="kt-portlet__head-icon">
+                            <i class="kt-font-brand flaticon2-line-chart"></i>
+                        </span>
+                        <h3 class="kt-portlet__head-title">
+                            Add Stock
+                        </h3>
+                    </div>
+                </div>
+                <div class="kt-portlet__body kt-portlet__body--fluid kt-portlet__body--fit">
+                    <div class="kt-container  kt-grid__item kt-grid__item--fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!--begin::Form-->
+                                <form class="kt-form kt-form--label-right">
+                                    <div class="kt-portlet__body">
+
+
+
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-sm-2">Select Warehouse</label>
+                                            <div class="col-sm-9">
+                                                <select class="form-control kt-select2" id="ddlwarehouse" onchange="GetSPDetails()">
+                                                    @if (Model.WarehouseList != null)
+                                                    {
+                                                        <option value="">--Please Select--</option>
+                                                        foreach (var item in Model.WarehouseList)
+                                                        {
+                                                            <option value="@item.WarehouseId">@item.WarehouseName</option>
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-sm-2 col-form-label">Enter SO Number</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" type="text" value="" placeholder="Enter SO Number" id="exampleTextarea">
+                                            </div>
+                                        </div>
+
+                                        <div class="pt-4" style="border: 1px solid #ccc">
+
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-sm-2">Search Spare Part</label>
+                                                <div class="col-sm-9">
+                                                    <select class="form-control kt-select2" id="ddlsparepart" name="param" onchange="GetSPDetails()">
+                                                        @if (Model.SparePartList != null)
+                                                        {
+                                                            <option value="0">--Please Select--</option>
+                                                            foreach (var item in Model.SparePartList)
+                                                            {
+                                                                <option value="@item.SparePartId">@item.SparePartName</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mb-4 text-center">
+                                                <div class="col-md-4">
+                                                    <label class="col-form-label">Base Quantity</label>
+                                                    <h3 id="h_BQ">0</h3>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="col-form-label">Available Quantity</label>
+                                                    <h3 id="h_AQ">0</h3>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="col-form-label">Price</label>
+                                                    <h3 id="h_Pr">0</h3>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label for="example-text-input" class="col-sm-2 col-form-label">Enter Quantity</label>
+                                                <div class="col-sm-6">
+                                                    <input class="form-control" type="text" value="" id="txtquantity" onkeypress="return isNumberKey(event)" placeholder="Enter Quantity">
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <a class="btn btn-info px-5" onclick="AddSparePart()">Add</a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="kt-portlet__foot table-responsive">
+                                        <table id="SelectedSP" class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name/Number</th>
+                                                    <th>Quantity</th>
+                                                    <th>Price</th>
+                                                    <th>Total</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="th_spr">
+
+                                                @*<tr>
+                                                        <td>Spare part Name</td>
+                                                        <td>10</td>
+                                                        <td>100</td>
+                                                        <td>1000</td>
+                                                        <td>
+                                                            <a href="#"><i class="la la-trash la-2x"></i></a>
+                                                        </td>
+                                                    </tr>*@
+
+
+                                            </tbody>
+                                        </table>
+                                        <hr />
+                                        <div class="form-group row">
+                                            <div class="col-sm-12 text-right">
+                                                <a href="#" onclick="AddConsignment()" class="btn btn-success">Submit</a>
+                                                <a href="#" class="btn btn-secondary">Cancel</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <!--end::Form-->
+                            </div>
+
+                            <!--end::Portlet-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--end:: Widgets/Trends-->
+    </div>
+</div>
+<input type="hidden" id="hdnWarehouseId" value="" />
+@section Scripts{
+    <!-- Date Picker -->
+    <script src="~/assets/js/bootstrap-datepicker.js"></script>
+
+    <!-- Date Picker -->
+    <script src="~/assets/js/bootstrap-datetimepicker.js"></script>
+
+    <!-- Select 2 -->
+    <script src="~/assets/js/select2.js"></script>
+    @*<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>*@
+    
+    <script>
+        $('#loader').hide();
+        //
+        $('#ddlwarehouse,#ddlsparepart').select2();
+
+        //function AjaxCallAddList() {
+        //    var jsonary = [];
+        //    $('#th_spr tr').each(function () {
+        //        if (this.id != "") {
+        //            var dyn_matrix_data = {};
+        //            dyn_matrix_data.SparePartId = this.id;
+        //            dyn_matrix_data.Quantity = $('#lblQnty_' + this.id).html();
+        //            dyn_matrix_data.WarehouseId = $('#ddlwarehouse').val();
+        //            dyn_matrix_data.SONumber = $('#exampleTextarea').val();
+        //            jsonary.push(dyn_matrix_data);
+        //        }
+        //    });
+        //    console.log(JSON.stringify(jsonary));
+        //}
+
+        function enablevaluesparepartA(id) {
+            $("#ddlsparepart option[value*='" + id + "']").removeAttr('disabled');
+            $('#' + id).remove();
+        }
+        function AddSparePart() {
+            //th_spr
+            var sparepartid = $('#ddlsparepart').val();
+            var nameANDnumber = $("#ddlsparepart option:selected").text();
+            var qnty = $('#txtquantity').val();
+            var price = $('#h_Pr').html();
+            var total = parseInt(qnty) * parseFloat(price);
+
+            var dist = '<tr id="' + sparepartid + '">';
+            dist = dist + '<td>' + nameANDnumber + '</td>';
+            dist = dist + '<td><label id="lblQnty_' + sparepartid + '">' + qnty + '</label></td>';
+            dist = dist + '<td>' + price + '</td>';
+            dist = dist + '<td>' + total + '</td>';
+            dist = dist + '<td> <i onclick="enablevaluesparepartA('+sparepartid+')" class="la la-trash la-2x"></i></td>';
+            dist = dist + '</tr>';
+            $('#th_spr').append(dist);
+            $("#ddlsparepart option[value*='" + sparepartid + "']").attr('disabled', 'disabled');
+            $('#txtquantity').val('');
+            $('#ddlsparepart').val('0').trigger('change');
+
+
+             $('#h_BQ').html('0');
+                    $('#h_AQ').html('0');
+                    $('#h_Pr').html('0');
+        }
+
+
+        //function ChecktrData() {
+        //    var rowCount = $('#SelectedSP tr').length;
+           
+        //    if (rowCount > 1) {
+        //        Swal.fire({
+        //            title: 'Are you sure?',
+        //            text: "You want to remove the selected spare part list",
+        //            icon: 'warning',
+        //            showCancelButton: true,
+        //            confirmButtonColor: '#3085d6',
+        //            cancelButtonColor: '#d33',
+        //            confirmButtonText: 'Yes, delete it!'
+        //        }).then((result) => {
+        //            if (result.value) {
+        //                $('#th_spr').html('');
+        //            }
+        //            else {
+        //                $('#ddlwarehouse').val($('#hdnWarehouseId').val());
+        //            }
+        //        });
+
+        //    }
+        //    else {
+        //        $('#hdnWarehouseId').val($('#ddlwarehouse').val());
+        //    }
+        //}
+
+        function GetSPDetails() {
+            document.getElementById("loader").style.display = "block";
+            var SparePartId = $('#ddlsparepart').val();
+            if (SparePartId == "" && SparePartId==0) {
+                //alert('Fields Required');
+                document.getElementById("loader").style.display = "none";
+                return false;
+            }
+            var WarehouseId = $('#ddlwarehouse').val();
+            if (WarehouseId == "") {
+                //alert('Fields Required');
+                document.getElementById("loader").style.display = "none";
+                return false;
+            }
+            $.ajax({
+                type: "Post",
+                url: '@Url.Action("SparePartDetailsConsignmentJson")',
+                datatype: "json",
+                data: { warehouseid: WarehouseId, SparePartId: SparePartId },
+                success: function (data) {
+                    //h_BQ h_AQ h_Pr
+                    $('#h_BQ').html(data[0].BaseQuantity);
+                    $('#h_AQ').html(data[0].Quantity);
+                    $('#h_Pr').html(data[0].Price);
+                    document.getElementById("loader").style.display = "none";
+                },
+                error: function () {
+
+                    document.getElementById("loader").style.display = "none";
+                }
+            });
+        }
+
+        function isNumberKey(evt) {
+            $('#txtmobileerror').text('');
+            var charCode = (evt.which) ? evt.which : evt.keyCode
+            if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+            return true;
+        }
+        function AddConsignment() {
+
+            document.getElementById("loader").style.display = "block";
+            var Commentstext = $('#exampleTextarea').val();
+
+            if (Commentstext == "") {
+                alert('Fields Required');
+                document.getElementById("loader").style.display = "none";
+                return false;
+            }
+
+            //var SparePartId = $('#ddlsparepart').val();
+            //if (SparePartId == "") {
+            //    alert('Fields Required');
+            //    document.getElementById("loader").style.display = "none";
+            //    return false;
+            //}
+
+            var WarehouseId = $('#ddlwarehouse').val();
+            if (WarehouseId == "") {
+                alert('Fields Required');
+                document.getElementById("loader").style.display = "none";
+                return false;
+            }
+
+            //var Quantity = $('#txtquantity').val();
+            //if (Quantity == "" && Quantity == 0) {
+            //    alert('Fields Required');
+            //    document.getElementById("loader").style.display = "none";
+            //    return false;
+            //}
+
+            var jsonary = [];
+            $('#th_spr tr').each(function () {
+                if (this.id != "") {
+                    var dyn_matrix_data = {};
+                    dyn_matrix_data.SparePartId = this.id;
+                    dyn_matrix_data.Quantity = $('#lblQnty_' + this.id).html();
+                    dyn_matrix_data.WarehouseId = $('#ddlwarehouse').val();
+                    dyn_matrix_data.SONumber = $('#exampleTextarea').val();
+                    jsonary.push(dyn_matrix_data);
+                }
+            });
+
+            $.ajax({
+                type: "Post",
+                url: '@Url.Action("NewConsignmentJson")',
+                datatype: "json",
+                data: { message:JSON.stringify(jsonary) },
+                success: function (data) {
+                    var v = data.success;
+                    if (v == true) {
+                        //Sparepartdetails($('#hdnSparePartId').val());
+                        alert('Added Succesfully');
+                        location.reload();
+                    }
+                    else {
+                        alert('Some thing went wrong');
+                    }
+                    document.getElementById("loader").style.display = "none";
+                },
+                error: function () {
+                    alert('error');
+                    document.getElementById("loader").style.display = "none";
+                }
+            });
+
+        }
+    </script>
+}
+
