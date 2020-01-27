@@ -292,6 +292,7 @@
     <Content Include="Views\UsersRegistration\Profile.cshtml" />
     <Content Include="Views\Inventory\PdfToHtml.cshtml" />
     <Content Include="Views\Assets\PPMDatesApproval.cshtml" />
+    <Content Include="Views\Ticket\ServiceReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
