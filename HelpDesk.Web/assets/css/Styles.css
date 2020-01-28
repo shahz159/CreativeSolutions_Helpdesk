@@ -196,3 +196,9 @@
         color: #2cafdd;
     }
 }
+
+@media Screen and (max-width: 768px) {
+    .form-group{
+        margin-bottom: 1rem;
+    }
+}
