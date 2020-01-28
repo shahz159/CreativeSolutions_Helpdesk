@@ -69,9 +69,11 @@ namespace HelpDesk.API.Bussiness
                         obj.RegionJson = data["RegionJson"].ToString();
                         obj.CityJson = data["CityJson"].ToString();
                         obj.UpdatedJson = data["UpdatedAMJson"].ToString();
-
                         obj.UpdatedAMId = long.Parse(data["UpdatedAMId"].ToString());
+                        //obj.TicketNumber = long.Parse(data["TicketNumber"].ToString());
                         obj.EditMode = bool.Parse(data["EditMode"].ToString());
+                        obj.ContractType = int.Parse(data["ContractType"].ToString());
+                        obj.ContractTypetxt = data["ContractTypetxt"].ToString();
                     }
                 }
             }

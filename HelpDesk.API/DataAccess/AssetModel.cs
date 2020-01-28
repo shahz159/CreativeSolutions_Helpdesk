@@ -142,13 +142,14 @@ namespace HelpDesk.API.DataAccess
                     new SqlParameter("@CreatedBy",obj.CreatedBy),
                     new SqlParameter("@FlagId",obj.FlagId),
                     new SqlParameter("@AMId",obj.AMId),
-                    new SqlParameter("@CompanyId",obj.CompanyId) 
+                    new SqlParameter("@CompanyId",obj.CompanyId) ,
+                    new SqlParameter("@ContractType",obj.ContractType)
                 };
                 return DbConnector.ExecuteReader("UspInsertUpdateAsset", para);
             }
             catch (Exception ex)
             {
-                DataModelExceptionUtility.LogException(ex, "AssetModel -> GetModels");
+                DataModelExceptionUtility.LogException(ex, "AssetModel -> InsertUpdateAsset");
                 return null;
             }
         }

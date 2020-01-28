@@ -28,256 +28,264 @@
                                         Reject
                                     </a>
 
-                                    <a href="#" id="anchr_apr" style="display:none;" class="btn btn-danger btn-elevate btn-icon-sm">
-                                        <i class="la la-check"></i>   Approved
-                                    </a>
-                                    <a href="#" id="anchr_cncl" style="display:none;" class="btn btn-danger btn-elevate btn-icon-sm">
-                                        <i class="la la-close"></i>
-                                        Rejected
-                                    </a>
-                                }
+                                        <a href="#" id="anchr_apr" style="display:none;" class="btn btn-danger btn-elevate btn-icon-sm">
+                                            <i class="la la-check"></i>   Approved
+                                        </a>
+                                        <a href="#" id="anchr_cncl" style="display:none;" class="btn btn-danger btn-elevate btn-icon-sm">
+                                            <i class="la la-close"></i>
+                                            Rejected
+                                        </a>
+                                    }
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="kt-portlet__body">
-                    <div class="kt-widget kt-widget--user-profile-3">
-                        <div class="kt-widget__top">
-                            <div class="kt-widget__content">
-                                <div class="kt-widget__head">
-                                    <span class="kt-widget__title">@item.RoleName <small>(@item.EmpId)</small>  </span>
-                                </div>
-                                <div class="kt-widget__info">
-                                    <div class="kt-widget__desc">
-                                        @item.Email
+                    @*<div class="kt-portlet__body">
+                        <div class="kt-widget kt-widget--user-profile-3">
+                            <div class="kt-widget__top">
+                                <div class="kt-widget__content">
+                                    <div class="kt-widget__head">
+                                        <span class="kt-widget__title">@item.RoleName <small>(@item.EmpId)</small>  </span>
+                                    </div>
+                                    <div class="kt-widget__info">
+                                        <div class="kt-widget__desc">
+                                            @item.Email
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>*@
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                Accounts List
+                            </h3>
+                        </div>
+                        @if (item.SignUp == false)
+                        {
+                            <div class="kt-portlet__head-toolbar">
+                                <div class="kt-portlet__head-wrapper">
+                                    <div class="kt-portlet__head-actions">
+                                        <a href="#" onclick="AddAccountDiv()" class="btn btn-brand btn-sm btn-icon">
+                                            <i class="la la-plus"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     </div>
-                </div>
-                <div class="kt-portlet__head">
-                    <div class="kt-portlet__head-label">
-                        <h3 class="kt-portlet__head-title">
-                            Accounts List
-                        </h3>
+                    <div class="kt-portlet__body kt-portlet__body--fluid">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Account Name</th>
+                                        @if (item.SignUp == false)
+                                        {
+                                            <th>Actions</th>
+                                        }
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr id="AddNew_tr" style="display:none;">
+                                        <td colspan="2">
+                                            <div class="form-group mb-0 row">
+                                                <div class="col-sm-9">
+                                                    <div class="input-group">
+                                                        <select class="form-control kt-select2" id="ddlAccountUP">
+                                                            @foreach (var accountsddl in Model.AccountddlList)
+                                                            {
+                                                                <option value="@accountsddl.AccountId">@accountsddl.AccountName</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <a href="#" onclick="AddAccountssUP(@item.UserId)" class="btn btn-label-brand btn-bold">Submit</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    @if (Model.AccountList != null)
+                                    {
+                                        foreach (var itemacc in Model.AccountList)
+                                        {
+                                            <tr id="tra_@itemacc.MUPId">
+                                                <td>@itemacc.AccountName</td>
+                                                @if (item.SignUp == false)
+                                                {
+                                                    <td>
+                                                        <a href="#" onclick="RemoveAccountProduct(@itemacc.MUACId,1)">
+                                                            <i class="la la-trash la-2x"></i>
+                                                        </a>
+                                                    </td>
+                                                }
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    @if (item.SignUp == false)
-                    {
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                Products List
+                            </h3>
+                        </div>
+
                         <div class="kt-portlet__head-toolbar">
                             <div class="kt-portlet__head-wrapper">
                                 <div class="kt-portlet__head-actions">
-                                    <a href="#" onclick="AddAccountDiv()" class="btn btn-brand btn-sm btn-icon">
+                                    <a href="#" onclick="AddProductDiv()" class="btn btn-brand btn-sm btn-icon">
                                         <i class="la la-plus"></i>
                                     </a>
                                 </div>
                             </div>
                         </div>
-                    }
-                </div>
-                <div class="kt-portlet__body kt-portlet__body--fluid">
-                    <div class="table-responsive">
-                        <table class="table table-hover table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Account Name</th>
-                                    @if (item.SignUp == false)
-                                    {
+                        @*@if (item.SignUp == false)
+                            {
+                            }*@
+                    </div>
+                    <div class="kt-portlet__body kt-portlet__body--fluid">
+                        <div class="table-responsive">
+                            <span class="label btn-danger"> NOTE! </span>
+                            <span>Cannot delete all products, there should be atleast one product available for user.</span>
+                            <table class="table table-hover table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Product Name</th>
                                         <th>Actions</th>
-                                    }
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr id="AddNew_tr" style="display:none;">
-                                    <td colspan="2">
-                                        <div class="form-group mb-0 row">
-                                            <div class="col-sm-9">
-                                                <div class="input-group">
-                                                    <select class="form-control kt-select2" id="ddlAccountUP">
-                                                        @foreach (var accountsddl in Model.AccountddlList)
-                                                        {
-                                                            <option value="@accountsddl.AccountId">@accountsddl.AccountName</option>
-                                                        }
-                                                    </select>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr id="AddNewProduct_tr" style="display:none;">
+                                        <td colspan="2">
+                                            <div class="form-group mb-0 row">
+                                                <div class="col-sm-9">
+                                                    <div class="input-group">
+                                                        <select class="form-control kt-select2" id="ddlProductsUP">
+                                                            @foreach (var productsddl in Model.ProductddlList)
+                                                            {
+                                                                <option value="@productsddl.ProductId"> @productsddl.ProductName </option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <a href="#" onclick="AddProductsUP(@item.UserId)" class="btn btn-label-brand btn-bold">Submit</a>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-3">
-                                                <a href="#" onclick="AddAccountssUP(@item.UserId)" class="btn btn-label-brand btn-bold">Submit</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                @if (Model.AccountList != null)
-                                {
-                                    foreach (var itemacc in Model.AccountList)
+                                        </td>
+                                    </tr>
+                                    @if (Model.ProductList != null)
                                     {
-                                        <tr id="tra_@itemacc.MUPId">
-                                            <td>@itemacc.AccountName</td>
-                                            @if (item.SignUp == false)
-                                            {
+                                        foreach (var itemprt in Model.ProductList)
+                                        {
+                                            <tr id="tr_@itemprt.MUPId">
+                                                <td>@itemprt.ProductName</td>
                                                 <td>
-                                                    <a href="#" onclick="RemoveAccountProduct(@itemacc.MUACId,1)">
+                                                    <a href="#" onclick="RemoveAccountProduct(@itemprt.MUPId,2)">
                                                         <i class="la la-trash la-2x"></i>
                                                     </a>
                                                 </td>
-                                            }
-                                        </tr>
+                                            </tr>
+                                        }
                                     }
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="kt-portlet__head">
-                    <div class="kt-portlet__head-label">
-                        <h3 class="kt-portlet__head-title">
-                            Products List
-                        </h3>
-                    </div>
-
-                    <div class="kt-portlet__head-toolbar">
-                        <div class="kt-portlet__head-wrapper">
-                            <div class="kt-portlet__head-actions">
-                                <a href="#" onclick="AddProductDiv()" class="btn btn-brand btn-sm btn-icon">
-                                    <i class="la la-plus"></i>
-                                </a>
-                            </div>
+                                </tbody>
+                            </table>
                         </div>
-                    </div>
-                    @*@if (item.SignUp == false)
-                        {
-                        }*@
-                </div>
-                <div class="kt-portlet__body kt-portlet__body--fluid">
-                    <div class="table-responsive">
-                        <span class="label btn-danger"> NOTE! </span>
-                        <span>Cannot delete all products, there should be atleast one product available for user.</span>
-                        <table class="table table-hover table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Product Name</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr id="AddNewProduct_tr" style="display:none;">
-                                    <td colspan="2">
-                                        <div class="form-group mb-0 row">
-                                            <div class="col-sm-9">
-                                                <div class="input-group">
-                                                    <select class="form-control kt-select2" id="ddlProductsUP">
-                                                        @foreach (var productsddl in Model.ProductddlList)
-                                                        {
-                                                            <option value="@productsddl.ProductId"> @productsddl.ProductName </option>
-                                                        }
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <a href="#" onclick="AddProductsUP(@item.UserId)" class="btn btn-label-brand btn-bold">Submit</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                @if (Model.ProductList != null)
-                                {
-                                    foreach (var itemprt in Model.ProductList)
-                                    {
-                                        <tr id="tr_@itemprt.MUPId">
-                                            <td>@itemprt.ProductName</td>
-                                            <td>
-                                                <a href="#" onclick="RemoveAccountProduct(@itemprt.MUPId,2)">
-                                                    <i class="la la-trash la-2x"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    }
-                                }
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="kt-portlet kt-portlet--height-fluid">
-                <div class="kt-portlet__head">
-                    <div class="kt-portlet__head-label">
-                        <h3 class="kt-portlet__head-title">
-                            Personal Info
-                        </h3>
-                    </div>
-                    @*@if (item.SignUp == false)
-                        { }*@
-                    <div class="kt-portlet__head-toolbar">
-                        <div class="kt-portlet__head-wrapper">
-                            <div class="kt-portlet__head-actions">
-                                <a href="#" onclick="ViewEditabledivs()">
-                                    <i class="fa fa-edit"></i>
-                                </a>
+            <div class="col-md-4">
+                <div class="kt-portlet kt-portlet--height-fluid">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                Personal Info
+                            </h3>
+                        </div>
+                        @*@if (item.SignUp == false)
+                            { }*@
+                        <div class="kt-portlet__head-toolbar">
+                            <div class="kt-portlet__head-wrapper">
+                                <div class="kt-portlet__head-actions">
+                                    <a href="#" onclick="ViewEditabledivs()">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
+                        <a href="#" onclick="closeDetails()" class="details-close-button btn btn-danger btn-sm btn-icon btn-circle position-absolute"><i class="la la-close"></i></a>
                     </div>
-
-                </div>
-                <div class="kt-portlet__body">
-                    <table class="ticket-full-details table table-borderless">
-                        <tr id="tr_fullname_dtl">
-                            <td>Name</td>
-                            <td>: @item.FullName</td>
-                        </tr>
-                        <tr id="tr_fullname" style="display:none;">
-                            <td>Name</td>
-                            <td>
-                                <input type="text" id="txtfullname" value="@item.FullName" class="form-control" />
-                            </td>
-                        </tr>
-                        <tr id="tr_gender_dtl">
-                            <td>Gender</td>
-                            <td>: @item.Gender</td>
-                        </tr>
-                        <tr id="tr_gender" style="display:none;">
-                            <td>Gender</td>
-                            <td>
-                                <select id="ddlgender" class="form-control">
-                                    <option value="M" @(item.Gender == "M" ? "selected" : "")>Male</option>
-                                    <option value="F" @(item.Gender == "F" ? "selected" : "")>Female</option>
-                                    <option value="O" @(item.Gender == "O" ? "selected" : "")>Other</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr id="tr_mobileno_dtl">
-                            <td>Mobile No.</td>
-                            <td>: @item.Mobile</td>
-                        </tr>
-                        <tr id="tr_mobileno" style="display:none;">
-                            <td>Mobile No</td>
-                            <td>
-                                <input type="text" class="form-control" onkeypress="return isNumberKey(event)" id="txtmobileno" value="@item.Mobile" />
-                            </td>
-                        </tr>
-                        @if (item.SignUp == true)
-                        {
-                            <tr id="tr_role" style="display:none;">
-                                <td>Role</td>
+                    <div class="kt-portlet__body">
+                        <table class="ticket-full-details table table-borderless">
+                            <tr id="tr_fullname_dtl">
+                                <td>Name</td>
+                                <td>: @item.FullName</td>
+                            </tr>
+                            <tr id="tr_fullname" style="display:none;">
+                                <td>Name</td>
                                 <td>
-                                    <select id="ddlRole" class="form-control">
-                                        <option value="503" @(item.RoleId == 503 ? "selected" : "")>System User</option>
-                                        <option value="504" @(item.RoleId == 504 ? "selected" : "")>System Manager</option>
+                                    <input type="text" id="txtfullname" value="@item.FullName" class="form-control" />
+                                </td>
+                            </tr>
+                            <tr id="tr_gender_dtl">
+                                <td>Gender</td>
+                                <td>: @item.Gender</td>
+                            </tr>
+                            <tr id="tr_gender" style="display:none;">
+                                <td>Gender</td>
+                                <td>
+                                    <select id="ddlgender" class="form-control">
+                                        <option value="M" @(item.Gender == "M" ? "selected" : "")>Male</option>
+                                        <option value="F" @(item.Gender == "F" ? "selected" : "")>Female</option>
+                                        <option value="O" @(item.Gender == "O" ? "selected" : "")>Other</option>
                                     </select>
                                 </td>
                             </tr>
-                        }
-                    </table>
-                    <div id="div_buttons_Pinfo" style="display:none;">
-                        <a href="#" onclick="UpdateuserBasicInfo()" class="btn btn-label-brand btn-bold">Update</a>
-                        <a href="#" onclick="CloseDiv()" class="btn btn-clean btn-bold">Cancel</a>
+                            <tr id="tr_mobileno_dtl">
+                                <td>Mobile No.</td>
+                                <td>: @item.Mobile</td>
+                            </tr>
+                            <tr id="tr_mobileno" style="display:none;">
+                                <td>Mobile No</td>
+                                <td>
+                                    <input type="text" class="form-control" onkeypress="return isNumberKey(event)" id="txtmobileno" value="@item.Mobile" />
+                                </td>
+                            </tr>
+                            @if (item.SignUp == true)
+                            {
+                                <tr id="tr_role" style="display:none;">
+                                    <td>Role</td>
+                                    <td>
+                                        <select id="ddlRole" class="form-control">
+                                            <option value="503" @(item.RoleId == 503 ? "selected" : "")>System User</option>
+                                            <option value="504" @(item.RoleId == 504 ? "selected" : "")>System Manager</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            }
+                            <tr id="tr_RoleView">
+                                <td>Role</td>
+                                <td>: @item.RoleName</td>
+                            </tr>
+                            <tr id="tr_Email">
+                                <td>Email</td>
+                                <td>: @item.Email</td>
+                            </tr>
+                        </table>
+                        <div id="div_buttons_Pinfo" style="display:none;">
+                            <a href="#" onclick="UpdateuserBasicInfo()" class="btn btn-label-brand btn-bold">Update</a>
+                            <a href="#" onclick="CloseDiv()" class="btn btn-clean btn-bold">Cancel</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
     <input type="hidden" id="hdnUserId" value="@item.UserId" />
     <input type="hidden" id="hdnSignup" value="@(item.SignUp == true ? "1" : "0")" />
 }

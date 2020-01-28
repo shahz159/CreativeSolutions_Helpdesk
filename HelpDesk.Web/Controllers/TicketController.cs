@@ -612,6 +612,8 @@ namespace HelpDesk.Web.Controllers
                                             CreatedUser = dataRow.Field<string>("CreatedUser"),
                                             ReportsJson = dataRow.Field<string>("ReportJson"),
                                             RequestResponseStr = dataRow.Field<string>("RequestResponseStr"),
+                                            ActualStartTime = dataRow.Field<string>("ActualStartTime"),
+                                            ResolvedTime = dataRow.Field<string>("ResolvedTime"),
                                             MappedWarehouseId = dataRow.Field<int>("MappedWarehouseId"),
                                             WarehouseJson = dataRow.Field<string>("WarehouseJson"),
                                             SparePartRequestJson = dataRow.Field<string>("SparePartRequestJson"),
@@ -634,7 +636,11 @@ namespace HelpDesk.Web.Controllers
                                             ManagerName = dataRow.Field<string>("ManagerName"),
                                             Actioncomments = dataRow.Field<string>("Actioncomments"),
                                             ProblemDescription = dataRow.Field<string>("ProblemDescription"),
-                                            WorkHours = dataRow.Field<string>("WorkHours") 
+                                            WorkHours = dataRow.Field<string>("WorkHours"),
+                                            ReportId = dataRow.Field<int>("ReportTypeId"),
+                                            CreatedUserRoleId = dataRow.Field<int>("CreatedUserRoleId"),
+                                            SupervisorConfirmationDate = dataRow.Field<string>("SupervisorConfirmationDate"),
+                                            SupervisorName = dataRow.Field<string>("SupervisorName")
                                         }).ToList();
 
                                         obj.TicketList = tickettlst;
@@ -1223,7 +1229,6 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
-
         public async Task<ActionResult> GetSparePartList(int warehouseid, long TicketNumber)
         {
             string ses = Convert.ToString(Session["SSUserId"]);
@@ -1297,7 +1302,6 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
-
         public async Task<ActionResult> NewSparePartRequest(string json, long TicketNumber, int Type)
         {
             string ses = Convert.ToString(Session["SSUserId"]);
@@ -1349,7 +1353,6 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
-
         public async Task<ActionResult> NewComments(string txt, long TicketNumber)
         {
             string ses = Convert.ToString(Session["SSUserId"]);
@@ -1405,7 +1408,6 @@ namespace HelpDesk.Web.Controllers
             List<TicketDTO> _obj = obj.Where(x => x.SparePartId == sparepartid).ToList();
             return Json(_obj);
         }
-
         public async Task<ActionResult> EquipmentApproval()
         {
             string ses = Convert.ToString(Session["SSUserId"]);
@@ -1478,19 +1480,16 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
-
         public ActionResult ServiceReportPV(long TicketNumber)
         {
             TicketDTO obj = new TicketDTO();
             obj.TicketNumber = TicketNumber;
             return PartialView("ServiceReportPreviewPV", obj);
         }
-
         public ActionResult NewEnquiry()
         {
             return View();
         }
-
         public async Task<ActionResult> AddEnquiry(string message)
         {
             string ses = Convert.ToString(Session["SSUserId"]);
@@ -1679,7 +1678,6 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
-
         public async Task<ActionResult> NewEnquiryComments(string txt, long EnquiryId)
         {
             string ses = Convert.ToString(Session["SSUserId"]);
@@ -1728,7 +1726,6 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
-
         public async Task<ActionResult> DashboardTickets(int id)
         {
             string ses = Convert.ToString(Session["SSUserId"]);

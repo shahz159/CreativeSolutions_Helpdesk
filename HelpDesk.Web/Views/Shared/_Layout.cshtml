@@ -4,7 +4,7 @@
 <!-- begin::Head -->
 
 <head>
-     
+
     <meta charset="utf-8" />
     <title>AHC Helpdesk</title>
     <meta name="description" content="Latest updates and statistic charts">
@@ -12,6 +12,8 @@
 
     <!--begin::Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@9.7.0/dist/sweetalert2.css" rel="stylesheet" />
+
     <!--end::Fonts -->
 
     @RenderSection("styles", required: false)
@@ -217,7 +219,7 @@
                                         </ul>
                                     </div>
                                 </div>
- 
+
                             </div>
 
                             <!-- end:: Header Topbar -->
@@ -312,67 +314,67 @@
                                         @*kt-nav__item--active*@
                                         @*<li class="kt-menu__item" aria-haspopup="true"><a href="~/Home/Dashboard" class="kt-menu__link "><i class="kt-menu__link-icon fa fa-ticket-alt"></i><span class="kt-menu__link-text">Dashboard</span></a></li>
 
-        <li class="kt-menu__item" aria-haspopup="true"><a href="~/Home/DetailsList" class="kt-menu__link "><i class="kt-menu__link-icon fa fa-ticket-alt"></i><span class="kt-menu__link-text">Tickets</span></a></li>
+                                            <li class="kt-menu__item" aria-haspopup="true"><a href="~/Home/DetailsList" class="kt-menu__link "><i class="kt-menu__link-icon fa fa-ticket-alt"></i><span class="kt-menu__link-text">Tickets</span></a></li>
 
 
-        <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
-            <a href="javascript:;" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon fa fa-check-circle"></i><span class="kt-menu__link-text">Approvals</span><i class="kt-menu__ver-arrow la la-angle-right"></i></a>
-            <div class="kt-menu__submenu ">
-                <span class="kt-menu__arrow"></span>
-                <ul class="kt-menu__subnav">
-                    <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">User Approval</span></a></li>
-                    <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Equipment Approval</span></a></li>
-                </ul>
-            </div>
-        </li>
+                                            <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                                                <a href="javascript:;" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon fa fa-check-circle"></i><span class="kt-menu__link-text">Approvals</span><i class="kt-menu__ver-arrow la la-angle-right"></i></a>
+                                                <div class="kt-menu__submenu ">
+                                                    <span class="kt-menu__arrow"></span>
+                                                    <ul class="kt-menu__subnav">
+                                                        <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">User Approval</span></a></li>
+                                                        <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Equipment Approval</span></a></li>
+                                                    </ul>
+                                                </div>
+                                            </li>
 
-        <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
-            <a href="javascript:;" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon fa fa-dolly"></i><span class="kt-menu__link-text">Asset Management</span><i class="kt-menu__ver-arrow la la-angle-right"></i></a>
-            <div class="kt-menu__submenu ">
-                <span class="kt-menu__arrow"></span>
-                <ul class="kt-menu__subnav">
-                    <li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true">
-                        <span class="kt-menu__link"><span class="kt-menu__link-text">Asset Management</span></span>
-                    </li>
-                    <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Asset List</span></a></li>
-                    <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Spare Parts</span></a></li>
-                </ul>
-            </div>
-        </li>*@
+                                            <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                                                <a href="javascript:;" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon fa fa-dolly"></i><span class="kt-menu__link-text">Asset Management</span><i class="kt-menu__ver-arrow la la-angle-right"></i></a>
+                                                <div class="kt-menu__submenu ">
+                                                    <span class="kt-menu__arrow"></span>
+                                                    <ul class="kt-menu__subnav">
+                                                        <li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true">
+                                                            <span class="kt-menu__link"><span class="kt-menu__link-text">Asset Management</span></span>
+                                                        </li>
+                                                        <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Asset List</span></a></li>
+                                                        <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Spare Parts</span></a></li>
+                                                    </ul>
+                                                </div>
+                                            </li>*@
 
                                         @*<li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
-            <a href="javascript:;" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon fa fa-dolly"></i><span class="kt-menu__link-text">User Master</span><i class="kt-menu__ver-arrow la la-angle-right"></i></a>
-            <div class="kt-menu__submenu ">
-                <span class="kt-menu__arrow"></span>
-                <ul class="kt-menu__subnav">
-                    <li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true">
-                        <span class="kt-menu__link"><span class="kt-menu__link-text">User Master</span></span>
-                    </li>
-                    <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Roles</span></a></li>
-                    <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Users</span></a></li>
-                    <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Mapping User</span></a></li>
-                    <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Role Access</span></a></li>
-                </ul>
-            </div>
-        </li>
+                                                <a href="javascript:;" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon fa fa-dolly"></i><span class="kt-menu__link-text">User Master</span><i class="kt-menu__ver-arrow la la-angle-right"></i></a>
+                                                <div class="kt-menu__submenu ">
+                                                    <span class="kt-menu__arrow"></span>
+                                                    <ul class="kt-menu__subnav">
+                                                        <li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true">
+                                                            <span class="kt-menu__link"><span class="kt-menu__link-text">User Master</span></span>
+                                                        </li>
+                                                        <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Roles</span></a></li>
+                                                        <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Users</span></a></li>
+                                                        <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Mapping User</span></a></li>
+                                                        <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Role Access</span></a></li>
+                                                    </ul>
+                                                </div>
+                                            </li>
 
-        <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
-            <a href="javascript:;" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon fa fa-dolly"></i><span class="kt-menu__link-text">Master Forms</span><i class="kt-menu__ver-arrow la la-angle-right"></i></a>
-            <div class="kt-menu__submenu ">
-                <span class="kt-menu__arrow"></span>
-                <ul class="kt-menu__subnav">
-                    <li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true">
-                        <span class="kt-menu__link"><span class="kt-menu__link-text">Portlets</span></span>
-                    </li>
-                    <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Accounts</span></a></li>
-                    <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Products</span></a></li>
-                    <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Models</span></a></li>
-                    <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Warehouse</span></a></li>
-                    <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Region</span></a></li>
-                    <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">City</span></a></li>
-                </ul>
-            </div>
-        </li>*@
+                                            <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                                                <a href="javascript:;" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon fa fa-dolly"></i><span class="kt-menu__link-text">Master Forms</span><i class="kt-menu__ver-arrow la la-angle-right"></i></a>
+                                                <div class="kt-menu__submenu ">
+                                                    <span class="kt-menu__arrow"></span>
+                                                    <ul class="kt-menu__subnav">
+                                                        <li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true">
+                                                            <span class="kt-menu__link"><span class="kt-menu__link-text">Portlets</span></span>
+                                                        </li>
+                                                        <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Accounts</span></a></li>
+                                                        <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Products</span></a></li>
+                                                        <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Models</span></a></li>
+                                                        <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Warehouse</span></a></li>
+                                                        <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Region</span></a></li>
+                                                        <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">City</span></a></li>
+                                                    </ul>
+                                                </div>
+                                            </li>*@
 
                                     </ul>
                                 </div>
@@ -413,12 +415,15 @@
     <!-- end:: Page -->
     <!-- end::Global Config -->
     <!--begin::Global Theme Bundle(used by all pages) -->
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.7.0/dist/sweetalert2.all.min.js"></script>
     <script src="~/assets/plugins/global/plugins.bundle.js"></script>
     <script src="~/assets/js/scripts.bundle.js"></script>
     <script src="~/Scripts/jquery.validate.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
     @RenderSection("scripts", required: false)
-   
+
 </body>
 
 <!-- end::Body -->

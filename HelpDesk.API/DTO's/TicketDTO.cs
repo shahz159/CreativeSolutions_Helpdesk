@@ -11,6 +11,7 @@ namespace HelpDesk.API.DTO_s
 
         public string multipledocuments_xml { get; set; }
         public int ReportId { get; set; }
+        public long APPMId { get; set; }
         public string  ReportTypeName { get; set; }
         public string message { get; set; }
         public string datasetxml { get; set; }
