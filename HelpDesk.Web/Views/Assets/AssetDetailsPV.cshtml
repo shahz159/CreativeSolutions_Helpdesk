@@ -7,227 +7,229 @@
 </style>
 @if (Model.RoleId == 501 && Model.EditMode == true)
 {
-    <div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
-        <!--Begin::Dashboard 3-->
-        <!--Begin::Row-->
-        <div class="row">
-            <div class="col-lg-12 col-xl-12 order-lg-1 order-xl-1">
-                <div class="kt-portlet kt-portlet--head--noborder kt-portlet--height-fluid">
-                    <div class="kt-portlet__head kt-portlet__head--lg">
-                        <div class="kt-portlet__head-label">
-                            <span class="kt-portlet__head-icon">
-                                <i class="kt-font-brand flaticon2-line-chart"></i>
-                            </span>
-                            <h3 class="kt-portlet__head-title">
-                                Approval
-                            </h3>
-                        </div>
-                        <div class="kt-portlet__head-toolbar">
-                            <div class="kt-portlet__head-wrapper">
-                                @if (Model.RoleId == 501)
-                                {
-
-                                    <a href ="#" onclick="AssetApproval(1)" class="btn btn-brand btn-elevate btn-icon-sm">
-                                        <i class="la la-check"></i>
-                                        Approve
-                                        </a>
-                                        <a href ="#" onclick="AssetApproval(2)" class="btn btn-danger btn-elevate btn-icon-sm">
-                                            <i class="la la-close"></i>
-                                            Reject
-                                            </a>
-                                        }
+<div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4 position-relative">
+    <a href="#" onclick="closeDetails()" class="details-close-button btn btn-danger btn-sm btn-icon btn-circle position-absolute"><i class="la la-close"></i></a>
+    <!--Begin::Dashboard 3-->
+    <!--Begin::Row-->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 order-lg-1 order-xl-1">
+            <div class="kt-portlet kt-portlet--head--noborder kt-portlet--height-fluid">
+                <div class="kt-portlet__head kt-portlet__head--lg">
+                    <div class="kt-portlet__head-label">
+                        <span class="kt-portlet__head-icon">
+                            <i class="kt-font-brand flaticon2-line-chart"></i>
+                        </span>
+                        <h3 class="kt-portlet__head-title">
+                            Approval
+                        </h3>
                     </div>
+                    <div class="kt-portlet__head-toolbar">
+                        <div class="kt-portlet__head-wrapper">
+                            @if (Model.RoleId == 501)
+                            {
+
+                                <a href="#" onclick="AssetApproval(1)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                    <i class="la la-check"></i>
+                                    Approve
+                                </a>
+                                <a href="#" onclick="AssetApproval(2)" class="btn btn-danger btn-elevate btn-icon-sm">
+                                    <i class="la la-close"></i>
+                                    Reject
+                                </a>
+                            }
+                        </div>
+                    </div>
+
                 </div>
-                <a href ="#" onclick="closeDetails()" class="details-close-button btn btn-danger btn-sm btn-icon btn-circle position-absolute"><i class="la la-close"></i></a>
-            </div>
-            <div class="kt-portlet__body kt-portlet__body--fluid kt-portlet__body--fit">
-                <div class="kt-container  kt-grid__item kt-grid__item--fluid">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="kt-form kt-form--label-right">
-                                <div class="kt-portlet__body all-details-view">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="table-responsive">
-                                                <table class="table table-bordered">
-                                                    <tr>
-                                                        <td>Product</td>
-                                                        <td>@Model.ProductName </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Model</td>
-                                                        <td>@Model.ModelName </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Region</td>
-                                                        <td>@Model.RegionName </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Serial No</td>
-                                                        <td>@Model.SerialNo</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>City</td>
-                                                        <td>@Model.CityName </td>
-                                                    </tr>
+                <div class="kt-portlet__body kt-portlet__body--fluid kt-portlet__body--fit">
+                    <div class="kt-container  kt-grid__item kt-grid__item--fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="kt-form kt-form--label-right">
+                                    <div class="kt-portlet__body all-details-view">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered">
+                                                        <tr>
+                                                            <td>Product</td>
+                                                            <td>@Model.ProductName </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Model</td>
+                                                            <td>@Model.ModelName </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Region</td>
+                                                            <td>@Model.RegionName </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Serial No</td>
+                                                            <td>@Model.SerialNo</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>City</td>
+                                                            <td>@Model.CityName </td>
+                                                        </tr>
 
-                                                    <tr>
-                                                        <td>Station Name</td>
-                                                        <td>@Model.StationName </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>IP Address</td>
-                                                        <td>@Model.IPAddress </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Configuration</td>
-                                                        <td>@Model.Configuration </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Location</td>
-                                                        <td>@Model.Area </td>
-                                                    </tr>
-                                                </table>
+                                                        <tr>
+                                                            <td>Station Name</td>
+                                                            <td>@Model.StationName </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>IP Address</td>
+                                                            <td>@Model.IPAddress </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Configuration</td>
+                                                            <td>@Model.Configuration </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Location</td>
+                                                            <td>@Model.Area </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="table-responsive">
-                                                <table class="table table-bordered">
-                                                    @if (Model.UpdatedList != null)
-                                                    {
-                                                        foreach (var item in Model.UpdatedList)
+                                            <div class="col-md-6">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered">
+                                                        @if (Model.UpdatedList != null)
                                                         {
-                                                            if (Model.ProductName == item.ProductName)
+                                                            foreach (var item in Model.UpdatedList)
                                                             {
-                                                                <tr>
-                                                                    <td>Product</td>
-                                                                    <td>@item.ProductName </td>
-                                                                </tr>
+                                                                if (Model.ProductName == item.ProductName)
+                                                                {
+                                                                    <tr>
+                                                                        <td>Product</td>
+                                                                        <td>@item.ProductName </td>
+                                                                    </tr>
 
-                                                            }
-                                                            else
-                                                            {
-                                                                <tr class="bg-light">
-                                                                    <td>Product</td>
-                                                                    <td>@item.ProductName </td>
-                                                                </tr>
-                                                            }
-                                                            if (Model.ModelName == item.ModelName)
-                                                            {
-                                                                <tr>
-                                                                    <td>Model</td>
-                                                                    <td>@item.ModelName </td>
-                                                                </tr>
-                                                            }
-                                                            else
-                                                            {
-                                                                <tr class="bg-light">
-                                                                    <td>Model</td>
-                                                                    <td>@item.ModelName </td>
-                                                                </tr>
-                                                            }
-                                                            if (Model.RegionName == item.RegionName)
-                                                            {
-                                                                <tr>
-                                                                    <td>Region</td>
-                                                                    <td>@item.RegionName </td>
-                                                                </tr>
-                                                            }
-                                                            else
-                                                            {
-                                                                <tr class="bg-light">
-                                                                    <td>Region</td>
-                                                                    <td>@item.RegionName </td>
-                                                                </tr>
-                                                            }
-                                                            if (Model.SerialNo == item.SerialNo)
-                                                            {
-                                                                <tr>
-                                                                    <td>Serial No</td>
-                                                                    <td>@item.SerialNo </td>
-                                                                </tr>
-                                                            }
+                                                                }
+                                                                else
+                                                                {
+                                                                    <tr class="bg-light">
+                                                                        <td>Product</td>
+                                                                        <td>@item.ProductName </td>
+                                                                    </tr>
+                                                                }
+                                                                if (Model.ModelName == item.ModelName)
+                                                                {
+                                                                    <tr>
+                                                                        <td>Model</td>
+                                                                        <td>@item.ModelName </td>
+                                                                    </tr>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <tr class="bg-light">
+                                                                        <td>Model</td>
+                                                                        <td>@item.ModelName </td>
+                                                                    </tr>
+                                                                }
+                                                                if (Model.RegionName == item.RegionName)
+                                                                {
+                                                                    <tr>
+                                                                        <td>Region</td>
+                                                                        <td>@item.RegionName </td>
+                                                                    </tr>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <tr class="bg-light">
+                                                                        <td>Region</td>
+                                                                        <td>@item.RegionName </td>
+                                                                    </tr>
+                                                                }
+                                                                if (Model.SerialNo == item.SerialNo)
+                                                                {
+                                                                    <tr>
+                                                                        <td>Serial No</td>
+                                                                        <td>@item.SerialNo </td>
+                                                                    </tr>
+                                                                }
 
-                                                            else
-                                                            {
-                                                                <tr class="bg-light">
-                                                                    <td>SerialNo</td>
-                                                                    <td>@item.SerialNo </td>
-                                                                </tr>
-                                                            }
-                                                            if (Model.CityName == item.CityName)
-                                                            {
-                                                                <tr>
-                                                                    <td>City</td>
-                                                                    <td>@item.CityName </td>
-                                                                </tr>
-                                                            }
-                                                            else
-                                                            {
-                                                                <tr class="bg-light">
-                                                                    <td>City</td>
-                                                                    <td>@item.CityName </td>
-                                                                </tr>
-                                                            }
-                                                            if (Model.StationName == item.StationName)
-                                                            {
-                                                                <tr>
-                                                                    <td>Station Name</td>
-                                                                    <td>@item.StationName </td>
-                                                                </tr>
-                                                            }
-                                                            else
-                                                            {
-                                                                <tr class="bg-light">
-                                                                    <td>Station Name</td>
-                                                                    <td>@item.StationName </td>
-                                                                </tr>
-                                                            }
-                                                            if (Model.IPAddress == item.IPAddress)
-                                                            {
-                                                                <tr>
-                                                                    <td>IP Address</td>
-                                                                    <td>@item.IPAddress </td>
-                                                                </tr>
-                                                            }
-                                                            else
-                                                            {
-                                                                <tr class="bg-light">
-                                                                    <td>IP Address</td>
-                                                                    <td>@item.IPAddress </td>
-                                                                </tr>
-                                                            }
-                                                            if (Model.Configuration == item.Configuration)
-                                                            {
-                                                                <tr>
-                                                                    <td>Configuration</td>
-                                                                    <td>@item.Configuration </td>
-                                                                </tr>
-                                                            }
-                                                            else
-                                                            {
-                                                                <tr class="bg-light">
-                                                                    <td> Configuration</td>
-                                                                    <td>@item.Configuration </td>
-                                                                </tr>
-                                                            }
-                                                            if (Model.Area == item.Area)
-                                                            {
-                                                                <tr>
-                                                                    <td>Location</td>
-                                                                    <td>@item.Area </td>
-                                                                </tr>
-                                                            }
-                                                            else
-                                                            {
-                                                                <tr class="bg-light">
-                                                                    <td> Location</td>
-                                                                    <td>@item.Area </td>
-                                                                </tr>
+                                                                else
+                                                                {
+                                                                    <tr class="bg-light">
+                                                                        <td>SerialNo</td>
+                                                                        <td>@item.SerialNo </td>
+                                                                    </tr>
+                                                                }
+                                                                if (Model.CityName == item.CityName)
+                                                                {
+                                                                    <tr>
+                                                                        <td>City</td>
+                                                                        <td>@item.CityName </td>
+                                                                    </tr>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <tr class="bg-light">
+                                                                        <td>City</td>
+                                                                        <td>@item.CityName </td>
+                                                                    </tr>
+                                                                }
+                                                                if (Model.StationName == item.StationName)
+                                                                {
+                                                                    <tr>
+                                                                        <td>Station Name</td>
+                                                                        <td>@item.StationName </td>
+                                                                    </tr>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <tr class="bg-light">
+                                                                        <td>Station Name</td>
+                                                                        <td>@item.StationName </td>
+                                                                    </tr>
+                                                                }
+                                                                if (Model.IPAddress == item.IPAddress)
+                                                                {
+                                                                    <tr>
+                                                                        <td>IP Address</td>
+                                                                        <td>@item.IPAddress </td>
+                                                                    </tr>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <tr class="bg-light">
+                                                                        <td>IP Address</td>
+                                                                        <td>@item.IPAddress </td>
+                                                                    </tr>
+                                                                }
+                                                                if (Model.Configuration == item.Configuration)
+                                                                {
+                                                                    <tr>
+                                                                        <td>Configuration</td>
+                                                                        <td>@item.Configuration </td>
+                                                                    </tr>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <tr class="bg-light">
+                                                                        <td> Configuration</td>
+                                                                        <td>@item.Configuration </td>
+                                                                    </tr>
+                                                                }
+                                                                if (Model.Area == item.Area)
+                                                                {
+                                                                    <tr>
+                                                                        <td>Location</td>
+                                                                        <td>@item.Area </td>
+                                                                    </tr>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <tr class="bg-light">
+                                                                        <td> Location</td>
+                                                                        <td>@item.Area </td>
+                                                                    </tr>
+                                                                }
                                                             }
                                                         }
-                                                    }
-                                                </table>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -236,16 +238,15 @@
                         </div>
                     </div>
                 </div>
+                @*<div class="kt-portlet__foot">
+                        <div class="kt-form__actions text-right">
+                            <a onclick="AssetApproval(1)" class="btn btn-success"> Accept </a>
+                            <a onclick="AssetApproval(2)" class="btn btn-danger"> Reject </a>
+                        </div>
+                    </div>*@
             </div>
-            @*<div class="kt-portlet__foot">
-                    <div class="kt-form__actions text-right">
-                        <a onclick="AssetApproval(1)" class="btn btn-success"> Accept </a>
-                        <a onclick="AssetApproval(2)" class="btn btn-danger"> Reject </a>
-                    </div>
-                </div>*@
         </div>
     </div>
-</div>
 </div>
 }
 @if (Model.RoleId != 505 && Model.RoleId != 504)
