@@ -191,10 +191,9 @@ namespace HelpDesk.Web.Controllers
                         if (obj.IsContract == false)
                         {
                             obj.POContract = "";
-                            string dd= DateTime.Now.ToString("M/d/yyyy");
+                            string dd = DateTime.Now.ToString("M/d/yyyy");
                             obj.WarrantyExpiryDate = DateTime.Parse(dd);
                         }
-                            
 
                         HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/AssetAPI/NewInsertUpdateAsset", obj);
                         if (responseMessage.IsSuccessStatusCode)
@@ -351,7 +350,7 @@ namespace HelpDesk.Web.Controllers
                         AssetsDTO obj = new AssetsDTO();
 
                         obj.CreatedBy = userid;
-                        if (id==1)
+                        if (id == 1)
                         {
                             obj.IsApproved = true;
                             obj.IsRejected = false;
@@ -485,7 +484,7 @@ namespace HelpDesk.Web.Controllers
                                             StationName = dataRow.Field<string>("StationName"),
                                             IPAddress = dataRow.Field<string>("IPAddress"),
                                             SerialNo = dataRow.Field<string>("SerialNo"),
-
+                                            SystemNo = dataRow.Field<string>("SystemNo"),
                                             Configuration = dataRow.Field<string>("Configuration"),
                                             Area = dataRow.Field<string>("Area"),
                                             RegionName = dataRow.Field<string>("RegionName"),
@@ -497,8 +496,8 @@ namespace HelpDesk.Web.Controllers
                                             POContract = dataRow.Field<string>("POContract"),
                                             WarrantyExpiryDate = dataRow.Field<DateTime>("WarrantyExpiryDate"),
                                             AMId = dataRow.Field<int>("AMId"),
-                                            FullName = dataRow.Field<string>("FullName")
-                                            
+                                            FullName = dataRow.Field<string>("FullName"),
+                                            EditMode = dataRow.Field<bool>("EditMode")
                                         }).ToList();
                                         obj.AssetsList = tickettlst;
                                     }
@@ -626,7 +625,7 @@ namespace HelpDesk.Web.Controllers
                         long userid = long.Parse(Session["SSUserId"].ToString());
 
                         obj.CreatedBy = userid;
-                        
+
                         bool status = false;
                         HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/AssetAPI/NewUpdatedAsset", obj);
                         if (responseMessage.IsSuccessStatusCode)
@@ -734,5 +733,59 @@ namespace HelpDesk.Web.Controllers
             }
         }
 
+
+        [HttpPost]
+        public async Task<JsonResult> NewTicket(TicketDTO obj)
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return Json(new { success = false });
+            }
+            else
+            {
+
+                long userid = long.Parse(Session["SSUserId"].ToString());
+                int compid = int.Parse(Session["SSCompanyId"].ToString());
+                int orgid = int.Parse(Session["SSOrganizationId"].ToString());
+               
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+
+                        obj.ContentType = "";
+                        obj.Url = "";
+                        obj.multipledocuments_xml = "";
+                        obj.CreatedBy = userid;
+
+                        if (compid == 0)
+                            obj.CompanyId = obj.CompanyId;
+                        else
+                            obj.CompanyId = compid;
+                        obj.OrganizationId = orgid;
+                        obj.Description = "Auto Generated PPM Ticket.";
+                        obj.ReportId = 9;
+                        obj.Priority = "M";
+                        
+                        HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/TicketsAPI/NewInsertTicketRequest", obj);
+                        if (responseMessage.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                            var tickets = JsonConvert.DeserializeObject<TicketDTO>(responseData);
+                            obj.message = tickets.message;
+                            string msg = obj.message;
+
+                        }
+                        return Json(new { success = true });
+                    }
+                    catch (Exception ex)
+                    {
+                        return Json(new { success = false });
+                    }
+                }
+            }
+        }
     }
 }

@@ -160,7 +160,19 @@
                                                 <small id="spn_txtInstallationdate" class="text-danger" style="display:none;">Field required.</small>
                                             </div>
                                         </div>
-                                        <div class="form-group row mb-0">
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-sm-2">Contract Type</label>
+                                            <div class="col-sm-9">
+                                                <select class="form-control kt-select2" id="ddlcontracttype">
+                                                    <option value="0">--Select Contract Type--</option>
+                                                    <option value="1">Warranty Contract</option>
+                                                    <option value="2">Service Contract</option>
+                                                    <option value="3">No Contract</option>
+                                                </select>
+                                                <small id="spn_ddlcontracttype" class="text-danger" style="display:none;">Field required.</small>
+                                            </div>
+                                        </div>
+                                        @*<div class="form-group row mb-0">
                                             <label class="col-sm-2 col-form-label">Is Contract</label>
                                             <div class="col-sm-9">
                                                 <span class="kt-switch kt-switch--icon">
@@ -170,7 +182,7 @@
                                                     </label>
                                                 </span>
                                             </div>
-                                        </div>
+                                        </div>*@
                                         <div id="Contarct_Div" class="p-4" style="display: none">
                                             <h5 class="contract-head">Contract Details</h5>
                                             <hr class="mb-4" />
@@ -212,8 +224,8 @@
                                                 <div class="col-2">
                                                 </div>
                                                 <div class="col-10">
-                                                    <a href="" onclick="AddUpdate()" class="btn btn-success">Submit</a>
-                                                    <a href="" class="btn btn-secondary">Cancel</a>
+                                                    <a href="#" onclick="AddUpdate()" class="btn btn-success">Submit</a>
+                                                    <a href="#" class="btn btn-secondary">Cancel</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -221,7 +233,6 @@
                                 </form>
                                 <!--end::Form-->
                             </div>
-
                             <!--end::Portlet-->
                         </div>
                     </div>
@@ -249,7 +260,7 @@
            
 
             //set initial state.
-            $('#ddlAccounts,#ddlProducts,#ddlModel,#ddlregion,#ddlcity').select2({
+            $('#ddlAccounts,#ddlProducts,#ddlModel,#ddlregion,#ddlcity,#ddlcontracttype').select2({
             });
 
              var arrows;
@@ -271,11 +282,21 @@
                 autoclose: true,
                 templates: arrows
             });
-
+            //ddlcontracttype
             $('#chkiscontract').change(function () {
                 if ($(this).is(":checked")) {
                     $('#Contarct_Div').show();
                 } else {
+                    $('#Contarct_Div').hide();
+                }
+            });
+
+            $('#ddlcontracttype').change(function () {
+                var id = $('#ddlcontracttype').val();
+                if (id == 1 || id == 2) {
+                    $('#Contarct_Div').show();
+                }
+                else {
                     $('#Contarct_Div').hide();
                 }
             });
@@ -418,7 +439,25 @@
             else {
                 $('#spn_txtInstallationdate').hide();
             }
-            var IsContract = $('#chkiscontract').is(":checked");
+            var IsContract = false;
+            var ContractType = $('#ddlcontracttype').val();
+            if (ContractType == 0) {
+                val = 1;
+                $('#spn_ddlcontracttype').show();
+            }
+            else {
+                $('#spn_ddlcontracttype').hide();
+                
+                if (ContractType == 1 || ContractType == 2) {
+                    IsContract = true;
+                }
+                else if (ContractType==3) {
+                    IsContract = false;
+                }
+            }
+
+
+            
 
             var POContract = $('#txtpocontract').val();
              var WarrantyExpiryDate = $('#txtwarrantydate').val();
@@ -453,14 +492,15 @@
                     dataType: 'json',
                     data: {
                         AccountId: AccountId, ProductId: ProductId, ModelId: ModelId, StationName: StationName, IPAddress: IPAddress, SerialNo: SerialNo, Configuration: Configuration, Area: Area,
-                        RegionId: RegionId, CityId: CityId, InstallationDate: InstallationDate, IsContract: IsContract, POContract: POContract, WarrantyExpiryDate: WarrantyExpiryDate, PPMType: PPMType
+                        RegionId: RegionId, CityId: CityId, InstallationDate: InstallationDate, IsContract: IsContract, POContract: POContract, WarrantyExpiryDate: WarrantyExpiryDate, PPMType: PPMType,
+                        ContractType:ContractType
                     },
                     success: function (data) {
                         alert('Added Successfully');
                         location.reload();
                     },
                     error: function (ex) {
-                        alert('Failed to retrieve models.' + ex);
+                        alert('Failed to Add Assets.' + ex);
                     }
                 });
             }

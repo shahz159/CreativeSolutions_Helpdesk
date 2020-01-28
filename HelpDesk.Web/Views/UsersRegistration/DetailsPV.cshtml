@@ -39,7 +39,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="kt-portlet__body">
+                    @*<div class="kt-portlet__body">
                         <div class="kt-widget kt-widget--user-profile-3">
                             <div class="kt-widget__top">
                                 <div class="kt-widget__content">
@@ -54,7 +54,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>*@
                     <div class="kt-portlet__head">
                         <div class="kt-portlet__head-label">
                             <h3 class="kt-portlet__head-title">
@@ -267,6 +267,14 @@
                                     </td>
                                 </tr>
                             }
+                            <tr id="tr_RoleView">
+                                <td>Role</td>
+                                <td>: @item.RoleName</td>
+                            </tr>
+                            <tr id="tr_Email">
+                                <td>Email</td>
+                                <td>: @item.Email</td>
+                            </tr>
                         </table>
                         <div id="div_buttons_Pinfo" style="display:none;">
                             <a href="#" onclick="UpdateuserBasicInfo()" class="btn btn-label-brand btn-bold">Update</a>

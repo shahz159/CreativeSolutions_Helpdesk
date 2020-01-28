@@ -7,6 +7,8 @@ namespace HelpDesk.API.DTO_s
 {
     public class AssetDTO
     {
+        public long TicketNumber { get; set; }
+        public string ContractTypetxt { get; set; }
         public string PPMJson { get; set; }
         public int AMId { get; set; }
         public int AccountId { get; set; }
@@ -51,7 +53,7 @@ namespace HelpDesk.API.DTO_s
         public DateTime CreatedOn { get; set; }
         public string CompanyName { get; set; }
         public int CompanyId { get; set; }
-
+        public int ContractType { get; set; }
         public string message { get; set; }
         public int FlagId { get; set; }
         public string datasetxml { get; set; }

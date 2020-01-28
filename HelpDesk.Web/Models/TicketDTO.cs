@@ -9,6 +9,7 @@ namespace HelpDesk.Web.Models
     public class TicketDTO
     {
         public long WarehouseStockId { get; set; }
+        public long APPMId { get; set; }
 
         public string EnquiryDate { get; set; }
 
@@ -34,6 +35,7 @@ namespace HelpDesk.Web.Models
         public string ReportsJson { get; set; }
         [Required(ErrorMessage = "required", AllowEmptyStrings = false)]
         public int ReportId { get; set; }
+        public int CreatedUserRoleId { get; set; }
         public string ReportTypeName { get; set; }
 
         public int Status { get; set; }
@@ -69,6 +71,8 @@ namespace HelpDesk.Web.Models
         public DateTime CreatedOn { get; set; }
         public string CompanyName { get; set; }
         public string RequestResponseStr { get; set; }
+        public string ActualStartTime { get; set; }
+        public string ResolvedTime { get; set; }
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
         public int TotalRecords { get; set; }
@@ -107,7 +111,9 @@ namespace HelpDesk.Web.Models
         public int InProgressTickets { get; set; }
         public int ResolvedTickets { get; set; }
         public string ManagerName { get; set; }
+        public string SupervisorName { get; set; }
         public string ManagerConfirmationDate { get; set; }
+        public string SupervisorConfirmationDate { get; set; }
         public string CustomerConfirmationDate { get; set; }
         public string ServiceEngineerResolvedDate { get; set; }
         public string ServiceStartDate { get; set; }
