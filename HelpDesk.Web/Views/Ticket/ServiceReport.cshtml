@@ -1,0 +1,700 @@
+﻿
+@{
+    /**/
+
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        *,
+        ::after,
+        ::before {
+            box-sizing: border-box;
+        }
+
+        body {
+            color: #555;
+            font-size: 9px;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .flex-container-space-between {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .text-left {
+            text-align: left;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-rigth {
+            text-align: right;
+        }
+
+        .text-uppercase {
+            text-transform: uppercase;
+        }
+
+
+        .flex-container-wrap {
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            margin-right: -5px;
+            margin-left: -5px;
+        }
+
+        .col-10 {
+            flex: 0 0 10%;
+            max-width: 10%;
+            position: relative;
+            width: 100%;
+            min-height: 1px;
+            padding-right: 5px;
+            padding-left: 5px;
+            margin-bottom: 10px
+        }
+
+        .col-15 {
+            flex: 0 0 15%;
+            max-width: 15%;
+            position: relative;
+            width: 100%;
+            min-height: 1px;
+            padding-right: 5px;
+            padding-left: 5px;
+            margin-bottom: 10px
+        }
+
+        .col-20 {
+            flex: 0 0 20%;
+            max-width: 20%;
+            position: relative;
+            width: 100%;
+            min-height: 1px;
+            padding-right: 5px;
+            padding-left: 5px;
+            margin-bottom: 10px
+        }
+
+        .col-25 {
+            flex: 0 0 25%;
+            max-width: 25%;
+            position: relative;
+            width: 100%;
+            min-height: 1px;
+            padding-right: 5px;
+            padding-left: 5px;
+            margin-bottom: 10px
+        }
+
+        .col-50 {
+            flex: 0 0 50%;
+            max-width: 50%;
+            position: relative;
+            width: 100%;
+            min-height: 1px;
+            padding-right: 5px;
+            padding-left: 5px;
+            margin-bottom: 10px
+        }
+
+        .col-90 {
+            flex: 0 0 90%;
+            max-width: 90%;
+            position: relative;
+            width: 100%;
+            min-height: 1px;
+            padding-right: 5px;
+            padding-left: 5px;
+            margin-bottom: 10px
+        }
+
+        .col-100 {
+            flex: 0 0 100%;
+            max-width: 100%;
+            position: relative;
+            width: 100%;
+            min-height: 1px;
+            padding-right: 5px;
+            padding-left: 5px;
+            margin-bottom: 10px
+        }
+
+        label {
+            font-weight: 700;
+            vertical-align: middle;
+        }
+
+        input[type=text] {
+            display: block;
+            width: 100%;
+            font-size: 9px;
+            line-height: 30px;
+            text-align: center;
+            color: #495057;
+            background-color: #cbe6f1;
+            -webkit-print-color-adjust: exact;
+            background-clip: padding-box;
+            border: 1px solid #333;
+            transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+        }
+
+        .container {
+            display: block;
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 10px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+            .container input {
+                position: absolute;
+                opacity: 0;
+                cursor: pointer;
+                height: 0;
+                width: 0;
+            }
+
+        .checkmark {
+            position: absolute;
+            top: -5px;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            border: 1px solid #333;
+        }
+
+            .checkmark:after {
+                content: "";
+                position: absolute;
+                display: none;
+            }
+
+        .container input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        .container .checkmark:after {
+            left: 5px;
+            top: -10px;
+            width: 15px;
+            height: 30px;
+            border: solid #3d94fb;
+            border-width: 0 5px 5px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+
+        .full_border {
+            border: 1px solid #333;
+        }
+
+        .table_bordered {
+            border-collapse: collapse;
+        }
+
+            .table_bordered tr td {
+                border: 1px solid #333;
+                padding: 10px
+            }
+
+        .full_border p {
+            border-bottom: 1px dotted #333;
+            display: inline;
+            line-height: 1.5;
+        }
+
+        .dotted_border {
+            padding: 0px 5px !important;
+            line-height: 20px !important;
+            border: 0 !important;
+            background: #cbe6f1 !important;
+            border-bottom: 1px dotted #333 !important;
+        }
+
+        .contact_details {
+            width: 100%;
+            padding: 0 10px 2px;
+        }
+
+            .contact_details tr td {
+                vertical-align: bottom;
+            }
+
+        .font-14 {
+            font-size: 14px;
+        }
+
+        .m-0 {
+            margin: 0px;
+        }
+
+        .p-10 {
+            padding: 10px;
+        }
+
+        .pb-5 {
+            padding-bottom: 5px;
+        }
+
+        .mb-5 {
+            margin-bottom: 5px;
+        }
+
+        .pb-15 {
+            padding-bottom: 15px !important;
+        }
+
+        .mb-15 {
+            margin-bottom: 15px;
+        }
+
+        .pl-4 {
+            padding-left: 4px;
+        }
+
+        .bg-skyblue {
+            background-color: #cbe6f1;
+            -webkit-print-color-adjust: exact;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="flex-container-space-between">
+        <section>
+            <div class="mb-5">
+                <img src="http://csadms.com/AHCHelpdesk/assets/images/ahc_new_logo.png" height="40">
+            </div>
+            <div>
+                <p class="text-uppercase">
+                    <strong>Arabian Health Care</strong>
+                </p>
+                <table>
+                    <tr>
+                        <td colspan="4">P.O. Box 8772 Riyadh 11492, K.S.A</td>
+                    </tr>
+                    <tr>
+                        <td>Riyadh Tel.:</td>
+                        <td>011 4668999</td>
+                        <td>&ensp;</td>
+                        <td>Fax: 011 4749414</td>
+                    </tr>
+                    <tr>
+                        <td>Jeddah Tel.:</td>
+                        <td>012 6782020</td>
+                        <td>&ensp;</td>
+                        <td>Fax: 012 6906190</td>
+                    </tr>
+                    <tr>
+                        <td>Dammam Tel.:</td>
+                        <td>013 8871000</td>
+                        <td>&ensp;</td>
+                        <td>Fax: 013 8825974</td>
+                    </tr>
+                    <tr>
+                        <td>Toll Free No.:</td>
+                        <td colspan="3"> 800 2444416</td>
+                    </tr>
+                    <tr>
+                        <td>Website.:</td>
+                        <td colspan="3">www.ahc.sa</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+        <section class="text-rigth">
+            <div class="mb-5">
+                <img src="http://csadms.com/AHCHelpdesk/assets/images/ahc_new_logo.png" height="40">
+            </div>
+            <div>
+                <p class="text-uppercase" dir="rtl">
+                    <strong>
+                        الشركة العربية الطبية
+                    </strong>
+                </p>
+                <table>
+                    <tr>
+                        <td colspan="4">P.O. Box 8772 Riyadh 11492, K.S.A</td>
+                    </tr>
+                    <tr>
+                        <td>Riyadh Tel.:</td>
+                        <td>011 4668999</td>
+                        <td>&ensp;</td>
+                        <td>Fax: 011 4749414</td>
+                    </tr>
+                    <tr>
+                        <td>Jeddah Tel.:</td>
+                        <td>012 6782020</td>
+                        <td>&ensp;</td>
+                        <td>Fax: 012 6906190</td>
+                    </tr>
+                    <tr>
+                        <td>Dammam Tel.:</td>
+                        <td>013 8871000</td>
+                        <td>&ensp;</td>
+                        <td>Fax: 013 8825974</td>
+                    </tr>
+                    <tr>
+                        <td>Toll Free No.:</td>
+                        <td colspan="3"> 800 2444416</td>
+                    </tr>
+                    <tr>
+                        <td>Website.:</td>
+                        <td colspan="3">www.ahc.sa</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+    </div>
+    <div class="form">
+        <h1 class="text-uppercase text-center pb-15 mb-15"><u>Service Report</u></h1>
+        <div class="flex-container-wrap">
+            <div class="col-20">
+                <label>Ticket No.</label>
+                <input type="text">
+            </div>
+            <div class="col-20">
+                <label>Customer I.D.</label>
+                <input type="text">
+            </div>
+            <div class="col-20">
+                <label>Customer Equipment I.D.</label>
+                <input type="text">
+            </div>
+            <div class="col-20">
+                <label>Service Report Date</label>
+                <input type="text">
+            </div>
+            <div class="col-20">
+                <label>Service Report No.</label>
+                <input type="text">
+            </div>
+            <div class="col-25">
+                <label>Customer Name.</label>
+                <input type="text" style="height: 52px">
+            </div>
+            <div class="col-25">
+                <label>Customer Location.</label>
+                <input type="text" style="height: 52px">
+            </div>
+            <div class="col-50">
+                <label>Customer Contacts</label>
+                <div class="full_border bg-skyblue">
+                    <table class="contact_details">
+                        <tr>
+                            <td> Tel.:</td>
+                            <td><input type="text" class="dotted_border"></td>
+                            <td>&ensp;</td>
+                            <td> Fax.:</td>
+                            <td><input type="text" class="dotted_border"></td>
+                        </tr>
+                        <tr>
+                            <td> Mob.:</td>
+                            <td><input type="text" class="dotted_border"></td>
+                            <td>&ensp;</td>
+                            <td> Email.:</td>
+                            <td><input type="text" class="dotted_border"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="col-25">
+                <label>Equipment Description</label>
+                <input type="text">
+            </div>
+            <div class="col-25">
+                <label>Equipment Model</label>
+                <input type="text">
+            </div>
+            <div class="col-25">
+                <label>Equipment Serial No.</label>
+                <input type="text">
+            </div>
+            <div class="col-25">
+                <label>Customer P.O. No.</label>
+                <input type="text">
+            </div>
+            <div class="col-25">
+                <label>Manufacturer</label>
+                <input type="text">
+            </div>
+            <div class="col-25">
+                <label>Installation Date</label>
+                <input type="text">
+            </div>
+            <div class="col-25">
+                <label>Warranty End Date</label>
+                <input type="text">
+            </div>
+            <div class="col-25">
+                <label>Next PPM Schedule</label>
+                <input type="text">
+            </div>
+            <div class="col-20">
+                <label>Customer Call Date & Time</label>
+                <input type="text">
+            </div>
+            <div class="col-20">
+                <label>Service Start Date & Time</label>
+                <input type="text">
+            </div>
+            <div class="col-20">
+                <label>Service End Date & Time</label>
+                <input type="text">
+            </div>
+            <div class="col-20">
+                <label>Work Hours</label>
+                <input type="text">
+            </div>
+            <div class="col-20">
+                <label>Total Charges</label>
+                <input type="text">
+            </div>
+            <div class="col-10 m-0">
+                <label>Report Type</label>
+            </div>
+            <div class="col-90 m-0">
+                <div class="flex-container-wrap">
+                    <div class="col-20">
+                        <label class="container">
+                            Warranty
+                            <input type="checkbox" checked="checked">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                    <div class="col-20">
+                        <label class="container">
+                            Charged Repair
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                    <div class="col-20">
+                        <label class="container">
+                            F.O.C
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                    <div class="col-20">
+                        <label class="container">
+                            Service Contract
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                    <div class="col-20">
+                        <label class="container">
+                            Application Training
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                    <div class="col-20">
+                        <label class="container">
+                            Installation
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                    <div class="col-20">
+                        <label class="container">
+                            Pre-Installation / Site Visit
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                    <div class="col-20">
+                        <label class="container">
+                            Demonstration
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                    <div class="col-20">
+                        <label class="container">
+                            PPM
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                    <div class="col-20">
+                        <label class="container">
+                            Others
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-100">
+                <label>Problem Description</label>
+                <div class="full_border p-10">
+                    <p class="font-14">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </p>
+                </div>
+            </div>
+            <div class="col-100">
+                <label>Activities Done</label>
+                <div class="full_border p-10">
+                    <p class="font-14">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </p>
+                </div>
+            </div>
+            <div class="col-100">
+                <label>Next Action / Follow Up Required</label>
+                <div class="full_border p-10">
+                    <p class="font-14">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </p>
+                </div>
+            </div>
+            <div class="col-100">
+                <label>Remarks / Notes / Other Serial Nos.</label>
+                <div class="full_border p-10">
+                    <span>&nbsp;</span>
+                </div>
+            </div>
+            <div class="col-100">
+                <table class="bg-skyblue p-10 text-left" width="100%">
+                    <tr>
+                        <th>
+                            Hand Over to Customer
+                        </th>
+                        <th>
+                            <label class="container m-0">
+                                Operating Manuals
+                                <input type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                        </th>
+                        <th>
+                            <label class="container m-0">
+                                Service Manuals
+                                <input type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                        </th>
+                        <th>
+                            <label class="container m-0">
+                                Software CD's
+                                <input type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                        </th>
+                        <th>&nbsp</th>
+                </table>
+            </div>
+            <div class="col-100">
+                <table width="100%" class="text-left table_bordered">
+                    <thead>
+                        <tr>
+                            <th class="pl-4">Materials Part No. Required / Used </th>
+                            <th class="pl-4">Parts Description</th>
+                            <th class="pl-4">Source Of Supply</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-skyblue">
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-50">
+                <label class="pl-4">Customer Approval</label>
+                <div class="full_border bg-skyblue">
+                    <table style="width: 100%; padding: 0 10px 5px">
+                        <tr>
+                            <td> Name.:</td>
+                            <td><input type="text" class="dotted_border"></td>
+                        </tr>
+                        <tr>
+                            <td> Date.:</td>
+                            <td><input type="text" class="dotted_border"></td>
+                        </tr>
+                        <tr>
+                            <td> Signature.:</td>
+                            <td><input type="text" class="dotted_border"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="col-50">
+                <label class="pl-4">Name Of Engineer.</label>
+                <div class="full_border bg-skyblue">
+                    <table style="width: 100%; padding: 0 10px 5px">
+                        <tr>
+                            <td> Name.:</td>
+                            <td><input type="text" class="dotted_border pb-5"></td>
+                        </tr>
+                        <tr class="mb-15">
+                            <td> Date.:</td>
+                            <td><input type="text" class="dotted_border pb-5"></td>
+                        </tr>
+                        <tr class="mb-15">
+                            <td> Signature.:</td>
+                            <td><input type="text" class="dotted_border pb-5"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById("loader").style.display = "none";
+    </script>
+</body>
+</html>
+

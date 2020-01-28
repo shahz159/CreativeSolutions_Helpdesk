@@ -170,26 +170,28 @@
             <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--desktop kt-grid--ver-desktop kt-grid--hor-tablet-and-mobile">
 
                 <!--begin::Aside-->
-                <div class="kt-grid__item kt-grid__item--order-tablet-and-mobile-2 kt-grid kt-grid--hor kt-login__aside" style="background-image: url(/assets/images/login-bg.jpg);">
-                    <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver">
-                        <div class="kt-grid__item kt-grid__item--middle">
-                            <h3 class="kt-login__title">Welcome to AHC Helpdesk!</h3>
-                            <h4 class="kt-login__subtitle">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                tempor incididunt ut labore et dolore magna aliqua.
-                            </h4>
+                <div class="kt-grid__item kt-grid__item--order-tablet-and-mobile-2 kt-grid kt-grid--hor kt-login__aside" style="background-image: url(/assets/images/Login-Background-Image.jpg);">
+                    <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-padding-t-100-desktop">
+                        <div class="kt-grid__item kt-grid__item--top">
+                            <h3 class="h1 text-white kt-font-bold fa-3x"><strong>Welcome to<br /> AHC Help Desk!</strong></h3>
+                            <h3 class="text-secondary kt-font-regular my-0">
+                                Customer Service, Our Top Priority!
+                            </h3>
                         </div>
                     </div>
-                    <div class="kt-grid__item">
+                    <div class="kt-grid__item d_none_1024">
                         <div class="kt-login__info">
-                            <div class="kt-login__copyright">
-                                &copy 2018 AHC Helpdesk.
+                            <div class="kt-login__copyright text-white text-center">
+                                &copy 2020 Arabian Health Care.
                             </div>
-                            <div class="kt-login__menu">
-                                <a href="#" class="kt-link">Privacy</a>
-                                <a href="#" class="kt-link">Legal</a>
-                                <a href="#" class="kt-link">Contact</a>
+                            <div class="kt-login__menu text-white">
+                                Powered By <a href="https://www.creative-sols.com/" target="_blank" class="kt-link">Creative Solutions</a>
                             </div>
+                            @*<div class="kt-login__menu">
+                    <a href="#" class="kt-link">Privacy</a>
+                    <a href="#" class="kt-link">Legal</a>
+                    <a href="#" class="kt-link">Contact</a>
+                </div>*@
                         </div>
                     </div>
                 </div>
@@ -200,55 +202,48 @@
                                 <img src="~/assets/images/ahc_new_logo.png" height="50" class="mb-3" />
                                 <h3>SignUp</h3>
                             </div>
-                            <form class="kt-form floating-form" action="" novalidate="novalidate" id="kt_login_form">
-                                <div class="form-group floating-label mt-4">
+                            <form class="kt-form" action="" novalidate="novalidate" id="kt_login_form">
+                                <div class="form-group mt-4">
                                     <div id="Accounts_div">
-                                        <select class="form-control floating-select kt-select2" id="ddlAccounts" name="param" onclick="this.setAttribute('value', this.value);" value=" ">
+                                        <select class="form-control kt-select2" id="ddlAccounts" name="param" onclick="this.setAttribute('value', this.value);" value=" ">
                                         </select>
-                                        <label>Select Account</label>
                                     </div>
                                 </div>
-                                <div class="form-group floating-label mt-4">
+                                <div class="form-group mt-4">
                                     <div id="Products_div">
-                                        <select class="form-control floating-select kt-select2" id="ddlProducts" onclick="this.setAttribute('value', this.value);" value=" " multiple>
-                                            <option></option>
+                                        <select class="form-control kt-select2" id="ddlProducts" onclick="this.setAttribute('value', this.value);" value=" " multiple>
+                                            <option>Select Product</option>
                                         </select>
-                                        <label>Select Product</label>
                                     </div>
 
                                 </div>
-                                <div class="form-group floating-label mt-4">
-                                    <input class="form-control floating-input" type="text" value="" placeholder=" " id="txtfullname">
-                                    <label>Enter Full Name</label>
+                                <div class="form-group mt-4">
+                                    <input class="form-control" type="text" value="" placeholder="Enter Full Name" id="txtfullname">
                                 </div>
-                                <div class="form-group floating-label mt-4">
-                                    <select class="form-control floating-select kt-select2" id="ddlGender">
+                                <div class="form-group mt-4">
+                                    <select class="form-control kt-select2" id="ddlGender">
                                         <option value="M">Male</option>
                                         <option value="F">Female</option>
                                         <option value="O">Other</option>
                                     </select>
-                                    <label>Gender</label>
                                 </div>
-                                <div class="form-group floating-label">
+                                <div class="form-group">
                                     <div id="div_mobileNumber" class="input-group">
                                         <div class="input-group-prepend"><span class="input-group-text">+966</span></div>
-                                        <input class="form-control floating-input" autocomplete="off" type="text" value="" placeholder="xxx xxx xxxx" id="txtmobile" onkeypress="return isNumberKey(event)" onchange="mobilevalidation()">
+                                        <input class="form-control" autocomplete="off" type="text" value="" placeholder="xxx xxx xxxx" id="txtmobile" onkeypress="return isNumberKey(event)" onchange="mobilevalidation()">
                                     </div>
                                 </div>
-                                <div class="form-group floating-label">
-                                    <input id="txtSignupEmail" class="form-control floating-input" autocomplete="off" type="text" value="" placeholder=" " onchange="checkuseremail()">
-                                    <label>Enter Email Id</label>
+                                <div class="form-group">
+                                    <input id="txtSignupEmail" class="form-control " autocomplete="off" type="text" value="" placeholder="Enter Email Id" onchange="checkuseremail()">
                                 </div>
-                                <div class="form-group floating-label">
-                                    <input class="form-control floating-input" type="password" autocomplete="new-password" placeholder=" " onchange="PasswordLenght(1)" id="txtPassword">
-                                    <label>Password</label>
+                                <div class="form-group">
+                                    <input class="form-control" type="password" autocomplete="new-password" placeholder="Password" onchange="PasswordLenght(1)" id="txtPassword">
                                 </div>
-                                <div class="form-group floating-label">
-                                    <input class="form-control floating-input" type="password" autocomplete="new-password" placeholder=" " onchange="PasswordLenght(2)" id="txtConfirmPassword">
-                                    <label>Conform Password</label>
+                                <div class="form-group">
+                                    <input class="form-control" type="password" autocomplete="new-password" placeholder="Conform Password" onchange="PasswordLenght(2)" id="txtConfirmPassword">
                                 </div>
                                 <div class="kt-login__actions">
-                                    <a href="#" onclick="SaveUserDetails()" class="btn btn-primary btn-elevate kt-login__btn-primary">Submit</a>
+                                    <a href="#" onclick="SaveUserDetails()" class="btn bg-secondery pt-3 btn-elevate kt-login__btn-primary">Submit</a>
                                 </div>
                             </form>
                         </div>

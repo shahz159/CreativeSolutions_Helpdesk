@@ -16,7 +16,8 @@
     @foreach (var item in Model.TicketList)
     {
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
+        <div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4 position-relative">
+            <a href="#" onclick="closeDetails()" class="details-close-button btn btn-danger btn-sm btn-icon btn-circle position-absolute"><i class="la la-close"></i></a>
             <div id="details_upper" class="row">
                 <div class="col-md-12">
                     <div class="kt-portlet mb-1">
@@ -81,9 +82,9 @@
                                             else if (item.Status == 13 || item.Status == 7)
                                             {
                                                 @*<a class="btn btn-brand btn-elevate btn-icon-sm">
-                                                        <i class="la la-check"></i>
-                                                        Confirmed
-                                                    </a>*@
+                                                <i class="la la-check"></i>
+                                                Confirmed
+                                            </a>*@
                                                 <a href="#" onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
                                                     <i class="la la-check"></i>
                                                     Service Report
@@ -95,9 +96,9 @@
                                             if (item.Status == 6)
                                             {
                                                 @*<a class="btn btn-brand btn-elevate btn-icon-sm">
-                                                        <i class="la la-check"></i>
-                                                        Technician Resolved
-                                                    </a>*@
+                                                <i class="la la-check"></i>
+                                                Technician Resolved
+                                            </a>*@
                                                 <a href="#" onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
                                                     <i class="la la-check"></i>
                                                     Service Report
@@ -106,9 +107,9 @@
                                             else if (item.Status == 13 || item.Status == 7)
                                             {
                                                 @*<a class="btn btn-brand btn-elevate btn-icon-sm">
-                                                        <i class="la la-check"></i>
-                                                        Customer Confirmed
-                                                    </a>*@
+                                                <i class="la la-check"></i>
+                                                Customer Confirmed
+                                            </a>*@
                                                 <a href="#" onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
                                                     <i class="la la-check"></i>
                                                     Service Report
@@ -120,9 +121,9 @@
                                             if (item.Status == 6)
                                             {
                                                 @*<a class="btn btn-brand btn-elevate btn-icon-sm">
-                                                        <i class="la la-check"></i>
-                                                        Resolved
-                                                    </a>*@
+                                                <i class="la la-check"></i>
+                                                Resolved
+                                            </a>*@
                                                 <a href="#" onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
                                                     <i class="la la-check"></i>
                                                     Service Report
@@ -131,9 +132,9 @@
                                             else if (item.Status == 13 || item.Status == 7 || item.Status == 1013 || item.Status == 14)
                                             {
                                                 @*<a class="btn btn-brand btn-elevate btn-icon-sm">
-                                                        <i class="la la-check"></i>
-                                                        Customer Confirmed
-                                                    </a>*@
+                                                <i class="la la-check"></i>
+                                                Customer Confirmed
+                                            </a>*@
                                                 <a href="#" onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
                                                     <i class="la la-check"></i>
                                                     Service Report
@@ -157,7 +158,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="#" onclick="closeDetails()" class="details-close-button btn btn-danger btn-sm btn-icon btn-circle position-absolute"><i class="la la-close"></i></a>
                         </div>
                         <div id="AddResponseTime_Div" style="display:none" class="kt-portlet__body">
                             <div class="form-group mb-0 row">
@@ -175,14 +175,14 @@
                                     <div class="input-group date">
                                         <span class="pt-2 h4 color-primary"><strong> @item.ReportTypeName </strong></span>
                                         @*<select id="ddlreportType" class="form-control">
-                                                @if (Model.ReportList != null)
-                                                {
-                                                    foreach (var rptr in Model.ReportList)
-                                                    {
-                                                        <option value="@rptr.ReportId">@rptr.ReportTypeName</option>
-                                                    }
-                                                }
-                                            </select>*@
+                                        @if (Model.ReportList != null)
+                                        {
+                                            foreach (var rptr in Model.ReportList)
+                                            {
+                                                <option value="@rptr.ReportId">@rptr.ReportTypeName</option>
+                                            }
+                                        }
+                                    </select>*@
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
@@ -222,8 +222,7 @@
                                     </div>
                                     <div class="col-sm-8">
                                         <div class="input-group date">
-                                            <select id="ddlsparehouseA" class="form-control" onchange="bindSparePartDataA()">
-                                            </select>
+                                            <select id="ddlsparehouseA" class="form-control" onchange="bindSparePartDataA()"></select>
                                         </div>
                                     </div>
                                 </div>
@@ -239,8 +238,7 @@
                                                         <th> select quantity </th>
                                                     </tr>
                                                 </thead>
-                                                <tbody id="tr_div_ag">
-                                                </tbody>
+                                                <tbody id="tr_div_ag"></tbody>
                                             </table>
                                         </div>
                                     </div>
@@ -268,8 +266,7 @@
                                 </div>
                                 <div class="col-sm-8">
                                     <div class="input-group date">
-                                        <select id="ddlsparehouse" class="form-control" onchange="bindSparePartData()">
-                                        </select>
+                                        <select id="ddlsparehouse" class="form-control" onchange="bindSparePartData()"></select>
                                     </div>
                                 </div>
                                 <br />
@@ -286,8 +283,7 @@
                                                     <th> select quantity </th>
                                                 </tr>
                                             </thead>
-                                            <tbody id="tr_div">
-                                            </tbody>
+                                            <tbody id="tr_div"></tbody>
                                         </table>
                                     </div>
                                 </div>
@@ -453,25 +449,25 @@
                                 </div>
                             </div>
                             @*<div class="row p-4">
-                                    <div class="col-md-4">
-                                        <a href="#" class="text-dark">
-                                            <i class="fa fa-file fa-3x" aria-hidden="true"></i><br />
-                                            <span class="mt-2">Document</span>
-                                        </a>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <a href="#" class="text-dark">
-                                            <i class="fa fa-file fa-3x" aria-hidden="true"></i><br />
-                                            <span class="mt-2">Document</span>
-                                        </a>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <a href="#" class="text-dark">
-                                            <i class="fa fa-file fa-3x" aria-hidden="true"></i><br />
-                                            <span class="mt-2">Document</span>
-                                        </a>
-                                    </div>
-                                </div>*@
+                            <div class="col-md-4">
+                                <a href="#" class="text-dark">
+                                    <i class="fa fa-file fa-3x" aria-hidden="true"></i><br />
+                                    <span class="mt-2">Document</span>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="#" class="text-dark">
+                                    <i class="fa fa-file fa-3x" aria-hidden="true"></i><br />
+                                    <span class="mt-2">Document</span>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="#" class="text-dark">
+                                    <i class="fa fa-file fa-3x" aria-hidden="true"></i><br />
+                                    <span class="mt-2">Document</span>
+                                </a>
+                            </div>
+                        </div>*@
 
 
 
@@ -728,7 +724,7 @@
                                             <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.ServiceEngineerResolvedDate">
                                         </div>
                                         @*@if (item.Status == 7)
-                                            {}*@
+                                    {}*@
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>Work Hours</label>
                                             <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.WorkHours">

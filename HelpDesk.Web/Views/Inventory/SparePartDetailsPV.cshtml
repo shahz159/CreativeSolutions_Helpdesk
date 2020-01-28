@@ -3,7 +3,8 @@
 
 
 
-<div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
+<div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4 position-relative">
+    <a href="#" onclick="CloseDetails()" class="details-close-button btn btn-danger btn-sm btn-icon btn-circle position-absolute"><i class="la la-close"></i></a>
     <!--Begin::Dashboard 3-->
     <!--Begin::Row-->
     <div class="row">
@@ -33,7 +34,7 @@
                         </div>
                     }
 
-                    <a href="#" onclick="CloseDetails()" class="details-close-button btn btn-danger btn-sm btn-icon btn-circle position-absolute"><i class="la la-close"></i></a>
+
                 </div>
 
                 <div class="kt-portlet__body kt-portlet__body--fluid kt-portlet__body--fit">
@@ -71,11 +72,11 @@
                                                                     </div>
                                                                 </div>
                                                                 @*<div class="form-group row mb-1">
-                                                                    <label for="example-text-input" class="col-sm-2 col-form-label">Total Stock</label>
-                                                                    <div class="col-sm-9">
-                                                                        <label class="col-form-label">  : @con.Quantity</label>
-                                                                    </div>
-                                                                </div>*@
+                                                                        <label for="example-text-input" class="col-sm-2 col-form-label">Total Stock</label>
+                                                                        <div class="col-sm-9">
+                                                                            <label class="col-form-label">  : @con.Quantity</label>
+                                                                        </div>
+                                                                    </div>*@
                                                             </form>
                                                         </div>
                                                     </div>
@@ -103,7 +104,7 @@
                                                                 <div class="form-group row">
                                                                     <label for="example-text-input" class="col-sm-2 col-form-label">Total Stock</label>
                                                                     <div class="col-sm-9">
-                                                                        <input style="background-color: #f1f1f1;" class="form-control" type="text" id="txtquantityE" onkeypress="return isNumberKey(event)"  value="@con.Quantity" disabled >
+                                                                        <input style="background-color: #f1f1f1;" class="form-control" type="text" id="txtquantityE" onkeypress="return isNumberKey(event)" value="@con.Quantity" disabled>
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
@@ -143,7 +144,7 @@
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <label>Quantity</label>
-                                                    <input class="form-control" type="text" value="" id="txttransferQuantity" onkeypress="return isNumberKey(event)" >
+                                                    <input class="form-control" type="text" value="" id="txttransferQuantity" onkeypress="return isNumberKey(event)">
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <label class="d-block">&nbsp;</label>

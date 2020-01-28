@@ -1870,6 +1870,11 @@ namespace HelpDesk.Web.Controllers
             }
 
         }
+
+        public ActionResult ServiceReport()
+        {
+            return View();
+        }
                       
     }
 }

@@ -6,6 +6,15 @@
     color: #2cafdd !important;
 }
 
+.bg-secondery {
+    background-color: #1B75BC !important;
+    color: #fff;
+}
+.bg-secondery:hover {
+    background-color: #125d98 !important;
+    color: #fff;
+}
+
 .ticketbar {
     width: 100%;
     padding: 20px 0 0;
@@ -80,14 +89,16 @@
 }
 
 .details-close-button {
-    right: -15px;
+    right: 12px;
     top: -15px;
+    z-index: 99;
 }
 
     .details-close-button.btn-xs {
         right: 0px;
         top: -5px;
     }
+
     .details-close-button .la-close {
         font-size: 12px;
     }
@@ -186,3 +197,10 @@
         color: #2cafdd;
     }
 }
+
+@media Screen and (max-width: 768px) {
+    .form-group{
+        margin-bottom: 1rem;
+    }
+}
+
