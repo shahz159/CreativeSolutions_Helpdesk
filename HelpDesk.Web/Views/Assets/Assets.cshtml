@@ -1,8 +1,10 @@
 ﻿@model HelpDesk.Web.Models.AssetsDTO
 
 @{
-    ViewBag.Title = "Assets";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+                /**/
+
+                ViewBag.Title = "Assets";
+                Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @section  Styles{
@@ -151,12 +153,12 @@
             <!--begin: href="@Url.Action("AssetDetails","Assets")" Section-->
         </div>
     </div>
-                    </div>
-                    <div id="asset_details" style="display:none;"></div>
+</div>
+<div id="asset_details" style="display:none;"></div>
 
-                    @section  Scripts{
-                        <script src="~/assets/js/datatables.bundle.js"></script>
-                        <script>
+@section  Scripts{
+    <script src="~/assets/js/datatables.bundle.js"></script>
+    <script>
         $('#loader').hide();
         //var KTDatatablesBasicPaginations = function () {
         //    var initTable1 = function () {
@@ -419,7 +421,7 @@
             });
             return false;
         }
-                        </script>
-                    }
+    </script>
+}
 
 
