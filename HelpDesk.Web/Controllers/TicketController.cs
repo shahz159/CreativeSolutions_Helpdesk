@@ -640,7 +640,9 @@ namespace HelpDesk.Web.Controllers
                                             ReportId = dataRow.Field<int>("ReportTypeId"),
                                             CreatedUserRoleId = dataRow.Field<int>("CreatedUserRoleId"),
                                             SupervisorConfirmationDate = dataRow.Field<string>("SupervisorConfirmationDate"),
-                                            SupervisorName = dataRow.Field<string>("SupervisorName")
+                                            SupervisorName = dataRow.Field<string>("SupervisorName"),
+                                            ServiceEngineerJson = dataRow.Field<string>("ServiceEngineerJson")
+
                                         }).ToList();
 
                                         obj.TicketList = tickettlst;
@@ -668,6 +670,12 @@ namespace HelpDesk.Web.Controllers
                                         string commentsj = obj.TicketList.FirstOrDefault().commentsjson;
                                         var modalcomments = JsonConvert.DeserializeObject<List<TicketDTO>>(commentsj);
                                         obj.CommentsList = modalcomments;
+
+                                        string serviceenglst = obj.TicketList.FirstOrDefault().ServiceEngineerJson;
+                                        var modalserviceLst = JsonConvert.DeserializeObject<List<TicketDTO>>(serviceenglst);
+                                        obj.ServiceEngineerList = modalserviceLst;
+
+                                        //ServiceEngineerList
                                     }
                                     else
                                         obj.TicketList = tickettlst;
@@ -738,7 +746,8 @@ namespace HelpDesk.Web.Controllers
                                             FullName = dataRow.Field<string>("FullName"),
                                             UserId = dataRow.Field<long>("UserId"),
                                             CreatedOn = dataRow.Field<DateTime>("CreatedOn"),
-                                            Area = dataRow.Field<string>("Area")
+                                            Area = dataRow.Field<string>("Area"),
+                                            ReportTypeName=dataRow.Field<string>("ReportTypeName")
                                         }).ToList();
                                         obj.TicketList = tickettlst;
                                     }
@@ -1875,6 +1884,125 @@ namespace HelpDesk.Web.Controllers
         {
             return View();
         }
-                      
+
+        public async Task<ActionResult> TicketTransfer(long ServiceEngineerId, long TicketNumber)
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        long CreatedBy = long.Parse(Session["SSUserId"].ToString());
+                        TicketDTO obj = new TicketDTO();
+                        obj.CreatedBy = CreatedBy;
+                        obj.TicketNumber = TicketNumber;
+                        obj.UserId = ServiceEngineerId;
+
+                        bool status = false;
+                        HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/TicketsAPI/NewTransferTicket", obj);
+                        if (responseMessage.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                            var docs = JsonConvert.DeserializeObject<TicketDTO>(responseData);
+                            string msg = docs.message;
+                            if (msg == "1")
+                                status = true;
+                            else if (msg == "2")
+                            {
+                                status = true;
+                            };
+                        }
+                        return Json(new { success = status });
+                    }
+                    catch (Exception ex)
+                    {
+                        TicketDTO obj = new TicketDTO();
+                        return Json(obj.ModelList);
+                    }
+                }
+            }
+        }
+        public async Task<ActionResult> RejectedTickets()
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                int userid = int.Parse(Session["SSUserId"].ToString());
+                int roleid = int.Parse(Session["SSRoleId"].ToString());
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        TicketDTO obj = new TicketDTO();
+                       
+                        obj.CreatedBy = userid;
+                        obj.RoleId = roleid;
+
+                        List<TicketDTO> tickettlst = new List<TicketDTO>();
+
+                        HttpResponseMessage responseMessageViewDocuments = await client.PostAsJsonAsync("api/TicketsAPI/NewRejectedTickets", obj);
+                        if (responseMessageViewDocuments.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessageViewDocuments.Content.ReadAsStringAsync().Result;
+                            var docs = JsonConvert.DeserializeObject<TicketDTO>(responseData);
+
+                            var data = docs.datasetxml;
+                            if (data != null)
+                            {
+                                var document = new XmlDocument();
+                                document.LoadXml(data);
+                                DataSet ds = new DataSet();
+                                ds.ReadXml(new XmlNodeReader(document));
+                                if (ds.Tables.Count > 0)
+                                {
+                                    if (ds.Tables[0].Rows.Count > 0)
+                                    {
+                                        tickettlst = ds.Tables[0].AsEnumerable().Select(dataRow => new TicketDTO
+                                        {
+                                            TicketNumber = dataRow.Field<long>("TicketNumber"),
+                                            Description = dataRow.Field<string>("Description"),
+                                            Priority = dataRow.Field<string>("Priority"),
+                                            Statustxt = dataRow.Field<string>("Status"),
+                                            AccountName = dataRow.Field<string>("AccountName"),
+                                            ModelName = dataRow.Field<string>("ModelName"),
+                                            SystemNo = dataRow.Field<string>("SystemNo"),
+                                            ProductName = dataRow.Field<string>("ProductName"),
+                                            FullName = dataRow.Field<string>("FullName"),
+                                            UserId = dataRow.Field<long>("UserId"),
+                                            CreatedOn = dataRow.Field<DateTime>("CreatedOn"),
+                                            Area = dataRow.Field<string>("Area"),
+                                            ReportTypeName = dataRow.Field<string>("ReportTypeName")
+                                        }).ToList();
+                                        obj.TicketList = tickettlst;
+                                    }
+                                    else
+                                        obj.TicketList = tickettlst;
+                                }
+                            }
+                        }
+
+
+                        return View(obj);
+                    }
+                    catch (Exception ex)
+                    {
+                        return RedirectToAction("Authenticate", "Authentication");
+                    }
+                }
+            }
+        }
+
     }
 }

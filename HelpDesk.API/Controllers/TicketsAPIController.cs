@@ -51,6 +51,18 @@ namespace HelpDesk.API.Controllers
             return Ok(result);
         }
         /// <summary>
+        /// Ticket transfer
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        [ResponseType(typeof(TicketDTO))]
+        public IHttpActionResult NewTransferTicket(TicketDTO obj)
+        {
+            var result = service.TicketTransfer(obj);
+            return Ok(result);
+        }
+
+        /// <summary>
         /// Add response time
         /// </summary>
         /// <param name="obj"></param>
@@ -116,6 +128,12 @@ namespace HelpDesk.API.Controllers
         public IHttpActionResult NewSystemUserTickets(TicketDTO obj)
         {
             var result = service.GetSystemUserTickets(obj);
+            return Ok(result);
+        }
+        [ResponseType(typeof(TicketDTO))]
+        public IHttpActionResult NewRejectedTickets(TicketDTO obj)
+        {
+            var result = service.GetRejectedTickets(obj);
             return Ok(result);
         }
         /// <summary>

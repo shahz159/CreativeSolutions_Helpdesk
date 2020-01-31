@@ -1,0 +1,107 @@
+﻿@model HelpDesk.Web.Models.AssetsDTO
+
+
+@if (Model.AssetsList.Count() > 0)
+{
+    foreach (var item in Model.AssetsList)
+    {<div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
+            <div class="row">
+                <div class="col-lg-12 col-xl-12 order-lg-1 order-xl-1">
+                    <div class="kt-portlet kt-portlet--head--noborder kt-portlet--height-fluid">
+                        <div class="kt-portlet__head kt-portlet__head--lg">
+                            <div class="kt-portlet__head-label">
+                                <span class="kt-portlet__head-icon">
+                                    <i class="kt-font-brand flaticon2-line-chart"></i>
+                                </span>
+                                <h3 class="kt-portlet__head-title">
+                                    Asset Renewal Details
+                                </h3>
+                            </div>
+                            <div class="kt-portlet__head-toolbar">
+                                <div class="kt-portlet__head-wrapper">
+                                    <a href="#" onclick="UpdateStatus(2)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                        <i class="la la-check"></i>
+                                        Approve
+                                    </a>
+                                    <a href="#" onclick="UpdateStatus(3)" class="btn btn-danger btn-elevate btn-icon-sm">
+                                        <i class="la la-close"></i>
+                                        Reject
+                                    </a>
+                                </div>
+                            </div>
+                            <a href="#" onclick="closeDetails()" class="details-close-button btn btn-danger btn-sm btn-icon btn-circle position-absolute">
+                                <i class="la la-close"></i>
+                            </a>
+                        </div>
+                        <div class="kt-portlet__body kt-portlet__body--fluid kt-portlet__body--fit">
+                            <div class="kt-container  kt-grid__item kt-grid__item--fluid">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <form class="kt-form kt-form--label-right">
+                                            <div class="kt-portlet__body all-details-view">
+                                                <div class="row">
+                                                    <div class="form-group col-lg-6">
+                                                        <label class="col-form-label">Account</label>
+                                                        <div>
+                                                            <input class="form-control" type="text" value="@item.AccountName" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-lg-6">
+                                                        <label class="col-form-label">Product</label>
+                                                        <div>
+                                                            <input class="form-control" type="text" value="@item.ProductName" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-lg-6">
+                                                        <label class="col-form-label">System ID</label>
+                                                        <div>
+                                                            <input class="form-control" type="text" value="@item.SystemNo" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-lg-6">
+                                                        <label class="col-form-label">Installation Date</label>
+                                                        <div>
+                                                            <input class="form-control" type="text" value="@item.InstallationDate" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-lg-6">
+                                                        <label class="col-form-label">Warranty Expiry Date</label>
+                                                        <div>
+                                                            <input class="form-control" type="text" value="@item.WarrantyExpiryDate" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-lg-6">
+                                                        <label class="col-form-label">Contract Type</label>
+                                                        <div>
+                                                            <input class="form-control" type="text" value="@item.ContractTypetxt" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-lg-6">
+                                                        <label class="col-form-label">PO Contract</label>
+                                                        <div>
+                                                            <input class="form-control" type="text" value="@item.POContract" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-lg-6">
+                                                        <label class="col-form-label">PPM-Months</label>
+                                                        <div>
+                                                            <input class="form-control" type="text" value="@item.PPMType" disabled>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" id="hdnRenewalId" value="@item.RenewalId" />
+        <input type="hidden" id="hdnAMId" value="@item.AMId" />
+    }
+}
+ 
+

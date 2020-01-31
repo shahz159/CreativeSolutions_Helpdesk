@@ -45,6 +45,7 @@ namespace HelpDesk.API.DTO_s
         public long ApprovedBy { get; set; }
         public bool isActive { get; set; }
         public long CreatedBy { get; set; }
+        public long RenewalId { get; set; }
         public int StatusId { get; set; }
 
         public string FullName { get; set; }

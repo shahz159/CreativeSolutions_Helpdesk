@@ -41,12 +41,12 @@
 
                                         @if (Model.RoleId == 501)
                                         {
-                                            <div class="form-group row">
+                                            <div class="form-group row" style="display:none;">
                                                 <label class="col-form-label col-sm-2">Select Company</label>
                                                 <div class="col-sm-9">
                                                     @Html.DropDownListFor(model => model.CompanyId, (IEnumerable<SelectListItem>
                                             )ViewData["ddlCompanyLst"], "--Please Select --",
-                                            new { id = "ddlCompany", @class = "form-control kt-select2", @onchange = "BindDropDowns()" })
+                                            new { id = "ddlCompany", @class = "form-control kt-select2", @onchange = "BindDropDowns()" ,@disabled=true })
                                                 </div>
                                             </div>
                                         }
@@ -158,8 +158,13 @@
             //set initial state.
             $('#ddlCompany,#ddlRole,#ddlAccountM,#ddlAccountS,#ddlGender,#ddlProducts').select2({
             });
+            $('#ddlCompany').val(10).trigger('change');
             if ($('#hdnRoleId').val() != 501) {
                 BindAccounts();
+                BindProducts();
+            }
+            else {
+                  BindAccounts();
                 BindProducts();
             }
         });
@@ -427,7 +432,8 @@
             var companyid = 0;
             var roleid = $('#hdnRoleId').val();
             if (roleid == 501) {
-                companyid = $("#ddlCompany").val();
+                companyid = 10;
+                    //$("#ddlCompany").val();
             }
             else {
                 companyid = $('#hdnCompanyId').val();

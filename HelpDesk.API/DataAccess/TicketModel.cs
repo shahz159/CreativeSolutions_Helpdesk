@@ -141,6 +141,22 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
+        public string GetRejectedTickets(TicketDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@UserId",obj.CreatedBy),
+                new SqlParameter("@RoleId",obj.RoleId)
+                };
+                return DbConnector.ExecuteDataSet("uspGetRejectedTicktes", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "TicketModel -> GetRejectedTickets");
+                return null;
+            }
+        }
         
         public SqlDataReader UpdateTicketStatus(TicketDTO obj)
         {
@@ -161,6 +177,25 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
+        public SqlDataReader TicketTransfer(TicketDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@TicketNumber",obj.TicketNumber),
+                new SqlParameter("@UserId",obj.UserId),
+                new SqlParameter("@CreatedBy",obj.CreatedBy) 
+                };
+                return DbConnector.ExecuteReader("uspTransferTicket", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "TicketModel -> TicketTransfer");
+                return null;
+            }
+        }
+
+        
         public SqlDataReader AddResponseTieme(TicketDTO obj)
         {
             try
@@ -403,7 +438,9 @@ namespace HelpDesk.API.DataAccess
         string GetAccounts(TicketDTO obj);
         string Getproducts(TicketDTO obj);
         string GetSystemUserTickets(TicketDTO obj);
+        string GetRejectedTickets(TicketDTO obj);
         SqlDataReader UpdateTicketStatus(TicketDTO obj);
+        SqlDataReader TicketTransfer(TicketDTO obj);
         SqlDataReader AddResponseTieme(TicketDTO obj);
 
         string GetDashBoardCount(TicketDTO obj);

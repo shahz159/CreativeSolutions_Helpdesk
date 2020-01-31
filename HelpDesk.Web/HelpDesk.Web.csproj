@@ -227,6 +227,7 @@
     <Content Include="assets\plugins\global\fonts\summernote\summernote.eot" />
     <Content Include="assets\plugins\global\fonts\summernote\summernote.ttf" />
     <Content Include="assets\plugins\global\fonts\summernote\summernote.woff" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -293,6 +294,11 @@
     <Content Include="Views\Inventory\PdfToHtml.cshtml" />
     <Content Include="Views\Assets\PPMDatesApproval.cshtml" />
     <Content Include="Views\Ticket\ServiceReport.cshtml" />
+    <Content Include="Views\Assets\RenewalAssets.cshtml" />
+    <Content Include="Views\Assets\AssetRenewalRequest.cshtml" />
+    <Content Include="Views\Assets\RenewalAssetDetailsPV.cshtml" />
+    <Content Include="Views\Assets\RenewalRequestDetailsPV.cshtml" />
+    <Content Include="Views\Ticket\RejectedTickets.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

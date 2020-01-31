@@ -156,7 +156,29 @@ namespace HelpDesk.API.Bussiness
             }
             return obj;
         }
-
+        public TicketDTO TicketTransfer(TicketDTO obj)
+        {
+            try
+            {
+                var data = model.TicketTransfer(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["message"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
+        
         public TicketDTO AddResponseTime(TicketDTO obj)
         {
             try
@@ -294,6 +316,14 @@ namespace HelpDesk.API.Bussiness
             obj.datasetxml = model.GetSystemUserTickets(obj);
             return obj;
         }
+        public TicketDTO GetRejectedTickets(TicketDTO obj)
+        {
+            obj.datasetxml = model.GetRejectedTickets(obj);
+            return obj;
+        }
+
+
+        
         public TicketDTO GetServiceEngineerTickets(TicketDTO obj)
         {
             obj.datasetxml = model.GetServiceEngineerTickets(obj);
@@ -347,6 +377,7 @@ namespace HelpDesk.API.Bussiness
         TicketDTO InsertTicketRequest(TicketDTO obj);
         TicketDTO GetUnderApprovalTickets(TicketDTO obj);
         TicketDTO UpdateTicketStatus(TicketDTO obj);
+        TicketDTO TicketTransfer(TicketDTO obj);
         TicketDTO AddResponseTime(TicketDTO obj);
         TicketDTO AddSparePartRequest(TicketDTO obj);
         TicketDTO Addcomments(TicketDTO obj);
@@ -358,6 +389,7 @@ namespace HelpDesk.API.Bussiness
         TicketDTO GetAccounts(TicketDTO obj);
         TicketDTO GetProducts(TicketDTO obj);
         TicketDTO GetSystemUserTickets(TicketDTO obj);
+        TicketDTO GetRejectedTickets(TicketDTO obj);
         TicketDTO GetServiceEngineerTickets(TicketDTO obj);
         TicketDTO GetDashboardCount(TicketDTO obj);
         TicketDTO GetSparePartRequestTickets(TicketDTO obj);

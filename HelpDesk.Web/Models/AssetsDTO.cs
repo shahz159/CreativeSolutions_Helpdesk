@@ -7,6 +7,7 @@ namespace HelpDesk.Web.Models
 {
     public class AssetsDTO
     {
+        public long RenewalId { get; set; }
         public long TicketNumber { get; set; }
         public int TicketCreationStatus { get; set; }
         public int ContractType { get; set; }

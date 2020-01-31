@@ -87,9 +87,6 @@ namespace HelpDesk.Web.Models
         public int WarehouseId { get; set; }
         public string WarehouseName { get; set; }
         public IEnumerable<TicketDTO> WarehouseList { get; set; }
-
-
-
         public long SparePartId { get; set; }
         public string SparePartName { get; set; }
         public string SparePartNumber { get; set; }
@@ -99,6 +96,7 @@ namespace HelpDesk.Web.Models
         public  IEnumerable<TicketDTO> SparePartList { get; set; }
         public IEnumerable<TicketDTO> StatusLst { get; set; }
         public IEnumerable<TicketDTO> CommentsList { get; set; }
+        public IEnumerable<TicketDTO> ServiceEngineerList { get; set; }
         public string Comment { get; set; }
         public string Commentsdate { get; set; }
         public string commentsjson { get; set; }
@@ -106,12 +104,12 @@ namespace HelpDesk.Web.Models
         public long ECommentsId { get; set; }
        // public string CommentsDate { get; set; }
         public string Gruop { get; set; }
-
         public int NewTickets { get; set; }
         public int InProgressTickets { get; set; }
         public int ResolvedTickets { get; set; }
         public string ManagerName { get; set; }
         public string SupervisorName { get; set; }
+        public string ServiceEngineerJson { get; set; }
         public string ManagerConfirmationDate { get; set; }
         public string SupervisorConfirmationDate { get; set; }
         public string CustomerConfirmationDate { get; set; }

@@ -274,6 +274,97 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
+
+
+        public string GetAssetRenewalDetails(AssetDTO obj)
+        {
+            try
+            {
+                var para = new[]
+                {
+                    new SqlParameter("@AMId",obj.AMId)
+                };
+                return DbConnector.ExecuteDataSet("uspGetAssetRenewalDetails", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "AssetModel -> GetAssetRenewalDetails");
+                return null;
+            }
+        }
+        public string GetAssetRenewalList(AssetDTO obj)
+        {
+            try
+            {
+                //var para = new[]
+                //{
+                //    new SqlParameter("@OrganizationId",obj.OrganizationId)
+                //};
+                return DbConnector.ExecuteDataSet("uspGetAssetRenewalList", null);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "AssetModel -> GetAssetRenewalList");
+                return null;
+            }
+        }
+        public string GetAssetRenewalRequestList(AssetDTO obj)
+        {
+            try
+            {
+                //var para = new[]
+                //{
+                //    new SqlParameter("@OrganizationId",obj.OrganizationId)
+                //};
+                return DbConnector.ExecuteDataSet("uspGetAssetRenewalRequestList", null);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "AssetModel -> GetAssetRenewalRequestList");
+                return null;
+            }
+        }
+        public SqlDataReader InsertAssetRenewalRequest(AssetDTO obj)
+        {
+            try
+            {
+                var para = new[]
+                {
+                    new SqlParameter("@CreatedBy",obj.CreatedBy),
+                    new SqlParameter("@InstallationDate",obj.InstallationDate),
+                    new SqlParameter("@WarrantyExpiryDate",obj.WarrantyExpiryDate),
+                    new SqlParameter("@AMId",obj.AMId),
+                    new SqlParameter("@PoContract",obj.POContract),
+                    new SqlParameter("@PPMType",obj.PPMType),
+                    new SqlParameter("@ContractTypeId",obj.ContractType)
+                };
+                return DbConnector.ExecuteReader("uspInsertRenwalRequest", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "AssetModel -> InsertAssetRenewalRequest");
+                return null;
+            }
+        }
+        public SqlDataReader UpdateAssetRenewalRequest(AssetDTO obj)
+        {
+            try
+            {
+                var para = new[]
+                {
+                    new SqlParameter("@AMId",obj.AMId),
+                    new SqlParameter("@Status",obj.StatusId),
+                    new SqlParameter("@CreatedBy",obj.CreatedBy),
+                    new SqlParameter("@RenewalId",obj.RenewalId)
+                };
+                return DbConnector.ExecuteReader("uspUpdateAssetRenewal", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "AssetModel -> InsertAssetRenewalRequest");
+                return null;
+            }
+        }
     }
 
     public interface IAssetModel
@@ -292,6 +383,13 @@ namespace HelpDesk.API.DataAccess
         SqlDataReader UpdateAssetStatus(AssetDTO obj);
         SqlDataReader UpdatePPMChangeRequest(AssetDTO obj);
         SqlDataReader GetAssetDetailsById(AssetDTO obj);
+
+        string GetAssetRenewalDetails(AssetDTO obj);
+        string GetAssetRenewalList(AssetDTO obj);
+        string GetAssetRenewalRequestList(AssetDTO obj);
+        SqlDataReader InsertAssetRenewalRequest(AssetDTO obj);
+        SqlDataReader UpdateAssetRenewalRequest(AssetDTO obj);
+
 
     }
 }

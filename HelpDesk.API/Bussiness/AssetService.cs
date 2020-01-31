@@ -257,12 +257,79 @@ namespace HelpDesk.API.Bussiness
             return obj;
         }
 
-        
+
+        public AssetDTO GetAssetsRenewalDetails(AssetDTO obj)
+        {
+            obj.datasetxml = model.GetAssetRenewalDetails(obj);
+            return obj;
+        }
+        public AssetDTO GetAssetsRenewalList(AssetDTO obj)
+        {
+            obj.datasetxml = model.GetAssetRenewalList(obj);
+            return obj;
+        }
+        public AssetDTO GetAssetsRenewalRequestList(AssetDTO obj)
+        {
+            obj.datasetxml = model.GetAssetRenewalRequestList(obj);
+            return obj;
+        }
+        public AssetDTO UpdateAssetRenewalRequest(AssetDTO obj)
+        {
+            try
+            {
+                var data = model.UpdateAssetRenewalRequest(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["message"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
+        public AssetDTO InsertAssetRenewalRequest(AssetDTO obj)
+        {
+            try
+            {
+                var data = model.InsertAssetRenewalRequest(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["message"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
         #endregion
     }
 
     public interface IAssetService
     {
+        AssetDTO GetAssetsRenewalDetails(AssetDTO obj);
+        AssetDTO GetAssetsRenewalList(AssetDTO obj);
+        AssetDTO GetAssetsRenewalRequestList(AssetDTO obj);
+        AssetDTO InsertAssetRenewalRequest(AssetDTO obj);
+        AssetDTO UpdateAssetRenewalRequest(AssetDTO obj);
+
+
+
         AssetDTO InsertUpdateAsset(AssetDTO obj);
         AssetDTO UpdatedAsset(AssetDTO obj);
         AssetDTO VerifyAsset(AssetDTO obj);
