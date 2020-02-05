@@ -379,7 +379,8 @@ namespace HelpDesk.Web.Controllers
                                             WarehousestockId = dataRow.Field<long>("WarehousestockId"),
                                             RequestPending = dataRow.Field<int>("RequestPending"),
                                             RequestStatus = dataRow.Field<int>("RequestStatus"),
-                                            WarehouseJson = dataRow.Field<string>("WarehouseJson")
+                                            WarehouseJson = dataRow.Field<string>("WarehouseJson"),
+                                            HistoryJson = dataRow.Field<string>("HistoryJson")
                                         }).ToList();
                                         obj.WarehouseList = warelst;
                                         obj.Quantity= obj.WarehouseList.FirstOrDefault().Quantity;
@@ -389,9 +390,10 @@ namespace HelpDesk.Web.Controllers
                                         var modalwarehouse = JsonConvert.DeserializeObject<List<InventoryDTO>>(warehousej);
                                         obj.WHddlList = modalwarehouse;
 
-                                        //string warehousej = obj.WarehouseList.SingleOrDefault().WarehouseJson;
-                                        //var modalwarehouse = JsonConvert.DeserializeObject<List<InventoryDTO>>(warehousej);
-                                        //obj.WarehouseList = modalwarehouse;
+
+                                        string warehousejs = obj.WarehouseList.SingleOrDefault().HistoryJson;
+                                        var modalwarehousesd = JsonConvert.DeserializeObject<List<InventoryDTO>>(warehousejs);
+                                        obj.ConsignmentsList = modalwarehousesd;
                                     }
                                     else
                                     {

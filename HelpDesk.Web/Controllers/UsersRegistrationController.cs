@@ -885,6 +885,10 @@ namespace HelpDesk.Web.Controllers
             }
         }
 
+
+
+
+
         public async Task<ActionResult> Profile()
         {
             string ses = Convert.ToString(Session["SSUserId"]);
@@ -983,6 +987,56 @@ namespace HelpDesk.Web.Controllers
                     catch (Exception ex)
                     {
                         return RedirectToAction("Authenticate", "Authentication");
+                    }
+                }
+            }
+        }
+
+
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        public async Task<JsonResult> PasswordUpdate(string password)
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return Json("Index");
+            }
+            else
+            {
+                int comid = int.Parse(Session["SSCompanyId"].ToString());
+                int orgid = int.Parse(Session["SSOrganizationId"].ToString());
+                int userid = int.Parse(Session["SSUserId"].ToString());
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        UserDTO obj = new UserDTO();
+                        obj.UserId = userid;
+                        obj.Password = password;
+                        bool status = false;
+                        HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/UserAPI/NewUpdateUserPassword", obj);
+                        if (responseMessage.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                            var model = JsonConvert.DeserializeObject<AssetsDTO>(responseData);
+                            string msg = model.message;
+                            if (msg == "1")
+                                status = true;
+                            else if (msg == "2")
+                            {
+                                status = false;
+                            };
+                        }
+                        return Json(new { success = status });
+                    }
+                    catch (Exception ex)
+                    {
+                        return Json(new { success = false });
                     }
                 }
             }

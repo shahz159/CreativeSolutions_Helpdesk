@@ -46,29 +46,35 @@
                                                 <div class="col-sm-9">
                                                     @Html.DropDownListFor(model => model.CompanyId, (IEnumerable<SelectListItem>
                                             )ViewData["ddlCompanyLst"], "--Please Select --",
-                                            new { id = "ddlCompany", @class = "form-control kt-select2", @onchange = "BindDropDowns()" ,@disabled=true })
+                                            new { id = "ddlCompany", @class = "form-control kt-select2", @onchange = "BindDropDowns()", @disabled = true })
                                                 </div>
                                             </div>
                                         }
 
-                                        <div class="form-group row">
-                                            <label class="col-form-label col-sm-2">Select Account</label>
-                                            <div class="col-sm-9">
-
-                                                <div id="div_Multiselect" style="display:none;">
-                                                    <select id="ddlAccountM" class="form-control kt-select2" multiple>
-                                                    </select>
+                                        <div id="div_Multiselect" style="display:none;">
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-sm-2">Select Account</label>
+                                                <div class="col-sm-9">
+                                                    <div>
+                                                        <select id="ddlAccountM" class="form-control kt-select2" multiple>
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                                <div id="div_SingleSelect" style="display:none;">
-                                                    <select id="ddlAccountS" class="form-control kt-select2">
-                                                    </select>
-                                                </div>
-
-                                                @*@Html.DropDownListFor(model => model.AccountId, (IEnumerable<SelectListItem>
-                                                    )ViewData["ddlAccountLst"], "--Please Select --",
-                                                    new { id = "ddlAccount", @class = "form-control kt-select2" })*@
                                             </div>
                                         </div>
+                                        <div id="div_SingleSelect" style="display:none;">
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-sm-2">Select Account</label>
+                                                <div class="col-sm-9">
+                                                    <div>
+                                                        <select id="ddlAccountS" class="form-control kt-select2">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
 
                                         <div class="form-group row">
                                             <label class="col-form-label col-sm-2">Select Product</label>
@@ -409,7 +415,7 @@
                  success: function (data) {
                      debugger
                      var district = "<select id='ddlProducts' class='form-control kt-select2' multiple>";
-                     district = district + '<option value="0">--Select Model--</option>';
+                     district = district + '<option value="0">--Select Product--</option>';
                      for (var i = 0; i < data.length; i++) {
 
                          district = district + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';

@@ -110,6 +110,7 @@ namespace HelpDesk.Web.Models
         public string ManagerName { get; set; }
         public string SupervisorName { get; set; }
         public string ServiceEngineerJson { get; set; }
+        public string StationName { get; set; }
         public string ManagerConfirmationDate { get; set; }
         public string SupervisorConfirmationDate { get; set; }
         public string CustomerConfirmationDate { get; set; }

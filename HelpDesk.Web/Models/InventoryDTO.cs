@@ -21,6 +21,7 @@ namespace HelpDesk.Web.Models
         public string Type { get; set; }
         public int RequestPending { get; set; }
         public int RequestStatus { get; set; }
+        public string HistoryJson { get; set; }
         //public string WarehouseJson { get; set; }
         public string Gruop { get; set; }
         public string message { get; set; }

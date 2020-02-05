@@ -1880,9 +1880,148 @@ namespace HelpDesk.Web.Controllers
 
         }
 
-        public ActionResult ServiceReport()
+        public async Task<ActionResult> ServiceReport(long id)
         {
-            return View();
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                //return Json("../Login/Index");
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        int userid = int.Parse(Session["SSUserId"].ToString());
+                        int roleid = int.Parse(Session["SSRoleId"].ToString());
+                        int comid = int.Parse(Session["SSCompanyId"].ToString());
+                        int orgid = int.Parse(Session["SSOrganizationId"].ToString());
+                        TicketDTO obj = new TicketDTO();
+                        obj.TicketNumber = id;
+                        obj.RoleId = roleid;
+                        obj.CompanyId = comid;
+                        obj.OrganizationId = orgid;
+
+                        List<TicketDTO> tickettlst = new List<TicketDTO>();
+
+                        HttpResponseMessage responseMessageViewDocuments = await client.PostAsJsonAsync("api/TicketsAPI/NewGetTicketDetailsById", obj);
+                        if (responseMessageViewDocuments.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessageViewDocuments.Content.ReadAsStringAsync().Result;
+                            var docs = JsonConvert.DeserializeObject<TicketDTO>(responseData);
+
+                            var data = docs.datasetxml;
+                            if (data != null)
+                            {
+                                var document = new XmlDocument();
+                                document.LoadXml(data);
+                                DataSet ds = new DataSet();
+                                ds.ReadXml(new XmlNodeReader(document));
+                                if (ds.Tables.Count > 0)
+                                {
+                                    if (ds.Tables[0].Rows.Count > 0)
+                                    {
+                                        tickettlst = ds.Tables[0].AsEnumerable().Select(dataRow => new TicketDTO
+                                        {
+                                            TicketNumber = dataRow.Field<long>("TicketNumber"),
+                                            Description = dataRow.Field<string>("Description"),
+                                            Priority = dataRow.Field<string>("Priority"),
+                                            Statustxt = dataRow.Field<string>("Status"),
+                                            Status = dataRow.Field<int>("StatusId"),
+                                            AccountName = dataRow.Field<string>("AccountName"),
+                                            ModelName = dataRow.Field<string>("ModelName"),
+                                            SystemNo = dataRow.Field<string>("SystemNo"),
+                                            ProductName = dataRow.Field<string>("ProductName"),
+                                            FullName = dataRow.Field<string>("FullName"),
+                                            UserId = dataRow.Field<long>("UserId"),
+                                            SerialNo = dataRow.Field<string>("SerialNo"),
+                                            CreatedOn = dataRow.Field<DateTime>("CreatedOn"),
+                                            Url = dataRow.Field<string>("Url"),
+                                            //ContentType = dataRow.Field<string>("ContentType"),
+                                            CreatedUser = dataRow.Field<string>("CreatedUser"),
+                                            ReportsJson = dataRow.Field<string>("ReportJson"),
+                                            RequestResponseStr = dataRow.Field<string>("RequestResponseStr"),
+                                            ActualStartTime = dataRow.Field<string>("ActualStartTime"),
+                                            ResolvedTime = dataRow.Field<string>("ResolvedTime"),
+                                            MappedWarehouseId = dataRow.Field<int>("MappedWarehouseId"),
+                                            WarehouseJson = dataRow.Field<string>("WarehouseJson"),
+                                            SparePartRequestJson = dataRow.Field<string>("SparePartRequestJson"),
+                                            StatusJson = dataRow.Field<string>("StatusJson"),
+                                            commentsjson = dataRow.Field<string>("commentsjson"),
+                                            Area = dataRow.Field<string>("Area"),
+                                            CreatedUserId = dataRow.Field<long>("CreatedUserId"),
+                                            Mobile = dataRow.Field<string>("Mobile"),
+                                            Email = dataRow.Field<string>("Email"),
+                                            POContract = dataRow.Field<string>("POContract"),
+                                            InstallationDate = dataRow.Field<string>("InstallationDate"),
+                                            IsContract = dataRow.Field<bool>("IsContract"),
+                                            WarrantyExpiryDate = dataRow.Field<string>("WarrantyExpiryDate"),
+                                            PPMDate = dataRow.Field<string>("PPMDate"),
+                                            ServiceStartDate = dataRow.Field<string>("ServiceStartDate"),
+                                            ReportTypeName = dataRow.Field<string>("ReportTypeName"),
+                                            ServiceEngineerResolvedDate = dataRow.Field<string>("ServiceEngineerResolvedDate"),
+                                            CustomerConfirmationDate = dataRow.Field<string>("CustomerConfirmationDate"),
+                                            ManagerConfirmationDate = dataRow.Field<string>("ManagerConfirmationDate"),
+                                            ManagerName = dataRow.Field<string>("ManagerName"),
+                                            Actioncomments = dataRow.Field<string>("Actioncomments"),
+                                            ProblemDescription = dataRow.Field<string>("ProblemDescription"),
+                                            WorkHours = dataRow.Field<string>("WorkHours"),
+                                            ReportId = dataRow.Field<int>("ReportTypeId"),
+                                            CreatedUserRoleId = dataRow.Field<int>("CreatedUserRoleId"),
+                                            SupervisorConfirmationDate = dataRow.Field<string>("SupervisorConfirmationDate"),
+                                            SupervisorName = dataRow.Field<string>("SupervisorName"),
+                                            ServiceEngineerJson = dataRow.Field<string>("ServiceEngineerJson"),
+                                            StationName = dataRow.Field<string>("StationName")
+                                        }).ToList();
+
+                                        obj.TicketList = tickettlst;
+
+                                        string urlsjson = obj.TicketList.FirstOrDefault().Url;
+                                        var modelurl = JsonConvert.DeserializeObject<List<TicketDTO>>(urlsjson);
+                                        obj.UrlList = modelurl;
+
+                                        string accountsjson = obj.TicketList.FirstOrDefault().ReportsJson;
+                                        var model = JsonConvert.DeserializeObject<List<TicketDTO>>(accountsjson);
+                                        obj.ReportList = model;
+
+                                        string warehousejson = obj.TicketList.FirstOrDefault().WarehouseJson;
+                                        var modelwa = JsonConvert.DeserializeObject<List<TicketDTO>>(warehousejson);
+                                        obj.WarehouseList = modelwa;
+
+                                        string sparepart = obj.TicketList.FirstOrDefault().SparePartRequestJson;
+                                        var modelsp = JsonConvert.DeserializeObject<List<TicketDTO>>(sparepart);
+                                        obj.SparePartList = modelsp;
+
+                                        string statusj = obj.TicketList.FirstOrDefault().StatusJson;
+                                        var modelstaj = JsonConvert.DeserializeObject<List<TicketDTO>>(statusj);
+                                        obj.StatusLst = modelstaj;
+
+                                        string commentsj = obj.TicketList.FirstOrDefault().commentsjson;
+                                        var modalcomments = JsonConvert.DeserializeObject<List<TicketDTO>>(commentsj);
+                                        obj.CommentsList = modalcomments;
+
+                                        string serviceenglst = obj.TicketList.FirstOrDefault().ServiceEngineerJson;
+                                        var modalserviceLst = JsonConvert.DeserializeObject<List<TicketDTO>>(serviceenglst);
+                                        obj.ServiceEngineerList = modalserviceLst;
+
+                                        //ServiceEngineerList
+                                    }
+                                    else
+                                        obj.TicketList = tickettlst;
+                                }
+                            }
+                        }
+                        return View(obj);
+                    }
+                    catch (Exception ex)
+                    {
+                        return RedirectToAction("Index", "Login");
+                    }
+                }
+            }
         }
 
         public async Task<ActionResult> TicketTransfer(long ServiceEngineerId, long TicketNumber)

@@ -587,7 +587,7 @@
                                                     <i class="la la-check"></i>
                                                     Closed
                                                 </a>
-                                                <a href="#" onclick="PrintServiceReport()" class="btn btn-brand btn-elevate btn-icon-sm">
+                                                <a href="@Url.Action("ServiceReport","Ticket",new { id = item.TicketNumber })" target="_blank" class="btn btn-brand btn-elevate btn-icon-sm">
                                                     <i class="la la-check"></i>
                                                     Print
                                                 </a>
@@ -702,6 +702,10 @@
                                             <label>System ID</label>
                                             <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.SystemNo">
                                         </div>
+                                        <div class="form-group col-xl-4 col-md-6">
+                                            <label>Product</label>
+                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.ProductName">
+                                        </div>
 
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>Equipment Model</label>
@@ -741,7 +745,7 @@
                                             <label>Work Hours</label>
                                             <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.WorkHours">
                                         </div>
-                                        <div class="form-group col-xl-12 col-md-12">
+                                        <div class="form-group col-xl-4 col-md-6">
                                             <label>Report Type</label>
                                             <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.ReportTypeName">
                                         </div>
@@ -846,32 +850,21 @@
                 @*Recent Post Div*@
             </div>
         </div>
-
-
-
         <input type="hidden" id="hdnTicketNumber" value="@item.TicketNumber" />
         <input type="hidden" id="hdnAssignedWarehouseId" value="@item.MappedWarehouseId" />
-
         <input type="hidden" id="hdnActionComments" value="@item.Actioncomments" />
     }
 </div>
-
 @*<script src="~/assets/plugins/global/plugins.bundle.js"></script>*@
 <script src="~/assets/js/bootstrap-datepicker.js"></script>
 @*<script src="~/assets/js/select2.js"></script>*@
 <script type="text/javascript">
     $(document).ready(function () {
-
-
         document.getElementById("loader").style.display = "none";
-
         //$('#txtactivitydone').val($('#hdnActionComments').val());
-
         //ServiceRptr
         $('input[type=text][name=ServiceRptr]').prop("disabled", true);
-
-        $('#ddlreportType,#ddlwarehouse,#ddlsparehouse,#ddlsparehouseA,#ddlwarehouseA,#ddlServiceEngineer').select2({
-        });
+        $('#ddlreportType,#ddlwarehouse,#ddlsparehouse,#ddlsparehouseA,#ddlwarehouseA,#ddlServiceEngineer').select2({});
         $('input[type=radio][name=warehouseASG]').change(function () {
             if (this.value == 'A') {
                 $('#assigned_warehouse_div').show();
@@ -888,7 +881,8 @@
                 leftArrow: '<i class="la la-angle-right"></i>',
                 rightArrow: '<i class="la la-angle-left"></i>'
             }
-        } else {
+        }
+        else {
             arrows = {
                 leftArrow: '<i class="la la-angle-left"></i>',
                 rightArrow: '<i class="la la-angle-right"></i>'
@@ -899,32 +893,26 @@
             autoclose: true,
             format: 'yyyy.mm.dd hh:ii'
         });
-
-
         $("#txtactivitydone").keyup(function () {
             var lnght = $('#txtactivitydone').val().length;
             $('#spn_cnt').html(lnght);
         });
-         $("#txtproblemdescription").keyup(function () {
+        $("#txtproblemdescription").keyup(function () {
             var lnght = $('#txtproblemdescription').val().length;
             $('#spn_cnt_pd').html(lnght);
         });
-
     });
     function ViewTransferDiv() {
          $('#Transfer_Div').slideToggle();
     }
     function TransferTicket() {
-
         document.getElementById("loader").style.display = "block";
         var ServiceEngineerId = $('#ddlServiceEngineer').val();
-
         if (ServiceEngineerId == "" || ServiceEngineerId == null) {
             alert('Fields Required');
             document.getElementById("loader").style.display = "none";
             return false;
         }
-
         $.ajax({
             type: "Post",
             url: '@Url.Action("TicketTransfer")',
@@ -947,14 +935,8 @@
         });
     }
     function PrintServiceReport() {
-        //var divToPrint = document.getElementById("ticket_details");
-        //newWin = window.open("");
-        //newWin.document.write(divToPrint.outerHTML);
-        //newWin.print();
-        //newWin.close();
          window.print();
     }
-
     function checkwhitespace() {
         var txt = $('#txtactivitydone').val();
         var val = (txt === null || txt.match(/^ *$/) !== null);
@@ -975,7 +957,6 @@
         $('#details_upper').show();
     }
     function ViewDocument(url) {
-        debugger
         var district = "<div id='TextBoxContainerCategories4'>";
         district = district + '<img style="width:99%;" src="' + url + '"/>'
         return $('#TextBoxContainerCategories4').html(district);
@@ -983,13 +964,11 @@
     function AddComments() {
         document.getElementById("loader").style.display = "block";
         var Commentstext = $('#exampleTextarea').val();
-
         if (Commentstext=="") {
             alert('Fields Required');
              document.getElementById("loader").style.display = "none";
             return false;
         }
-
         $.ajax({
             type: "Post",
             url: '@Url.Action("NewComments")',
@@ -1023,7 +1002,6 @@
                 jsonary.push(dyn_matrix_data);
             }
         });
-
         if (jsonary == 0) {
             alert('select spare parrts');
             return false;
@@ -1062,7 +1040,6 @@
                 dyn_matrix_data.Quantity = $('#ddlqnty_' + this.id).val();
                 dyn_matrix_data.TicketNumber = $('#hdnTicketNumber').val();
                 dyn_matrix_data.WarehouseId = $('#ddlwarehouseA').val();
-
                 jsonary.push(dyn_matrix_data);
             }
         });
@@ -1095,7 +1072,6 @@
                 }
             });
         }
-
     }
     function ViewSparePartRequestDiv() {
         $('#Sparepartrequest_Div').slideToggle();
@@ -1248,7 +1224,6 @@
     }
     function bindsparepartSubFuntion() {
         document.getElementById("loader").style.display = "block";
-
         $.ajax({
             type: 'POST',
             url: '@Url.Action("GetSparePartList")', // we are calling json method
@@ -1274,15 +1249,10 @@
     }
     function AddResponsetime() {
         var datetime = $('#txtResponseTime').val();
-        //var reportid = $('#ddlreportType').val();
         if (datetime == null || datetime == "") {
             alert('fields required');
             return false;
         }
-        //if (reportid == "" || reportid == null || reportid==0) {
-        //    alert('fields required');
-        //    return false;
-        //}
         document.getElementById("loader").style.display = "block";
         $.ajax({
             type: "Post",
@@ -1318,12 +1288,10 @@
         else if (val==6) {
             var txtdone = $('#txtactivitydone').val();
             var problemdesc = $('#txtproblemdescription').val();
-
             if (txtdone=="N/A" && problemdesc=="N/A") {
                 alert('fields required');
                 return false;
             }
-
             await $.ajax({
                 type: 'POST',
                 url: '@Url.Action("UpdateTicketStatus")', // we are calling json method
@@ -1348,9 +1316,7 @@
             });
         }
         else {
-
             document.getElementById("loader").style.display = "block";
-
             await $.ajax({
                 type: 'POST',
                 url: '@Url.Action("UpdateTicketStatus")', // we are calling json method

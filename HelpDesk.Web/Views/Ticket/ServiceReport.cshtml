@@ -1,4 +1,4 @@
-﻿
+﻿@model HelpDesk.Web.Models.TicketDTO
 @{
     /**/
 
@@ -94,6 +94,17 @@
         .col-25 {
             flex: 0 0 25%;
             max-width: 25%;
+            position: relative;
+            width: 100%;
+            min-height: 1px;
+            padding-right: 5px;
+            padding-left: 5px;
+            margin-bottom: 10px
+        }
+
+        .col-33 {
+            flex: 0 0 33.33%;
+            max-width: 33.33%;
             position: relative;
             width: 100%;
             min-height: 1px;
@@ -368,333 +379,354 @@
             </div>
         </section>
     </div>
-    <div class="form">
-        <h1 class="text-uppercase text-center pb-15 mb-15"><u>Service Report</u></h1>
-        <div class="flex-container-wrap">
-            <div class="col-20">
-                <label>Ticket No.</label>
-                <input type="text">
-            </div>
-            <div class="col-20">
-                <label>Customer I.D.</label>
-                <input type="text">
-            </div>
-            <div class="col-20">
-                <label>Customer Equipment I.D.</label>
-                <input type="text">
-            </div>
-            <div class="col-20">
-                <label>Service Report Date</label>
-                <input type="text">
-            </div>
-            <div class="col-20">
-                <label>Service Report No.</label>
-                <input type="text">
-            </div>
-            <div class="col-25">
-                <label>Customer Name.</label>
-                <input type="text" style="height: 52px">
-            </div>
-            <div class="col-25">
-                <label>Customer Location.</label>
-                <input type="text" style="height: 52px">
-            </div>
-            <div class="col-50">
-                <label>Customer Contacts</label>
-                <div class="full_border bg-skyblue">
-                    <table class="contact_details">
-                        <tr>
-                            <td> Tel.:</td>
-                            <td><input type="text" class="dotted_border"></td>
-                            <td>&ensp;</td>
-                            <td> Fax.:</td>
-                            <td><input type="text" class="dotted_border"></td>
-                        </tr>
-                        <tr>
-                            <td> Mob.:</td>
-                            <td><input type="text" class="dotted_border"></td>
-                            <td>&ensp;</td>
-                            <td> Email.:</td>
-                            <td><input type="text" class="dotted_border"></td>
-                        </tr>
-                    </table>
+    @foreach (var item in Model.TicketList)
+    {
+        <div class="form">
+            <h1 class="text-uppercase text-center pb-15 mb-15"><u>Service Report</u></h1>
+            <div class="flex-container-wrap">
+                <div class="col-20">
+                    <label>Ticket No.</label>
+                    <input type="text" value="@item.TicketNumber">
                 </div>
-            </div>
-            <div class="col-25">
-                <label>Equipment Description</label>
-                <input type="text">
-            </div>
-            <div class="col-25">
-                <label>Equipment Model</label>
-                <input type="text">
-            </div>
-            <div class="col-25">
-                <label>Equipment Serial No.</label>
-                <input type="text">
-            </div>
-            <div class="col-25">
-                <label>Customer P.O. No.</label>
-                <input type="text">
-            </div>
-            <div class="col-25">
-                <label>Manufacturer</label>
-                <input type="text">
-            </div>
-            <div class="col-25">
-                <label>Installation Date</label>
-                <input type="text">
-            </div>
-            <div class="col-25">
-                <label>Warranty End Date</label>
-                <input type="text">
-            </div>
-            <div class="col-25">
-                <label>Next PPM Schedule</label>
-                <input type="text">
-            </div>
-            <div class="col-20">
-                <label>Customer Call Date & Time</label>
-                <input type="text">
-            </div>
-            <div class="col-20">
-                <label>Service Start Date & Time</label>
-                <input type="text">
-            </div>
-            <div class="col-20">
-                <label>Service End Date & Time</label>
-                <input type="text">
-            </div>
-            <div class="col-20">
-                <label>Work Hours</label>
-                <input type="text">
-            </div>
-            <div class="col-20">
-                <label>Total Charges</label>
-                <input type="text">
-            </div>
-            <div class="col-10 m-0">
-                <label>Report Type</label>
-            </div>
-            <div class="col-90 m-0">
-                <div class="flex-container-wrap">
-                    <div class="col-20">
-                        <label class="container">
-                            Warranty
-                            <input type="checkbox" checked="checked">
-                            <span class="checkmark"></span>
-                        </label>
-                    </div>
-                    <div class="col-20">
-                        <label class="container">
-                            Charged Repair
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                    </div>
-                    <div class="col-20">
-                        <label class="container">
-                            F.O.C
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                    </div>
-                    <div class="col-20">
-                        <label class="container">
-                            Service Contract
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                    </div>
-                    <div class="col-20">
-                        <label class="container">
-                            Application Training
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                    </div>
-                    <div class="col-20">
-                        <label class="container">
-                            Installation
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                    </div>
-                    <div class="col-20">
-                        <label class="container">
-                            Pre-Installation / Site Visit
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                    </div>
-                    <div class="col-20">
-                        <label class="container">
-                            Demonstration
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                    </div>
-                    <div class="col-20">
-                        <label class="container">
-                            PPM
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                    </div>
-                    <div class="col-20">
-                        <label class="container">
-                            Others
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
+                <div class="col-20">
+                    <label>Customer I.D.</label>
+                    <input type="text" value="@item.CreatedUserId">
+                </div>
+                <div class="col-20">
+                    <label>Customer Equipment I.D.</label>
+                    <input type="text" value="@item.SystemNo">
+                </div>
+                <div class="col-20">
+                    <label>Service Report Date</label>
+                    <input type="text" value="@item.ServiceEngineerResolvedDate">
+                </div>
+                <div class="col-20">
+                    <label>Service Report No.</label>
+                    <input type="text" value="@item.TicketNumber">
+                </div>
+                <div class="col-25">
+                    <label>Customer Name.</label>
+                    <input type="text" style="height: 52px" @item.CreatedUser>
+                </div>
+                <div class="col-25">
+                    <label>Customer Location.</label>
+                    <input type="text" style="height: 52px" value="@item.Area">
+                </div>
+                <div class="col-50">
+                    <label>Customer Contacts</label>
+                    <div class="full_border bg-skyblue">
+                        <table class="contact_details">
+                            <tr>
+                                <td> Tel.:</td>
+                                <td><input type="text" class="dotted_border"></td>
+                                <td>&ensp;</td>
+                                <td> Fax.:</td>
+                                <td><input type="text" class="dotted_border"></td>
+                            </tr>
+                            <tr>
+                                <td> Mob.:</td>
+                                <td><input type="text" class="dotted_border"></td>
+                                <td>&ensp;</td>
+                                <td> Email.:</td>
+                                <td><input type="text" class="dotted_border" value="@item.Email"></td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
-            </div>
-            <div class="col-100">
-                <label>Problem Description</label>
-                <div class="full_border p-10">
-                    <p class="font-14">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    </p>
+                <div class="col-25">
+                    <label>Equipment Description/Station Name</label>
+                    <input type="text" value="@item.StationName">
                 </div>
-            </div>
-            <div class="col-100">
-                <label>Activities Done</label>
-                <div class="full_border p-10">
-                    <p class="font-14">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    </p>
+                <div class="col-25">
+                    <label>Equipment Model</label>
+                    <input type="text" value="@item.ModelName">
                 </div>
-            </div>
-            <div class="col-100">
-                <label>Next Action / Follow Up Required</label>
-                <div class="full_border p-10">
-                    <p class="font-14">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    </p>
+                <div class="col-25">
+                    <label>Equipment Serial No.</label>
+                    <input type="text" value="@item.SerialNo">
                 </div>
-            </div>
-            <div class="col-100">
-                <label>Remarks / Notes / Other Serial Nos.</label>
-                <div class="full_border p-10">
-                    <span>&nbsp;</span>
+                <div class="col-25">
+                    <label>Customer P.O. No.</label>
+                    <input type="text" value="@item.POContract">
                 </div>
-            </div>
-            <div class="col-100">
-                <table class="bg-skyblue p-10 text-left" width="100%">
-                    <tr>
-                        <th>
-                            Hand Over to Customer
-                        </th>
-                        <th>
-                            <label class="container m-0">
-                                Operating Manuals
-                                <input type="checkbox">
+                <div class="col-25">
+                    <label>Manufacturer/Product</label>
+                    <input type="text" value="@item.ProductName">
+                </div>
+                <div class="col-25">
+                    <label>Installation Date</label>
+                    <input type="text" value="@item.InstallationDate">
+                </div>
+                <div class="col-25">
+                    <label>Warranty End Date</label>
+                    <input type="text" value="@item.WarrantyExpiryDate">
+                </div>
+                <div class="col-25">
+                    <label>Next PPM Schedule</label>
+                    <input type="text" value="@item.PPMDate">
+                </div>
+                <div class="col-20">
+                    <label>Customer Call Date & Time</label>
+                    <input type="text">
+                </div>
+                <div class="col-20">
+                    <label>Service Start Date & Time</label>
+                    <input type="text" value="@item.ServiceStartDate">
+                </div>
+                <div class="col-20">
+                    <label>Service End Date & Time</label>
+                    <input type="text" value="@item.ServiceEngineerResolvedDate">
+                </div>
+                <div class="col-20">
+                    <label>Work Hours</label>
+                    <input type="text" value="@item.WorkHours">
+                </div>
+                <div class="col-20">
+                    <label>Total Charges</label>
+                    <input type="text">
+                </div>
+                <div class="col-10 m-0">
+                    <label>Report Type</label>
+                </div>
+                <div class="col-90 m-0">
+                    <div class="flex-container-wrap">
+                        <div class="col-20">
+                            <label class="container">
+                                @item.ReportTypeName
+                                <input type="checkbox" checked="checked">
                                 <span class="checkmark"></span>
                             </label>
-                        </th>
-                        <th>
-                            <label class="container m-0">
-                                Service Manuals
-                                <input type="checkbox">
-                                <span class="checkmark"></span>
-                            </label>
-                        </th>
-                        <th>
-                            <label class="container m-0">
-                                Software CD's
-                                <input type="checkbox">
-                                <span class="checkmark"></span>
-                            </label>
-                        </th>
-                        <th>&nbsp</th>
-                </table>
-            </div>
-            <div class="col-100">
-                <table width="100%" class="text-left table_bordered">
-                    <thead>
-                        <tr>
-                            <th class="pl-4">Materials Part No. Required / Used </th>
-                            <th class="pl-4">Parts Description</th>
-                            <th class="pl-4">Source Of Supply</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-skyblue">
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-50">
-                <label class="pl-4">Customer Approval</label>
-                <div class="full_border bg-skyblue">
-                    <table style="width: 100%; padding: 0 10px 5px">
-                        <tr>
-                            <td> Name.:</td>
-                            <td><input type="text" class="dotted_border"></td>
-                        </tr>
-                        <tr>
-                            <td> Date.:</td>
-                            <td><input type="text" class="dotted_border"></td>
-                        </tr>
-                        <tr>
-                            <td> Signature.:</td>
-                            <td><input type="text" class="dotted_border"></td>
-                        </tr>
+                        </div>
+                        @*<div class="col-20">
+                                <label class="container">
+                                    Charged Repair
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="col-20">
+                                <label class="container">
+                                    F.O.C
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="col-20">
+                                <label class="container">
+                                    Service Contract
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="col-20">
+                                <label class="container">
+                                    Application Training
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="col-20">
+                                <label class="container">
+                                    Installation
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="col-20">
+                                <label class="container">
+                                    Pre-Installation / Site Visit
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="col-20">
+                                <label class="container">
+                                    Demonstration
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="col-20">
+                                <label class="container">
+                                    PPM
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="col-20">
+                                <label class="container">
+                                    Others
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>*@
+                    </div>
+                </div>
+                <div class="col-100">
+                    <label>Problem Description</label>
+                    <div class="full_border p-10">
+                        <p class="font-14">
+                            @item.ProblemDescription
+                        </p>
+                    </div>
+                </div>
+                <div class="col-100">
+                    <label>Activities Done</label>
+                    <div class="full_border p-10">
+                        <p class="font-14">
+                            @item.Actioncomments
+                        </p>
+                    </div>
+                </div>
+                <div class="col-100">
+                    <label>Next Action / Follow Up Required</label>
+                    <div class="full_border p-10">
+                        <p class="font-14">
+
+                        </p>
+                    </div>
+                </div>
+                @*<div class="col-100">
+                        <label>Remarks / Notes / Other Serial Nos.</label>
+                        <div class="full_border p-10">
+                            <span>&nbsp;</span>
+                        </div>
+                    </div>
+                    <div class="col-100">
+                        <table class="bg-skyblue p-10 text-left" width="100%">
+                            <tr>
+                                <th>
+                                    Hand Over to Customer
+                                </th>
+                                <th>
+                                    <label class="container m-0">
+                                        Operating Manuals
+                                        <input type="checkbox">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </th>
+                                <th>
+                                    <label class="container m-0">
+                                        Service Manuals
+                                        <input type="checkbox">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </th>
+                                <th>
+                                    <label class="container m-0">
+                                        Software CD's
+                                        <input type="checkbox">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </th>
+                                <th>&nbsp</th>
+                        </table>
+                    </div>*@
+                <div class="col-100">
+                    <table width="100%" class="text-left table_bordered">
+                        <thead>
+                            <tr>
+                                <th class="pl-4">SparePart Description </th>
+                                <th class="pl-4">Part Code</th>
+                                <th class="pl-4">Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-skyblue">
+                            @foreach (var spritem in Model.SparePartList)
+                            {
+                                <tr>
+                                    @*<td>@spritem.WarehouseName</td>*@
+                                    <td>@spritem.SparePartName</td>
+                                    <td>@spritem.SparePartNumber</td>
+                                    <td>@spritem.Quantity</td>
+                                </tr>
+                            }
+                            @*<tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>*@
+                        </tbody>
                     </table>
                 </div>
-            </div>
-            <div class="col-50">
-                <label class="pl-4">Name Of Engineer.</label>
-                <div class="full_border bg-skyblue">
-                    <table style="width: 100%; padding: 0 10px 5px">
-                        <tr>
-                            <td> Name.:</td>
-                            <td><input type="text" class="dotted_border pb-5"></td>
-                        </tr>
-                        <tr class="mb-15">
-                            <td> Date.:</td>
-                            <td><input type="text" class="dotted_border pb-5"></td>
-                        </tr>
-                        <tr class="mb-15">
-                            <td> Signature.:</td>
-                            <td><input type="text" class="dotted_border pb-5"></td>
-                        </tr>
-                    </table>
+                <div class="col-33">
+                    <label class="pl-4">Customer Approval</label>
+                    <div class="full_border bg-skyblue">
+                        <table style="width: 100%; padding: 0 10px 5px">
+                            <tr>
+                                <td> Name.:</td>
+                                <td><input type="text" class="dotted_border" value="@item.CreatedUser"></td>
+                            </tr>
+                            <tr>
+                                <td> Date.:</td>
+                                <td><input type="text" class="dotted_border" value=" @item.CustomerConfirmationDate"></td>
+                            </tr>
+                            <tr>
+                                <td> Signature.:</td>
+                                <td><input type="text" class="dotted_border"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-33">
+                    <label class="pl-4">Name Of Engineer.</label>
+                    <div class="full_border bg-skyblue">
+                        <table style="width: 100%; padding: 0 10px 5px">
+                            <tr>
+                                <td> Name.:</td>
+                                <td><input type="text" class="dotted_border pb-5" value="@item.FullName"></td>
+                            </tr>
+                            <tr class="mb-15">
+                                <td> Date.:</td>
+                                <td><input type="text" class="dotted_border pb-5" value="@item.ServiceEngineerResolvedDate"></td>
+                            </tr>
+                            <tr class="mb-15">
+                                <td> Signature.:</td>
+                                <td><input type="text" class="dotted_border pb-5"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-33">
+                    <label class="pl-4">Name Of Manager.</label>
+                    <div class="full_border bg-skyblue">
+                        <table style="width: 100%; padding: 0 10px 5px">
+                            <tr>
+                                <td> Name.:</td>
+                                <td><input type="text" class="dotted_border pb-5" value="@item.ManagerName"></td>
+                            </tr>
+                            <tr class="mb-15">
+                                <td> Date.:</td>
+                                <td><input type="text" class="dotted_border pb-5" value="@item.ManagerConfirmationDate"></td>
+                            </tr>
+                            <tr class="mb-15">
+                                <td> Signature.:</td>
+                                <td><input type="text" class="dotted_border pb-5"></td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    }
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>
-        document.getElementById("loader").style.display = "none";
+        //document.getElementById("loader").style.display = "none";
+        $(document).ready(function () {
+            window.print();
+        });
     </script>
 </body>
+
 </html>
 

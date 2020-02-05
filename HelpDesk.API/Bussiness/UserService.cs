@@ -211,7 +211,29 @@ namespace HelpDesk.API.Bussiness
             }
             return obj;
         }
-        
+        public UsersDTO UpdateUserPassword(UsersDTO obj)
+        {
+            try
+            {
+                var data = model.UpdateUserpassword(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["message"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
+
         public UsersDTO RoleCompanyDropDowns(UsersDTO obj)
         {
             obj.datasetxml = model.RoleCompanyDropDowns(obj);
@@ -312,6 +334,7 @@ namespace HelpDesk.API.Bussiness
 
     public interface IUserService
     {
+        UsersDTO UpdateUserPassword(UsersDTO obj);
         UsersDTO UpdateUserInfoBasic(UsersDTO obj);
         UsersDTO NewUser(UsersDTO obj);
         UsersDTO RoleCompanyDropDowns(UsersDTO obj);
