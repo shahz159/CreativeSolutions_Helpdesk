@@ -300,6 +300,9 @@
     <Content Include="Views\Assets\RenewalRequestDetailsPV.cshtml" />
     <Content Include="Views\Ticket\RejectedTickets.cshtml" />
     <Content Include="Views\UsersRegistration\ChangePassword.cshtml" />
+    <Content Include="Views\Inventory\Transfer.cshtml" />
+    <Content Include="Views\Inventory\WarehouseListBySparePartPV.cshtml" />
+    <Content Include="Views\Inventory\StockDetailsPV.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

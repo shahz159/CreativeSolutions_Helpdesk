@@ -213,7 +213,17 @@ namespace HelpDesk.API.Bussiness
             obj.datasetxml = model.SparePartList(obj);
             return obj;
         }
-
+        public InventoryDTO WarehouseBySparePart(InventoryDTO obj)
+        {
+            obj.datasetxml = model.WarehouseBySparePart(obj);
+            return obj;
+        }
+        public InventoryDTO WarehouseStockById(InventoryDTO obj)
+        {
+            obj.datasetxml = model.WarehouseStockDetailsById(obj);
+            return obj;
+        }
+        
         public InventoryDTO SparePartListByWHId(InventoryDTO obj)
         {
             obj.datasetxml = model.SparePartListByWHId(obj);
@@ -243,6 +253,8 @@ namespace HelpDesk.API.Bussiness
         InventoryDTO CheckSparePartName(InventoryDTO obj);
         InventoryDTO ConsignmentStatus(InventoryDTO obj);
         InventoryDTO SparePartList(InventoryDTO obj);
+        InventoryDTO WarehouseBySparePart(InventoryDTO obj);
+        InventoryDTO WarehouseStockById(InventoryDTO obj);
         InventoryDTO SparePartListByWHId(InventoryDTO obj);
         InventoryDTO ConsignmentList(InventoryDTO obj);
         InventoryDTO SparePartById(InventoryDTO obj);

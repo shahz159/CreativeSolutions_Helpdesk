@@ -207,6 +207,38 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
+        public string WarehouseBySparePart(InventoryDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@SparePartId",obj.SparePartId)
+                };
+                return DbConnector.ExecuteDataSet("uspGetListOfWarehouseBySparePart", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "InventoryModel -> WarehouseBySparePart");
+                return null;
+            }
+        }
+        public string WarehouseStockDetailsById(InventoryDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@WarehouseStockId",obj.WarehousestockId)
+                };
+                return DbConnector.ExecuteDataSet("uspGetSparePartDetailsByWareHouseStock", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "InventoryModel -> WarehouseStockDetailsById");
+                return null;
+            }
+        }
+        
+
         public string SparePartListByWHId(InventoryDTO obj)
         {
             try
@@ -268,6 +300,8 @@ namespace HelpDesk.API.DataAccess
         SqlDataReader CheckSparePartName(InventoryDTO obj);
         SqlDataReader ConsignmentStatus(InventoryDTO obj);
         string SparePartList(InventoryDTO obj);
+        string WarehouseBySparePart(InventoryDTO obj);
+        string WarehouseStockDetailsById(InventoryDTO obj);
         string SparePartListByWHId(InventoryDTO obj);
         string ConsignmentList(InventoryDTO obj);
         string SparePartById(InventoryDTO obj);

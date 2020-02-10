@@ -1,0 +1,132 @@
+﻿@model HelpDesk.Web.Models.InventoryDTO
+
+<div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4 position-relative">
+    <a href="#" onclick="CloseDetails()" class="details-close-button btn btn-danger btn-sm btn-icon btn-circle position-absolute"><i class="la la-close"></i></a>
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 order-lg-1 order-xl-1">
+            <div class="kt-portlet kt-portlet--head--noborder kt-portlet--height-fluid">
+                <div class="kt-portlet__head kt-portlet__head--lg">
+                    <div class="kt-portlet__head-label">
+                        <span class="kt-portlet__head-icon">
+                            <i class="kt-font-brand flaticon2-line-chart"></i>
+                        </span>
+                        <h3 class="kt-portlet__head-title">
+                            Sparepart Details
+                        </h3>
+                    </div>
+                </div>
+                <div class="kt-portlet__body kt-portlet__body--fluid kt-portlet__body--fit">
+                    <div class="kt-container  kt-grid__item kt-grid__item--fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form class="kt-form kt-form--label-right">
+                                    @if (Model.WarehouseList.Count() > 0)
+                                    {
+                                        foreach (var con in Model.WarehouseList)
+                                        {
+                                            <div class="kt-portlet__body">
+                                                <div id="div_SP" class="row">
+                                                    <div class="col-md-4">
+                                                        <form action="#">
+                                                            <div class="form-group">
+                                                                <label for="example-text-input" class="col-form-label">Warehouse</label>
+                                                                <label class="col-form-label"> : @con.WarehouseName</label>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <form action="#">
+                                                            <div class="form-group">
+                                                                <div class="">
+                                                                    <label for="example-text-input" class="col-form-label">Spare Part</label>
+                                                                    <label class="col-form-label"> : @con.SparePartName</label>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <form action="#">
+                                                            <div class="form-group">
+                                                                <div class="">
+                                                                    <label for="example-text-input" class="col-form-label"> stock</label>
+                                                                    <label class="col-form-label">  : @con.Stock</label>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="kt-portlet__body kt-portlet__body--fluid kt-portlet__body--fit">
+                    <div class="kt-container  kt-grid__item kt-grid__item--fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!--begin::Form-->
+                                <form class="kt-form kt-form--label-right">
+                                    <div class="kt-portlet__body">
+                                        <div class="pt-4" style="border: 1px solid #ccc">
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-sm-2">Warehouse</label>
+                                                <div class="col-sm-9">
+                                                    <select class="form-control kt-select2" id="ddlwarehouse">
+                                                        @if (Model.WHddlList != null)
+                                                        {
+                                                            <option value="">--Please Select--</option>
+                                                            foreach (var item in Model.WHddlList)
+                                                            {
+                                                                <option value="@item.WarehouseId">@item.WarehouseName</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="example-text-input" class="col-sm-2 col-form-label">Enter Quantity</label>
+                                                <div class="col-sm-6">
+                                                    <input class="form-control" type="text" value="" id="txtquantity" onkeypress="return isNumberKey(event)" placeholder="Enter Quantity">
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <a class="btn btn-info px-5" onclick="AddSparePart()">Add</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="kt-portlet__foot table-responsive">
+                                        <table id="SelectedSP" class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name/Number</th>
+                                                    <th>Quantity</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="th_spr">
+
+                                            </tbody>
+                                        </table>
+                                        <hr />
+                                        <div class="form-group row">
+                                            <div class="col-sm-12 text-right">
+                                                <a href="#" onclick="AddConsignment()" class="btn btn-success">Submit</a>
+                                                <a href="#" class="btn btn-secondary">Cancel</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
