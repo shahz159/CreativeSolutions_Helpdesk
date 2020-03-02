@@ -17,8 +17,9 @@
     {
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4 position-relative">
-            <a href="#" onclick="closeDetails()" class="details-close-button btn btn-danger btn-sm btn-icon btn-circle position-absolute"><i class="la la-close"></i></a>
+
             <div id="details_upper" class="row">
+                <a href="#" onclick="closeDetails()" class="details-close-button btn btn-danger btn-sm btn-icon btn-circle position-absolute"><i class="la la-close"></i></a>
                 <div class="col-md-12">
                     <div class="kt-portlet mb-1">
                         <div class="kt-portlet__head kt-portlet__head--lg position-relative">
@@ -30,6 +31,16 @@
                             <div class="kt-portlet__head-toolbar">
                                 <div class="kt-portlet__head-wrapper">
                                     <div class="kt-portlet__head-actions">
+                                        @if ((item.Status != 8 && item.Status != 5) && (Model.RoleId == 501 || Model.RoleId == 502))
+                                        {
+                                            if (item.Status == 1 || item.Status == 2 || item.Status == 3 || item.Status == 4 || item.Status == 9 || item.Status == 10 || item.Status == 12)
+                                            {
+                                                <a href="#" onclick="ViewTransferDiv()" class="btn btn-brand btn-elevate btn-icon-sm">
+                                                    Trasnfer
+                                                </a>
+                                            }
+                                        }
+
                                         @if ((item.Status == 8 || item.Status == 5) && (Model.RoleId == 501 || Model.RoleId == 502))
                                         {
                                             <a href="#" onclick="UpdateStatus(9)" class="btn btn-brand btn-elevate btn-icon-sm">
@@ -81,10 +92,7 @@
                                             }
                                             else if (item.Status == 13 || item.Status == 7)
                                             {
-                                                @*<a class="btn btn-brand btn-elevate btn-icon-sm">
-                                                <i class="la la-check"></i>
-                                                Confirmed
-                                            </a>*@
+
                                                 <a href="#" onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
                                                     <i class="la la-check"></i>
                                                     Service Report
@@ -95,10 +103,7 @@
                                         {
                                             if (item.Status == 6)
                                             {
-                                                @*<a class="btn btn-brand btn-elevate btn-icon-sm">
-                                                <i class="la la-check"></i>
-                                                Technician Resolved
-                                            </a>*@
+
                                                 <a href="#" onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
                                                     <i class="la la-check"></i>
                                                     Service Report
@@ -106,10 +111,7 @@
                                             }
                                             else if (item.Status == 13 || item.Status == 7)
                                             {
-                                                @*<a class="btn btn-brand btn-elevate btn-icon-sm">
-                                                <i class="la la-check"></i>
-                                                Customer Confirmed
-                                            </a>*@
+
                                                 <a href="#" onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
                                                     <i class="la la-check"></i>
                                                     Service Report
@@ -120,10 +122,7 @@
                                         {
                                             if (item.Status == 6)
                                             {
-                                                @*<a class="btn btn-brand btn-elevate btn-icon-sm">
-                                                <i class="la la-check"></i>
-                                                Resolved
-                                            </a>*@
+
                                                 <a href="#" onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
                                                     <i class="la la-check"></i>
                                                     Service Report
@@ -131,17 +130,14 @@
                                             }
                                             else if (item.Status == 13 || item.Status == 7 || item.Status == 1013 || item.Status == 14)
                                             {
-                                                @*<a class="btn btn-brand btn-elevate btn-icon-sm">
-                                                <i class="la la-check"></i>
-                                                Customer Confirmed
-                                            </a>*@
+
                                                 <a href="#" onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
                                                     <i class="la la-check"></i>
                                                     Service Report
                                                 </a>
                                             }
                                         }
-                                        else if (Model.RoleId == 501)
+                                        else if ((item.Status != 8 && item.Status != 5) && Model.RoleId == 501)
                                         {
                                             <a href="#" onclick="UpdateStatus(00)" class="btn btn-brand btn-elevate btn-icon-sm">
                                                 <i class="la la-check"></i>
@@ -155,6 +151,32 @@
                                                 Service Report
                                             </a>
                                         }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="Transfer_Div" style="display:none" class="kt-portlet__body">
+                            <h2 class="mb-4">Ticket Transfer</h2>
+                            <div class="form-group mb-0">
+                                <div class="row mb-4">
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <select id="ddlServiceEngineer" class="form-control">
+                                                @if (Model.ServiceEngineerList != null)
+                                                {
+                                                    <option value="0">--Please Select--</option>
+                                                    foreach (var rptr in Model.ServiceEngineerList)
+                                                    {
+                                                        <option value="@rptr.UserId">@rptr.FullName</option>
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <a href="#" onclick="TransferTicket()" class="btn btn-label-brand btn-bold">Submit</a>
                                     </div>
                                 </div>
                             </div>
@@ -174,15 +196,7 @@
                                 <div class="col-sm-4">
                                     <div class="input-group date">
                                         <span class="pt-2 h4 color-primary"><strong> @item.ReportTypeName </strong></span>
-                                        @*<select id="ddlreportType" class="form-control">
-                                        @if (Model.ReportList != null)
-                                        {
-                                            foreach (var rptr in Model.ReportList)
-                                            {
-                                                <option value="@rptr.ReportId">@rptr.ReportTypeName</option>
-                                            }
-                                        }
-                                    </select>*@
+
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
@@ -300,7 +314,14 @@
                     <div class="kt-portlet ">
                         <div class="kt-portlet__head kt-portlet__head--lg">
                             <div class="kt-portlet__head-label">
-                                <h3 class="kt-portlet__head-title">@item.CreatedUser</h3>
+                                <div class="kt-portlet__head-wrapper">
+                                    <div class="kt-portlet__head-actions">
+                                        Created By : <strong class="color-primary">@item.CreatedUser</strong>
+                                        &nbsp;&nbsp;&nbsp;
+                                        Created On : <strong class="color-primary">@item.CreatedOn.ToString("dd-MM-yyyy HH:mm")</strong>
+                                    </div>
+                                </div>
+                                @*<h4 class="kt-portlet__head-title">Created By: &nbsp;&nbsp;&nbsp; @item.CreatedUser</h4>*@
                             </div>
                             <div class="kt-portlet__head-toolbar">
                                 <div class="kt-portlet__head-wrapper">
@@ -315,7 +336,7 @@
                                 <div class="kt-widget__top">
                                     <div class="kt-widget__content">
                                         <div class="kt-widget__info">
-                                            <div class="kt-widget__desc">
+                                            <div class="kt-widget__desc" style="overflow-wrap: break-word;width: 7%;">
                                                 <p>
                                                     @item.Description
                                                 </p>
@@ -396,6 +417,14 @@
                         </div>
                         <div class="kt-portlet__body">
                             <table class="ticket-full-details table table-borderless table-sm">
+                                @*<tr>
+                                        <td>Created By.</td>
+                                        <td>: @item.CreatedUser</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Created On.</td>
+                                        <td>: @item.CreatedOn.ToString("dd-MM-yyyy HH:mm")</td>
+                                    </tr>*@
                                 <tr>
                                     <td>Ticket No.</td>
                                     <td>: @item.TicketNumber</td>
@@ -417,6 +446,10 @@
                                     <td>: @item.ModelName</td>
                                 </tr>
                                 <tr>
+                                    <td>Serial No</td>
+                                    <td>: @item.SerialNo</td>
+                                </tr>
+                                <tr>
                                     <td>System Id</td>
                                     <td>: @item.SystemNo</td>
                                 </tr>
@@ -432,7 +465,7 @@
                                     <td>Actual Start Time</td>
                                     <td>: @item.ActualStartTime</td>
                                 </tr>
-                               
+
                                 <tr>
                                     <td>Resolved Time</td>
                                     <td>: @item.ResolvedTime</td>
@@ -448,30 +481,6 @@
                                     </h3>
                                 </div>
                             </div>
-                            @*<div class="row p-4">
-                            <div class="col-md-4">
-                                <a href="#" class="text-dark">
-                                    <i class="fa fa-file fa-3x" aria-hidden="true"></i><br />
-                                    <span class="mt-2">Document</span>
-                                </a>
-                            </div>
-                            <div class="col-md-4">
-                                <a href="#" class="text-dark">
-                                    <i class="fa fa-file fa-3x" aria-hidden="true"></i><br />
-                                    <span class="mt-2">Document</span>
-                                </a>
-                            </div>
-                            <div class="col-md-4">
-                                <a href="#" class="text-dark">
-                                    <i class="fa fa-file fa-3x" aria-hidden="true"></i><br />
-                                    <span class="mt-2">Document</span>
-                                </a>
-                            </div>
-                        </div>*@
-
-
-
-
 
                             <div class="row p-4">
                                 @{
@@ -577,7 +586,7 @@
                                                     <i class="la la-check"></i>
                                                     Closed
                                                 </a>
-                                                <a href="#" onclick="PrintServiceReport()" class="btn btn-brand btn-elevate btn-icon-sm">
+                                                <a href="@Url.Action("ServiceReport","Ticket",new { id = item.TicketNumber })" target="_blank" class="btn btn-brand btn-elevate btn-icon-sm">
                                                     <i class="la la-check"></i>
                                                     Print
                                                 </a>
@@ -688,6 +697,14 @@
                                             <label>Customer Email</label>
                                             <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.Email">
                                         </div>
+                                        <div class="form-group col-xl-4 col-md-6">
+                                            <label>System ID</label>
+                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.SystemNo">
+                                        </div>
+                                        <div class="form-group col-xl-4 col-md-6">
+                                            <label>Product</label>
+                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.ProductName">
+                                        </div>
 
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>Equipment Model</label>
@@ -707,7 +724,7 @@
                                             <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.InstallationDate">
                                         </div>
                                         <div class="form-group col-xl-4 col-md-6">
-                                            <label>Warranty End Date</label>
+                                            <label>Support Contract End Date</label>
                                             <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.WarrantyExpiryDate">
                                         </div>
                                         <div class="form-group col-xl-4 col-md-6">
@@ -723,8 +740,6 @@
                                             <label>Service End Date & Time</label>
                                             <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.ServiceEngineerResolvedDate">
                                         </div>
-                                        @*@if (item.Status == 7)
-                                    {}*@
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>Work Hours</label>
                                             <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.WorkHours">
@@ -733,6 +748,41 @@
                                             <label>Report Type</label>
                                             <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.ReportTypeName">
                                         </div>
+                                        @if (Model.SparePartList.Count() > 0)
+                                        {
+                                            <div class="kt-portlet__head">
+                                                <div class="kt-portlet__head-label">
+                                                    <h3 class="kt-portlet__head-title">
+                                                        Requested Inventory Items
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                            <div class="kt-portlet__body kt-portlet__body--fluid">
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Warehouse Name</th>
+                                                                <th>SparePart Description</th>
+                                                                <th>Part Code</th>
+                                                                <th>Quantity</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (var spritem in Model.SparePartList)
+                                                            {
+                                                                <tr>
+                                                                    <td>@spritem.WarehouseName</td>
+                                                                    <td>@spritem.SparePartName</td>
+                                                                    <td>@spritem.SparePartNumber</td>
+                                                                    <td>@spritem.Quantity</td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        }
                                         <br />
                                         <br />
                                         <br />
@@ -799,34 +849,21 @@
                 @*Recent Post Div*@
             </div>
         </div>
-
-
-
         <input type="hidden" id="hdnTicketNumber" value="@item.TicketNumber" />
         <input type="hidden" id="hdnAssignedWarehouseId" value="@item.MappedWarehouseId" />
-
         <input type="hidden" id="hdnActionComments" value="@item.Actioncomments" />
     }
 </div>
-
-
-<script src="~/assets/plugins/global/plugins.bundle.js"></script>
-
+@*<script src="~/assets/plugins/global/plugins.bundle.js"></script>*@
 <script src="~/assets/js/bootstrap-datepicker.js"></script>
-<script src="~/assets/js/select2.js"></script>
+@*<script src="~/assets/js/select2.js"></script>*@
 <script type="text/javascript">
     $(document).ready(function () {
-
-
         document.getElementById("loader").style.display = "none";
-
         //$('#txtactivitydone').val($('#hdnActionComments').val());
-
         //ServiceRptr
         $('input[type=text][name=ServiceRptr]').prop("disabled", true);
-
-        $('#ddlreportType,#ddlwarehouse,#ddlsparehouse,#ddlsparehouseA,#ddlwarehouseA').select2({
-        });
+        $('#ddlreportType,#ddlwarehouse,#ddlsparehouse,#ddlsparehouseA,#ddlwarehouseA,#ddlServiceEngineer').select2({});
         $('input[type=radio][name=warehouseASG]').change(function () {
             if (this.value == 'A') {
                 $('#assigned_warehouse_div').show();
@@ -843,7 +880,8 @@
                 leftArrow: '<i class="la la-angle-right"></i>',
                 rightArrow: '<i class="la la-angle-left"></i>'
             }
-        } else {
+        }
+        else {
             arrows = {
                 leftArrow: '<i class="la la-angle-left"></i>',
                 rightArrow: '<i class="la la-angle-right"></i>'
@@ -854,28 +892,50 @@
             autoclose: true,
             format: 'yyyy.mm.dd hh:ii'
         });
-
-
         $("#txtactivitydone").keyup(function () {
             var lnght = $('#txtactivitydone').val().length;
             $('#spn_cnt').html(lnght);
         });
-         $("#txtproblemdescription").keyup(function () {
+        $("#txtproblemdescription").keyup(function () {
             var lnght = $('#txtproblemdescription').val().length;
             $('#spn_cnt_pd').html(lnght);
         });
-
     });
-
+    function ViewTransferDiv() {
+         $('#Transfer_Div').slideToggle();
+    }
+    function TransferTicket() {
+        document.getElementById("loader").style.display = "block";
+        var ServiceEngineerId = $('#ddlServiceEngineer').val();
+        if (ServiceEngineerId == "" || ServiceEngineerId == null) {
+            alert('Fields Required');
+            document.getElementById("loader").style.display = "none";
+            return false;
+        }
+        $.ajax({
+            type: "Post",
+            url: '@Url.Action("TicketTransfer")',
+            datatype: "json",
+            data: { ServiceEngineerId: ServiceEngineerId, TicketNumber: $('#hdnTicketNumber').val() },
+            success: function (data) {
+                var v = data.success;
+                if (v == true) {
+                    TicketDetails($('#hdnTicketNumber').val());
+                }
+                else {
+                    alert('Some thing went wrong');
+                }
+                document.getElementById("loader").style.display = "none";
+            },
+            error: function () {
+                alert('error');
+                document.getElementById("loader").style.display = "none";
+            }
+        });
+    }
     function PrintServiceReport() {
-        //var divToPrint = document.getElementById("ticket_details");
-        //newWin = window.open("");
-        //newWin.document.write(divToPrint.outerHTML);
-        //newWin.print();
-        //newWin.close();
          window.print();
     }
-
     function checkwhitespace() {
         var txt = $('#txtactivitydone').val();
         var val = (txt === null || txt.match(/^ *$/) !== null);
@@ -896,7 +956,6 @@
         $('#details_upper').show();
     }
     function ViewDocument(url) {
-        debugger
         var district = "<div id='TextBoxContainerCategories4'>";
         district = district + '<img style="width:99%;" src="' + url + '"/>'
         return $('#TextBoxContainerCategories4').html(district);
@@ -904,13 +963,11 @@
     function AddComments() {
         document.getElementById("loader").style.display = "block";
         var Commentstext = $('#exampleTextarea').val();
-
         if (Commentstext=="") {
             alert('Fields Required');
              document.getElementById("loader").style.display = "none";
             return false;
         }
-
         $.ajax({
             type: "Post",
             url: '@Url.Action("NewComments")',
@@ -944,7 +1001,6 @@
                 jsonary.push(dyn_matrix_data);
             }
         });
-
         if (jsonary == 0) {
             alert('select spare parrts');
             return false;
@@ -983,7 +1039,6 @@
                 dyn_matrix_data.Quantity = $('#ddlqnty_' + this.id).val();
                 dyn_matrix_data.TicketNumber = $('#hdnTicketNumber').val();
                 dyn_matrix_data.WarehouseId = $('#ddlwarehouseA').val();
-
                 jsonary.push(dyn_matrix_data);
             }
         });
@@ -1016,7 +1071,6 @@
                 }
             });
         }
-
     }
     function ViewSparePartRequestDiv() {
         $('#Sparepartrequest_Div').slideToggle();
@@ -1169,7 +1223,6 @@
     }
     function bindsparepartSubFuntion() {
         document.getElementById("loader").style.display = "block";
-
         $.ajax({
             type: 'POST',
             url: '@Url.Action("GetSparePartList")', // we are calling json method
@@ -1195,15 +1248,10 @@
     }
     function AddResponsetime() {
         var datetime = $('#txtResponseTime').val();
-        //var reportid = $('#ddlreportType').val();
         if (datetime == null || datetime == "") {
             alert('fields required');
             return false;
         }
-        //if (reportid == "" || reportid == null || reportid==0) {
-        //    alert('fields required');
-        //    return false;
-        //}
         document.getElementById("loader").style.display = "block";
         $.ajax({
             type: "Post",
@@ -1239,12 +1287,10 @@
         else if (val==6) {
             var txtdone = $('#txtactivitydone').val();
             var problemdesc = $('#txtproblemdescription').val();
-
             if (txtdone=="N/A" && problemdesc=="N/A") {
                 alert('fields required');
                 return false;
             }
-
             await $.ajax({
                 type: 'POST',
                 url: '@Url.Action("UpdateTicketStatus")', // we are calling json method
@@ -1269,9 +1315,7 @@
             });
         }
         else {
-
             document.getElementById("loader").style.display = "block";
-
             await $.ajax({
                 type: 'POST',
                 url: '@Url.Action("UpdateTicketStatus")', // we are calling json method

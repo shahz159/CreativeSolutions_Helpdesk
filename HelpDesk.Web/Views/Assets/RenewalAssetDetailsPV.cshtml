@@ -1,0 +1,247 @@
+﻿@model HelpDesk.Web.Models.AssetsDTO
+@{
+    ViewBag.Title = "NewAssest";
+    Layout = "";
+}
+<div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
+
+    <!--Begin::Dashboard 3-->
+    <!--Begin::Row-->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 order-lg-1 order-xl-1">
+            <!--begin:: Widgets/Trends-->
+            <div class="kt-portlet kt-portlet--head--noborder kt-portlet--height-fluid">
+                <div class="kt-portlet__head kt-portlet__head--lg">
+                    <div class="kt-portlet__head-label">
+                        <span class="kt-portlet__head-icon">
+                            <i class="kt-font-brand flaticon2-line-chart"></i>
+                        </span>
+                        <h3 class="kt-portlet__head-title">
+                            Renewal Assest Details
+                        </h3>
+                    </div>
+                </div>
+                <div class="kt-portlet__body kt-portlet__body--fluid kt-portlet__body--fit">
+                    <div class="kt-container  kt-grid__item kt-grid__item--fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!--begin::Form-->
+                                <form class="kt-form kt-form--label-right">
+                                    <div class="kt-portlet__body">
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-sm-2">
+                                                Select Contract Type
+                                            </label>
+                                            <div class="col-sm-9">
+                                                <select class="form-control kt-select2" id="ddlContractType" name="param">
+                                                    @*<option value="0">--Select Type--</option>*@
+                                                    <option value="1">Warranty Contract</option>
+                                                    <option value="2">Service Contract</option>
+                                                    <option value="3">No Contract</option>
+                                                </select>
+                                                <small id="spn_ddlContractType" class="text-danger" style="display:none;">Field required.</small>
+                                            </div>
+                                        </div>
+
+                                        <div id="Contarct_Div" class="p-4" style="display: block">
+                                            <h5 class="contract-head">Contract Details</h5>
+                                            <hr class="mb-4" />
+                                            <div class="form-group row">
+                                                <label for="example-text-input" class="col-sm-2 col-form-label">PO Contract</label>
+                                                <div class="col-sm-9">
+                                                    <input class="form-control" type="text" id="txtpocontract" value="">
+                                                    <small id="spn_txtpocontract" class="text-danger" style="display:none;">Field required.</small>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-sm-2">Start Date</label>
+                                                <div class="col-sm-9">
+                                                    <div class="input-group date">
+                                                        <input type="text" class="form-control" readonly placeholder="Select date" id="txtInstallationdate" />
+
+                                                        <div class="input-group-append">
+                                                            <span class="input-group-text">
+                                                                <i class="la la-calendar-check-o"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <small id="spn_txtInstallationdate" class="text-danger" style="display:none;">Field required.</small>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-sm-2">End/Expiry Date</label>
+                                                <div class="col-sm-9">
+                                                    <div class="input-group date">
+                                                        <input type="text" class="form-control" readonly placeholder="Select date" id="txtwarrantydate" />
+                                                        <div class="input-group-append">
+                                                            <span class="input-group-text">
+                                                                <i class="la la-calendar-check-o"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <small id="spn_txtwarrantydate" class="text-danger" style="display:none;">Field required.</small>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-sm-2">Select PPM</label>
+                                                <div class="col-sm-9">
+                                                    <select class="form-control kt-select2" id="ddlPPMType" name="param">
+                                                        <option value="6">6-Months</option>
+                                                        <option value="12">12-Months</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="kt-portlet__foot">
+                                        <div class="kt-form__actions">
+                                            <div class="row">
+                                                <div class="col-2">
+                                                </div>
+                                                <div class="col-10">
+                                                    <a href="#" onclick="AddAssetRenewal()" class="btn btn-success">Submit</a>
+                                                    <a href="#" class="btn btn-secondary">Cancel</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <!--end::Form-->
+                            </div>
+                            <!--end::Portlet-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end:: Widgets/Trends-->
+    </div>
+</div>
+<input type="hidden" id="hdnAMId" value="@Model.AMId" />
+
+@*@section Scripts{}*@
+@*<script src="~/assets/js/bootstrap-datepicker.js"></script>
+<script src="~/assets/js/bootstrap-datetimepicker.js"></script>
+<script src="~/assets/js/select2.js"></script>*@
+<script src="~/assets/js/select2.js"></script>
+<script>
+        document.getElementById("loader").style.display = "none";
+        $(document).ready(function () {
+
+
+            //set initial state.
+            $('#ddlcontracttype').select2({
+            });
+
+            var arrows;
+            if (KTUtil.isRTL()) {
+                arrows = {
+                    leftArrow: '<i class="la la-angle-right"></i>',
+                    rightArrow: '<i class="la la-angle-left"></i>'
+                }
+            } else {
+                arrows = {
+                    leftArrow: '<i class="la la-angle-left"></i>',
+                    rightArrow: '<i class="la la-angle-right"></i>'
+                }
+            }
+            $('#txtInstallationdate, #txtwarrantydate').datepicker({
+                rtl: KTUtil.isRTL(),
+                todayHighlight: true,
+                orientation: "bottom left",
+                autoclose: true,
+                templates: arrows
+            });
+            //ddlcontracttype
+
+            $('#ddlContractType').change(function () {
+                var id = $('#ddlContractType').val();
+                if (id == 1 || id == 2) {
+                    
+                    $('#Contarct_Div').show();
+                }
+                else {
+                    $('#Contarct_Div').hide();
+                }
+            });
+        });
+
+        function AddAssetRenewal() {
+            debugger
+            var val = 0;
+
+            var IsContract = false;
+
+            var ContractType = $('#ddlContractType').val();
+            if (ContractType == 0) {
+                val = 1;
+                $('#spn_ddlcontracttype').show();
+            }
+            else {
+                $('#spn_ddlcontracttype').hide();
+
+                if (ContractType == 1 || ContractType == 2) {
+                    IsContract = true;
+                }
+                else if (ContractType==3) {
+                    IsContract = false;
+                }
+            }
+            var InstallationDate = $('#txtInstallationdate').val();
+            var POContract = $('#txtpocontract').val();
+            var WarrantyExpiryDate = $('#txtwarrantydate').val();
+
+            if (IsContract == true) {
+                if (POContract == "" || POContract == null) {
+                    val = 1;
+                    $('#spn_txtpocontract').show();
+                }
+                else {
+                    $('#spn_txtpocontract').hide();
+                }
+
+                if (WarrantyExpiryDate == "" || WarrantyExpiryDate == null) {
+                    val = 1;
+                    $('#spn_txtwarrantydate').show();
+                }
+                else {
+                    $('#spn_txtwarrantydate').hide();
+                }
+
+                if (InstallationDate == "" || InstallationDate == null) {
+                    val = 1;
+                    $('#spn_txtInstallationdate').show();
+                }
+                else {
+                    $('#spn_txtInstallationdate').hide();
+                }
+            }
+            var PPMType = $('#ddlPPMType').val();
+
+            if (val == 1) {
+                alert('Fields required');
+                return false;
+            }
+            else {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("NewAssestRenewalRequest")', // we are calling json method
+                    dataType: 'json',
+                    data: {
+                        InstallationDate: InstallationDate, IsContract: IsContract, POContract: POContract, WarrantyExpiryDate: WarrantyExpiryDate, PPMType: PPMType,
+                        ContractType: ContractType, AMId: $('#hdnAMId').val()
+                    },
+                    success: function (data) {
+                        alert('Request Sent Successfully');
+                        location.reload();
+                    },
+                    error: function (ex) {
+                        alert('Failed to Add Assets.' + ex);
+                    }
+                });
+            }
+        }
+</script>
+
+
+

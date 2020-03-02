@@ -106,6 +106,30 @@ namespace HelpDesk.API.Bussiness
             }
             return obj;
         }
+
+        public InventoryDTO InsertBulkTransfer(InventoryDTO obj)
+        {
+            try
+            {
+                var data = model.InsertBulkTransfer(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["message"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
+        
         public InventoryDTO UpdateSparePart(InventoryDTO obj)
         {
             try
@@ -213,7 +237,17 @@ namespace HelpDesk.API.Bussiness
             obj.datasetxml = model.SparePartList(obj);
             return obj;
         }
-
+        public InventoryDTO WarehouseBySparePart(InventoryDTO obj)
+        {
+            obj.datasetxml = model.WarehouseBySparePart(obj);
+            return obj;
+        }
+        public InventoryDTO WarehouseStockById(InventoryDTO obj)
+        {
+            obj.datasetxml = model.WarehouseStockDetailsById(obj);
+            return obj;
+        }
+        
         public InventoryDTO SparePartListByWHId(InventoryDTO obj)
         {
             obj.datasetxml = model.SparePartListByWHId(obj);
@@ -237,12 +271,15 @@ namespace HelpDesk.API.Bussiness
     {
         InventoryDTO InsertUpdateSparePart(InventoryDTO obj);
         InventoryDTO InsertUpdateConsignment(InventoryDTO obj);
+        InventoryDTO InsertBulkTransfer(InventoryDTO obj);
         InventoryDTO UpdateSparePart(InventoryDTO obj);
         InventoryDTO StockChange(InventoryDTO obj);
         InventoryDTO TrasnferQuantity(InventoryDTO obj);
         InventoryDTO CheckSparePartName(InventoryDTO obj);
         InventoryDTO ConsignmentStatus(InventoryDTO obj);
         InventoryDTO SparePartList(InventoryDTO obj);
+        InventoryDTO WarehouseBySparePart(InventoryDTO obj);
+        InventoryDTO WarehouseStockById(InventoryDTO obj);
         InventoryDTO SparePartListByWHId(InventoryDTO obj);
         InventoryDTO ConsignmentList(InventoryDTO obj);
         InventoryDTO SparePartById(InventoryDTO obj);

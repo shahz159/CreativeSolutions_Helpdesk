@@ -37,6 +37,13 @@ namespace HelpDesk.API.Controllers
         }
 
         [ResponseType(typeof(InventoryDTO))]
+        public IHttpActionResult NewInsertBulkTransfer(InventoryDTO obj)
+        {
+            var result = service.InsertBulkTransfer(obj);
+            return Ok(result);
+        }
+
+        [ResponseType(typeof(InventoryDTO))]
         public IHttpActionResult NewUpdateSparePart(InventoryDTO obj)
         {
             var result = service.UpdateSparePart(obj);
@@ -133,5 +140,28 @@ namespace HelpDesk.API.Controllers
             return Ok(detail);
         }
 
+
+        /// <summary>
+        /// get list of warehouse by spare part id
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        [ResponseType(typeof(InventoryDTO))]
+        public IHttpActionResult NewGetListOfWarehouseBySparePart(InventoryDTO obj)
+        {
+            var result = service.WarehouseBySparePart(obj);
+            return Ok(result);
+        }
+        /// <summary>
+        /// Get Warehouse Stock Details by warehouse stock id
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        [ResponseType(typeof(InventoryDTO))]
+        public IHttpActionResult NewGetSparePartDetailsByWareHouseStock(InventoryDTO obj)
+        {
+            var result = service.WarehouseStockById(obj);
+            return Ok(result);
+        }
     }
 }

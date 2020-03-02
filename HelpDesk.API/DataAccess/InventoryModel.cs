@@ -91,6 +91,28 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
+        public SqlDataReader InsertBulkTransfer(InventoryDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                //new SqlParameter("@Sparepartid",obj.SparePartId),
+                //new SqlParameter("@quantity",obj.Quantity),
+                //new SqlParameter("@comments",obj.Comments),
+                new SqlParameter("@Json",obj.message),
+                    new SqlParameter("@CreatedBy",obj.CreatedBy)
+                //new SqlParameter("@WarehouseId",obj.WarehouseId)
+                };
+                return DbConnector.ExecuteReader("uspBulkTransfer", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "InventoryModel -> InsertUpdateConsginment");
+                return null;
+            }
+        }
+
+        
         public SqlDataReader UpdateSparePart(InventoryDTO obj)
         {
             try
@@ -207,6 +229,38 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
+        public string WarehouseBySparePart(InventoryDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@SparePartId",obj.SparePartId)
+                };
+                return DbConnector.ExecuteDataSet("uspGetListOfWarehouseBySparePart", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "InventoryModel -> WarehouseBySparePart");
+                return null;
+            }
+        }
+        public string WarehouseStockDetailsById(InventoryDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@WarehouseStockId",obj.WarehousestockId)
+                };
+                return DbConnector.ExecuteDataSet("uspGetSparePartDetailsByWareHouseStock", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "InventoryModel -> WarehouseStockDetailsById");
+                return null;
+            }
+        }
+        
+
         public string SparePartListByWHId(InventoryDTO obj)
         {
             try
@@ -262,12 +316,15 @@ namespace HelpDesk.API.DataAccess
     {
         SqlDataReader InsertUpdateSparePart(InventoryDTO obj);
         SqlDataReader InsertUpdateConsginment(InventoryDTO obj);
+        SqlDataReader InsertBulkTransfer(InventoryDTO obj);
         SqlDataReader UpdateSparePart(InventoryDTO obj);
         SqlDataReader stockchnage(InventoryDTO obj);
         SqlDataReader transferquantity(InventoryDTO obj);
         SqlDataReader CheckSparePartName(InventoryDTO obj);
         SqlDataReader ConsignmentStatus(InventoryDTO obj);
         string SparePartList(InventoryDTO obj);
+        string WarehouseBySparePart(InventoryDTO obj);
+        string WarehouseStockDetailsById(InventoryDTO obj);
         string SparePartListByWHId(InventoryDTO obj);
         string ConsignmentList(InventoryDTO obj);
         string SparePartById(InventoryDTO obj);

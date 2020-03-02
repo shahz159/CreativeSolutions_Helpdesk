@@ -43,13 +43,12 @@
                                     <td>@item.SparePartName </td>
                                     <td>@item.SparePartNumber</td>
                                     <td>@item.Quantity </td>
-                                    <td>@item.ConsignmentDate</td>
+                                    <td>@item.CreatedOn.ToString("dd-MM-yyyy HH:mm")</td>
                                     <td align="center">
                                         <div class="page-toolbar">
                                             <div class="btn-group pull-right">
                                                 <button type="button" class="btn green btn-sm btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                                     Actions
-                                                  
                                                 </button>
                                                 <ul class="dropdown-menu pull-right" role="menu">
                                                     <li>

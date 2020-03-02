@@ -154,5 +154,73 @@ namespace HelpDesk.API.Controllers
             var result = service.UpdatePPMDateChangeRequest(obj);
             return Ok(result);
         }
+
+        /// <summary>
+        /// Get All Expired Assets
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewRenewalAssetsList(AssetDTO obj)
+        {
+            var detail = service.GetAssetsRenewalList(obj);
+            return Ok(detail);
+        }
+        /// <summary>
+        /// Get renewal request list of asset
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewRenewalRequestAssetsList(AssetDTO obj)
+        {
+            var detail = service.GetAssetsRenewalRequestList(obj);
+            return Ok(detail);
+        }
+        /// <summary>
+        /// insert renewal request of expired asset
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewInsertRenewalRequestAssets(AssetDTO obj)
+        {
+            var detail = service.InsertAssetRenewalRequest(obj);
+            return Ok(detail);
+        }
+        /// <summary>
+        /// update status of renewal asset request
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewUpdateAssetRenewalRequest(AssetDTO obj)
+        {
+            var detail = service.UpdateAssetRenewalRequest(obj);
+            return Ok(detail);
+        }
+        /// <summary>
+        /// get asset reneawl asset details by AMId(Asset Management Id)
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewRenewalAssetsDetails(AssetDTO obj)
+        {
+            var detail = service.GetAssetsRenewalDetails(obj);
+            return Ok(detail);
+        }
+
+        /// <summary>
+        /// Add more models of each asset 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewAssetModelsInsert(AssetDTO obj)
+        {
+            var detail = service.InsertAssetModels(obj);
+            return Ok(detail);
+        }
     }
 }

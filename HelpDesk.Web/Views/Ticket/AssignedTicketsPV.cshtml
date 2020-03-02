@@ -1,7 +1,7 @@
 ﻿@model HelpDesk.Web.Models.TicketDTO
 
 @*AssignedTicketsPV*@
-
+ 
 <table class="table table-striped- table-bordered table-hover table-checkable" id="kt_table_1">
     <thead>
         <tr>
@@ -20,9 +20,22 @@
             {
                 <tr>
                     <td>@item.TicketNumber</td>
-                    <td>@item.CreatedOn</td>
+                    <td>@item.CreatedOn.ToString("dd-MM-yyyy HH:mm")</td>
                     <td>@item.ModelName</td>
-                    <td>@item.Priority</td>
+                    <td>
+                        @if (item.Priority == "L")
+                        {
+                            <div class="label label-table label-info">Low</div>
+                        }
+                        else if (item.Priority == "M")
+                        {
+                            <div class="label label-table label-default">Medium</div>
+                        }
+                        else if (item.Priority == "H")
+                        {
+                            <div class="label label-table label-primary">High</div>
+                        }
+                    </td>
                     <td>@item.Statustxt</td>
                     <td align="center">
                         <a href="#" onclick="TicketDetails(@item.TicketNumber)">
@@ -43,23 +56,11 @@
 <input type="hidden" id="hdnPageNumber_twbs" value="@Model.PageNumber" />
 <input type="hidden" id="hdnToPageCount" value="@Model.TotalRecords" />
 
-@*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>*@
-@*<script src="~/assets/plugins/global/plugins.bundle.js"></script>
-    <script src="~/assets/js/scripts.bundle.js"></script>*@
-
-
-@*@section  Scripts{}*@
-@*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>*@
-@*<script src="~/assets/plugins/global/plugins.bundle.js"></script>
-<script src="~/assets/js/scripts.bundle.js"></script>*@
+ 
 <script src="~/assets/js/jquery.twbsPagination.js"></script>
 <script>
     $(function () {
-        // call the tablesorter plugin recordsCount
-        //$("#kt_table_1").tablesorter({
-        //    theme: 'blue',
-        //    dateFormat: "ddmmyyyy" // set the default date format
-        //});
+     
         if ($('.pagination').data("twbs-pagination")) {
             $('.pagination').twbsPagination('destroy');
         }
@@ -82,41 +83,4 @@
         });
     });
 </script>
-
-
-
-
-@*<script src="https://mottie.github.io/tablesorter/js/jquery.tablesorter.js"></script>*@
-
-@*<script src="~/assets/js/datatables.bundle.js"></script>*@
-<script>
-    //var KTDatatablesBasicPaginations = function () {
-
-    //    var initTable1 = function () {
-    //        var table = $('#kt_table_1');
-
-    //        // begin first table
-    //        table.DataTable({
-    //            responsive: true
-    //        });
-    //    };
-
-    //    return {
-
-    //        //main function to initiate the module
-    //        init: function () {
-    //            initTable1();
-    //        },
-
-    //    };
-
-    //}();
-
-    //jQuery(document).ready(function () {
-    //    KTDatatablesBasicPaginations.init();
-    //});
-
-
-
-
-</script>
+ 

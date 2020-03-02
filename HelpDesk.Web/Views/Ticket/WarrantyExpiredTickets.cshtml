@@ -14,7 +14,7 @@
                 <span class="kt-portlet__head-icon">
                     <i class="kt-font-brand flaticon2-line-chart"></i>
                 </span>
-                <h3 class="kt-portlet__head-title">Under Approval Tickets</h3>
+                <h3 class="kt-portlet__head-title">Warranty Expired Tickets</h3>
             </div>
         </div>
         <div class="kt-portlet__body">
@@ -23,7 +23,7 @@
                 <div class="row align-items-center">
                     <div class="col-xl-12 order-2 order-xl-1">
                         <div class="row align-items-center">
-                            <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                            <div class="col-md-12 kt-margin-b-20-tablet-and-mobile">
                                 <div class="kt-form__group">
                                     <div class="kt-form__label">
                                         <label>Select Company</label>
@@ -62,7 +62,9 @@
             $('#ddlCompany').select2({
             });
             var comid = $('#hdnCompany').val();
+            
             if (comid != 0) {
+                $('#ddlCompany').prop("disabled", true);
                  UnderApprovalTickets(comid)
             }
         });

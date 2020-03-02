@@ -285,6 +285,22 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
+        public SqlDataReader UpdateUserpassword(UsersDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@UserId",obj.UserId),
+                new SqlParameter("@Password",obj.Password) 
+                };
+                return DbConnector.ExecuteReader("uspChangePassword", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "UserModel -> UpdateUserpassword");
+                return null;
+            }
+        }
         
         public string RoleCompanyDropDowns(UsersDTO obj)
         {
@@ -308,6 +324,7 @@ namespace HelpDesk.API.DataAccess
     {
         SqlDataReader NewUser(UsersDTO obj);
         SqlDataReader UpdateUser(UsersDTO obj);
+        SqlDataReader UpdateUserpassword(UsersDTO obj);
         string RoleCompanyDropDowns(UsersDTO obj);
         string GetUserDetailsById(UsersDTO obj);
         string GetUserList(UsersDTO obj);

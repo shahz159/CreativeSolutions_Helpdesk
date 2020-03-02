@@ -28,7 +28,42 @@
                 </div>
             </div>
         </div>
-     
+        <div class="kt-portlet__body">
+            <!--begin: Search Form -->
+            <div class="kt-form kt-form--label-right">
+                <div class="row align-items-center">
+                    <div class="col-xl-12 order-2 order-xl-1">
+                        <div class="row align-items-center">
+                            <div class="col-md-6 kt-margin-b-20-tablet-and-mobile">
+                                <div class="kt-form__group">
+                                    <div class="kt-form__label">
+                                        <label>Ticket Type</label>
+                                    </div>
+                                    <div class="kt-form__control">
+                                        <div id="div_filters_tickettype">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 kt-margin-b-20-tablet-and-mobile">
+                                <div class="kt-form__group">
+                                    <div class="kt-form__label">
+                                        <label>Status</label>
+                                    </div>
+                                    <div class="kt-form__control">
+                                        <div id="div_filters_Status">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="kt-portlet__body pt-4">
             <div class="table-responsive">
                 <table id="kt_table_1" class="table table-striped- table-bordered table-hover table-checkable">
@@ -39,6 +74,7 @@
                             <th scope="col">Location</th>
                             <th scope="col">Product</th>
                             <th scope="col">Service Engineer</th>
+                            <th scope="col">Report Type</th>
                             <th scope="col">Status</th>
                             <th scope="col">Details</th>
                         </tr>
@@ -54,6 +90,7 @@
                                     <td>@item.Area</td>
                                     <td>@item.ProductName</td>
                                     <td>@item.FullName</td>
+                                    <td>@item.ReportTypeName</td>
                                     <td>@item.Statustxt</td>
                                     <td align="center">
                                         <a href="#" onclick="TicketDetails(@item.TicketNumber)">
@@ -78,28 +115,78 @@
 
     <script>
 
-        var KTDatatablesBasicPaginations = function () {
+        //var KTDatatablesBasicPaginations = function () {
 
-            var initTable1 = function () {
-                var table = $('#kt_table_1');
-                // begin first table
-                table.DataTable({
-                    responsive: true,
-                    "order": [[ 0, "desc" ]]
-                });
-            };
+        //    var initTable1 = function () {
+        //        var table = $('#kt_table_1');
+        //        // begin first table
+        //        table.DataTable({
+        //            responsive: true,
+        //            "order": [[ 0, "desc" ]]
+        //        });
+        //    };
 
-            return {
-                //main function to initiate the module
-                init: function () {
-                    initTable1();
-                },
-            };
+        //    return {
+        //        //main function to initiate the module
+        //        init: function () {
+        //            initTable1();
+        //        },
+        //    };
 
-        }();
+        //}();
 
-        jQuery(document).ready(function () {
-            KTDatatablesBasicPaginations.init();
+        //jQuery(document).ready(function () {
+        //    KTDatatablesBasicPaginations.init();
+        //});
+          $(document).ready(function () {
+              $('#kt_table_1').DataTable({
+                "order": [[ 0, "desc" ]],
+                initComplete: function () {
+                    this.api().columns().every(function () {
+                        var column = this;
+                        if (column.index() == 5) {  //skip if column 0
+                            $(column.header()).append("<br>")
+                            var select = $('<select class = "form-control kt-select2"><option value="" disabled selected>Select Ticket Type</option></select>')
+                                .appendTo(
+                                    //$(column.header())
+                                    $('#div_filters_tickettype')
+                                )
+                                .on('change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                    );
+
+                                    column
+                                        .search(val ? '^' + val + '$' : '', true, false)
+                                        .draw();
+                                });
+                              column.data().unique().sort().each(function (d, j) {
+                                select.append('<option value="' + d + '">' + d + '</option>')
+                            });
+                        }  //end of if div_filters_ticket type 
+                         if (column.index() == 6) {  //skip if column 0
+                            $(column.header()).append("<br>")
+                            var select = $('<select class = "form-control kt-select2"><option value="" disabled selected>Select Status</option></select>')
+                                .appendTo(
+                                    //$(column.header())
+                                    $('#div_filters_Status')
+                                )
+                                .on('change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                    );
+
+                                    column
+                                        .search(val ? '^' + val + '$' : '', true, false)
+                                        .draw();
+                                });
+                              column.data().unique().sort().each(function (d, j) {
+                                select.append('<option value="' + d + '">' + d + '</option>')
+                            });
+                        }
+                    });
+                }
+            });
         });
 
         document.getElementById("loader").style.display = "none";

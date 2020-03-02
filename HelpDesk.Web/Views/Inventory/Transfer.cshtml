@@ -1,0 +1,115 @@
+﻿@model HelpDesk.Web.Models.InventoryDTO
+
+@{
+    ViewBag.Title = "Transfer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- begin:: Content -->
+<div id="upper_div" class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
+    <div class="kt-portlet">
+        <div class="kt-portlet__head kt-portlet__head--lg">
+            <div class="kt-portlet__head-label">
+                <span class="kt-portlet__head-icon">
+                    <i class="kt-font-brand flaticon2-line-chart"></i>
+                </span>
+                <h3 class="kt-portlet__head-title">Spare Part Transfer</h3>
+            </div>
+        </div>
+        <div class="kt-portlet__body">
+            <div class="kt-form kt-form--label-right">
+                <div class="row align-items-center">
+                    <div class="col-xl-12 order-2 order-xl-1">
+                        <div class="row align-items-center">
+                            <div class="col-md-12 kt-margin-b-20-tablet-and-mobile">
+                                <div class="kt-form__group">
+                                    <div class="kt-form__label">
+                                        <label>Spare Part</label>
+                                    </div>
+                                    <div class="kt-form__control">
+                                        <select id="ddlSparePartList" class="form-control" onchange="BindStockdetails()">
+                                            <option>--Please Select--</option>
+                                            @if (Model.SparePartList != null)
+                                            {
+                                                foreach (var rptr in Model.SparePartList)
+                                                {
+                                                    <option value="@rptr.SparePartId">@rptr.SparePartName</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="kt-portlet__body pt-0">
+            <div id="sparepartlst_div">
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<div id="details_div"></div>
+
+@section  Scripts{
+    <script src="~/assets/js/datatables.bundle.js"></script>
+    <script src="~/assets/js/datatable.js"></script>
+    <script src="~/assets/js/select2.js"></script>
+    <script>
+        $('#loader').hide();
+        $('#ddlSparePartList').select2();
+        
+        
+        function Sparepartstockdetails(id) {
+            document.getElementById("loader").style.display = "block";
+            $.ajax({
+                type: "Post",
+                url: '@Url.Action("SparePartStockDetails")',
+                datatype: "json",
+                data: { id: id },
+                success: function (data) {
+
+                    $('#upper_div').hide();
+                    $('#details_div').show('');
+
+                    $('#details_div').html('');
+                    $('#details_div').html(data);
+                    document.getElementById("loader").style.display = "none";
+                },
+                error: function () {
+                    alert('error');
+                    $('#details_div').html('');
+                    document.getElementById("loader").style.display = "none";
+                }
+            });
+        }
+        function CloseDetails() {
+            $('#upper_div').show();
+            $('#details_div').hide('');
+        }
+        
+        function BindStockdetails() {
+            $('#loader').show();
+            $.ajax({
+                type: "Post",
+                url: '@Url.Action("WarehouseListBySparePartId")',
+                datatype: "json",
+                data: { id: $('#ddlSparePartList').val() },
+                success: function (data) {
+
+                    $('#sparepartlst_div').html(data);
+                    $('#loader').hide();
+                },
+                error: function () {
+                    $('#userdetails').html('');
+                    $('#loader').hide();
+                }
+            });
+        }
+
+    </script>
+}
+

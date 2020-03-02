@@ -33,8 +33,6 @@
                             </a>
                         </div>
                     }
-
-
                 </div>
 
                 <div class="kt-portlet__body kt-portlet__body--fluid kt-portlet__body--fit">
@@ -123,7 +121,33 @@
                                     }
                                     else if (Model.RoleId == 502)
                                     {
-                                        <h2 class="pt-4">Total Quantity: @Model.Quantity</h2>
+                                        if (Model.WarehouseList.Count() > 0)
+                                        {
+                                            foreach (var con in Model.WarehouseList)
+                                            {
+                                                if (con.RequestPending == 1)
+                                                {
+                                                    <h2 class="pt-4">
+                                                        Total Quantity:
+                                                        @con.Stock
+                                                        <a>Pending</a>
+                                                    </h2>
+                                                    
+                                                }
+                                                else
+                                                {
+                                                    <h2 class="pt-4">
+                                                        Total Quantity:
+                                                        @con.Stock
+                                                        <a href="#" onclick="valuesparsing(@con.WarehousestockId,'@con.ConsignmentDate',@con.Stock)" class="btn btn-sm btn-info pr-2" data-toggle="modal" data-target="#myModal">
+                                                            <i class="la la-edit la-2x"></i>
+                                                        </a>
+                                                    </h2>
+
+                                                }
+                                            }
+                                        }
+
                                         <div class="kt-portlet__head px-0">
                                             <div class="kt-portlet__head-label">
                                                 <h3 class="kt-portlet__head-title">
@@ -167,41 +191,41 @@
                                                     <thead>
                                                         <tr>
                                                             <th>Date</th>
+                                                            <th>SO Number</th>
                                                             <th>Quantity</th>
-                                                            <th>Add/Remove Quantity</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @if (Model.WarehouseList.Count() > 0)
+
+                                                        @if (Model.ConsignmentsList.Count() > 0)
                                                         {
-                                                            foreach (var con in Model.WarehouseList)
+                                                            foreach (var con in Model.ConsignmentsList)
                                                             {
                                                                 <tr>
                                                                     <td>@con.ConsignmentDate</td>
                                                                     <td>
-                                                                        @con.Stock
-                                                                        @*@if (con.RequestStatus == 2)
-                                                                            {
-                                                                                <p> - Approved</p>
-                                                                            }
-                                                                            else if (con.RequestStatus == 3)
-                                                                            {
-                                                                                <p> - Rejected</p>
-                                                                            }*@
+                                                                        @con.Comments
                                                                     </td>
+                                                                    
                                                                     <td>
-                                                                        @if (con.RequestPending == 1)
+                                                                        @if (con.Type == "1")
                                                                         {
-                                                                            <p>Pending</p>
+                                                                            <i class="la la-plus"></i>
+                                                                            @con.Stock
                                                                         }
                                                                         else
                                                                         {
-                                                                            <a href="#" onclick="valuesparsing(@con.WarehousestockId,'@con.ConsignmentDate',@con.Stock)" class="btn btn-sm btn-info pr-2" data-toggle="modal" data-target="#myModal"><i class="la la-edit la-2x"></i></a>
+                                                                            <i class="la la-minus"></i>
+                                                                            @con.Stock
                                                                         }
                                                                     </td>
                                                                 </tr>
                                                             }
                                                         }
+
+
+
+
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -286,8 +310,9 @@
 <script>
 
     function TransferQnantity() {
+        debugger
          document.getElementById("loader").style.display = "block";
-        
+
         var WarehousestockId = $('#hdnWarehouseStockIdTrasnsfer').val();
 
         var Quantity = $('#txttransferQuantity').val();
@@ -298,7 +323,7 @@
 
         }
         var total_qnty = $('#hdnTotalQuantity').val();
-        if (Quantity>=total_qnty) {
+        if (parseInt(Quantity)>=parseInt(total_qnty)) {
             alert('Invalid Quantity');
              document.getElementById("loader").style.display = "none";
             return false;
@@ -328,7 +353,7 @@
                 },
              error: function () {
                  document.getElementById("loader").style.display = "none";
-                      
+
                        // $('#myModal').modal('toggle');
                         SparepartdetailsPVVV($('#hdnSparePartidTrnsf').val(), $('#hdnWarehouseId').val());
                 }
@@ -364,7 +389,7 @@
                 datatype: "json",
                 data: { WarehousestockId: WarehousestockId,Quantity:Quantity,Type:Type,Statusid:Statusid },
              success: function (data) {
-                 
+
                    var v = data.success;
                     if (v == true) {
                         $('#myModal').modal('toggle');

@@ -1,0 +1,194 @@
+﻿@model HelpDesk.Web.Models.AssetsDTO
+
+@{
+    ViewBag.Title = "AssetRenewalRequest";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/assets/css/datatables.bundle.css" rel="stylesheet" />
+<!-- begin:: Content -->
+<div id="Upper_div" class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
+    <div class="kt-portlet">
+        <div class="kt-portlet__head kt-portlet__head--lg">
+            <div class="kt-portlet__head-label">
+                <span class="kt-portlet__head-icon">
+                    <i class="kt-font-brand flaticon2-line-chart"></i>
+                </span>
+                <h3 class="kt-portlet__head-title">Assets Renewal Request List</h3>
+            </div>
+        </div>
+
+        <div class="kt-portlet__body pt-0">
+            <div class="table-responsive">
+                <table class="table table-striped- table-bordered table-hover table-checkable" id="kt_table_1">
+                    <thead>
+                        <tr>
+                            <th scope="col">Account Name</th>
+                            <th scope="col">System Id</th>
+                            <th scope="col">Serial No.</th>
+                            <th scope="col">Product</th>
+                            <th scope="col">Expired Date</th>
+                            <th scope="col">Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.AssetsList != null)
+                        {
+                            foreach (var item in Model.AssetsList)
+                            {
+                                <tr>
+                                    <td>@item.AccountName</td>
+                                    <td>@item.SystemNo</td>
+                                    <td>@item.SerialNo</td>
+                                    <td>@item.ProductName</td>
+                                    <td>@item.WarrantyExpiryDate.ToString("dd-MM-yyyy HH:mm")</td>
+                                    <td align="center">
+                                        <a href="#" onclick="ViewAssetDetails(@item.AMId)">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!--begin: href="@Url.Action("AssetDetails","Assets")" Section-->
+        </div>
+    </div>
+</div>
+<div id="asset_details" style="display:none;"></div>
+
+@section  Scripts{
+    <script src="~/assets/js/datatables.bundle.js"></script>
+    <script>
+        $('#loader').hide();
+
+        $(document).ready(function () {
+            $('#kt_table_1').DataTable({
+                initComplete: function () {
+                    this.api().columns().every(function () {
+                        var column = this;
+                        if (column.index() == 2) {  //skip if column 0
+                            $(column.header()).append("<br>")
+                            var select = $('<select class = "form-control kt-select2"><option value="" disabled selected>Select Model</option></select>')
+                                .appendTo(
+                                    //$(column.header())
+                                    $('#div_filters_model')
+                                )
+                                .on('change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                    );
+
+                                    column
+                                        .search(val ? '^' + val + '$' : '', true, false)
+                                        .draw();
+                                });
+                              column.data().unique().sort().each(function (d, j) {
+                                select.append('<option value="' + d + '">' + d + '</option>')
+                            });
+                        }  //end of if div_filters_Product
+                        else if (column.index() == 1) {  //skip if column 0
+                            $(column.header()).append("<br>")
+                            var select = $('<select class = "form-control kt-select2"><option value="" disabled selected>Select Product</option></select>')
+                                .appendTo(
+                                    //$(column.header())
+                                    $('#div_filters_Product')
+                                )
+                                .on('change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                    );
+
+                                    column
+                                        .search(val ? '^' + val + '$' : '', true, false)
+                                        .draw();
+                                });
+                            column.data().unique().sort().each(function (d, j) {
+                                select.append('<option value="' + d + '">' + d + '</option>')
+                            });
+                        }  //end of if
+                         else if (column.index() == 0) {  //skip if column 0
+                            $(column.header()).append("<br>")
+                            var select = $('<select class = "form-control kt-select2"><option value="" disabled selected>Select Account</option></select>')
+                                .appendTo(
+                                    //$(column.header())
+                                    $('#div_filters_Account')
+                                )
+                                .on('change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                    );
+
+                                    column
+                                        .search(val ? '^' + val + '$' : '', true, false)
+                                        .draw();
+                                });
+                            column.data().unique().sort().each(function (d, j) {
+                                select.append('<option value="' + d + '">' + d + '</option>')
+                            });
+                        }
+
+                    });
+                }
+            });
+        });
+
+         function closeDetails() {
+            $('#Upper_div').show();
+            $('#asset_details').hide();
+        }
+
+        function ViewAssetDetails(id) {
+            document.getElementById("loader").style.display = "block";
+            $('#Upper_div').hide();
+
+            $.ajax({
+                type: "Post",
+                url: '@Url.Action("RenewalAssetDetails")',
+                datatype: "json",
+                data: { id: id },
+                success: function (data) {
+                    document.getElementById("loader").style.display = "none";
+                    $('#asset_details').show();
+                    $('#asset_details').html(data);
+                },
+                error: function () {
+                    $('#asset_details').html('');
+                    document.getElementById("loader").style.display = "none";
+                }
+            });
+        }
+         function UpdateStatus(val) {
+            document.getElementById("loader").style.display = "block";
+            var AMID = $('#hdnAMId').val();
+            var RenewalId = $('#hdnRenewalId').val();
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("UpdateAssetRenewalStatus")', // we are calling json method
+                dataType: 'json',
+                data: { RenewalId: RenewalId, AMId: AMID, id: val },
+                success: function (data) {
+                    var v = data.success;
+                    alert('Updated Successfully');
+                    location.reload();
+                    //if (v == true) {
+                    //    ViewAssetDetails($('#hdnAssetId').val());
+                    //}
+                    //else {
+                    //    alert('Some thing went wrong');
+                    //}
+                    document.getElementById("loader").style.display = "none";
+                },
+                error: function (ex) {
+                    document.getElementById("loader").style.display = "none";
+                    alert('Failed to update status.' + ex);
+                }
+            });
+        }
+    </script>
+}
+
+

@@ -156,10 +156,10 @@
         </div>
     </div>
 
-    <!-- begin:: Header Mobile -->
+    <!-- begin:: Header Mobile  -->
     <div id="kt_header_mobile" class="kt-header-mobile  kt-header-mobile--fixed ">
         <div class="kt-header-mobile__brand">
-            <a class="kt-header-mobile__logo" href="?page=index">
+            <a class="kt-header-mobile__logo" href="?page=index" >
                 <img src="~/assets/images/ahc_new_logo.png" height="35" />
             </a>
         </div>
@@ -182,7 +182,7 @@
                             <!-- begin:: Brand -->
                             <div class="kt-header__brand  kt-aside__brand--skin-light   kt-grid__item" id="kt_header_brand">
                                 <div class="kt-header__brand-logo">
-                                    <a href="#">
+                                    <a  href="@Url.Action("Index","Dashboard")">
                                         @*<img src="~/assets/images/logo-5.png" alt="logo" />*@
                                         <img src="~/assets/images/ahc_new_logo.png" alt="AHC Logo" height="40" />
                                     </a>
@@ -212,6 +212,11 @@
                                                 </a>
                                             </li>
                                             <li class="kt-nav__item">
+                                                <a href="@Url.Action("ChangePassword", "UsersRegistration")" class="kt-nav__link">
+                                                    <span class="kt-nav__link-text">Change Password</span>
+                                                </a>
+                                            </li>
+                                            <li class="kt-nav__item">
                                                 <a href="@Url.Action("Logout", "Login")" class="kt-nav__link">
                                                     <span class="kt-nav__link-text">Logout</span>
                                                 </a>
@@ -233,12 +238,13 @@
                             <div class="kt-header-menu-wrapper" id="kt_header_menu_wrapper">
                                 <div class="kt-header-menu">
                                     @{
-                                        string name = (string)Session["SSRoleName"];
+                                        string rolename = (string)Session["SSRoleName"];
+                                        string username = (string)Session["SSUserName"];
                                     }
                                     <h2 class="color-primary py-3 px-2">
-                                        AHC Helpdesk
+                                        AHC Support
                                     </h2>
-                                    <p class="color-primary py-4 px-3">- @name</p>
+                                    <p class="color-primary py-4 px-3">- Welcome @username</p>
                                 </div>
                             </div>
 
@@ -396,11 +402,11 @@
                             <div class="kt-container ">
                                 <div class="kt-footer__wrapper">
                                     <div class="kt-footer__copyright">
-                                        &copy; 2019 <a href="#" target="_blank">AHC @@ All Rights Reserved.</a>
+                                        &copy; 2020 <a href="#" target="_blank">AHC @@ All Rights Reserved.</a>
                                     </div>
-                                    <div class="kt-footer__copyright">
+                                    @*<div class="kt-footer__copyright">
                                         Powered By <a href="https://www.creative-sols.com" target="_blank">Creative Solutions</a>
-                                    </div>
+                                    </div>*@
                                 </div>
                             </div>
                         </div>

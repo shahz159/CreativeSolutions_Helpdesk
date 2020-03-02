@@ -1,0 +1,252 @@
+﻿@model HelpDesk.Web.Models.InventoryDTO
+
+<div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4 position-relative">
+    <a href="#" onclick="CloseDetails()" class="details-close-button btn btn-danger btn-sm btn-icon btn-circle position-absolute"><i class="la la-close"></i></a>
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 order-lg-1 order-xl-1">
+            <div class="kt-portlet kt-portlet--head--noborder kt-portlet--height-fluid">
+                <div class="kt-portlet__head kt-portlet__head--lg">
+                    <div class="kt-portlet__head-label">
+                        <span class="kt-portlet__head-icon">
+                            <i class="kt-font-brand flaticon2-line-chart"></i>
+                        </span>
+                        <h3 class="kt-portlet__head-title">
+                            Sparepart Details
+                        </h3>
+                    </div>
+                </div>
+                <div class="kt-portlet__body kt-portlet__body--fluid kt-portlet__body--fit">
+                    <div class="kt-container  kt-grid__item kt-grid__item--fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form class="kt-form kt-form--label-right">
+                                    @if (Model.WarehouseList.Count() > 0)
+                                    {
+                                        foreach (var con in Model.WarehouseList)
+                                        {
+                                            <div class="kt-portlet__body pb-0">
+                                                <div id="div_SP" class="row">
+                                                    <div class="col-md-12">
+                                                        <div action="#">
+                                                            <div class="form-group mb-3 row">
+                                                                <label for="example-text-input" class="col-md-3 col-form-label pt-0">Warehouse : </label>
+                                                                <h4 class="col-md-9"> @con.WarehouseName</h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div action="#">
+                                                            <div class="form-group mb-3 row">
+                                                                <label for="example-text-input" class=" col-md-3 col-form-label pt-0">Spare Part : </label>
+                                                                <h4 class="col-md-9"> @con.SparePartName</h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div action="#">
+                                                            <div class="form-group mb-3 row">
+                                                                <label for="example-text-input" class="col-md-3 col-form-label pt-0"> Actual Stock  : </label>
+                                                                <h4 class="col-md-9">  @con.Stock</h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div action="#">
+                                                            <div class="form-group mb-3 row">
+                                                                <label for="example-text-input" class="col-md-3 col-form-label pt-0"> Transfer Stock  : </label>
+                                                                <h4 class="col-md-9" id="hTransfer_stock">  @con.Stock</h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <input type="hidden" id="hdnFromWarehouseId" value="@con.WarehouseId" />
+                                            <input type="hidden" id="hdnFromWarehouseStockId" value="@con.WarehousestockId" />
+                                            <input type="hidden" id="hdnSparePartId" value="@con.SparePartId" />
+                                        }
+                                    }
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="kt-portlet__body kt-portlet__body--fluid kt-portlet__body--fit">
+                    <div class="kt-container  kt-grid__item kt-grid__item--fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!--begin::Form-->
+                                <form class="kt-form kt-form--label-right">
+                                    <div class="kt-portlet__body">
+                                        <div class="p-3" style="border: 1px solid #ccc">
+                                            <div class="row">
+                                                <div class="col-md-5">
+                                                    <div class="form-group">
+                                                        <label class="col-form-label">Warehouse</label>
+                                                        <div class="">
+                                                            <select class="form-control kt-select2" id="ddlwarehouse">
+                                                                @if (Model.WHddlList != null)
+                                                                {
+                                                                    @*<option value="">--Please Select--</option>*@
+                                                                    foreach (var item in Model.WHddlList)
+                                                                    {
+                                                                        <option value="@item.WarehouseId">@item.WarehouseName</option>
+                                                                    }
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <label for="example-text-input" class="col-form-label">Enter Quantity</label>
+                                                    <div>
+                                                        <input class="form-control" type="text" value="" id="txtquantity" onkeypress="return isNumberKey(event)" placeholder="Enter Quantity">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label for="example-text-input" class="col-form-label">&nbsp;</label>
+                                                    <div>
+                                                        <a class="btn btn-info px-5" onclick="AddDetails()">Add</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                    <div class="kt-portlet__foot table-responsive">
+                                        <table id="SelectedSP" class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name/Number</th>
+                                                    <th>Quantity</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="th_spr">
+                                            </tbody>
+                                        </table>
+                                        <hr />
+                                        <div class="form-group row">
+                                            <div class="col-sm-12 text-right">
+                                                <a href="#" onclick="BulkTransfer()" class="btn btn-success">Submit</a>
+                                                <a href="#" class="btn btn-secondary">Cancel</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*hTransfer_stock*@
+
+<script>
+    function enablevaluesparepartA(id) {
+       
+        //lblQnty_
+        debugger
+        var qntyt = $('#hTransfer_stock').html();
+        var sa = $('#lblQnty_' + id).html();
+        var rqty = parseInt(sa) + parseInt(qntyt);
+
+        $('#hTransfer_stock').html('');
+        $('#hTransfer_stock').html(rqty);
+
+         $("#ddlwarehouse option[value*='" + id + "']").removeAttr('disabled');
+        $('#' + id).remove();
+    }
+    function AddDetails() {
+        //th_spr
+        var warehouseid = $('#ddlwarehouse').val();
+
+        if (warehouseid == "" || warehouseid == null) {
+            alert('Please Select Warehouse');
+            return false;
+        }
+
+        var nameANDnumber = $("#ddlwarehouse option:selected").text();
+        var qnty = $('#txtquantity').val();
+
+        var qntyt = parseInt($('#hTransfer_stock').html());
+        var rqty = qntyt - parseInt(qnty);
+        if (rqty < 0) {
+            $('#' + warehouseid).remove();
+            alert('Invalid Quantity');
+            return false;
+        }
+        else {
+            $('#hTransfer_stock').html('');
+            $('#hTransfer_stock').html(rqty);
+        }
+
+
+        var dist = '<tr id="' + warehouseid + '">';
+        dist = dist + '<td>' + nameANDnumber + '</td>';
+        dist = dist + '<td><label id="lblQnty_' + warehouseid + '">' + qnty + '</label></td>';
+        dist = dist + '<td> <i onclick="enablevaluesparepartA(' + warehouseid + ')" class="la la-trash la-2x"></i></td>';
+        dist = dist + '</tr>';
+        $('#th_spr').append(dist);
+        $("#ddlwarehouse option[value*='" + warehouseid + "']").attr('disabled', 'disabled');
+        $('#txtquantity').val('');
+        $('#ddlwarehouse').val('0').trigger('change');
+
+       
+
+    }
+     function isNumberKey(evt) {
+            $('#txtmobileerror').text('');
+            var charCode = (evt.which) ? evt.which : evt.keyCode
+            if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+            return true;
+    }
+    function BulkTransfer() {
+        var FromWarehouseId = $('#hdnFromWarehouseId').val();
+        var FromWarehouseStockId = $('#hdnFromWarehouseStockId').val();
+        var SparePartId = $('#hdnSparePartId').val();
+
+        var jsonary = [];
+        $('#th_spr tr').each(function () {
+            if (this.id != "") {
+                var dyn_matrix_data = {};
+                dyn_matrix_data.FromWarehouseId = FromWarehouseId;
+                dyn_matrix_data.FromWarehouseStockId = FromWarehouseStockId;
+                dyn_matrix_data.SparePartId = SparePartId;
+                dyn_matrix_data.ToWarehouseId = this.id;
+                dyn_matrix_data.Quantity = $('#lblQnty_' + this.id).html();
+                jsonary.push(dyn_matrix_data);
+            }
+        });
+
+        $.ajax({
+            type: "Post",
+            url: '@Url.Action("NewBulkTransfer")',
+            datatype: "json",
+            data: { message: JSON.stringify(jsonary) },
+            success: function (data) {
+                var v = data.success;
+                if (v == true) {
+                    //Sparepartdetails($('#hdnSparePartId').val());
+                    alert('Transfered Succesfully');
+                    location.reload();
+                }
+                else {
+                    alert('Some thing went wrong');
+                }
+                document.getElementById("loader").style.display = "none";
+            },
+            error: function () {
+                alert('error');
+                document.getElementById("loader").style.display = "none";
+            }
+        });
+    }
+</script>

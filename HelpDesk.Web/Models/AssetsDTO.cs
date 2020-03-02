@@ -7,6 +7,8 @@ namespace HelpDesk.Web.Models
 {
     public class AssetsDTO
     {
+        public string AssetModelJson { get; set; }
+        public long RenewalId { get; set; }
         public long TicketNumber { get; set; }
         public int TicketCreationStatus { get; set; }
         public int ContractType { get; set; }
@@ -27,6 +29,7 @@ namespace HelpDesk.Web.Models
         public IEnumerable<AssetsDTO> AssetsList { get; set; }
         public IEnumerable<AssetsDTO> PPMList { get; set; }
         public IEnumerable<AssetsDTO> ModelList { get; set; }
+        public IEnumerable<AssetsDTO> AssetModelList { get; set; }
         public IEnumerable<AssetsDTO> CityList { get; set; }
         public IEnumerable<AssetsDTO> UpdatedList { get; set; }
         public string UpdatedJson { get; set; }
@@ -79,5 +82,7 @@ namespace HelpDesk.Web.Models
         public bool EditMode { get; set; }
         public long APPMId { get; set; }
         public int StatusId { get; set; }
+        public string UpdateUserName { get; set; }
+        public DateTime ModifiedOn { get; set; }
     }
 }

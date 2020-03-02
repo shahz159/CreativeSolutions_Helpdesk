@@ -18,7 +18,6 @@ namespace HelpDesk.API.GenericHelpers
             ns.Add("", "");
             return Serialize(source, ns, GetIndentedSettings());
         }
-
         public static string Serialize(T source, XmlSerializerNamespaces namespaces, XmlWriterSettings settings)
         {
             if (source == null)
@@ -42,7 +41,6 @@ namespace HelpDesk.API.GenericHelpers
             }
             return xml;
         }
-
         private static XmlWriterSettings GetIndentedSettings()
         {
             XmlWriterSettings xmlWriterSettings = new XmlWriterSettings();

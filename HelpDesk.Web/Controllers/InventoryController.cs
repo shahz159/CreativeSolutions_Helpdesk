@@ -379,7 +379,8 @@ namespace HelpDesk.Web.Controllers
                                             WarehousestockId = dataRow.Field<long>("WarehousestockId"),
                                             RequestPending = dataRow.Field<int>("RequestPending"),
                                             RequestStatus = dataRow.Field<int>("RequestStatus"),
-                                            WarehouseJson = dataRow.Field<string>("WarehouseJson")
+                                            WarehouseJson = dataRow.Field<string>("WarehouseJson"),
+                                            HistoryJson = dataRow.Field<string>("HistoryJson")
                                         }).ToList();
                                         obj.WarehouseList = warelst;
                                         obj.Quantity= obj.WarehouseList.FirstOrDefault().Quantity;
@@ -389,9 +390,10 @@ namespace HelpDesk.Web.Controllers
                                         var modalwarehouse = JsonConvert.DeserializeObject<List<InventoryDTO>>(warehousej);
                                         obj.WHddlList = modalwarehouse;
 
-                                        //string warehousej = obj.WarehouseList.SingleOrDefault().WarehouseJson;
-                                        //var modalwarehouse = JsonConvert.DeserializeObject<List<InventoryDTO>>(warehousej);
-                                        //obj.WarehouseList = modalwarehouse;
+
+                                        string warehousejs = obj.WarehouseList.SingleOrDefault().HistoryJson;
+                                        var modalwarehousesd = JsonConvert.DeserializeObject<List<InventoryDTO>>(warehousejs);
+                                        obj.ConsignmentsList = modalwarehousesd;
                                     }
                                     else
                                     {
@@ -576,6 +578,7 @@ namespace HelpDesk.Web.Controllers
                                             AHCCode = dataRow.Field<string>("AHCCode"),
                                             Quantity = dataRow.Field<int>("Quantity"),
                                             ConsignmentDate = dataRow.Field<string>("ConsignmentDate"),
+                                            CreatedOn = dataRow.Field<DateTime>("CreatedDate"),
                                             Type = dataRow.Field<string>("Type")
                                         }).ToList();
                                         obj.SparePartList = sparelst;
@@ -940,7 +943,6 @@ namespace HelpDesk.Web.Controllers
             }
         }
 
-
         public ActionResult PdfToHtml()
         {
             SautinSoft.PdfFocus f = new SautinSoft.PdfFocus();
@@ -1016,5 +1018,245 @@ namespace HelpDesk.Web.Controllers
             }
         }
 
+        public async Task<ActionResult> Transfer()
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        InventoryDTO obj = new InventoryDTO();
+                        obj.OrganizationId = int.Parse(Session["SSOrganizationId"].ToString());
+                        List<InventoryDTO> sparelst = new List<InventoryDTO>();
+
+                        HttpResponseMessage responseMessageViewDocuments = await client.PostAsJsonAsync("api/InventoryAPI/NewSparePartList", obj);
+                        if (responseMessageViewDocuments.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessageViewDocuments.Content.ReadAsStringAsync().Result;
+                            var docs = JsonConvert.DeserializeObject<InventoryDTO>(responseData);
+
+                            var data = docs.datasetxml;
+                            if (data != null)
+                            {
+                                var document = new XmlDocument();
+                                document.LoadXml(data);
+                                DataSet ds = new DataSet();
+                                ds.ReadXml(new XmlNodeReader(document));
+                                if (ds.Tables.Count > 0)
+                                {
+                                    if (ds.Tables[0].Rows.Count > 0)
+                                    {
+                                        sparelst = ds.Tables[0].AsEnumerable().Select(dataRow => new InventoryDTO
+                                        {
+                                            SparePartId = dataRow.Field<long>("SparePartId"),
+                                            ProductId = dataRow.Field<int>("ProductId"),
+                                            SparePartName = dataRow.Field<string>("SparePartName"),
+                                            SparePartNumber = dataRow.Field<string>("SparePartNumber"),
+                                            Quantity = dataRow.Field<int>("Quantity"),
+                                            BaseQuantity = dataRow.Field<int>("BaseQuantity"),
+                                            Price = dataRow.Field<string>("Price")
+                                        }).ToList();
+                                        obj.SparePartList = sparelst;
+                                    }
+                                    else
+                                        obj.SparePartList = sparelst;
+                                }
+                            }
+                        }
+                        obj.RoleId = int.Parse(Session["SSRoleId"].ToString());
+                        return View(obj);
+                    }
+                    catch (Exception ex)
+                    {
+                        InventoryDTO obj = new InventoryDTO();
+                        return View(obj);
+                    }
+                }
+            }
+        }
+
+        public async Task<ActionResult> WarehouseListBySparePartId(long id)
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                int orgid = int.Parse(Session["SSOrganizationId"].ToString());
+                int roleid = int.Parse(Session["SSRoleId"].ToString());
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        InventoryDTO obj = new InventoryDTO();
+                        List<InventoryDTO> sparelst = new List<InventoryDTO>();
+                        obj.SparePartId = id;
+
+                        HttpResponseMessage responseMessageViewDocuments = await client.PostAsJsonAsync("api/InventoryAPI/NewGetListOfWarehouseBySparePart", obj);
+                        if (responseMessageViewDocuments.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessageViewDocuments.Content.ReadAsStringAsync().Result;
+                            var docs = JsonConvert.DeserializeObject<InventoryDTO>(responseData);
+
+                            var data = docs.datasetxml;
+                            if (data != null)
+                            {
+                                var document = new XmlDocument();
+                                document.LoadXml(data);
+                                DataSet ds = new DataSet();
+                                ds.ReadXml(new XmlNodeReader(document));
+                                if (ds.Tables.Count > 0)
+                                {
+                                    if (ds.Tables[0].Rows.Count > 0)
+                                    {
+                                        sparelst = ds.Tables[0].AsEnumerable().Select(dataRow => new InventoryDTO
+                                        {
+                                            WarehouseId = dataRow.Field<int>("WareHouseId"),
+                                            WarehousestockId = dataRow.Field<long>("WarehouseStockId"),
+                                            Stock = dataRow.Field<int>("Stock"),
+                                            SparePartId = dataRow.Field<long>("SparePartId"),
+                                            WarehouseName = dataRow.Field<string>("WarehouseName") 
+                                        }).ToList();
+                                        obj.SparePartList = sparelst;
+                                    }
+                                    else
+                                        obj.SparePartList = sparelst;
+                                }
+                            }
+                        }
+                        return PartialView("WarehouseListBySparePartPV", obj);
+                    }
+                    catch (Exception ex)
+                    {
+                        return RedirectToAction("Authenticate", "Authentication");
+                    }
+                }
+            }
+        }
+        public async Task<ActionResult> SparePartStockDetails(long id)
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                int userid = int.Parse(Session["SSUserId"].ToString());
+                int roleid = int.Parse(Session["SSRoleId"].ToString());
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        InventoryDTO obj = new InventoryDTO();
+                        obj.WarehousestockId =id;
+                        List<InventoryDTO> warelst = new List<InventoryDTO>();
+                        HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/InventoryAPI/NewGetSparePartDetailsByWareHouseStock", obj);
+                        if (responseMessage.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                            var docs = JsonConvert.DeserializeObject<InventoryDTO>(responseData);
+
+                            var data = docs.datasetxml;
+                            if (data != null)
+                            {
+                                var document = new XmlDocument();
+                                document.LoadXml(data);
+                                DataSet ds = new DataSet();
+                                ds.ReadXml(new XmlNodeReader(document));
+                                if (ds.Tables.Count > 0)
+                                {
+                                    SelectList ddlwarehouse = new SelectList("", "WarehouseId", "WarehouseName", 0);
+                                    if (ds.Tables[0].Rows.Count > 0)
+                                    {
+                                        warelst = ds.Tables[0].AsEnumerable().Select(dataRow => new InventoryDTO
+                                        {
+                                            WarehousestockId = dataRow.Field<long>("WarehousestockId"),
+                                            WarehouseId = dataRow.Field<int>("WareHouseId"),
+                                            Stock = dataRow.Field<int>("Stock"),
+                                            SparePartId = dataRow.Field<long>("SparePartId"),
+                                            WarehouseName = dataRow.Field<string>("WarehouseName"),
+                                            SparePartName = dataRow.Field<string>("SparePartName"),
+                                            SparePartNumber = dataRow.Field<string>("SparePartNumber"),
+                                            WarehouseJson = dataRow.Field<string>("WarehouseJson")
+                                        }).ToList();
+                                        obj.WarehouseList = warelst;
+                                        string warehousej = obj.WarehouseList.FirstOrDefault().WarehouseJson;
+                                        var modalwarehouse = JsonConvert.DeserializeObject<List<InventoryDTO>>(warehousej);
+                                        obj.WHddlList = modalwarehouse;
+                                    }
+                                    else
+                                    {
+                                        obj.WarehouseList = null;
+                                        obj.WHddlList = null;
+                                    }
+                                }
+                            }
+                            return PartialView("StockDetailsPV", obj);
+                        }
+                        return View("Error");
+                    }
+                    catch (Exception ex)
+                    {
+                        return RedirectToAction("Index", "Login");
+                    }
+                }
+            }
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> NewBulkTransfer(string message)
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                int userid = int.Parse(Session["SSUserId"].ToString());
+                int orgid = int.Parse(Session["SSOrganizationId"].ToString());
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        InventoryDTO obj = new InventoryDTO();
+                        obj.OrganizationId = orgid;
+                        obj.CreatedBy = userid;
+                        obj.message = message;
+                        //obj.Quantity = Quantity;
+                        //obj.SparePartId = SparePartId;
+                        //obj.WarehouseId = warehouseid;
+
+                        HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/InventoryAPI/NewInsertBulkTransfer", obj);
+                        if (responseMessage.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                            var categories = JsonConvert.DeserializeObject<InventoryDTO>(responseData);
+                            obj.message = categories.message;
+                            string msg = obj.message;
+                        }
+                        return Json(new { success = true });
+                    }
+                    catch (Exception ex)
+                    {
+                        return View();
+                    }
+                }
+            }
+        }
     }
 }

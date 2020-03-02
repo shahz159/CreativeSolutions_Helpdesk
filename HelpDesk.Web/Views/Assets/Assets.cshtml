@@ -41,7 +41,7 @@
                 <div class="row align-items-center">
                     <div class="col-xl-12 order-2 order-xl-1">
                         <div class="row align-items-center">
-                            <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                            <div class="col-md-6 kt-margin-b-20-tablet-and-mobile">
                                 <div class="kt-form__group">
                                     <div class="kt-form__label">
                                         <label>Service Account</label>
@@ -53,7 +53,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                            <div class="col-md-6 kt-margin-b-20-tablet-and-mobile">
                                 <div class="kt-form__group">
                                     <div class="kt-form__label">
                                         <label>Service Product</label>
@@ -65,19 +65,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
-                                <div class="kt-form__group">
-                                    <div class="kt-form__label">
-                                        <label>Service Model</label>
-                                    </div>
-                                    <div class="kt-form__control">
-                                        <div id="div_filters_model">
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
                 </div>
@@ -91,7 +78,7 @@
                         <tr>
                             <th scope="col">Account Name</th>
                             <th scope="col">System Id</th>
-                            <th scope="col">Serial No.</th>
+                            @*<th scope="col">Serial No.</th>*@
                             <th scope="col">Product</th>
 
                             @*<th scope="col">Model</th>
@@ -115,7 +102,7 @@
                                 <tr>
                                     <td>@item.AccountName</td>
                                     <td>@item.SystemNo</td>
-                                    <td>@item.SerialNo</td>
+                                    @*<td>@item.SerialNo</td>*@
                                     <td>@item.ProductName</td>
                                     @*<td>@item.ModelName</td>
                                     <td>@item.StationName</td>
@@ -197,27 +184,7 @@
                 initComplete: function () {
                     this.api().columns().every(function () {
                         var column = this;
-                        if (column.index() == 2) {  //skip if column 0
-                            $(column.header()).append("<br>")
-                            var select = $('<select class = "form-control kt-select2"><option value="" disabled selected>Select Model</option></select>')
-                                .appendTo(
-                                    //$(column.header())
-                                    $('#div_filters_model')
-                                )
-                                .on('change', function () {
-                                    var val = $.fn.dataTable.util.escapeRegex(
-                                        $(this).val()
-                                    );
-
-                                    column
-                                        .search(val ? '^' + val + '$' : '', true, false)
-                                        .draw();
-                                });
-                              column.data().unique().sort().each(function (d, j) {
-                                select.append('<option value="' + d + '">' + d + '</option>')
-                            });
-                        }  //end of if div_filters_Product
-                        else if (column.index() == 1) {  //skip if column 0
+                         if (column.index() == 2) {  //skip if column 0
                             $(column.header()).append("<br>")
                             var select = $('<select class = "form-control kt-select2"><option value="" disabled selected>Select Product</option></select>')
                                 .appendTo(
@@ -296,11 +263,11 @@
             alert('Fields required');
             return false;
         }
-        var ModelId = $('#ddlModelE').val();
-        if (ModelId == 0 || ModelId == null) {
-            alert('Fields required');
-            return false;
-        }
+        //var ModelId = $('#ddlModelE').val();
+        //if (ModelId == 0 || ModelId == null) {
+        //    alert('Fields required');
+        //    return false;
+        //}
         var RegionId = $('#ddlregionE').val();
         if (RegionId == 0 || RegionId == null) {
             alert('Fields required');
@@ -311,11 +278,11 @@
             alert('Fields required');
             return false;
         }
-        var Configuration = $('#txtconfigurationE').val();
-        if (Configuration == '' || Configuration == null) {
-            alert('Fields required');
-            return false;
-        }
+        //var Configuration = $('#txtconfigurationE').val();
+        //if (Configuration == '' || Configuration == null) {
+        //    alert('Fields required');
+        //    return false;
+        //}
         var StationName = $('#txtstationNameE').val();
         if (StationName == '' || StationName == null) {
             alert('Fields required');
@@ -329,30 +296,30 @@
 
 
 
-            var IPAddress = '';
-            var ip1 = $('#txtipaddressE0').val();
-            if (ip1 == '' || ip1 == null) {
-                ip1 = 0;
-            }
-            var ip2 = $('#txtipaddressE1').val();
-             if (ip2 == '' || ip2 == null) {
-                ip2 = 0;
-            }
-            var ip3 = $('#txtipaddressE2').val();
-             if (ip3 == '' || ip3 == null) {
-                ip3 = 0;
-            }
-            var ip4 = $('#txtipaddressE3').val();
-              if (ip4 == '' || ip4 == null) {
-                ip4 = 0;
-            }
+            //var IPAddress = '';
+            //var ip1 = $('#txtipaddressE0').val();
+            //if (ip1 == '' || ip1 == null) {
+            //    ip1 = 0;
+            //}
+            //var ip2 = $('#txtipaddressE1').val();
+            // if (ip2 == '' || ip2 == null) {
+            //    ip2 = 0;
+            //}
+            //var ip3 = $('#txtipaddressE2').val();
+            // if (ip3 == '' || ip3 == null) {
+            //    ip3 = 0;
+            //}
+            //var ip4 = $('#txtipaddressE3').val();
+            //  if (ip4 == '' || ip4 == null) {
+            //    ip4 = 0;
+            //}
 
-            IPAddress = ip1 + '.' + ip2 + '.' + ip3 + '.' + ip4;
-             var SerialNumber = $('#txtSerialNumberE').val();
-            if (SerialNumber == '' || SerialNumber == null) {
-                alert('Fields required');
-                return false;
-            }
+            //IPAddress = ip1 + '.' + ip2 + '.' + ip3 + '.' + ip4;
+            // var SerialNumber = $('#txtSerialNumberE').val();
+            //if (SerialNumber == '' || SerialNumber == null) {
+            //    alert('Fields required');
+            //    return false;
+            //}
 
 
          var AMId = $('#hdnAMId').val();
@@ -360,7 +327,18 @@
             type: "Post",
             url: '@Url.Action("AddUpdatingAssetDetails")',
             datatype: "json",
-            data: { ProductId: ProductId,ModelId:ModelId,RegionId:RegionId,CityId:CityId,Configuration:Configuration,StationName:StationName,Area:Area,IPAddress:IPAddress,AMId:AMId,SerialNo:SerialNumber },
+            data: {
+               ProductId: ProductId,
+                //ModelId: ModelId,
+                RegionId: RegionId,
+                CityId: CityId,
+                //Configuration: Configuration,
+                StationName: StationName,
+                Area: Area,
+                //IPAddress: IPAddress,
+                AMId: AMId
+                //SerialNo: SerialNumber
+            },
             success: function (data) {
                 var v = data.success;
                 if (v == true) {

@@ -1,0 +1,65 @@
+﻿@model HelpDesk.Web.Models.InventoryDTO
+
+<link href="~/assets/css/datatables.bundle.css" rel="stylesheet" />
+<div class="table-responsive">
+    <table class="table table-striped- table-bordered table-hover table-checkable" id="kt_table_1">
+        <thead>
+            <tr>
+                <th scope="col">Warehouse Name</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.SparePartList != null)
+            {
+                foreach (var item in Model.SparePartList)
+                {
+                    <tr>
+                        <td>@item.WarehouseName</td>
+                        <td>@item.Stock</td>
+                        <td align="center">
+                            <a href="#" onclick="Sparepartstockdetails(@item.WarehousestockId)">
+                                <i class="fa fa-eye"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<script src="~/assets/js/datatables.bundle.js"></script>
+
+<script>
+    var KTDatatablesBasicPaginations = function () {
+
+        var initTable1 = function () {
+            var table = $('#kt_table_1');
+
+            // begin first table
+            table.DataTable({
+                responsive: true
+            });
+        };
+
+        return {
+
+            //main function to initiate the module
+            init: function () {
+                initTable1();
+            },
+
+        };
+
+    }();
+
+    jQuery(document).ready(function () {
+        KTDatatablesBasicPaginations.init();
+    });
+
+
+
+</script>
