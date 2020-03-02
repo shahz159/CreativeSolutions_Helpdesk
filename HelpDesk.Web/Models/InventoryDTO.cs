@@ -50,5 +50,6 @@ namespace HelpDesk.Web.Models
 
         public string Statustxt { get; set; }
         public string WarehouseJson { get; set; }
+        public DateTime CreatedOn { get; set; }
     }
 }

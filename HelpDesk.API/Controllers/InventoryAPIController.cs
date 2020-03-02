@@ -37,6 +37,13 @@ namespace HelpDesk.API.Controllers
         }
 
         [ResponseType(typeof(InventoryDTO))]
+        public IHttpActionResult NewInsertBulkTransfer(InventoryDTO obj)
+        {
+            var result = service.InsertBulkTransfer(obj);
+            return Ok(result);
+        }
+
+        [ResponseType(typeof(InventoryDTO))]
         public IHttpActionResult NewUpdateSparePart(InventoryDTO obj)
         {
             var result = service.UpdateSparePart(obj);

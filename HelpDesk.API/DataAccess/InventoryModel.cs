@@ -91,6 +91,28 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
+        public SqlDataReader InsertBulkTransfer(InventoryDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                //new SqlParameter("@Sparepartid",obj.SparePartId),
+                //new SqlParameter("@quantity",obj.Quantity),
+                //new SqlParameter("@comments",obj.Comments),
+                new SqlParameter("@Json",obj.message),
+                    new SqlParameter("@CreatedBy",obj.CreatedBy)
+                //new SqlParameter("@WarehouseId",obj.WarehouseId)
+                };
+                return DbConnector.ExecuteReader("uspBulkTransfer", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "InventoryModel -> InsertUpdateConsginment");
+                return null;
+            }
+        }
+
+        
         public SqlDataReader UpdateSparePart(InventoryDTO obj)
         {
             try
@@ -294,6 +316,7 @@ namespace HelpDesk.API.DataAccess
     {
         SqlDataReader InsertUpdateSparePart(InventoryDTO obj);
         SqlDataReader InsertUpdateConsginment(InventoryDTO obj);
+        SqlDataReader InsertBulkTransfer(InventoryDTO obj);
         SqlDataReader UpdateSparePart(InventoryDTO obj);
         SqlDataReader stockchnage(InventoryDTO obj);
         SqlDataReader transferquantity(InventoryDTO obj);

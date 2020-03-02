@@ -578,6 +578,7 @@ namespace HelpDesk.Web.Controllers
                                             AHCCode = dataRow.Field<string>("AHCCode"),
                                             Quantity = dataRow.Field<int>("Quantity"),
                                             ConsignmentDate = dataRow.Field<string>("ConsignmentDate"),
+                                            CreatedOn = dataRow.Field<DateTime>("CreatedDate"),
                                             Type = dataRow.Field<string>("Type")
                                         }).ToList();
                                         obj.SparePartList = sparelst;
@@ -1209,6 +1210,50 @@ namespace HelpDesk.Web.Controllers
                     catch (Exception ex)
                     {
                         return RedirectToAction("Index", "Login");
+                    }
+                }
+            }
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> NewBulkTransfer(string message)
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                int userid = int.Parse(Session["SSUserId"].ToString());
+                int orgid = int.Parse(Session["SSOrganizationId"].ToString());
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        InventoryDTO obj = new InventoryDTO();
+                        obj.OrganizationId = orgid;
+                        obj.CreatedBy = userid;
+                        obj.message = message;
+                        //obj.Quantity = Quantity;
+                        //obj.SparePartId = SparePartId;
+                        //obj.WarehouseId = warehouseid;
+
+                        HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/InventoryAPI/NewInsertBulkTransfer", obj);
+                        if (responseMessage.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                            var categories = JsonConvert.DeserializeObject<InventoryDTO>(responseData);
+                            obj.message = categories.message;
+                            string msg = obj.message;
+                        }
+                        return Json(new { success = true });
+                    }
+                    catch (Exception ex)
+                    {
+                        return View();
                     }
                 }
             }

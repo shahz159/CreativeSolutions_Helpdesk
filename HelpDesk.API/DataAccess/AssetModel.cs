@@ -124,11 +124,11 @@ namespace HelpDesk.API.DataAccess
                 {
                     new SqlParameter("@AccountId",obj.AccountId),
                     new SqlParameter("@ProductId",obj.ProductId),
-                    new SqlParameter("@ModelId",obj.ModelId),
+                    //new SqlParameter("@ModelId",obj.ModelId),
                     new SqlParameter("@StationName",obj.StationName),
-                    new SqlParameter("@IPAddress",obj.IPAddress),
-                    new SqlParameter("@SerialNo",obj.SerialNo),
-                    new SqlParameter("@Configuration",obj.Configuration),
+                    //new SqlParameter("@IPAddress",obj.IPAddress),
+                    //new SqlParameter("@SerialNo",obj.SerialNo),
+                    //new SqlParameter("@Configuration",obj.Configuration),
                     new SqlParameter("@Area",obj.Area),
                     new SqlParameter("@RegionId",obj.RegionId),
                     new SqlParameter("@CityId",obj.CityId),
@@ -142,8 +142,9 @@ namespace HelpDesk.API.DataAccess
                     new SqlParameter("@CreatedBy",obj.CreatedBy),
                     new SqlParameter("@FlagId",obj.FlagId),
                     new SqlParameter("@AMId",obj.AMId),
-                    new SqlParameter("@CompanyId",obj.CompanyId) ,
-                    new SqlParameter("@ContractType",obj.ContractType)
+                    new SqlParameter("@CompanyId",obj.CompanyId),
+                    new SqlParameter("@ContractType",obj.ContractType),
+                    new SqlParameter("@json",obj.message)
                 };
                 return DbConnector.ExecuteReader("UspInsertUpdateAsset", para);
             }
@@ -161,17 +162,17 @@ namespace HelpDesk.API.DataAccess
                 {
                    
                     new SqlParameter("@ProductId",obj.ProductId),
-                    new SqlParameter("@ModelId",obj.ModelId),
+                    //new SqlParameter("@ModelId",obj.ModelId),
                     new SqlParameter("@StationName",obj.StationName),
-                    new SqlParameter("@IPAddress",obj.IPAddress),
-                    new SqlParameter("@Configuration",obj.Configuration),
+                    //new SqlParameter("@IPAddress",obj.IPAddress),
+                    //new SqlParameter("@Configuration",obj.Configuration),
                     new SqlParameter("@Area",obj.Area),
                     new SqlParameter("@RegionId",obj.RegionId),
                     new SqlParameter("@CityId",obj.CityId),
                     new SqlParameter("@isActive",obj.isActive),
                     new SqlParameter("@CreatedBy",obj.CreatedBy),
-                    new SqlParameter("@AMId",obj.AMId) ,
-                    new SqlParameter("@SerialNo",obj.SerialNo)
+                    new SqlParameter("@AMId",obj.AMId)
+                    //new SqlParameter("@SerialNo",obj.SerialNo)
                 };
                 return DbConnector.ExecuteReader("uspAddUpdatingRecord", para);
             }
@@ -365,6 +366,29 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
+        public SqlDataReader InsertAssetModels(AssetDTO obj)
+        {
+            try
+            {
+                var para = new[]
+                {
+                    new SqlParameter("@ModelId",obj.ModelId),
+                    new SqlParameter("@IPAddress",obj.IPAddress),
+                    new SqlParameter("@SerialNo",obj.SerialNo),
+                    new SqlParameter("@Configuration",obj.Configuration),
+                    new SqlParameter("@AMId",obj.AMId),
+                    new SqlParameter("@CreatedBy",obj.CreatedBy)
+                };
+                return DbConnector.ExecuteReader("[dbo].[uspAddAssetModels]", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "AssetModel -> InsertAssetModels");
+                return null;
+            }
+        }
+
+        
     }
 
     public interface IAssetModel
@@ -389,6 +413,7 @@ namespace HelpDesk.API.DataAccess
         string GetAssetRenewalRequestList(AssetDTO obj);
         SqlDataReader InsertAssetRenewalRequest(AssetDTO obj);
         SqlDataReader UpdateAssetRenewalRequest(AssetDTO obj);
+        SqlDataReader InsertAssetModels(AssetDTO obj);
 
 
     }

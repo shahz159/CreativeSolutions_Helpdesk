@@ -995,10 +995,20 @@ namespace HelpDesk.Web.Controllers
 
         public ActionResult ChangePassword()
         {
-            return View();
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return Json("Index");
+            }
+            else
+            {
+                return View();
+            }
         }
 
-        public async Task<JsonResult> PasswordUpdate(string password)
+
+
+        public async Task<JsonResult> PasswordUpdate(string password,string userprevious)
         {
             string ses = Convert.ToString(Session["SSUserId"]);
             if (string.IsNullOrEmpty(ses))
@@ -1019,6 +1029,13 @@ namespace HelpDesk.Web.Controllers
                         obj.UserId = userid;
                         obj.Password = password;
                         bool status = false;
+
+                        string previouspassword = (string)Session["SSPassword"];
+                        if (previouspassword != userprevious)
+                        {
+                            return Json(new { success = false });
+                        }
+
                         HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/UserAPI/NewUpdateUserPassword", obj);
                         if (responseMessage.IsSuccessStatusCode)
                         {

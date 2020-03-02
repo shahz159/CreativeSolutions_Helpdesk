@@ -62,12 +62,17 @@ namespace HelpDesk.API.DTO_s
 
         public string ProductJson { get; set; }
         public string ModelJson { get; set; }
+
+        public string AssetModelJson { get; set; }
         public string RegionJson { get; set; }
         public string CityJson { get; set; }
         public string UpdatedJson { get; set; }
 
         public long UpdatedAMId { get; set; }
         public bool EditMode { get; set; }
+
+        public string UpdateUserName { get; set; }
+        public DateTime ModifiedOn { get; set; }
 
     }
 }

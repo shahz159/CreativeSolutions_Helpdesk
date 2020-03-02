@@ -22,27 +22,30 @@ namespace HelpDesk.Web.Models
         public string message { get; set; }
         public string datasetxml { get; set; }
 
-        [Required(ErrorMessage = "required", AllowEmptyStrings = false)]
+        [Required(ErrorMessage = "*", AllowEmptyStrings = false)]
         public string Description { get; set; }
 
         public int? ProductId { get; set; }
 
-        [Required(ErrorMessage = "required")]
+        [Required(ErrorMessage = "*")]
         public int AMId { get; set; }
-        [Required(ErrorMessage = "required", AllowEmptyStrings = false)]
+        [Required(ErrorMessage = "*")]
+        public long AMModelId { get; set; }
+
+        [Required(ErrorMessage = "*", AllowEmptyStrings = false)]
         public string Priority { get; set; }
         public string CreatedUser { get; set; }
         public string ReportsJson { get; set; }
-        [Required(ErrorMessage = "required", AllowEmptyStrings = false)]
+        [Required(ErrorMessage = "*", AllowEmptyStrings = false)]
         public int ReportId { get; set; }
         public int CreatedUserRoleId { get; set; }
         public string ReportTypeName { get; set; }
 
         public int Status { get; set; }
         public string Statustxt { get; set; }
-        [Required(ErrorMessage = "required", AllowEmptyStrings = false)]
+        [Required(ErrorMessage = "*", AllowEmptyStrings = false)]
         public int CompanyId { get; set; }
-        [Required(ErrorMessage = "required", AllowEmptyStrings = false)]
+        [Required(ErrorMessage = "*", AllowEmptyStrings = false)]
         public int AccountId { get; set; }
         public long CreatedBy { get; set; }
         public int OrganizationId { get; set; }

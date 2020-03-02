@@ -34,7 +34,7 @@
                 <div class="row align-items-center">
                     <div class="col-xl-12 order-2 order-xl-1">
                         <div class="row align-items-center">
-                            <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                            <div class="col-md-6 kt-margin-b-20-tablet-and-mobile">
                                 <div class="kt-form__group">
                                     <div class="kt-form__label">
                                         <label>Ticket Type</label>
@@ -46,7 +46,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                            <div class="col-md-6 kt-margin-b-20-tablet-and-mobile">
                                 <div class="kt-form__group">
                                     <div class="kt-form__label">
                                         <label>Status</label>
@@ -166,7 +166,7 @@
                         }  //end of if div_filters_ticket type 
                          if (column.index() == 6) {  //skip if column 0
                             $(column.header()).append("<br>")
-                            var select = $('<select class = "form-control kt-select2"><option value="" disabled selected>Select Ticket Type</option></select>')
+                            var select = $('<select class = "form-control kt-select2"><option value="" disabled selected>Select Status</option></select>')
                                 .appendTo(
                                     //$(column.header())
                                     $('#div_filters_Status')

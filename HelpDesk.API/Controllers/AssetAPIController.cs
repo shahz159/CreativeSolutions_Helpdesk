@@ -210,5 +210,17 @@ namespace HelpDesk.API.Controllers
             var detail = service.GetAssetsRenewalDetails(obj);
             return Ok(detail);
         }
+
+        /// <summary>
+        /// Add more models of each asset 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewAssetModelsInsert(AssetDTO obj)
+        {
+            var detail = service.InsertAssetModels(obj);
+            return Ok(detail);
+        }
     }
 }

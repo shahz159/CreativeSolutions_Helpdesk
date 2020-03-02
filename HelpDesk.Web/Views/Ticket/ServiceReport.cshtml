@@ -421,7 +421,7 @@
                 </div>
                 <div class="col-25">
                     <label>Customer Name.</label>
-                    <input type="text" style="height: 52px" @item.CreatedUser>
+                    <input type="text" style="height: 52px" value="@item.CreatedUser">
                 </div>
                 <div class="col-25">
                     <label>Customer Location.</label>
@@ -482,7 +482,7 @@
                 </div>
                 <div class="col-20">
                     <label>Customer Call Date & Time</label>
-                    <input type="text">
+                    <input type="text" value="@item.CreatedOn.ToString("dd-MM-yyyy HH:MM")">
                 </div>
                 <div class="col-20">
                     <label>Report Type</label>
@@ -510,11 +510,7 @@
                     <label>Problem Description</label>
                     <div class="full_border p-10">
                         <p class="font-20">
-                            @*@item.ProblemDescription*@
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply
-                            dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply
-                            dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply
-                            dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing.
+                            @item.ProblemDescription
                         </p>
                     </div>
                 </div>
@@ -522,11 +518,7 @@
                     <label>Activities Done</label>
                     <div class="full_border p-10">
                         <p class="font-24">
-                            @*@item.Actioncomments*@
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply
-                            dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply
-                            dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply
-                            dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing.
+                            @item.Actioncomments
                         </p>
                     </div>
                 </div>

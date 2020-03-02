@@ -68,6 +68,7 @@ namespace HelpDesk.Web.Controllers
                                     int AccountId = int.Parse(item.AccountId.ToString());
                                     string RoleName = item.RoleName.ToString();
                                     string Email = item.Email.ToString();
+                                    string Password = item.Password.ToString();
 
                                     string UserName = Convert.ToString(item.FullName);
                                     Session["SSUserId"] = UserId;
@@ -78,6 +79,7 @@ namespace HelpDesk.Web.Controllers
                                     Session["SSAccountId"] = AccountId;
                                     Session["SSRoleName"] = RoleName;
                                     Session["SSEmail"] = Email;
+                                    Session["SSPassword"] = Password;
 
                                     List<TicketDTO> multipleimages= new List<TicketDTO>();
                                     Session["MultipleImagesLst" + UserId] = multipleimages;

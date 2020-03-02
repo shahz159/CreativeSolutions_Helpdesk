@@ -64,17 +64,17 @@
                                             <div class="form-group row">
                                                 <label for="example-text-input" class="col-sm-2 col-form-label">System Id / Serial No</label>
                                                 <div class="col-sm-9">
-                                                    @Html.DropDownListFor(model => model.AMId, (IEnumerable<SelectListItem>)ViewData["ddlModels"], "--Please Select --",
+                                                    @Html.DropDownListFor(model => model.AMModelId, (IEnumerable<SelectListItem>)ViewData["ddlModels"], "--Please Select --",
 new { id = "ddlModels", @class = "form-control select2-allow-clear", @onchange = "GetProductIdBySerial()" })
 
-                                                    @Html.ValidationMessageFor(model => model.AMId, "", new { @class = "text-danger" })
+                                                    @Html.ValidationMessageFor(model => model.AMModelId, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label for="example-text-input" class="col-sm-2 col-form-label">Product</label>
                                                 <div class="col-sm-9">
                                                     @Html.DropDownListFor(model => model.ProductId, (IEnumerable<SelectListItem>
-         )ViewData["ddlProductList"], "--Please Select --",
+         )ViewData["ddlProductList"], "--Product--",
          new { id = "ddlProduct", @class = "form-control kt-select2" })
                                                 </div>
                                             </div>
@@ -190,9 +190,13 @@ new { id = "ddlModels", @class = "form-control select2-allow-clear", @onchange =
 @section Scripts{
     <script src="~/assets/js/select2.js"></script>
     <script>
-         $("#ddlProduct").prop("disabled", true);
+        $("#ddlProduct").prop("disabled", true);
+        $('#ddlModels').val(null).trigger('change');
         function GetProductIdBySerial() {
             var serialid = $('#ddlModels').val();
+            if (serialid == null) {
+                return false;
+            }
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("GetProductsByAMId")', // we are calling json method
@@ -205,7 +209,7 @@ new { id = "ddlModels", @class = "form-control select2-allow-clear", @onchange =
                 },
                 error: function (ex) {
                     document.getElementById("loader").style.display = "none";
-                    alert('Failed to retrieve accounts.' + ex);
+                    //alert('Failed to retrieve accounts.' + ex);
                 }
             });
         }
@@ -358,7 +362,7 @@ new { id = "ddlModels", @class = "form-control select2-allow-clear", @onchange =
                     var district = "<select id='ddlModels' class='form-control kt-select2'>";
                     district = district + '<option value="0">--Select System No/Serial No--</option>';
                     for (var i = 0; i < data.ModelList.length; i++) {
-                        district = district + '<option value=' + data.ModelList[i].AMId + '>' + data.ModelList[i].ModelName + '</option>';
+                        district = district + '<option value=' + data.ModelList[i].AMModelId + '>' + data.ModelList[i].ModelName + '</option>';
                     }
                     district = district + '</select>';
                     $('#ddlModels').html(district);

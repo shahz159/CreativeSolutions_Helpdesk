@@ -246,6 +246,10 @@ namespace HelpDesk.Web.Controllers
                                 obj.AssetsList = assets;
                             else
                                 obj.AssetsList = null;
+
+                            //string assetmodeljson = obj.AssetModelJson;
+                            //var asset_model_model = JsonConvert.DeserializeObject<List<AssetsDTO>>(assetmodeljson);
+                            //obj.AssetModelList = asset_model_model;
                         }
                         return View(obj);
                     }
@@ -288,7 +292,6 @@ namespace HelpDesk.Web.Controllers
                             var model = JsonConvert.DeserializeObject<List<AssetsDTO>>(accountsjson);
                             obj.PPMList = model;
 
-
                             string productsjson = obj.ProductJson;
                             var model_pro = JsonConvert.DeserializeObject<List<AssetsDTO>>(productsjson);
                             obj.ProductList = model_pro;
@@ -308,6 +311,11 @@ namespace HelpDesk.Web.Controllers
                             string updatedjson = obj.UpdatedJson;
                             var model_updated = JsonConvert.DeserializeObject<List<AssetsDTO>>(updatedjson);
                             obj.UpdatedList = model_updated;
+
+
+                            string assetmodeljson = obj.AssetModelJson;
+                            var asset_model_model = JsonConvert.DeserializeObject<List<AssetsDTO>>(assetmodeljson);
+                            obj.AssetModelList = asset_model_model;
 
                         }
                         obj.RoleId = roleid;
@@ -479,13 +487,13 @@ namespace HelpDesk.Web.Controllers
                                             ProductId = dataRow.Field<int>("ProductId"),
                                             ProductName = dataRow.Field<string>("ProductName"),
                                             ProductCode = dataRow.Field<string>("ProductCode"),
-                                            ModelId = dataRow.Field<int>("ModelId"),
-                                            ModelName = dataRow.Field<string>("ModelName"),
+                                            //ModelId = dataRow.Field<int>("ModelId"),
+                                            //ModelName = dataRow.Field<string>("ModelName"),
                                             StationName = dataRow.Field<string>("StationName"),
-                                            IPAddress = dataRow.Field<string>("IPAddress"),
-                                            SerialNo = dataRow.Field<string>("SerialNo"),
+                                            //IPAddress = dataRow.Field<string>("IPAddress"),
+                                            //SerialNo = dataRow.Field<string>("SerialNo"),
                                             SystemNo = dataRow.Field<string>("SystemNo"),
-                                            Configuration = dataRow.Field<string>("Configuration"),
+                                            //Configuration = dataRow.Field<string>("Configuration"),
                                             Area = dataRow.Field<string>("Area"),
                                             RegionName = dataRow.Field<string>("RegionName"),
                                             RegionId = dataRow.Field<int>("RegionId"),
@@ -497,9 +505,11 @@ namespace HelpDesk.Web.Controllers
                                             WarrantyExpiryDate = dataRow.Field<DateTime>("WarrantyExpiryDate"),
                                             AMId = dataRow.Field<int>("AMId"),
                                             FullName = dataRow.Field<string>("FullName"),
-                                            EditMode = dataRow.Field<bool>("EditMode")
+                                            EditMode = dataRow.Field<bool>("EditMode"),
+                                            AssetModelJson = dataRow.Field<string>("ModelsJson")
                                         }).ToList();
                                         obj.AssetsList = tickettlst;
+
                                     }
                                     else
                                         obj.AssetsList = tickettlst;
@@ -733,7 +743,6 @@ namespace HelpDesk.Web.Controllers
             }
         }
 
-
         [HttpPost]
         public async Task<JsonResult> NewTicket(TicketDTO obj)
         {
@@ -748,7 +757,7 @@ namespace HelpDesk.Web.Controllers
                 long userid = long.Parse(Session["SSUserId"].ToString());
                 int compid = int.Parse(Session["SSCompanyId"].ToString());
                 int orgid = int.Parse(Session["SSOrganizationId"].ToString());
-               
+
                 using (HttpClient client = new HttpClient())
                 {
                     CommonHeader.setHeaders(client);
@@ -768,7 +777,8 @@ namespace HelpDesk.Web.Controllers
                         obj.Description = "Auto Generated PPM Ticket.";
                         obj.ReportId = 9;
                         obj.Priority = "M";
-                        
+                        obj.AMModelId = 0;
+
                         HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/TicketsAPI/NewInsertTicketRequest", obj);
                         if (responseMessage.IsSuccessStatusCode)
                         {
@@ -787,7 +797,6 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
-
 
         public async Task<ActionResult> RenewalAssets()
         {
@@ -836,8 +845,8 @@ namespace HelpDesk.Web.Controllers
                                             ProductId = dataRow.Field<int>("ProductId"),
                                             ProductName = dataRow.Field<string>("ProductName"),
                                             ProductCode = dataRow.Field<string>("ProductCode"),
-                                            ModelId = dataRow.Field<int>("ModelId"),
-                                            ModelName = dataRow.Field<string>("ModelName"),
+                                            //ModelId = dataRow.Field<int>("ModelId"),
+                                            //ModelName = dataRow.Field<string>("ModelName"),
                                             StationName = dataRow.Field<string>("StationName"),
                                             IPAddress = dataRow.Field<string>("IPAddress"),
                                             SerialNo = dataRow.Field<string>("SerialNo"),
@@ -994,7 +1003,7 @@ namespace HelpDesk.Web.Controllers
                                             POContract = dataRow.Field<string>("POContract"),
                                             WarrantyExpiryDate = dataRow.Field<DateTime>("WarrantyExpiryDate"),
                                             AMId = dataRow.Field<int>("AMId"),
-                                            FullName = dataRow.Field<string>("FullName") 
+                                            FullName = dataRow.Field<string>("FullName")
                                         }).ToList();
                                         obj.AssetsList = tickettlst;
                                     }
@@ -1093,7 +1102,7 @@ namespace HelpDesk.Web.Controllers
 
             }
         }
-        public async Task<ActionResult> UpdateAssetRenewalStatus(long RenewalId, int AMId,int id)
+        public async Task<ActionResult> UpdateAssetRenewalStatus(long RenewalId, int AMId, int id)
         {
             string ses = Convert.ToString(Session["SSUserId"]);
             if (string.IsNullOrEmpty(ses))
@@ -1135,6 +1144,49 @@ namespace HelpDesk.Web.Controllers
                     {
                         TicketDTO obj = new TicketDTO();
                         return Json(obj.ModelList);
+                    }
+                }
+            }
+        }
+
+        //NewAssetModelsInsert
+
+        [HttpPost]
+        public async Task<JsonResult> NewAssetModels(AssetsDTO obj)
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return Json(new { success = false });
+            }
+            else
+            {
+
+                long userid = long.Parse(Session["SSUserId"].ToString());
+                int compid = int.Parse(Session["SSCompanyId"].ToString());
+                int orgid = int.Parse(Session["SSOrganizationId"].ToString());
+
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        obj.CreatedBy = userid;
+
+                        HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/AssetAPI/NewAssetModelsInsert", obj);
+                        if (responseMessage.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                            var tickets = JsonConvert.DeserializeObject<TicketDTO>(responseData);
+                            obj.message = tickets.message;
+                            string msg = obj.message;
+
+                        }
+                        return Json(new { success = true });
+                    }
+                    catch (Exception ex)
+                    {
+                        return Json(new { success = false });
                     }
                 }
             }

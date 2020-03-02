@@ -134,11 +134,12 @@ namespace HelpDesk.Web.Controllers
                                             ProductName = dataRow.Field<string>("ProductName"),
                                             ProductId = dataRow.Field<int>("ProductId"),
                                             ModelName = dataRow.Field<string>("ModelName"),
-                                            AMId = dataRow.Field<int>("AMId")
+                                            //AMId = dataRow.Field<int>("AMId")
+                                            AMModelId = dataRow.Field<long>("AMModelId")
                                         }).ToList();
 
                                         List<TicketDTO> _objlst = _objStudew;
-                                        ddlmodels = new SelectList(_objlst, "AMId", "ModelName", obj.AMId);
+                                        ddlmodels = new SelectList(_objlst, "AMModelId", "ModelName", 0);
                                         ViewData["ddlModels"] = ddlmodels;
 
 
@@ -148,7 +149,7 @@ namespace HelpDesk.Web.Controllers
                                     else
                                     {
                                         List<TicketDTO> _objStudent = _objStudew;
-                                        ddlmodels = new SelectList(_objStudent, "AMId", "ModelName", obj.AMId);
+                                        ddlmodels = new SelectList(_objStudent, "AMModelId", "ModelName", 0);
                                         ViewData["ddlModels"] = ddlmodels;
                                     }
 
@@ -283,7 +284,7 @@ namespace HelpDesk.Web.Controllers
                         {
                             obj.ReportId = 1;
                         }
-
+                        obj.AMId = 0;
                         HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/TicketsAPI/NewInsertTicketRequest", obj);
                         if (responseMessage.IsSuccessStatusCode)
                         {
@@ -492,7 +493,7 @@ namespace HelpDesk.Web.Controllers
                                             ProductName = dataRow.Field<string>("ProductName"),
                                             ProductId = dataRow.Field<int>("ProductId"),
                                             ModelName = dataRow.Field<string>("ModelName"),
-                                            AMId = dataRow.Field<int>("AMId")
+                                            AMModelId = dataRow.Field<long>("AMModelId")
                                         }).ToList();
                                         obj.ModelList = modellst;
 
@@ -516,10 +517,17 @@ namespace HelpDesk.Web.Controllers
 
                                     }
                                     else
+                                    {
                                         obj.ModelList = modellst;
+                                        obj.ProductList = modellst;
+                                    }
+                                       
                                 }
                                 else
+                                {
                                     obj.ModelList = modellst;
+                                    obj.ProductList = modellst;
+                                }
                             }
                         }
                         return Json(obj);
@@ -538,7 +546,7 @@ namespace HelpDesk.Web.Controllers
             obj.ModelList = (IEnumerable<TicketDTO>)Session["SSModelList"];
 
             var query = from a in obj.ModelList
-                        where a.AMId == AMID
+                        where a.AMModelId == AMID
                         select a.ProductId;
             //var ssa=query.Selec
             int ProductId = 0;

@@ -18,7 +18,6 @@ namespace HelpDesk.API.DbHelpers
             int i = 0;
             foreach (PropertyInfo property in properties)
             {
-
                 parameter[i] = new SqlParameter("@" + property.Name, property.GetValue(myInput));
                 i++;
             }

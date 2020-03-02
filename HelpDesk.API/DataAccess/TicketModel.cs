@@ -19,7 +19,7 @@ namespace HelpDesk.API.DataAccess
                 {
                     new SqlParameter("@Description",obj.Description),
                     new SqlParameter("@ProductId",obj.ProductId),
-                    new SqlParameter("@AMId",obj.AMId),
+                    new SqlParameter("@AMModelId",obj.AMModelId),
                     new SqlParameter("@Priority",obj.Priority),
                     new SqlParameter("@Status",obj.Status),
                     new SqlParameter("@CompanyId",obj.CompanyId),
@@ -27,10 +27,11 @@ namespace HelpDesk.API.DataAccess
                     new SqlParameter("@CreatedBy",obj.CreatedBy),
                     new SqlParameter("@OrganizationId",obj.OrganizationId),
                     new SqlParameter("@DocumentUrl",obj.Url),
-                    new SqlParameter("@ContentType",obj.ContentType) ,
+                    new SqlParameter("@ContentType",obj.ContentType),
                     new SqlParameter("@xml",obj.multipledocuments_xml),
                     new SqlParameter("@ReportId",obj.ReportId),
-                    new SqlParameter("@APPMId",obj.APPMId)
+                    new SqlParameter("@APPMId",obj.APPMId),
+                    new SqlParameter("@AMId",obj.AMId)
                 };
                 return DbConnector.ExecuteReader("uspNewTicketRequest", para);
             }

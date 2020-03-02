@@ -106,6 +106,30 @@ namespace HelpDesk.API.Bussiness
             }
             return obj;
         }
+
+        public InventoryDTO InsertBulkTransfer(InventoryDTO obj)
+        {
+            try
+            {
+                var data = model.InsertBulkTransfer(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["message"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
+        
         public InventoryDTO UpdateSparePart(InventoryDTO obj)
         {
             try
@@ -247,6 +271,7 @@ namespace HelpDesk.API.Bussiness
     {
         InventoryDTO InsertUpdateSparePart(InventoryDTO obj);
         InventoryDTO InsertUpdateConsignment(InventoryDTO obj);
+        InventoryDTO InsertBulkTransfer(InventoryDTO obj);
         InventoryDTO UpdateSparePart(InventoryDTO obj);
         InventoryDTO StockChange(InventoryDTO obj);
         InventoryDTO TrasnferQuantity(InventoryDTO obj);

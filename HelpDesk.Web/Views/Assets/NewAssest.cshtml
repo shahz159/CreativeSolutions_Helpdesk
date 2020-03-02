@@ -5,7 +5,20 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    #kt_tabs_5_2 .form-group {
+        margin-bottom: 0rem;
+    }
 
+    .nav-pills .nav-item {
+        margin-right: 0px;
+        background-color: #f0f0f3;
+    }
+
+        .nav-pills .nav-item .nav-link i {
+            font-size: 22px !important;
+        }
+</style>
 <div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
 
     <!--Begin::Dashboard 3-->
@@ -26,224 +39,305 @@
                 </div>
                 <div class="kt-portlet__body kt-portlet__body--fluid kt-portlet__body--fit">
                     <div class="kt-container  kt-grid__item kt-grid__item--fluid">
-                        <div class="row">
+                        <div class="row mt-4">
                             <div class="col-md-12">
-                                <!--begin::Form-->
-                                <form class="kt-form kt-form--label-right">
-                                    <div class="kt-portlet__body">
-                                        <div class="form-group row">
-                                            <label class="col-form-label col-sm-2">
-                                                Select Account
-                                            </label>
+                                <ul class="nav nav-pills nav-fill mb-0" role="tablist">
+                                    <li class="nav-item">
+                                        <a id="AssetMaster" class="nav-link disabled active" data-toggle="tab">
+                                            <i class="la la-cog"></i><br />
+                                            Asset Master
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a id="AssetModels" class="nav-link disabled" data-toggle="tab">
+                                            <i class="la la-cogs la-3x"></i><br />
+                                            Asset Models
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="kt_tabs_5_1" role="tabpanel">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <!--begin::Form-->
+                                                <form class="kt-form kt-form--label-right">
+                                                    <div class="kt-portlet__body">
+                                                        <div class="form-group row">
+                                                            <label class="col-form-label col-sm-2">
+                                                                Select Account
+                                                            </label>
 
-                                            <div class="col-sm-9">
-                                                <select class="form-control kt-select2" id="ddlAccounts" name="param">
-                                                    <option value="0">--Select Account--</option>
-                                                    @if (Model.AccountList != null)
-                                                    {
-                                                        foreach (var item in Model.AccountList)
-                                                        {
-                                                            <option value="@item.AccountId">@item.AccountName</option>
-                                                        }
-                                                    }
-                                                </select>
-                                                <small id="spn_ddlAccounts" class="text-danger" style="display:none;">Field required.</small>
-                                            </div>
+                                                            <div class="col-sm-9">
+                                                                <select class="form-control kt-select2" id="ddlAccounts" name="param">
+                                                                    <option value="0">--Select Account--</option>
+                                                                    @if (Model.AccountList != null)
+                                                                    {
+                                                                        foreach (var item in Model.AccountList)
+                                                                        {
+                                                                            <option value="@item.AccountId">@item.AccountName</option>
+                                                                        }
+                                                                    }
+                                                                </select>
+                                                                <small id="spn_ddlAccounts" class="text-danger" style="display: none;
+">Field required.</small>
+                                                            </div>
 
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-form-label col-sm-2">Select Product</label>
-                                            <div class="col-sm-9">
-                                                <select class="form-control kt-select2" id="ddlProducts" onchange="BindModels()">
-                                                    <option value="0">--Select Product--</option>
-                                                    @if (Model.ProductList != null)
-                                                    {
-                                                        foreach (var item in Model.ProductList)
-                                                        {
-                                                            <option value="@item.ProductId">@item.ProductName</option>
-                                                        }
-                                                    }
-                                                </select>
-                                                <small id="spn_ddlProducts" class="text-danger" style="display:none;">Field required.</small>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-form-label col-sm-2">Select Model</label>
-                                            <div class="col-sm-9">
-                                                <select class="form-control kt-select2" id="ddlModel">
-                                                    <option value="0">--Select Model--</option>
-                                                </select>
-                                                <small id="spn_ddlModel" class="text-danger" style="display:none;">Field required.</small>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="example-text-input" class="col-sm-2 col-form-label">Station Name</label>
-                                            <div class="col-sm-9">
-                                                <input class="form-control" type="text" id="txtstationName" value="">
-                                                <small id="spn_txtstationName" class="text-danger" style="display:none;">Field required.</small>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="example-text-input" class="col-sm-2 col-form-label">IP Address</label>
-                                            <div class="col-sm-2">
-                                                <input class="form-control" type="text" id="txtipaddress1" value="" onkeypress="return isNumberKey(event)">
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <input class="form-control" type="text" id="txtipaddress2" value="" onkeypress="return isNumberKey(event)">
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <input class="form-control" type="text" id="txtipaddress3" value="" onkeypress="return isNumberKey(event)">
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <input class="form-control" type="text" id="txtipaddress4" value="" onkeypress="return isNumberKey(event)">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="example-text-input" class="col-sm-2 col-form-label">Serial Number</label>
-                                            <div class="col-sm-9">
-                                                <input class="form-control" type="text" id="txtserialnumber" value="">
-                                                <small id="spn_txtserialnumber" class="text-danger" style="display:none;">Field required.</small>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="example-text-input" class="col-sm-2 col-form-label">Configuration</label>
-                                            <div class="col-sm-9">
-                                                <input class="form-control" type="text" id="txtconfiguration" value="">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="example-text-input" class="col-sm-2 col-form-label">Location</label>
-                                            <div class="col-sm-9">
-                                                <input class="form-control" type="text" id="txtlocation" value="">
-                                                <small id="spn_txtlocation" class="text-danger" style="display:none;">Field required.</small>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-form-label col-sm-2">Select Region</label>
-                                            <div class="col-sm-9">
-                                                <select class="form-control kt-select2" id="ddlregion" onchange="BindCity()">
-                                                    <option value="0">--Select Region--</option>
-                                                    @if (Model.RegionList != null)
-                                                    {
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-form-label col-sm-2">Select Product</label>
+                                                            <div class="col-sm-9">
+                                                                <select class="form-control kt-select2" id="ddlProducts" onchange="BindModels()">
+                                                                    <option value="0">--Select Product--</option>
+                                                                    @if (Model.ProductList != null)
+                                                                    {
+                                                                        foreach (var item in Model.ProductList)
+                                                                        {
+                                                                            <option value="@item.ProductId">@item.ProductName</option>
+                                                                        }
+                                                                    }
+                                                                </select>
+                                                                <small id="spn_ddlProducts" class="text-danger" style="display:none;">Field required.</small>
+                                                            </div>
+                                                        </div>
 
-                                                        foreach (var item in Model.RegionList)
-                                                        {
-                                                            <option value="@item.RegionId">@item.RegionName</option>
-                                                        }
+                                                        <div class="form-group row">
+                                                            <label for="example-text-input" class="col-sm-2 col-form-label">Station Name</label>
+                                                            <div class="col-sm-9">
+                                                                <input class="form-control" type="text" id="txtstationName" value="">
+                                                                <small id="spn_txtstationName" class="text-danger" style="display:none;">Field required.</small>
+                                                            </div>
+                                                        </div>
 
-                                                    }
-                                                </select>
-                                                <small id="spn_ddlregion" class="text-danger" style="display:none;">Field required.</small>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-form-label col-sm-2">Select City</label>
-                                            <div class="col-sm-9">
-                                                <select class="form-control kt-select2" id="ddlcity">
-                                                    <option value="0">--Select City--</option>
-                                                </select>
-                                                <small id="spn_ddlcity" class="text-danger" style="display:none;">Field required.</small>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-form-label col-sm-2">Installation Date</label>
-                                            <div class="col-sm-9">
-                                                <div class="input-group date">
-                                                    <input type="text" class="form-control" readonly placeholder="Select date" id="txtInstallationdate" />
+                                                        <div class="form-group row">
+                                                            <label for="example-text-input" class="col-sm-2 col-form-label">Location</label>
+                                                            <div class="col-sm-9">
+                                                                <input class="form-control" type="text" id="txtlocation" value="">
+                                                                <small id="spn_txtlocation" class="text-danger" style="display:none;">Field required.</small>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-form-label col-sm-2">Select Region</label>
+                                                            <div class="col-sm-9">
+                                                                <select class="form-control kt-select2" id="ddlregion" onchange="BindCity()">
+                                                                    <option value="0">--Select Region--</option>
+                                                                    @if (Model.RegionList != null)
+                                                                    {
 
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text">
-                                                            <i class="la la-calendar-check-o"></i>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <small id="spn_txtInstallationdate" class="text-danger" style="display:none;">Field required.</small>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-form-label col-sm-2">Contract Type</label>
-                                            <div class="col-sm-9">
-                                                <select class="form-control kt-select2" id="ddlcontracttype">
-                                                    <option value="0">--Select Contract Type--</option>
-                                                    <option value="1">Warranty Contract</option>
-                                                    <option value="2">Service Contract</option>
-                                                    <option value="3">No Contract</option>
-                                                </select>
-                                                <small id="spn_ddlcontracttype" class="text-danger" style="display:none;">Field required.</small>
-                                            </div>
-                                        </div>
-                                        @*<div class="form-group row mb-0">
-                                            <label class="col-sm-2 col-form-label">Is Contract</label>
-                                            <div class="col-sm-9">
-                                                <span class="kt-switch kt-switch--icon">
-                                                    <label>
-                                                        <input type="checkbox" name="" id="chkiscontract">
-                                                        <span></span>
-                                                    </label>
-                                                </span>
-                                            </div>
-                                        </div>*@
-                                        <div id="Contarct_Div" class="p-4" style="display: none">
-                                            <h5 class="contract-head">Contract Details</h5>
-                                            <hr class="mb-4" />
-                                            <div class="form-group row">
-                                                <label for="example-text-input" class="col-sm-2 col-form-label">PO Contract</label>
-                                                <div class="col-sm-9">
-                                                    <input class="form-control" type="text" id="txtpocontract" value="">
-                                                    <small id="spn_txtpocontract" class="text-danger" style="display:none;">Field required.</small>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-form-label col-sm-2">Warranty Contract Expiry Date</label>
-                                                <div class="col-sm-9">
-                                                    <div class="input-group date">
-                                                        <input type="text" class="form-control" readonly placeholder="Select date" id="txtwarrantydate" />
-                                                        <div class="input-group-append">
-                                                            <span class="input-group-text">
-                                                                <i class="la la-calendar-check-o"></i>
-                                                            </span>
+                                                                        foreach (var item in Model.RegionList)
+                                                                        {
+                                                                            <option value="@item.RegionId">@item.RegionName</option>
+                                                                        }
+
+                                                                    }
+                                                                </select>
+                                                                <small id="spn_ddlregion" class="text-danger" style="display:none;">Field required.</small>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-form-label col-sm-2">Select City</label>
+                                                            <div class="col-sm-9">
+                                                                <select class="form-control kt-select2" id="ddlcity">
+                                                                    <option value="0">--Select City--</option>
+                                                                </select>
+                                                                <small id="spn_ddlcity" class="text-danger" style="display:none;">Field required.</small>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-form-label col-sm-2">Installation Date</label>
+                                                            <div class="col-sm-9">
+                                                                <div class="input-group date">
+                                                                    <input type="text" class="form-control" readonly placeholder="Select date" id="txtInstallationdate" />
+
+                                                                    <div class="input-group-append">
+                                                                        <span class="input-group-text">
+                                                                            <i class="la la-calendar-check-o"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <small id="spn_txtInstallationdate" class="text-danger" style="display:none;">Field required.</small>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-form-label col-sm-2">Contract Type</label>
+                                                            <div class="col-sm-9">
+                                                                <select class="form-control kt-select2" id="ddlcontracttype">
+                                                                    <option value="0">--Select Contract Type--</option>
+                                                                    <option value="1">Warranty Contract</option>
+                                                                    <option value="2">Service Contract</option>
+                                                                    <option value="3">No Contract</option>
+                                                                </select>
+                                                                <small id="spn_ddlcontracttype" class="text-danger" style="display:none;">Field required.</small>
+                                                            </div>
+                                                        </div>
+                                                        @*<div class="form-group row mb-0">
+                                                                <label class="col-sm-2 col-form-label">Is Contract</label>
+                                                                <div class="col-sm-9">
+                                                                    <span class="kt-switch kt-switch--icon">
+                                                                        <label>
+                                                                            <input type="checkbox" name="" id="chkiscontract">
+                                                                            <span></span>
+                                                                        </label>
+                                                                    </span>
+                                                                </div>
+                                                            </div>*@
+                                                        <div id="Contarct_Div" class="p-4" style="display: none">
+                                                            <h5 class="contract-head">Contract Details</h5>
+                                                            <hr class="mb-4" />
+                                                            <div class="form-group row">
+                                                                <label for="example-text-input" class="col-sm-2 col-form-label">PO Contract</label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control" type="text" id="txtpocontract" value="">
+                                                                    <small id="spn_txtpocontract" class="text-danger" style="display:none;">Field required.</small>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row">
+                                                                <label class="col-form-label col-sm-2">Contract Expiry Date</label>
+                                                                <div class="col-sm-9">
+                                                                    <div class="input-group date">
+                                                                        <input type="text" class="form-control" readonly placeholder="Select date" id="txtwarrantydate" />
+                                                                        <div class="input-group-append">
+                                                                            <span class="input-group-text">
+                                                                                <i class="la la-calendar-check-o"></i>
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <small id="spn_txtwarrantydate" class="text-danger" style="display:none;">Field required.</small>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row">
+                                                                <label class="col-form-label col-sm-2">Select PPM</label>
+                                                                <div class="col-sm-9">
+                                                                    <select class="form-control kt-select2" id="ddlPPMType" name="param">
+                                                                        <option value="6">6-Months</option>
+                                                                        <option value="12">12-Months</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-form-label col-sm-2"></label>
+                                                            <div class="col-sm-9">
+                                                                @*<a href="#" onclick="AddUpdate()" class="btn btn-success">Next <i class="la la-angle-double-right"></i></a>*@
+                                                                <a href="#" onclick="assetwizard()" class="btn btn-success">Next <i class="la la-angle-double-right"></i></a>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <small id="spn_txtwarrantydate" class="text-danger" style="display:none;">Field required.</small>
-                                                </div>
+                                                    @*<div class="kt-portlet__foot">
+                                                            <div class="kt-form__actions">
+                                                                <div class="row">
+                                                                    <div class="col-2">
+                                                                    </div>
+                                                                    <div class="col-10">
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>*@
+                                                </form>
+                                                <!--end::Form-->
                                             </div>
-                                            <div class="form-group row">
-                                                <label class="col-form-label col-sm-2">Select PPM</label>
-                                                <div class="col-sm-9">
-                                                    <select class="form-control kt-select2" id="ddlPPMType" name="param">
-                                                        <option value="6">6-Months</option>
-                                                        <option value="12">12-Months</option>
-                                                    </select>
+                                            <!--end::Portlet-->
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane mt-5" id="kt_tabs_5_2" role="tabpanel">
+
+
+                                        <div class="kt-portlet__body">
+                                            <form class="kt-form kt-form--label-right p-4 mb-4" style="border: 1px solid #ccc;">
+                                                <div class="row">
+                                                    <div class="col-lg-4">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label">Select Model</label>
+                                                            <div class="">
+                                                                <select class="form-control kt-select2" id="ddlModel">
+                                                                    <option value="0">--Select Model--</option>
+                                                                </select>
+                                                                <small id="spn_ddlModel" class="text-danger" style="display:none;">Field required.</small>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-4">
+                                                        <div class="form-group">
+                                                            <label for="example-text-input" class="col-form-label">Serial Number</label>
+                                                            <div class="">
+                                                                <input class="form-control" type="text" id="txtserialnumber" value="">
+                                                                <small id="spn_txtserialnumber" class="text-danger" style="display:none;">Field required.</small>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <div class="form-group">
+                                                            <label for="example-text-input" class="col-form-label">Configuration</label>
+                                                            <div class="">
+                                                                <input class="form-control" type="text" id="txtconfiguration" value="">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 mb-3">
+                                                        <div class="form-group row">
+                                                            <div class="col-lg-12">
+                                                                <label for="example-text-input" class="col-form-label">IP Address</label>
+                                                            </div>
+                                                            <div class="col-lg-3">
+                                                                <input class="form-control" type="text" id="txtipaddress1" value="" onkeypress="return isNumberKey(event)">
+                                                            </div>
+                                                            <div class="col-lg-3">
+                                                                <input class="form-control" type="text" id="txtipaddress2" value="" onkeypress="return isNumberKey(event)">
+                                                            </div>
+                                                            <div class="col-lg-3">
+                                                                <input class="form-control" type="text" id="txtipaddress3" value="" onkeypress="return isNumberKey(event)">
+                                                            </div>
+                                                            <div class="col-lg-3">
+                                                                <input class="form-control" type="text" id="txtipaddress4" value="" onkeypress="return isNumberKey(event)">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="form-group">
+                                                            @*<a href="#" onclick="AddUpdate()" class="btn btn-success">Next <i class="la la-angle-double-right"></i></a>*@
+                                                            <a href="#" onclick="AddDetails()" class="btn btn-info"><i class="la la-plus"></i> Add</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+
+                                            <table class="table table-bordered mb-4">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Select Model</th>
+                                                        <th>Serial Number</th>
+                                                        <th>Configuration</th>
+                                                        <th>IP Address</th>
+                                                        <th>Remove</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="th_spr">
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="kt-portlet__foot">
+                                            <div class="kt-form__actions">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <a href="#" onclick="backassetwizard()" class=" btn btn-info"><i class="la la-angle-double-left"></i> back</a>
+                                                        <a href="#" onclick="AddUpdate()" class="btn btn-success">Submit</a>
+                                                        <a href="#" class=" btn btn-secondary">Cancel</a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="kt-portlet__foot">
-                                        <div class="kt-form__actions">
-                                            <div class="row">
-                                                <div class="col-2">
-                                                </div>
-                                                <div class="col-10">
-                                                    <a href="#" onclick="AddUpdate()" class="btn btn-success">Submit</a>
-                                                    <a href="#" class="btn btn-secondary">Cancel</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                                <!--end::Form-->
+                                </div>
                             </div>
-                            <!--end::Portlet-->
                         </div>
                     </div>
                 </div>
+                <!--end:: Widgets/Trends-->
             </div>
         </div>
-
-        <!--end:: Widgets/Trends-->
     </div>
 </div>
-
 @section Scripts{
     <!-- Date Picker -->
     <script src="~/assets/js/bootstrap-datepicker.js"></script>
@@ -255,9 +349,203 @@
     <script src="~/assets/js/select2.js"></script>
 
     <script>
+        function assetwizard() {
+            var val = 0;
+            debugger
+            var AccountId = $('#ddlAccounts').val();
+            if (AccountId == 0 || AccountId == null) {
+                val = 1;
+                $('#spn_ddlAccounts').show();
+            }
+            else {
+                $('#spn_ddlAccounts').hide();
+            }
+            var ProductId = $('#ddlProducts').val();
+            if (ProductId == 0 || ProductId == null) {
+                val = 1;
+                $('#spn_ddlProducts').show();
+            }
+            else {
+                $('#spn_ddlProducts').hide();
+            }
+            
+            var StationName = $('#txtstationName').val();
+            if (StationName == "" || StationName == null) {
+                val = 1;
+                $('#spn_txtstationName').show();
+            }
+            else {
+                $('#spn_txtstationName').hide();
+            }
+
+            var Area = $('#txtlocation').val();
+            if (Area == "" || Area == null) {
+                val = 1;
+                $('#spn_txtlocation').show();
+            }
+            else {
+                $('#spn_txtlocation').hide();
+            }
+            var RegionId = $('#ddlregion').val();
+            if (RegionId == 0 || RegionId == null) {
+                val = 1;
+                $('#spn_ddlregion').show();
+            }
+            else {
+                $('#spn_ddlregion').hide();
+            }
+            var CityId = $('#ddlcity').val();
+            if (CityId == 0 || CityId == null) {
+                val = 1;
+                $('#spn_ddlcity').show();
+            }
+            else {
+                $('#spn_ddlcity').hide();
+            }
+            var InstallationDate = $('#txtInstallationdate').val();
+            if (InstallationDate == "" || InstallationDate == null) {
+                val = 1;
+                $('#spn_txtInstallationdate').show();
+            }
+            else {
+                $('#spn_txtInstallationdate').hide();
+            }
+            var IsContract = false;
+            var ContractType = $('#ddlcontracttype').val();
+            if (ContractType == 0) {
+                val = 1;
+                $('#spn_ddlcontracttype').show();
+            }
+            else {
+                $('#spn_ddlcontracttype').hide();
+                if (ContractType == 1 || ContractType == 2) {
+                    IsContract = true;
+                }
+                else if (ContractType==3) {
+                    IsContract = false;
+                }
+            }
+
+            var POContract = $('#txtpocontract').val();
+            var WarrantyExpiryDate = $('#txtwarrantydate').val();
+            if (IsContract == true) {
+                if (POContract == "" || POContract == null) {
+                    val = 1;
+                    $('#spn_txtpocontract').show();
+                }
+                else {
+                    $('#spn_txtpocontract').hide();
+                }
+                if (WarrantyExpiryDate == "" || WarrantyExpiryDate == null) {
+                    val = 1;
+                    $('#spn_txtwarrantydate').show();
+                }
+                else {
+                    $('#spn_txtwarrantydate').hide();
+                }
+            }
+            var PPMType = $('#ddlPPMType').val();
+
+            if (val == 0) {
+                $("#AssetMaster").removeClass("active");
+                $("#AssetModels").addClass("active");
+
+                $("#kt_tabs_5_1").removeClass("active");
+                $("#kt_tabs_5_2").addClass("active");
+            }
+        }
+        function backassetwizard() {
+            //var ModelId = $('#ddlModel').val();
+            //if (ModelId == 0 || ModelId == null) {
+            //    val = 1;
+            //    $('#spn_ddlModel').show();
+            //}
+            //else {
+            //    $('#spn_ddlModel').hide();
+            //}
+            //var IPAddress = '';
+            //var ip1 = $('#txtipaddress1').val();
+            //var ip2 = $('#txtipaddress2').val();
+            //var ip3 = $('#txtipaddress3').val();
+            //var ip4 = $('#txtipaddress4').val();
+            //IPAddress = ip1 + '.' + ip2 + '.' + ip3 + '.' + ip4;
+            
+            //var SerialNo = $('#txtserialnumber').val();
+            // if (SerialNo == "" || SerialNo == null) {
+            //    val = 1;
+            //    $('#spn_txtserialnumber').show();
+            //}
+            //else {
+            //    $('#spn_txtserialnumber').hide();
+            //}
+            //var Configuration = $('#txtconfiguration').val();
+            $("#AssetModels").removeClass("active");
+            $("#AssetMaster").addClass("active");
+
+            $("#kt_tabs_5_2").removeClass("active");
+            $("#kt_tabs_5_1").addClass("active");
+        }
+
+        function AddDetails() {
+            //th_spr
+            var ModelId = $('#ddlModel').val();
+            if (ModelId == 0 || ModelId == null) {
+                val = 1;
+                $('#spn_ddlModel').show();
+                return false;
+            }
+            else {
+                $('#spn_ddlModel').hide();
+            }
+
+            var serialNumber = $('#txtserialnumber').val();
+            if (serialNumber == "" || serialNumber == null) {
+                val = 1;
+                $('#spn_txtserialnumber').show();
+                return false;
+            }
+            else {
+                $('#spn_txtserialnumber').hide();
+            }
+
+            var modelname = $("#ddlModel option:selected").text();
+            //var serialNumber = $('#txtserialnumber').val();
+            var configuration = $('#txtconfiguration').val();
+            var IPAddress = '';
+            var ip1 = $('#txtipaddress1').val();
+            var ip2 = $('#txtipaddress2').val();
+            var ip3 = $('#txtipaddress3').val();
+            var ip4 = $('#txtipaddress4').val();
+            ipAddress = ip1 + '.' + ip2 + '.' + ip3 + '.' + ip4;
+
+            var dist = '<tr id="' + ModelId + '">';
+            dist = dist + '<td>' + modelname + '</td>';
+            dist = dist + '<td><label id="lblSerialNumber_' + ModelId + '">' + serialNumber + '</label></td>';
+            dist = dist + '<td><label id="lblConfiguration_' + ModelId + '">' + configuration + '</label></td>';
+            dist = dist + '<td><label id="lblIPAddress_' + ModelId + '">' + ipAddress + '</label></td>';
+            
+            dist = dist + '<td> <i onclick="enablevaluesparepartA(' + ModelId + ')" class="la la-trash la-2x"></i></td>';
+            dist = dist + '</tr>';
+            $('#th_spr').append(dist);
+            $("#ddlModel option[value*='" + ModelId + "']").attr('disabled', 'disabled');
+            $('#txtserialnumber').val('');
+            $('#txtconfiguration').val('');
+            $('#txtipaddress1').val('');
+            $('#txtipaddress2').val('');
+            $('#txtipaddress3').val('');
+            $('#txtipaddress4').val('');
+            $('#ddlModel').val('0').trigger('change');
+        }
+        function enablevaluesparepartA(id) {
+            $("#ddlModel option[value*='" + id + "']").removeAttr('disabled');
+            $('#' + id).remove();
+        }
+    </script>
+
+    <script>
         document.getElementById("loader").style.display = "none";
         $(document).ready(function () {
-           
+
 
             //set initial state.
             $('#ddlAccounts,#ddlProducts,#ddlModel,#ddlregion,#ddlcity,#ddlcontracttype').select2({
@@ -314,7 +602,7 @@
                     var district = "<select id='ddlModel' class='form-control kt-select2'>";
                     district = district + '<option value="0">--Select Model--</option>';
                     for (var i = 0; i < data.length; i++) {
-                         
+
                         district = district + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
                     }
                     district = district + '</select>';
@@ -374,38 +662,38 @@
             else {
                 $('#spn_ddlProducts').hide();
             }
-            var ModelId = $('#ddlModel').val();
-            if (ModelId == 0 || ModelId == null) {
-                val = 1;
-                $('#spn_ddlModel').show();
-            }
-            else {
-                $('#spn_ddlModel').hide();
-            }
+            //var ModelId = $('#ddlModel').val();
+            //if (ModelId == 0 || ModelId == null) {
+            //    val = 1;
+            //    $('#spn_ddlModel').show();
+            //}
+            //else {
+            //    $('#spn_ddlModel').hide();
+            //}
             var StationName = $('#txtstationName').val();
-            if (StationName == "" || ModelId == null) {
+            if (StationName == "" || StationName == null) {
                 val = 1;
                 $('#spn_txtstationName').show();
             }
             else {
                 $('#spn_txtstationName').hide();
             }
-            var IPAddress = '';
-            var ip1 = $('#txtipaddress1').val();
-            var ip2 = $('#txtipaddress2').val();
-            var ip3 = $('#txtipaddress3').val();
-            var ip4 = $('#txtipaddress4').val();
-            IPAddress = ip1 + '.' + ip2 + '.' + ip3 + '.' + ip4;
+            //var IPAddress = '';
+            //var ip1 = $('#txtipaddress1').val();
+            //var ip2 = $('#txtipaddress2').val();
+            //var ip3 = $('#txtipaddress3').val();
+            //var ip4 = $('#txtipaddress4').val();
+            //IPAddress = ip1 + '.' + ip2 + '.' + ip3 + '.' + ip4;
             //alert(IPAddress);
-            var SerialNo = $('#txtserialnumber').val();
-             if (SerialNo == "" || SerialNo == null) {
-                val = 1;
-                $('#spn_txtserialnumber').show();
-            }
-            else {
-                $('#spn_txtserialnumber').hide();
-            }
-            var Configuration = $('#txtconfiguration').val();
+            //var SerialNo = $('#txtserialnumber').val();
+            // if (SerialNo == "" || SerialNo == null) {
+            //    val = 1;
+            //    $('#spn_txtserialnumber').show();
+            //}
+            //else {
+            //    $('#spn_txtserialnumber').hide();
+            //}
+            //var Configuration = $('#txtconfiguration').val();
 
             var Area = $('#txtlocation').val();
              if (Area == "" || Area == null) {
@@ -447,7 +735,7 @@
             }
             else {
                 $('#spn_ddlcontracttype').hide();
-                
+
                 if (ContractType == 1 || ContractType == 2) {
                     IsContract = true;
                 }
@@ -456,11 +744,9 @@
                 }
             }
 
-
-            
-
             var POContract = $('#txtpocontract').val();
-             var WarrantyExpiryDate = $('#txtwarrantydate').val();
+            var WarrantyExpiryDate = $('#txtwarrantydate').val();
+
             if (IsContract == true) {
                 if (POContract == "" || POContract == null) {
                     val = 1;
@@ -481,6 +767,18 @@
 
             var PPMType = $('#ddlPPMType').val();
 
+            var jsonary = [];
+            $('#th_spr tr').each(function () {
+                if (this.id != "") {
+                    var dyn_matrix_data = {};
+                    dyn_matrix_data.ModelId = this.id;
+                    dyn_matrix_data.SerialNo = $('#lblSerialNumber_' + this.id).html();
+                    dyn_matrix_data.Configuration = $('#lblConfiguration_' + this.id).html();
+                    dyn_matrix_data.IPAddress = $('#lblIPAddress_' + this.id).html();
+                    jsonary.push(dyn_matrix_data);
+                }
+            });
+
             if (val == 1) {
                 alert('Fields required');
                 return false;
@@ -491,8 +789,11 @@
                     url: '@Url.Action("NewUpdateAssest")', // we are calling json method
                     dataType: 'json',
                     data: {
-                        AccountId: AccountId, ProductId: ProductId, ModelId: ModelId, StationName: StationName, IPAddress: IPAddress, SerialNo: SerialNo, Configuration: Configuration, Area: Area,
-                        RegionId: RegionId, CityId: CityId, InstallationDate: InstallationDate, IsContract: IsContract, POContract: POContract, WarrantyExpiryDate: WarrantyExpiryDate, PPMType: PPMType,
+                        AccountId: AccountId, ProductId: ProductId,StationName: StationName,
+                        //ModelId: ModelId,IPAddress: IPAddress, SerialNo: SerialNo, Configuration: Configuration,
+                        message: JSON.stringify(jsonary),
+                        Area: Area, RegionId: RegionId, CityId: CityId, InstallationDate: InstallationDate, IsContract: IsContract,
+                        POContract: POContract, WarrantyExpiryDate: WarrantyExpiryDate, PPMType: PPMType,
                         ContractType:ContractType
                     },
                     success: function (data) {

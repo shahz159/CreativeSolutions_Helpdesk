@@ -15,7 +15,6 @@ namespace HelpDesk.API.Bussiness
         {
             model = _model;
         }
-
         #region CURD Operations Services of Asset Management
         public AssetDTO GetAssetById(AssetDTO obj)
         {
@@ -34,13 +33,13 @@ namespace HelpDesk.API.Bussiness
                         obj.ProductName = data["ProductName"].ToString();
                         obj.ProductCode = data["ProductCode"].ToString();
 
-                        obj.ModelId = int.Parse(data["ModelId"].ToString());
-                        obj.ModelName = data["ModelName"].ToString();
+                        //obj.ModelId = int.Parse(data["ModelId"].ToString());
+                        //obj.ModelName = data["ModelName"].ToString();
 
                         obj.StationName = data["StationName"].ToString();
-                        obj.IPAddress = data["IPAddress"].ToString();
-                        obj.SerialNo = data["SerialNo"].ToString();
-                        obj.Configuration = data["Configuration"].ToString();
+                        //obj.IPAddress = data["IPAddress"].ToString();
+                        //obj.SerialNo = data["SerialNo"].ToString();
+                        //obj.Configuration = data["Configuration"].ToString();
                         obj.Area = data["Area"].ToString();
                         obj.RegionName = data["RegionName"].ToString();
                         obj.RegionId = int.Parse(data["RegionId"].ToString());
@@ -63,7 +62,7 @@ namespace HelpDesk.API.Bussiness
                         obj.FullName = data["FullName"].ToString();
                         obj.AMId = int.Parse(data["AMId"].ToString());
                         obj.PPMJson = data["PPMJson"].ToString();
-
+                        obj.AssetModelJson = data["AMModelsJson"].ToString();
                         obj.ModelJson = data["ModelsJson"].ToString();
                         obj.ProductJson = data["ProductJson"].ToString();
                         obj.RegionJson = data["RegionJson"].ToString();
@@ -74,6 +73,8 @@ namespace HelpDesk.API.Bussiness
                         obj.EditMode = bool.Parse(data["EditMode"].ToString());
                         obj.ContractType = int.Parse(data["ContractType"].ToString());
                         obj.ContractTypetxt = data["ContractTypetxt"].ToString();
+                        obj.UpdateUserName = data["UpdateUserName"].ToString();
+                        obj.ModifiedOn = DateTime.Parse(data["ModifiedOn"].ToString());
                     }
                 }
             }
@@ -113,8 +114,6 @@ namespace HelpDesk.API.Bussiness
             obj.datasetxml = model.GetPPMChangeDateRequestList(obj);
             return obj;
         }
-
-        
         public IEnumerable<AssetDTO> GetModel(AssetDTO obj)
         {
             var data = model.GetModels(obj);
@@ -210,8 +209,6 @@ namespace HelpDesk.API.Bussiness
             }
             return obj;
         }
-        
-
         public AssetDTO UpdateAssetStatus(AssetDTO obj)
         {
             try
@@ -256,8 +253,6 @@ namespace HelpDesk.API.Bussiness
             }
             return obj;
         }
-
-
         public AssetDTO GetAssetsRenewalDetails(AssetDTO obj)
         {
             obj.datasetxml = model.GetAssetRenewalDetails(obj);
@@ -295,6 +290,30 @@ namespace HelpDesk.API.Bussiness
             }
             return obj;
         }
+        public AssetDTO InsertAssetModels(AssetDTO obj)
+        {
+            try
+            {
+                var data = model.InsertAssetModels(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["message"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
+
+        
         public AssetDTO InsertAssetRenewalRequest(AssetDTO obj)
         {
             try
@@ -327,9 +346,7 @@ namespace HelpDesk.API.Bussiness
         AssetDTO GetAssetsRenewalRequestList(AssetDTO obj);
         AssetDTO InsertAssetRenewalRequest(AssetDTO obj);
         AssetDTO UpdateAssetRenewalRequest(AssetDTO obj);
-
-
-
+        AssetDTO InsertAssetModels(AssetDTO obj);
         AssetDTO InsertUpdateAsset(AssetDTO obj);
         AssetDTO UpdatedAsset(AssetDTO obj);
         AssetDTO VerifyAsset(AssetDTO obj);

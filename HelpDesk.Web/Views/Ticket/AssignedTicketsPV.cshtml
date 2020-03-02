@@ -20,7 +20,7 @@
             {
                 <tr>
                     <td>@item.TicketNumber</td>
-                    <td>@item.CreatedOn</td>
+                    <td>@item.CreatedOn.ToString("dd-MM-yyyy HH:mm")</td>
                     <td>@item.ModelName</td>
                     <td>
                         @if (item.Priority == "L")

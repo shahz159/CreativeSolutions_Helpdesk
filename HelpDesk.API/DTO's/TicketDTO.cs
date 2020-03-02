@@ -47,5 +47,6 @@ namespace HelpDesk.API.DTO_s
         public string CustomerEmail { get; set; }
         public string EngineerEmail { get; set; }
         public string EngineerFullName { get; set; }
+        public long AMModelId { get; set; }
     }
 }

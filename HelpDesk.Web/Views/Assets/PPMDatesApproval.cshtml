@@ -4,9 +4,10 @@
     ViewBag.Title = "PPMDatesApproval";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@section  Styles{
-    <link href="~/assets/css/datatables.bundle.css" rel="stylesheet" />
-}
+@*@section  Styles{
+
+}*@
+<link href="~/assets/css/datatables.bundle.css" rel="stylesheet" />
 <!-- begin:: Content -->
 <div id="Upper_div" class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
     <div class="kt-portlet">
@@ -15,7 +16,7 @@
                 <span class="kt-portlet__head-icon">
                     <i class="kt-font-brand flaticon2-line-chart"></i>
                 </span>
-                <h3 class="kt-portlet__head-title">Asset Approval</h3>
+                <h3 class="kt-portlet__head-title">PPM Date Approval</h3>
             </div>
         </div>
         <br />
@@ -41,7 +42,7 @@
                                     <td>@item.SerialNo</td>
                                     <td>@item.Area</td>
                                     <td>
-                                        @item.PreviousDate.ToString("dd/MM/yyyy")   -->  @item.NewDate.ToString("dd/MM/yyyy")
+                                        @item.PreviousDate.ToString("dd-MM-yyyy")   -->  @item.NewDate.ToString("dd-MM-yyyy")
                                     </td>
                                     <td align="center">
                                         <div class="page-toolbar">

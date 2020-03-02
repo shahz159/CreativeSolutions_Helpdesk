@@ -15,7 +15,7 @@
                 <span class="kt-portlet__head-icon">
                     <i class="kt-font-brand flaticon2-line-chart"></i>
                 </span>
-                <h3 class="kt-portlet__head-title">Under Approval Tickets</h3>
+                <h3 class="kt-portlet__head-title">Under Approval SignUp Users</h3>
             </div>
         </div>
         <div class="kt-portlet__body pt-4">
@@ -41,7 +41,7 @@
                                     <td>@item.Mobile</td>
                                     <td>@item.Email</td>
                                     <td>@item.AccountName</td>
-                                    <td>@item.CreatedOn</td>
+                                    <td>@item.CreatedOn.ToString("dd-MM-yyyy HH:mm")</td>
                                     <td align="center">
                                         <a href="#" onclick="UserDetails(@item.UserId)">
                                             <i class="fa fa-eye"></i>
