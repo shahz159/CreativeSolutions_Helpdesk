@@ -8,6 +8,8 @@ namespace HelpDesk.Web.Models
 {
     public class TicketDTO
     {
+        public int SystemManagerId { get; set; }
+
         public long WarehouseStockId { get; set; }
         public long APPMId { get; set; }
 
@@ -52,6 +54,7 @@ namespace HelpDesk.Web.Models
         public string Url { get; set; }
         public string multipledocuments_xml { get; set; }
         public string ContentType { get; set; }
+        public string UniqueId { get; set; }
         public long TicketNumber { get; set; }
         public string Comments { get; set; }
         public string ProblemDescription { get; set; }
@@ -59,6 +62,7 @@ namespace HelpDesk.Web.Models
         public DateTime ResponseTime { get; set; }
         public string AccountName { get; set; }
         public string ModelName { get; set; }
+        public string SystemNoSerialNo { get; set; }
         public string SystemNo { get; set; }
         public string FullName { get; set; }
         public string Area { get; set; }
@@ -143,6 +147,11 @@ namespace HelpDesk.Web.Models
         public string Resolved_array { get; set; }
         public string Months_array { get; set; }
         public string Pie_array { get; set; }
+
+        public string ManagerFullName { get; set; }
+        public string ManagerMobile { get; set; }
+        public string ManagerEmail { get; set; }
+
     }
 }
 

@@ -128,24 +128,34 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountsController.cs" />
     <Compile Include="Controllers\AssetsController.cs" />
+    <Compile Include="Controllers\CityController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\ModelController.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\RegionController.cs" />
     <Compile Include="Controllers\TicketController.cs" />
     <Compile Include="Controllers\UsersRegistrationController.cs" />
+    <Compile Include="Controllers\WarehouseController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Handlers\CommonHeader.cs" />
     <Compile Include="Models\AccountsDTO.cs" />
     <Compile Include="Models\AssetsDTO.cs" />
+    <Compile Include="Models\CityDTO.cs" />
     <Compile Include="Models\DashboardDTO.cs" />
     <Compile Include="Models\InventoryDTO.cs" />
     <Compile Include="Models\LoginDTO.cs" />
     <Compile Include="Models\MenusDTO.cs" />
+    <Compile Include="Models\ModelDTO.cs" />
+    <Compile Include="Models\ProductDTO.cs" />
+    <Compile Include="Models\RegionDTO.cs" />
     <Compile Include="Models\TicketDTO.cs" />
     <Compile Include="Models\UserDTO.cs" />
+    <Compile Include="Models\WarehouseDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -303,6 +313,19 @@
     <Content Include="Views\Inventory\Transfer.cshtml" />
     <Content Include="Views\Inventory\WarehouseListBySparePartPV.cshtml" />
     <Content Include="Views\Inventory\StockDetailsPV.cshtml" />
+    <Content Include="Views\Products\Product.cshtml" />
+    <Content Include="Views\Products\Create.cshtml" />
+    <Content Include="Views\Model\Create.cshtml" />
+    <Content Include="Views\Model\Model.cshtml" />
+    <Content Include="Views\Region\Create.cshtml" />
+    <Content Include="Views\Region\Region.cshtml" />
+    <Content Include="Views\City\Create.cshtml" />
+    <Content Include="Views\City\City.cshtml" />
+    <Content Include="Views\Warehouse\Warehouse.cshtml" />
+    <Content Include="Views\Warehouse\Create.cshtml" />
+    <Content Include="Views\Assets\AssetsList.cshtml" />
+    <Content Include="Views\Assets\AssetListPV.cshtml" />
+    <Content Include="Views\Warehouse\AssignWarehouse.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

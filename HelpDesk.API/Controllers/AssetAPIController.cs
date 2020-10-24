@@ -59,10 +59,16 @@ namespace HelpDesk.API.Controllers
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public IEnumerable<AssetDTO> NewGetAssetList(AssetDTO obj)
+        //public IEnumerable<AssetDTO> NewGetAssetList(AssetDTO obj)
+        //{
+        //    var list = service.GetAssetList(obj);
+        //    return list;
+        //}
+        [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewGetAssetList(AssetDTO obj)
         {
-            var list = service.GetAssetList(obj);
-            return list;
+            var result = service.GetAssetList(obj);
+            return Ok(result);
         }
 
         /// <summary>

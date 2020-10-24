@@ -17,8 +17,7 @@
                 <h3 class="kt-portlet__head-title">Warranty Expired Tickets</h3>
             </div>
         </div>
-        <div class="kt-portlet__body">
-            <!--begin: Search Form -->
+        @*<div class="kt-portlet__body">
             <div class="kt-form kt-form--label-right">
                 <div class="row align-items-center">
                     <div class="col-xl-12 order-2 order-xl-1">
@@ -39,7 +38,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>*@
 
         <div class="kt-portlet__body pt-0">
             <div class="table-responsive">
@@ -64,7 +63,7 @@
             var comid = $('#hdnCompany').val();
             
             if (comid != 0) {
-                $('#ddlCompany').prop("disabled", true);
+                //$('#ddlCompany').prop("disabled", true);
                  UnderApprovalTickets(comid)
             }
         });

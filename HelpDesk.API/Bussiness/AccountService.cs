@@ -79,6 +79,8 @@ namespace HelpDesk.API.Bussiness
                         obj.AccountName = data["AccountName"].ToString();
                         obj.AccountCode = data["AccountCode"].ToString();
                         obj.isActive = bool.Parse(data["isActive"].ToString());
+                        obj.AccountId = obj.AccountId;
+
                     }
                 }
             }

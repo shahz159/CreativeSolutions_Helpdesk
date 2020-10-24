@@ -320,6 +320,7 @@
                                         &nbsp;&nbsp;&nbsp;
                                         Created On : <strong class="color-primary">@item.CreatedOn.ToString("dd-MM-yyyy HH:mm")</strong>
                                     </div>
+                                    <input type="hidden" id="hdnCreatedDate" value="@item.CreatedOn"/>
                                 </div>
                                 @*<h4 class="kt-portlet__head-title">Created By: &nbsp;&nbsp;&nbsp; @item.CreatedUser</h4>*@
                             </div>
@@ -621,15 +622,15 @@
                                                             <i class="la la-check"></i>
                                                             Confirm
                                                         </a>
-                                                    }
-                                                    else if (item.CreatedUserRoleId != 503 && item.Status == 6 && (item.ReportId == 9 || item.ReportId == 2 || item.ReportId == 1 || item.ReportId == 4))
-                                                    {
+                                                            }
+                                                            else if (item.CreatedUserRoleId != 503 && item.Status == 6 )/*&& (item.ReportId == 9 || item.ReportId == 2 || item.ReportId == 1 || item.ReportId == 4)*/
+                                                            {
                                                         <a href="#" onclick="UpdateStatus(14)" class="btn btn-brand btn-elevate btn-icon-sm">
                                                             <i class="la la-check"></i>
                                                             Confirm
                                                         </a>
-                                                    }
                                                 }
+                                            }
                                                 else if (Model.RoleId == 502 && item.Status == 6 && (item.CreatedUserRoleId == 501 || item.CreatedUserRoleId == 502))
                                                 {
                                                     <a href="#" onclick="UpdateStatus(1013)" class="btn btn-brand btn-elevate btn-icon-sm">
@@ -677,12 +678,12 @@
                                         </div>
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>Customer ID</label>
-                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.CreatedUserId">
+                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.AccountCode">
                                         </div>
 
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>Customer Name</label>
-                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.CreatedUser">
+                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.ManagerFullName">
                                         </div>
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>Customer Location</label>
@@ -691,11 +692,11 @@
 
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>Customer Mobile No.</label>
-                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.Mobile">
+                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.ManagerMobile">
                                         </div>
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>Customer Email</label>
-                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.Email">
+                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.ManagerEmail">
                                         </div>
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>System ID</label>
@@ -812,7 +813,17 @@
                                                 </h5>
                                             </div>
                                         }
-                                        @if (item.ReportId == 1 || item.ReportId == 2 || item.ReportId == 4 || item.ReportId == 9)
+                                        <div class="form-group col-md-4">
+                                            <label> System Manager</label>
+                                            <h5>
+                                                @item.ManagerName
+                                                <br />
+                                                <small>
+                                                    @item.ManagerConfirmationDate
+                                                </small>
+                                            </h5>
+                                        </div>
+                                        @*@if (item.ReportId == 1 || item.ReportId == 2 || item.ReportId == 4 || item.ReportId == 9)
                                         {
                                             <div class="form-group col-md-4">
                                                 <label> System Manager</label>
@@ -837,7 +848,7 @@
                                                     </small>
                                                 </h5>
                                             </div>
-                                        }
+                                        }*@
                                     </div>
                                 </div>
                             </div>
@@ -887,7 +898,9 @@
                 rightArrow: '<i class="la la-angle-right"></i>'
             }
         }
+        
         $('#txtResponseTime').datetimepicker({
+            minDate: new Date(),
             todayHighlight: true,
             autoclose: true,
             format: 'yyyy.mm.dd hh:ii'
@@ -995,6 +1008,7 @@
             if (this.id != "") {
                 var dyn_matrix_data = {};
                 dyn_matrix_data.SparePartId = this.id;
+
                 dyn_matrix_data.Quantity = $('#ddlqnty_' + this.id).val();
                 dyn_matrix_data.TicketNumber = $('#hdnTicketNumber').val();
                 dyn_matrix_data.WarehouseId = $('#ddlwarehouse').val();
@@ -1252,27 +1266,38 @@
             alert('fields required');
             return false;
         }
-        document.getElementById("loader").style.display = "block";
-        $.ajax({
-            type: "Post",
-            url: '@Url.Action("AddResponseTime")',
-            datatype: "json",
-            data: { ResponseTime: datetime,TicketNumber:$('#hdnTicketNumber').val() },
-            success: function (data) {
-                var v = data.success;
-                if (v == true) {
-                    TicketDetails($('#hdnTicketNumber').val());
+        var CreatedDate = $('#hdnCreatedDate').val();
+        
+        var d = new Date(CreatedDate);
+        var ds = new Date(datetime);
+        if (d <= ds) {
+           document.getElementById("loader").style.display = "block";
+             $.ajax({
+                type: "Post",
+                url: '@Url.Action("AddResponseTime")',
+                datatype: "json",
+                data: { ResponseTime: datetime, TicketNumber: $('#hdnTicketNumber').val() },
+                success: function (data) {
+                    var v = data.success;
+                    if (v == true) {
+                        TicketDetails($('#hdnTicketNumber').val());
+                    }
+                    else {
+                        alert('Some thing went wrong');
+                    }
+                    document.getElementById("loader").style.display = "none";
+                },
+                error: function () {
+                    alert('error');
+                    document.getElementById("loader").style.display = "none";
                 }
-                else {
-                    alert('Some thing went wrong');
-                }
-                document.getElementById("loader").style.display = "none";
-            },
-            error: function () {
-                alert('error');
-                document.getElementById("loader").style.display = "none";
-            }
-        });
+            });
+        }
+        else {
+            alert("Invalid Date")
+        }
+
+       
     }
     function ViewResponseDiv() {
         $('#AddResponseTime_Div').slideToggle();
@@ -1286,11 +1311,17 @@
         }
         else if (val==6) {
             var txtdone = $('#txtactivitydone').val();
-            var problemdesc = $('#txtproblemdescription').val();
-            if (txtdone=="N/A" && problemdesc=="N/A") {
+            if (txtdone == "" || txtdone == "N/A") {
                 alert('fields required');
                 return false;
             }
+
+            var problemdesc = $('#txtproblemdescription').val();
+            if (problemdesc == "" || problemdesc == "N/A") {
+                alert('fields required');
+                return false;
+            }
+            
             await $.ajax({
                 type: 'POST',
                 url: '@Url.Action("UpdateTicketStatus")', // we are calling json method

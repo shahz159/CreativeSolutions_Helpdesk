@@ -16,28 +16,40 @@ namespace HelpDesk.Web.Controllers
         // GET: Accounts
         public async Task<ActionResult> Accounts()
         {
-            using (HttpClient client = new HttpClient())
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
             {
-                CommonHeader.setHeaders(client);
-                try
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                using (HttpClient client = new HttpClient())
                 {
-                    AccountsDTO obj = new AccountsDTO();
-                    obj.CompanyId = 10;
-                    HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/AccountAPI/NewGetAccountsList", obj);
-                    if (responseMessage.IsSuccessStatusCode)
+                    CommonHeader.setHeaders(client);
+                    try
                     {
-                        var responseData = responseMessage.Content.ReadAsStringAsync().Result;
-                        var categories = JsonConvert.DeserializeObject<List<AccountsDTO>>(responseData);
-                        if (categories.Count != 0)
-                            obj.AccountsLst = categories;
-                        else
-                            obj.AccountsLst = null;
+                        AccountsDTO obj = new AccountsDTO();
+                        long userid = long.Parse(Session["SSUserId"].ToString());
+                        int roleid = int.Parse(Session["SSRoleId"].ToString());
+                        obj.CompanyId = int.Parse(Session["SSCompanyId"].ToString());
+                        int orgid = int.Parse(Session["SSOrganizationId"].ToString());
+                        obj.CompanyId = 10;
+                        HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/AccountAPI/NewGetAccountsList", obj);
+                        if (responseMessage.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                            var categories = JsonConvert.DeserializeObject<List<AccountsDTO>>(responseData);
+                            if (categories.Count != 0)
+                                obj.AccountsLst = categories;
+                            else
+                                obj.AccountsLst = null;
+                        }
+                        return View(obj);
                     }
-                    return View(obj);
-                }
-                catch (Exception ex)
-                {
-                    return View();
+                    catch (Exception ex)
+                    {
+                        return View();
+                    }
                 }
             }
         }
@@ -47,44 +59,56 @@ namespace HelpDesk.Web.Controllers
             if (TempData["obj"] != null)
             {
                 obj = (AccountsDTO)TempData["obj"];  //retrieve TempData values here
-                ViewData["Submit"] = "true";
+                ViewData["Submit"] = "false";
+                ViewData["Update"] = "true";
             }
             else
             {
-                ViewData["Submit"] = "false";
+                ViewData["Submit"] = "true";
+                ViewData["Update"] = "false";
                 obj.AccountId = 0;
             }
-            return View();
+            return View(obj);
         }
-      
-        [HttpPost]
-        public async Task<ActionResult> Create(AccountsDTO obj, string Save, string Update)
-        {
-            using (HttpClient client = new HttpClient())
-            {
-                CommonHeader.setHeaders(client);
-                try
-                {
-                    if (Save== "Save")
-                        obj.FlagId = 1;
-                    if (Update== "Update")
-                        obj.FlagId = 2;
-                    obj.CompanyId = 1;
-                    obj.CreatedBy = 1;
 
-                    HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/AccountAPI/NewInsertUpdateAccounts", obj);
-                    if (responseMessage.IsSuccessStatusCode)
-                    {
-                        var responseData = responseMessage.Content.ReadAsStringAsync().Result;
-                        var categories = JsonConvert.DeserializeObject<AccountsDTO>(responseData);
-                        obj.message = categories.message;
-                        string msg = obj.message;
-                    }
-                    return RedirectToAction("Accounts");
-                }
-                catch (Exception ex)
+        [HttpPost]
+        public async Task<ActionResult> Create(AccountsDTO obj, string Submit, string Update)
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                using (HttpClient client = new HttpClient())
                 {
-                    return View();
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        if (Submit == "Submit")
+                            obj.FlagId = 1;
+                        if (Update == "Update")
+                            obj.FlagId = 2;
+                        obj.CreatedBy= long.Parse(Session["SSUserId"].ToString());
+                        int roleid = int.Parse(Session["SSRoleId"].ToString());
+                        obj.CompanyId = int.Parse(Session["SSCompanyId"].ToString());
+                        int orgid = int.Parse(Session["SSOrganizationId"].ToString());
+                        obj.CompanyId = 10;
+                        HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/AccountAPI/NewInsertUpdateAccounts", obj);
+                        if (responseMessage.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                            var categories = JsonConvert.DeserializeObject<AccountsDTO>(responseData);
+                            obj.message = categories.message;
+                            string msg = obj.message;
+                        }
+                        return RedirectToAction("Accounts");
+                    }
+                    catch (Exception ex)
+                    {
+                        return View();
+                    }
                 }
             }
         }

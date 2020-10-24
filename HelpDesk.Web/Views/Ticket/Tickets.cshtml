@@ -34,7 +34,7 @@
                 <div class="row align-items-center">
                     <div class="col-xl-12 order-2 order-xl-1">
                         <div class="row align-items-center">
-                            <div class="col-md-6 kt-margin-b-20-tablet-and-mobile">
+                            <div class="col-md-5 kt-margin-b-20-tablet-and-mobile">
                                 <div class="kt-form__group">
                                     <div class="kt-form__label">
                                         <label>Ticket Type</label>
@@ -46,7 +46,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 kt-margin-b-20-tablet-and-mobile">
+                            <div class="col-md-5 kt-margin-b-20-tablet-and-mobile">
                                 <div class="kt-form__group">
                                     <div class="kt-form__label">
                                         <label>Status</label>
@@ -55,6 +55,16 @@
                                         <div id="div_filters_Status">
 
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 kt-margin-b-20-tablet-and-mobile">
+                                <div class="kt-form__group">
+                                    <div class="kt-form__label">
+                                        <label></label>
+                                    </div>
+                                    <div class="kt-form__control">
+                                        <a style="cursor:pointer;" onclick="reload()">Clear Filters</a>
                                     </div>
                                 </div>
                             </div>
@@ -114,7 +124,9 @@
     @*<script src="~/assets/js/datatable.js"></script>*@
 
     <script>
-
+        function reload() {
+            location.reload();
+        }
         //var KTDatatablesBasicPaginations = function () {
 
         //    var initTable1 = function () {
@@ -160,7 +172,7 @@
                                         .search(val ? '^' + val + '$' : '', true, false)
                                         .draw();
                                 });
-                              column.data().unique().sort().each(function (d, j) {
+                            column.order('asc').data().unique().sort().each(function (d, j) {
                                 select.append('<option value="' + d + '">' + d + '</option>')
                             });
                         }  //end of if div_filters_ticket type 
@@ -180,7 +192,7 @@
                                         .search(val ? '^' + val + '$' : '', true, false)
                                         .draw();
                                 });
-                              column.data().unique().sort().each(function (d, j) {
+                             column.order('asc').data().unique().sort().each(function (d, j) {
                                 select.append('<option value="' + d + '">' + d + '</option>')
                             });
                         }

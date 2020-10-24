@@ -7,6 +7,8 @@ namespace HelpDesk.Web.Models
 {
     public class AssetsDTO
     {
+        public int NoOfPages { get; set; }
+        public int TotalRecords { get; set; }
         public string AssetModelJson { get; set; }
         public long RenewalId { get; set; }
         public long TicketNumber { get; set; }
@@ -30,6 +32,8 @@ namespace HelpDesk.Web.Models
         public IEnumerable<AssetsDTO> PPMList { get; set; }
         public IEnumerable<AssetsDTO> ModelList { get; set; }
         public IEnumerable<AssetsDTO> AssetModelList { get; set; }
+        public IEnumerable<AssetsDTO> RemainingModelList { get; set; }
+        public string RemainingModelsJson { get; set; }
         public IEnumerable<AssetsDTO> CityList { get; set; }
         public IEnumerable<AssetsDTO> UpdatedList { get; set; }
         public string UpdatedJson { get; set; }
@@ -63,6 +67,7 @@ namespace HelpDesk.Web.Models
         public int PPMType { get; set; }
         public string SystemNo { get; set; }
         public bool IsApproved { get; set; }
+        public bool All { get; set; }
         public int RoleId { get; set; }
         public long ApprovedBy { get; set; }
         public bool isActive { get; set; }
@@ -84,5 +89,8 @@ namespace HelpDesk.Web.Models
         public int StatusId { get; set; }
         public string UpdateUserName { get; set; }
         public DateTime ModifiedOn { get; set; }
+
+        public int PageSize { get; set; }
+        public int pageNumber { get; set; }
     }
 }

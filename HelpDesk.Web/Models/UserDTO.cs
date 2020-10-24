@@ -7,6 +7,8 @@ namespace HelpDesk.Web.Models
 {
     public class UserDTO
     {
+        public bool isCancelled { get; set; }
+
         public bool Cancelled { get; set; }
         public string Accountsxml { get; set; }
         public string Productsxml { get; set; }

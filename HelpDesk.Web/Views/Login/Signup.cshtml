@@ -289,6 +289,14 @@
             }
             else {
                 myLength = $('#txtConfirmPassword').val().length;
+
+                var password = $('#txtPassword').val();
+                var confirmpassword = $('#txtConfirmPassword').val();
+                if (password != confirmpassword) {
+                    alert('Password not matched');
+                    $('#txtConfirmPassword').val('');
+                    return false;
+                }
             }
             if (myLength < 5) {
                 if (val == 1) {
@@ -308,6 +316,10 @@
                     $('#txtConfirmPassworderror').html('');
                 }
             }
+           
+
+            
+
         }
 
         function checkPassword() {
@@ -337,6 +349,7 @@
         }
         function SaveUserDetails() {
             debugger
+            document.getElementById("loader").style.display = "block";
             var isvalid = true;
             ///////////////////////
             var password1 = $('#txtPassword').val();
@@ -452,6 +465,7 @@
             //////////////////////
             if (isvalid == true) {
                 //AJAX CALL
+                
                   $.ajax({
                     type: 'POST',
                     url: '@Url.Action("NewUser")', // we are calling json method
@@ -460,7 +474,8 @@
                         RoleId: RoleId, CompanyId: CompanyId, Accounts: Accounts, Products: Products, EmpId: EmployeeId, FullName: FullName, Mobile: Mobile, Email: Email,
                         Gender: Gender,Password:password1
                     },
-                    success: function (data) {
+                      success: function (data) {
+                          document.getElementById("loader").style.display = "none";
                         swal('Success',
                             'we will contact you soon',
                             'success')
@@ -469,13 +484,14 @@
                             });
                         location.reload();
                     },
-                    error: function (ex) {
+                      error: function (ex) {
+                          document.getElementById("loader").style.display = "none";
                         alert('Failed to retrieve models.' + ex);
                     }
                 });
             }
             else {
-
+                document.getElementById("loader").style.display = "none";
             }
         }
 

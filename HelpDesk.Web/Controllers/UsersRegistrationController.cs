@@ -395,7 +395,7 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
-        public async Task<JsonResult> GetRoleProducts(int id)
+        public async Task<JsonResult> GetRoleProducts(int id,int RoleId,int AccountId)
         {
             using (HttpClient client = new HttpClient())
             {
@@ -404,6 +404,9 @@ namespace HelpDesk.Web.Controllers
                 {
                     UserDTO obj = new UserDTO();
                     obj.CompanyId = id;
+                    obj.RoleId = RoleId;
+                    obj.AccountId = AccountId;
+
                     List<UserDTO> modellst = new List<UserDTO>();
                     SelectList ddlproducts = new SelectList("", "ProductId", "ProductName", 0);
                     HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/UserAPI/NewGetProductListRolwWise", obj);
@@ -592,6 +595,9 @@ namespace HelpDesk.Web.Controllers
                                         
                                         string accountsjson = obj.UsersList.FirstOrDefault().Accountsxml;
                                         var model = JsonConvert.DeserializeObject<List<UserDTO>>(accountsjson);
+
+
+
                                         obj.AccountList = model;
 
                                         string productsjson = obj.UsersList.FirstOrDefault().Productsxml;
@@ -885,6 +891,102 @@ namespace HelpDesk.Web.Controllers
             }
         }
 
+        public async Task<JsonResult> UserStatusAPPRJCT(long userid, int val)
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return Json("Index", "Login");
+            }
+            else
+            {
+                int userid_a = int.Parse(Session["SSUserId"].ToString());
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        UserDTO obj = new UserDTO();
+                        obj.UserId = userid;
+
+                        if (val == 1)
+                        {
+                            obj.isApproved = true;
+                            obj.isCancelled = false;
+                            obj.isActive = true;
+                        }
+                        else if (val == 2)
+                        {
+                            obj.isApproved = false;
+                            obj.isCancelled = true;
+                            obj.isActive = false;
+                        }
+                        obj.CreatedBy = userid_a;
+                        bool status = false;
+                        HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/UserAPI/NewUpdateSignUpUserStatus", obj);
+                        if (responseMessage.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                            var model = JsonConvert.DeserializeObject<AssetsDTO>(responseData);
+                            string msg = model.message;
+                            if (msg == "1")
+                                status = true;
+                            else if (msg == "2")
+                            {
+                                status = false;
+                            };
+                        }
+                        return Json(new { success = status });
+                    }
+                    catch (Exception ex)
+                    {
+                        return Json(new { success = false });
+                    }
+                }
+            }
+        }
+
+        public async Task<JsonResult> UserStatusIsActive(long userid)
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return Json("Index", "Login");
+            }
+            else
+            {
+                int userid_a = int.Parse(Session["SSUserId"].ToString());
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        UserDTO obj = new UserDTO();
+                        obj.UserId = userid;
+                        obj.CreatedBy = userid_a;
+                        bool status = false;
+                        HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/UserAPI/NewUpdateUserStatusActive", obj);
+                        if (responseMessage.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                            var model = JsonConvert.DeserializeObject<AssetsDTO>(responseData);
+                            string msg = model.message;
+                            if (msg == "1")
+                                status = true;
+                            else if (msg == "2")
+                            {
+                                status = false;
+                            };
+                        }
+                        return Json(new { success = status });
+                    }
+                    catch (Exception ex)
+                    {
+                        return Json(new { success = false });
+                    }
+                }
+            }
+        }
 
 
 

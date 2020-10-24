@@ -211,6 +211,54 @@ namespace HelpDesk.API.Bussiness
             }
             return obj;
         }
+        public UsersDTO UpdateSignUpUserStatus(UsersDTO obj)
+        {
+            try
+            {
+                var data = model.UpdateSignUpUser(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["message"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
+        public UsersDTO UpdateUserStatusActive(UsersDTO obj)
+        {
+            try
+            {
+                var data = model.UpdateUserStatusActive(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["message"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
+
+        
+
+
         public UsersDTO UpdateUserPassword(UsersDTO obj)
         {
             try
@@ -336,6 +384,8 @@ namespace HelpDesk.API.Bussiness
     {
         UsersDTO UpdateUserPassword(UsersDTO obj);
         UsersDTO UpdateUserInfoBasic(UsersDTO obj);
+        UsersDTO UpdateSignUpUserStatus(UsersDTO obj);
+        UsersDTO UpdateUserStatusActive(UsersDTO obj);
         UsersDTO NewUser(UsersDTO obj);
         UsersDTO RoleCompanyDropDowns(UsersDTO obj);
         UsersDTO GetUserDetailsById(UsersDTO obj);

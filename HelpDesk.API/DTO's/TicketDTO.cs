@@ -14,6 +14,7 @@ namespace HelpDesk.API.DTO_s
         public long APPMId { get; set; }
         public string  ReportTypeName { get; set; }
         public string message { get; set; }
+        public int SystemManagerId { get; set; }
         public string datasetxml { get; set; }
         public string Description { get; set; }
         public int ProductId { get; set; }

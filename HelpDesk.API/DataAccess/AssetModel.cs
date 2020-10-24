@@ -28,16 +28,23 @@ namespace HelpDesk.API.DataAccess
             }
         }
 
-        public SqlDataReader GetAssetList(AssetDTO obj)
+        public string GetAssetList(AssetDTO obj)
         {
             try
             {
                 var para = new[]
                 {
                     //new SqlParameter("@CompanyId",obj.CompanyId),
-                    new SqlParameter("@UserId",obj.CreatedBy)
+                    new SqlParameter("@UserId",obj.CreatedBy),
+                    new SqlParameter("@pageSize",obj.PageSize),
+                    new SqlParameter("@pageNumber",obj.pageNumber),
+                    new SqlParameter("@AccountId",obj.AccountId),
+                    new SqlParameter("@ProductId",obj.ProductId),
+                    new SqlParameter("@searchtxt",obj.message),
+                    new SqlParameter("@IsContract",obj.IsContract),
+                    new SqlParameter("@All",obj.All)
                 };
-                return DbConnector.ExecuteReader("uspGetAssetList", para);
+                return DbConnector.ExecuteDataSet("uspGetAssetList", para);
             }
             catch (Exception ex)
             {
@@ -45,6 +52,8 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
+
+
 
         public SqlDataReader GetCity(AssetDTO obj)
         {
@@ -403,7 +412,8 @@ namespace HelpDesk.API.DataAccess
         SqlDataReader UpdatedAsset(AssetDTO obj);
         SqlDataReader VerifyAsset(AssetDTO obj);
         SqlDataReader UpdatePPMDate(AssetDTO obj);
-        SqlDataReader GetAssetList(AssetDTO obj);
+        string GetAssetList(AssetDTO obj);
+        //string Getproducts(TicketDTO obj);
         SqlDataReader UpdateAssetStatus(AssetDTO obj);
         SqlDataReader UpdatePPMChangeRequest(AssetDTO obj);
         SqlDataReader GetAssetDetailsById(AssetDTO obj);

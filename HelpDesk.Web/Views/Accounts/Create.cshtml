@@ -4,95 +4,131 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.AntiForgeryToken()
+    <div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
 
-<div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
-
-    <!--Begin::Dashboard 3-->
-    <!--Begin::Row-->
-    <div class="row">
-        <div class="col-lg-12 col-xl-12 order-lg-1 order-xl-1">
-            <!--begin:: Widgets/Trends-->
-            <div class="kt-portlet kt-portlet--head--noborder kt-portlet--height-fluid">
-                <div class="kt-portlet__head kt-portlet__head--lg">
-                    <div class="kt-portlet__head-label">
-                        <span class="kt-portlet__head-icon">
-                            <i class="kt-font-brand flaticon2-line-chart"></i>
-                        </span>
-                        <h3 class="kt-portlet__head-title">
-                            New Account
-                        </h3>
+        <!--Begin::Dashboard 3-->
+        <!--Begin::Row-->
+        <div class="row">
+            <div class="col-lg-12 col-xl-12 order-lg-1 order-xl-1">
+                <!--begin:: Widgets/Trends-->
+                <div class="kt-portlet kt-portlet--head--noborder kt-portlet--height-fluid">
+                    <div class="kt-portlet__head kt-portlet__head--lg">
+                        <div class="kt-portlet__head-label">
+                            <span class="kt-portlet__head-icon">
+                                <i class="kt-font-brand flaticon2-line-chart"></i>
+                            </span>
+                            <h3 class="kt-portlet__head-title">
+                                New Account
+                            </h3>
+                        </div>
                     </div>
-                </div>
-                <div class="kt-portlet__body kt-portlet__body--fluid kt-portlet__body--fit">
-                    <div class="kt-container  kt-grid__item kt-grid__item--fluid">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <!--begin::Form-->
-                                <form class="kt-form kt-form--label-right">
-                                    <div class="kt-portlet__body">
-                                        <div class="form-group row">
-                                            <label for="example-text-input" class="col-sm-2 col-form-label">Account Name</label>
-                                            <div class="col-sm-9">
-                                                <input class="form-control" type="text" value="">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="example-text-input" class="col-sm-2 col-form-label">Account Code</label>
-                                            <div class="col-sm-9">
-                                                <input class="form-control" type="text" value="">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">IsActive</label>
-                                            <div class="col-sm-9">
-                                                <span class="kt-switch kt-switch--icon">
-                                                    <label>
-                                                        <input type="checkbox" name="">
-                                                        <span></span>
-                                                    </label>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="kt-portlet__foot">
-                                        <div class="kt-form__actions">
-                                            <div class="row">
-                                                <div class="col-2">
-                                                </div>
-                                                <div class="col-10">
-                                                    <button type="reset" class="btn btn-success">Submit</button>
-                                                    <button type="reset" class="btn btn-secondary">Cancel</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                                <!--end::Form-->
-                            </div>
+                    <div class="kt-portlet__body kt-portlet__body--fluid kt-portlet__body--fit">
+                        <div class="kt-container  kt-grid__item kt-grid__item--fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <!--begin::Form-->
+                                    <form class="kt-form kt-form--label-right">
+                                        <div class="kt-portlet__body">
+                                            <div class="form-group row">
+                                                <label for="example-text-input" class="col-sm-2 col-form-label">
+                                                    Account Name
+                                                    @Html.ValidationMessageFor(model => model.AccountName, "", new { @class = "text-danger" })
+                                                </label>
+                                                <div class="col-sm-9">
+                                                    
+                                                    @Html.TextBoxFor(m => m.AccountName, new
+                                             {
+                                                 id = "AccountName",
+                                                 @class = "form-control",
+                                                 @placeholder = "Enter Account name"
+                                             })
 
-                            <!--end::Portlet-->
+                                                    @Html.HiddenFor(m => m.AccountId)
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="example-text-input" class="col-sm-2 col-form-label">
+                                                    Account Code
+                                                    @Html.ValidationMessageFor(model => model.AccountCode, "", new { @class = "text-danger" })
+                                                </label>
+                                                <div class="col-sm-9">
+                                                    
+                                                    @Html.TextBoxFor(m => m.AccountCode, new
+                                             {
+                                                 id = "AccountCode",
+                                                 @class = "form-control",
+                                                 @placeholder = "Enter Account Code"
+                                             })
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">IsActive</label>
+                                                <div class="col-sm-9">
+                                                    @Html.DropDownListFor(m => m.isActive, new List<SelectListItem>()
+  {
+    new SelectListItem() { Text= "No", Value = "false" },   new SelectListItem() { Text= "Yes", Value = "true" }
+
+                                              }, new { @class = "form-control select2-allow-clear", @id = "m_select2_1" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="kt-portlet__foot">
+                                            <div class="kt-form__actions">
+                                                <div class="row">
+                                                    <div class="col-2">
+                                                    </div>
+                                                    <div class="col-10">
+                                                        @{
+                                                            var submit = ViewData["Submit"];
+                                                            var update = ViewData["Update"];
+
+                                                            if (submit.ToString() == "true")
+                                                            {
+                                                                <input id="btnSubmit" type="submit" class="btn btn-success" value="Submit" name="Submit" />
+
+                                                            }
+                                                            if (update.ToString() == "true")
+                                                            {
+                                                                <input type="submit" class="btn btn-secondary" value="Update" name="Update" />
+                                                            }
+                                                        }
+                                                        <a onclick="cancel()" class="btn default">Cancel</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <!--end::Form-->
+                                </div>
+
+                                <!--end::Portlet-->
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!--end:: Widgets/Trends-->
         </div>
-
-        <!--end:: Widgets/Trends-->
     </div>
-</div>
-
-@section Scripts{
-    <!-- Date Picker -->
-    <script src="~/assets/js/bootstrap-datepicker.js"></script>
-
-    <!-- Date Picker -->
-    <script src="~/assets/js/bootstrap-datetimepicker.js"></script>
-
-    <!-- Select 2 -->
-    <script src="~/assets/js/select2.js"></script>
-    <script>
-        $('#loader').hide();
-    </script>
 }
+    @section Scripts{
+        <!-- Date Picker -->
+        <script src="~/assets/js/bootstrap-datepicker.js"></script>
+
+        <!-- Date Picker -->
+        <script src="~/assets/js/bootstrap-datetimepicker.js"></script>
+
+        <!-- Select 2 -->
+        <script src="~/assets/js/select2.js"></script>
+        <script>
+            $('#loader').hide();
+           
+        </script>
+    }
 
 

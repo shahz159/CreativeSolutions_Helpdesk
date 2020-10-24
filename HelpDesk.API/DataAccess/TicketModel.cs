@@ -31,7 +31,8 @@ namespace HelpDesk.API.DataAccess
                     new SqlParameter("@xml",obj.multipledocuments_xml),
                     new SqlParameter("@ReportId",obj.ReportId),
                     new SqlParameter("@APPMId",obj.APPMId),
-                    new SqlParameter("@AMId",obj.AMId)
+                    new SqlParameter("@AMId",obj.AMId),
+                    new SqlParameter("@SystemManagerId",obj.SystemManagerId)
                 };
                 return DbConnector.ExecuteReader("uspNewTicketRequest", para);
             }
@@ -195,8 +196,25 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
+        public SqlDataReader GetSystemManagerId(TicketDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@ProductId",obj.ProductId),
+                new SqlParameter("@AccountId",obj.AccountId)
+                };
+                return DbConnector.ExecuteReader("uspGetSystemManagerId", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "TicketModel -> GetSystemManagerId");
+                return null;
+            }
+        }
 
         
+
         public SqlDataReader AddResponseTieme(TicketDTO obj)
         {
             try
@@ -442,6 +460,7 @@ namespace HelpDesk.API.DataAccess
         string GetRejectedTickets(TicketDTO obj);
         SqlDataReader UpdateTicketStatus(TicketDTO obj);
         SqlDataReader TicketTransfer(TicketDTO obj);
+        SqlDataReader GetSystemManagerId(TicketDTO obj);
         SqlDataReader AddResponseTieme(TicketDTO obj);
 
         string GetDashBoardCount(TicketDTO obj);

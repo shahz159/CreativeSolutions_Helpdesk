@@ -170,36 +170,56 @@
     <Compile Include="BussinessHelpers\BusinessModelExceptionUtility.cs" />
     <Compile Include="Bussiness\AccountService.cs" />
     <Compile Include="Bussiness\AssetService.cs" />
+    <Compile Include="Bussiness\CityService.cs" />
     <Compile Include="Bussiness\InventoryService.cs" />
     <Compile Include="Bussiness\LoginPageService.cs" />
+    <Compile Include="Bussiness\ModelService.cs" />
+    <Compile Include="Bussiness\ProductService.cs" />
+    <Compile Include="Bussiness\RegionService.cs" />
     <Compile Include="Bussiness\TicketService.cs" />
     <Compile Include="Bussiness\UserService.cs" />
+    <Compile Include="Bussiness\WarehouseService.cs" />
     <Compile Include="Controllers\AccountAPIController.cs" />
     <Compile Include="Controllers\AssetAPIController.cs" />
+    <Compile Include="Controllers\CityAPIController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventoryAPIController.cs" />
     <Compile Include="Controllers\LoginAPIController.cs" />
+    <Compile Include="Controllers\ModelAPIController.cs" />
+    <Compile Include="Controllers\ProductAPIController.cs" />
+    <Compile Include="Controllers\RegionAPIController.cs" />
     <Compile Include="Controllers\TestAccountAPIController.cs" />
     <Compile Include="Controllers\TicketsAPIController.cs" />
     <Compile Include="Controllers\UserAPIController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Controllers\WarehouseAPIController.cs" />
     <Compile Include="DataAccess\AccountModel.cs" />
     <Compile Include="DataAccess\AssetModel.cs" />
+    <Compile Include="DataAccess\CityModel.cs" />
     <Compile Include="DataAccess\InventoryModel.cs" />
     <Compile Include="DataAccess\LoginPageModel.cs" />
+    <Compile Include="DataAccess\Model.cs" />
+    <Compile Include="DataAccess\ProductModel.cs" />
+    <Compile Include="DataAccess\RegionModel.cs" />
     <Compile Include="DataAccess\TicketModel.cs" />
     <Compile Include="DataAccess\UserModel.cs" />
+    <Compile Include="DataAccess\WarehouseModel.cs" />
     <Compile Include="DatabaseConnector\DbConnector.cs" />
     <Compile Include="DbHelpers\SqlParameterBuilder.cs" />
     <Compile Include="DbHelpers\DataModelExceptionUtility.cs" />
     <Compile Include="DependencyResolver\UnityResolver.cs" />
     <Compile Include="DTO%27s\AccountDTO.cs" />
     <Compile Include="DTO%27s\AssetDTO.cs" />
+    <Compile Include="DTO%27s\CityDTO.cs" />
     <Compile Include="DTO%27s\ErrorLogsDTO.cs" />
     <Compile Include="DTO%27s\InventoryDTO.cs" />
     <Compile Include="DTO%27s\LoginPageDTO.cs" />
+    <Compile Include="DTO%27s\ModelDTO.cs" />
+    <Compile Include="DTO%27s\ProductDTO.cs" />
+    <Compile Include="DTO%27s\RegionDTO.cs" />
     <Compile Include="DTO%27s\TicketDTO.cs" />
     <Compile Include="DTO%27s\UsersDTO.cs" />
+    <Compile Include="DTO%27s\WarehouseDTO.cs" />
     <Compile Include="GenericHelpers\CustomDataReaderToGenericExtension.cs" />
     <Compile Include="GenericHelpers\CustomStringCipher.cs" />
     <Compile Include="GenericHelpers\CustomUserIpAddress.cs" />
@@ -249,7 +269,9 @@
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

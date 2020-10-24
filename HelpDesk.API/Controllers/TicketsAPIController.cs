@@ -158,7 +158,18 @@ namespace HelpDesk.API.Controllers
             var result = service.GetDashboardCount(obj);
             return Ok(result);
         }
-        
+        /// <summary>
+        /// Get System Manager UserId 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        [ResponseType(typeof(TicketDTO))]
+        public IHttpActionResult NewSystemManagerId(TicketDTO obj)
+        {
+            var result = service.GetSystemManagerId(obj);
+            return Ok(result);
+        }
+
         /// <summary>
         /// get filters of service engineer tickets
         /// </summary>

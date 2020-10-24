@@ -334,7 +334,29 @@ namespace HelpDesk.API.Bussiness
             obj.datasetxml = model.GetDashBoardCount(obj);
             return obj;
         }
-
+        public TicketDTO GetSystemManagerId(TicketDTO obj)
+        {
+            try
+            {
+                var data = model.GetSystemManagerId(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.SystemManagerId =int.Parse(data["UserId"].ToString());
+                    }
+                }
+                else
+                    obj.SystemManagerId = 0;
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
+        
 
         public TicketDTO GetSparePartRequestTickets(TicketDTO obj)
         {
@@ -392,6 +414,9 @@ namespace HelpDesk.API.Bussiness
         TicketDTO GetRejectedTickets(TicketDTO obj);
         TicketDTO GetServiceEngineerTickets(TicketDTO obj);
         TicketDTO GetDashboardCount(TicketDTO obj);
+
+        TicketDTO GetSystemManagerId(TicketDTO obj);
+
         TicketDTO GetSparePartRequestTickets(TicketDTO obj);
         TicketDTO GetEnquiryDetails(TicketDTO obj);
         TicketDTO GetEnquiryList(TicketDTO obj);

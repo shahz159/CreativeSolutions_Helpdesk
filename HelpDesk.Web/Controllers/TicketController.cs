@@ -22,6 +22,7 @@ namespace HelpDesk.Web.Controllers
         public async Task<ActionResult> NewTicket()
         {
             string ses = Convert.ToString(Session["SSUserId"]);
+            //Session["MultipleImagesLst" + ses] = null;
             if (string.IsNullOrEmpty(ses))
             {
                 return RedirectToAction("Index", "Login");
@@ -135,11 +136,12 @@ namespace HelpDesk.Web.Controllers
                                             ProductId = dataRow.Field<int>("ProductId"),
                                             ModelName = dataRow.Field<string>("ModelName"),
                                             //AMId = dataRow.Field<int>("AMId")
-                                            AMModelId = dataRow.Field<long>("AMModelId")
+                                            AMModelId = dataRow.Field<long>("AMModelId"),
+                                            SystemNoSerialNo = dataRow.Field<string>("SystemNoSerialNo")
                                         }).ToList();
 
                                         List<TicketDTO> _objlst = _objStudew;
-                                        ddlmodels = new SelectList(_objlst, "AMModelId", "ModelName", 0);
+                                        ddlmodels = new SelectList(_objlst, "AMModelId", "SystemNoSerialNo", 0);
                                         ViewData["ddlModels"] = ddlmodels;
 
 
@@ -149,7 +151,7 @@ namespace HelpDesk.Web.Controllers
                                     else
                                     {
                                         List<TicketDTO> _objStudent = _objStudew;
-                                        ddlmodels = new SelectList(_objStudent, "AMModelId", "ModelName", 0);
+                                        ddlmodels = new SelectList(_objStudent, "AMModelId", "SystemNoSerialNo", 0);
                                         ViewData["ddlModels"] = ddlmodels;
                                     }
 
@@ -198,8 +200,10 @@ namespace HelpDesk.Web.Controllers
             }
         }
         [HttpPost]
-        public async Task<ActionResult> NewTicket(TicketDTO obj)
+        public async Task<ActionResult> NewTicket(TicketDTO obj, FormCollection fomr)
         {
+            //obj.SystemManagerId=int.Parse(Request["hdnSystemManagerId"].ToString());
+            obj.SystemManagerId = int.Parse(Request.Form["SystemManagerId"]);
             string ses = Convert.ToString(Session["SSUserId"]);
             if (string.IsNullOrEmpty(ses))
             {
@@ -219,6 +223,7 @@ namespace HelpDesk.Web.Controllers
                     try
                     {
                         List<TicketDTO> multiple_images = (List<TicketDTO>)Session["MultipleImagesLst" + userid];
+
 
                         if (multiple_images.Count() > 0)
                         {
@@ -272,15 +277,28 @@ namespace HelpDesk.Web.Controllers
                             obj.CompanyId = compid;
 
                         obj.OrganizationId = orgid;
-                        if (accntid == 0)
+
+
+
+                        //if (accntid == 0)
+                        //{
+                        //    if (roleid == 505 || roleid == 502)
+                        //        obj.AccountId = obj.AccountId;
+                        //}
+                        //else
+                        //    obj.AccountId = accntid;
+
+
+                        if (roleid == 505 || roleid == 502)
                             obj.AccountId = obj.AccountId;
                         else
                             obj.AccountId = accntid;
 
+
                         if (obj.Description == null)
                             obj.Description = "";
 
-                        if (roleid==503|| roleid==504 || roleid == 505)
+                        if (roleid == 503 || roleid == 504 || roleid == 505)
                         {
                             obj.ReportId = 1;
                         }
@@ -294,7 +312,7 @@ namespace HelpDesk.Web.Controllers
                             string msg = obj.message;
 
                             //List<TicketDTO> multiple_images = new List<TicketDTO>();
-                            multiple_images.Clear();
+                            //multiple_images.Clear();
                             Session["MultipleImagesLst" + userid] = multiple_images;
                             //List<TicketDTO> multiple_images = (List<TicketDTO>)Session["MultipleImagesLst" + userid];
                         }
@@ -493,7 +511,8 @@ namespace HelpDesk.Web.Controllers
                                             ProductName = dataRow.Field<string>("ProductName"),
                                             ProductId = dataRow.Field<int>("ProductId"),
                                             ModelName = dataRow.Field<string>("ModelName"),
-                                            AMModelId = dataRow.Field<long>("AMModelId")
+                                            AMModelId = dataRow.Field<long>("AMModelId"),
+                                            SystemNoSerialNo = dataRow.Field<string>("SystemNoSerialNo"),
                                         }).ToList();
                                         obj.ModelList = modellst;
 
@@ -521,7 +540,7 @@ namespace HelpDesk.Web.Controllers
                                         obj.ModelList = modellst;
                                         obj.ProductList = modellst;
                                     }
-                                       
+
                                 }
                                 else
                                 {
@@ -548,13 +567,33 @@ namespace HelpDesk.Web.Controllers
             var query = from a in obj.ModelList
                         where a.AMModelId == AMID
                         select a.ProductId;
-            //var ssa=query.Selec
+
+            //var ModelName = from a in obj.ModelList
+            //            where a.AMModelId == AMID
+            //            select a.ModelName;
+            var employee = obj.ModelList
+    .Where(x => x.AMModelId == AMID)
+    .Select(x => new { x.ProductId, x.ProductName, x.ModelName });
             int ProductId = 0;
-            foreach (var item in query)
-            { 
-                ProductId = int.Parse(item.ToString());
+            string ModelName = "";
+            string ProductName = "";
+            foreach (var item in employee)
+            {
+                ProductName = item.ProductName;
+                ModelName = item.ModelName;
+                ProductId = int.Parse(item.ProductId.ToString());
             }
-            return Json(new { ProductId = ProductId });
+
+            //var ModelName = from a in obj.ModelList
+            //                where a.AMModelId == AMID
+            //                select a.ModelName;
+            //var ssa=query.Selec
+            //int ProductId = 0;
+            //foreach (var item in query)
+            //{ 
+            //    ProductId = int.Parse(item.ToString());
+            //}
+            return Json(new { ProductId = ProductId, ModelName = ModelName, ProductName = ProductName });
         }
         public async Task<ActionResult> TicketDetails(long id)
         {
@@ -649,8 +688,11 @@ namespace HelpDesk.Web.Controllers
                                             CreatedUserRoleId = dataRow.Field<int>("CreatedUserRoleId"),
                                             SupervisorConfirmationDate = dataRow.Field<string>("SupervisorConfirmationDate"),
                                             SupervisorName = dataRow.Field<string>("SupervisorName"),
-                                            ServiceEngineerJson = dataRow.Field<string>("ServiceEngineerJson")
-
+                                            ServiceEngineerJson = dataRow.Field<string>("ServiceEngineerJson"),
+                                            AccountCode = dataRow.Field<string>("AccountCode"),
+                                            ManagerFullName = dataRow.Field<string>("ManagerFullName"),
+                                            ManagerMobile = dataRow.Field<string>("ManagerMobile"),
+                                            ManagerEmail = dataRow.Field<string>("ManagerEmail")
                                         }).ToList();
 
                                         obj.TicketList = tickettlst;
@@ -755,7 +797,7 @@ namespace HelpDesk.Web.Controllers
                                             UserId = dataRow.Field<long>("UserId"),
                                             CreatedOn = dataRow.Field<DateTime>("CreatedOn"),
                                             Area = dataRow.Field<string>("Area"),
-                                            ReportTypeName=dataRow.Field<string>("ReportTypeName")
+                                            ReportTypeName = dataRow.Field<string>("ReportTypeName")
                                         }).ToList();
                                         obj.TicketList = tickettlst;
                                     }
@@ -794,7 +836,7 @@ namespace HelpDesk.Web.Controllers
                         int comid = int.Parse(Session["SSCompanyId"].ToString());
                         int orgid = int.Parse(Session["SSOrganizationId"].ToString());
                         TicketDTO obj = new TicketDTO();
-                        obj.CompanyId = comid;
+                        obj.CompanyId = 10;
                         obj.UserId = userid;
                         obj.OrganizationId = orgid;
                         List<TicketDTO> companylst = new List<TicketDTO>();
@@ -1200,7 +1242,7 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
-        public async Task<ActionResult> AddResponseTime(string ResponseTime,long TicketNumber)
+        public async Task<ActionResult> AddResponseTime(string ResponseTime, long TicketNumber)
         {
             string ses = Convert.ToString(Session["SSUserId"]);
             if (string.IsNullOrEmpty(ses))
@@ -1221,7 +1263,7 @@ namespace HelpDesk.Web.Controllers
                         obj.CreatedBy = userid;
                         obj.ResponseTime = DateTime.Parse(ResponseTime.ToString());
                         obj.TicketNumber = TicketNumber;
-                       
+
                         bool status = false;
 
                         HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/TicketsAPI/NewResponseTime", obj);
@@ -1286,7 +1328,7 @@ namespace HelpDesk.Web.Controllers
                                         modellst = ds.Tables[0].AsEnumerable().Select(dataRow => new TicketDTO
                                         {
                                             //WarehouseStockId = dataRow.Field<long>("WarehouseStockId"),
-                                            SparePartId = dataRow.Field<long>("WarehouseStockId"),
+                                            SparePartId = dataRow.Field<long>("SparePartId"),
                                             SparePartName = dataRow.Field<string>("SparePartName"),
                                             SparePartNumber = dataRow.Field<string>("SparePartNumber"),
                                             Quantity = dataRow.Field<int>("Quantity"),
@@ -1864,7 +1906,8 @@ namespace HelpDesk.Web.Controllers
                         multiple_images.Add(new TicketDTO
                         {
                             Url = "/TicketDocuments/" + _imgname,
-                            ContentType = _ext
+                            ContentType = _ext,
+                            UniqueId = System.Web.HttpContext.Current.Request.Params["UniqueId"]
                         });
 
                         // Saving Image in Original Mode
@@ -1886,6 +1929,24 @@ namespace HelpDesk.Web.Controllers
                 return Json(Convert.ToString(_imgname), JsonRequestBehavior.AllowGet);
             }
 
+        }
+
+        public JsonResult removeFile(string id)
+        {
+            int userid = int.Parse(Session["SSUserId"].ToString());
+            int status = 1;
+            List<TicketDTO> multiple_images = (List<TicketDTO>)Session["MultipleImagesLst" + userid];
+            foreach (var item in multiple_images)
+            {
+                if (item.UniqueId == id)
+                {
+                    multiple_images.Remove(item);
+                    break;
+                }
+            }
+            Session["MultipleImagesLst" + userid] = null;
+            Session["MultipleImagesLst" + userid] = multiple_images;
+            return Json(new { success = status });
         }
 
         public async Task<ActionResult> ServiceReport(long id)
@@ -1982,7 +2043,11 @@ namespace HelpDesk.Web.Controllers
                                             SupervisorConfirmationDate = dataRow.Field<string>("SupervisorConfirmationDate"),
                                             SupervisorName = dataRow.Field<string>("SupervisorName"),
                                             ServiceEngineerJson = dataRow.Field<string>("ServiceEngineerJson"),
-                                            StationName = dataRow.Field<string>("StationName")
+                                            StationName = dataRow.Field<string>("StationName"),
+                                            AccountCode = dataRow.Field<string>("AccountCode"),
+                                            ManagerFullName = dataRow.Field<string>("ManagerFullName"),
+                                            ManagerMobile = dataRow.Field<string>("ManagerMobile"),
+                                            ManagerEmail = dataRow.Field<string>("ManagerEmail")
                                         }).ToList();
 
                                         obj.TicketList = tickettlst;
@@ -2093,7 +2158,7 @@ namespace HelpDesk.Web.Controllers
                     try
                     {
                         TicketDTO obj = new TicketDTO();
-                       
+
                         obj.CreatedBy = userid;
                         obj.RoleId = roleid;
 
@@ -2151,5 +2216,53 @@ namespace HelpDesk.Web.Controllers
             }
         }
 
+        public async Task<ActionResult> SystemManagerId(int ProductId, int AccountId)
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        long CreatedBy = long.Parse(Session["SSUserId"].ToString());
+                        int roleid = int.Parse(Session["SSRoleId"].ToString());
+
+                        TicketDTO obj = new TicketDTO();
+                        obj.CreatedBy = CreatedBy;
+                        obj.ProductId = ProductId;
+                        obj.AccountId = AccountId;
+
+                        HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/TicketsAPI/NewSystemManagerId", obj);
+                        if (responseMessage.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                            var docs = JsonConvert.DeserializeObject<TicketDTO>(responseData);
+                            if (roleid == 504)
+                            {
+                                obj.SystemManagerId = int.Parse(CreatedBy.ToString());
+                            }
+                            else
+                            {
+                                obj.SystemManagerId = docs.SystemManagerId;
+                            }
+
+
+                        }
+                        return Json(new { SystemManagerId = obj.SystemManagerId });
+                    }
+                    catch (Exception ex)
+                    {
+                        TicketDTO obj = new TicketDTO();
+                        return Json(obj.ModelList);
+                    }
+                }
+            }
+        }
     }
 }

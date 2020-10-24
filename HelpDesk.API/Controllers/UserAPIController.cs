@@ -36,6 +36,21 @@ namespace HelpDesk.API.Controllers
             var result = service.UpdateUserInfoBasic(obj);
             return Ok(result);
         }
+
+        [ResponseType(typeof(UsersDTO))]
+        public IHttpActionResult NewUpdateSignUpUserStatus(UsersDTO obj)
+        {
+            var result = service.UpdateSignUpUserStatus(obj);
+            return Ok(result);
+        }
+
+        [ResponseType(typeof(UsersDTO))]
+        public IHttpActionResult NewUpdateUserStatusActive(UsersDTO obj)
+        {
+            var result = service.UpdateUserStatusActive(obj);
+            return Ok(result);
+        }
+
         /// <summary>
         /// update password
         /// </summary>

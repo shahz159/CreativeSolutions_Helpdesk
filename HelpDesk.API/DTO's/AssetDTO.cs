@@ -33,7 +33,7 @@ namespace HelpDesk.API.DTO_s
         public DateTime InstallationDate { get; set; }
         public long APPMId { get; set; }
         public long UpdatedId { get; set; }
-
+        public bool All { get; set; }
         public bool IsContract { get; set; }
         public string POContract { get; set; }
         public DateTime WarrantyExpiryDate { get; set; }
@@ -74,5 +74,9 @@ namespace HelpDesk.API.DTO_s
         public string UpdateUserName { get; set; }
         public DateTime ModifiedOn { get; set; }
 
+        public int PageSize { get; set; }
+        public int pageNumber { get; set; }
+
+        public string RemainingModelsJson { get; set; }
     }
 }

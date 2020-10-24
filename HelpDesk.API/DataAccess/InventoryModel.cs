@@ -212,7 +212,8 @@ namespace HelpDesk.API.DataAccess
             try
             {
                 var para = new[] {
-                new SqlParameter("@OrganizationId",obj.OrganizationId)
+                new SqlParameter("@OrganizationId",obj.OrganizationId),
+                new SqlParameter("@UserId",obj.CreatedBy)
                 };
                 return DbConnector.ExecuteDataSet("uspGetSparePartMasterList", para);
 

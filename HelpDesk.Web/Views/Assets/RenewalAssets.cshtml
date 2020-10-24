@@ -126,7 +126,10 @@
     <script src="~/assets/js/datatables.bundle.js"></script>
     <script>
         $('#loader').hide();
- 
+        function closeDetails() {
+            $('#asset_details').hide();
+            $('#Upper_div').show();
+        }
 
         $(document).ready(function () {
             $('#kt_table_1').DataTable({

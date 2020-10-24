@@ -4,6 +4,13 @@
     ViewBag.Title = "NewTicket";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    .col-sm-3 {
+        text-align: center;
+        margin-top: 8px;
+        font-size: medium;
+    }
+</style>
 <div id="contents" class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
     @using (Html.BeginForm("NewTicket", "Ticket", FormMethod.Post, new { enctype = "multipart/form-data", id = "example-form" }))
     {
@@ -29,18 +36,7 @@
                                 <div class="col-md-12">
                                     <div class="kt-form kt-form--label-right">
                                         <div class="kt-portlet__body">
-                                            @*<div id="orgAdmin_div" style="display:none;">
-            <div class="form-group row">
-                <label class="col-form-label col-sm-2">Select Company</label>
-                <div class="col-sm-9">
-                    @Html.DropDownListFor(model => model.CompanyId, (IEnumerable<SelectListItem>
-        )ViewData["ddlComapanyList"], "--Please Select --",
-        new { id = "ddlCompany", @class = "form-control kt-select2", @onchange = "BindAccounts()" })
 
-                    @Html.ValidationMessageFor(model => model.CompanyId, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>*@
                                             <div id="supervisoradmin_div" style="display:none;">
                                                 <div class="form-group row">
                                                     <label class="col-form-label col-sm-2">Select Account</label>
@@ -53,14 +49,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            @*<div class="form-group row">
-                <label class="col-form-label col-sm-2">Select Product</label>
-                <div class="col-sm-9">
-                    @Html.DropDownListFor(model => model.AMId, (IEnumerable<SelectListItem>
-        )ViewData["ddlProductList"], "--Please Select --",
-        new { id = "ddlProduct", @class = "form-control kt-select2", @onchange = "BindModels()" })
-                </div>
-            </div>*@
+
                                             <div class="form-group row">
                                                 <label for="example-text-input" class="col-sm-2 col-form-label">System Id / Serial No</label>
                                                 <div class="col-sm-9">
@@ -71,11 +60,23 @@ new { id = "ddlModels", @class = "form-control select2-allow-clear", @onchange =
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="example-text-input" class="col-sm-2 col-form-label">Product</label>
-                                                <div class="col-sm-9">
-                                                    @Html.DropDownListFor(model => model.ProductId, (IEnumerable<SelectListItem>
-         )ViewData["ddlProductList"], "--Product--",
-         new { id = "ddlProduct", @class = "form-control kt-select2" })
+                                                <label for="example-text-input" class="col-sm-2 col-form-label">Product Name </label>
+                                                <div class="col-sm-3">
+                                                    @*@Html.DropDownListFor(model => model.ProductId, (IEnumerable<SelectListItem>
+                                                        )ViewData["ddlProductList"], "--Product--",
+                                                        new { id = "ddlProduct", @class = "form-control kt-select2" })*@
+                                                    <span id="spn_ProductName">
+                                                        ---------
+                                                    </span>
+                                                </div>
+                                                <label for="example-text-input" class="col-sm-2 col-form-label">Model Name </label>
+                                                <div class="col-sm-3">
+                                                    @*@Html.DropDownListFor(model => model.ProductId, (IEnumerable<SelectListItem>
+                                                        )ViewData["ddlProductList"], "--Product--",
+                                                        new { id = "ddlProduct", @class = "form-control kt-select2" })*@
+                                                    <span id="spn_ModelName">
+                                                        ---------
+                                                    </span>
                                                 </div>
                                             </div>
                                             @if (Model.RoleId == 501 || Model.RoleId == 502)
@@ -91,7 +92,7 @@ new { id = "ddlModels", @class = "form-control select2-allow-clear", @onchange =
                                                     </div>
                                                 </div>
                                             }
-                                           
+
                                             <div class="form-group row">
                                                 <label class="col-form-label col-sm-2">Select Priority</label>
                                                 <div class="col-sm-9">
@@ -142,18 +143,18 @@ new { id = "ddlModels", @class = "form-control select2-allow-clear", @onchange =
                                                     <div class="col-md-9">
                                                         <div id="div_images" class="row ticket-multi-imgs">
                                                             @*<div class="col-md-2">
-                            <img src="~/assets/images/login-bg.jpg" />
-                            <a onclick="closeDetails()" class="details-close-button btn btn-danger btn-xs btn-icon btn-circle position-absolute"><i class="la la-close"></i></a>
-                        </div>
-                        <div class="col-md-2">
-                            <img src="~/assets/images/default.jpg" alt="" />
-                        </div>
-                        <div class="col-md-2">
-                            <img src="~/assets/images/default.jpg" alt="" />
-                        </div>
-                        <div class="col-md-2">
-                            <img src="~/assets/images/default.jpg" alt="" />
-                        </div>*@
+                                                                    <img src="~/assets/images/login-bg.jpg" />
+                                                                    <a onclick="closeDetails()" class="details-close-button btn btn-danger btn-xs btn-icon btn-circle position-absolute"><i class="la la-close"></i></a>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <img src="~/assets/images/default.jpg" alt="" />
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <img src="~/assets/images/default.jpg" alt="" />
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <img src="~/assets/images/default.jpg" alt="" />
+                                                                </div>*@
                                                         </div>
                                                     </div>
                                                 </div>
@@ -161,12 +162,23 @@ new { id = "ddlModels", @class = "form-control select2-allow-clear", @onchange =
                                         </div>
                                         <div class="kt-portlet__foot">
                                             <div class="kt-form__actions">
-                                                <div class="row">
+                                                <div id="btn_div" style="display:block" class="row">
                                                     <div class="col-2">
                                                     </div>
                                                     <div class="col-10">
                                                         <input type="submit" class="btn btn-success" value="Submit" />
                                                         <a href="#" class=" btn btn-secondary">Cancel</a>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div id="Info_div" style="display:none" class="card card-custom bg-danger card-stretch gutter-b">
+                                                            <div class="card-body">
+                                                                <span class="card-title font-weight-bolder text-white font-size-h2 mb-0 mt-6 d-block">System Manger is not Assigned for the selected Asset.</span>
+                                                                <span class="font-weight-bold text-white font-size-sm">For more Info Please Contact Arabian HelpDesk Team.</span>
+                                                            </div>
+                                                            <!--end::Body-->
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -182,14 +194,58 @@ new { id = "ddlModels", @class = "form-control select2-allow-clear", @onchange =
             </div>
             <!--end:: Widgets/Trends-->
         </div>
+
+        <input type="hidden" id="hdnRoleId" value="@Model.RoleId" />
+        @Html.HiddenFor(m => m.SystemManagerId, new { id = "hdnSystemManagerId" })
+        @*<input type="hidden" id="hdnSystemManagerId" value="0" />*@
+        <input type="hidden" id="hdnProductId" value="0" />
+
     }
 </div>
 
-<input type="hidden" id="hdnRoleId" value="@Model.RoleId" />
+
+
+
 
 @section Scripts{
     <script src="~/assets/js/select2.js"></script>
     <script>
+        function GetSystemManager(ProductId) {
+            debugger
+            //var ProductId = $('#hdnProductId').val();
+            var AccountId = 0;
+            var roleid = $('#hdnRoleId').val();
+            if (roleid != 504) {
+                AccountId = $('#ddlAccounts').val();
+            }
+            document.getElementById("loader").style.display = "block";
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SystemManagerId")', // we are calling json method
+                dataType: 'json',
+                data: { ProductId: ProductId, AccountId: AccountId },
+                success: function (data) {
+                    //alert(data.SystemManagerId)
+                    if (data.SystemManagerId == 0) {
+                        $('#btn_div').hide();
+                        $('#Info_div').show();
+                    }
+                    else if (data.SystemManagerId != 0) {
+                        $('#btn_div').show();
+                        $('#Info_div').hide();
+                    }
+                    $('#hdnSystemManagerId').val(data.SystemManagerId);
+                    document.getElementById("loader").style.display = "none";
+                  //  alert($('#ddlProduct').text());
+                },
+                error: function (ex) {
+                    document.getElementById("loader").style.display = "none";
+                    $('#hdnSystemManagerId').val(0);
+                    //alert('Failed to retrieve accounts.' + ex);
+                }
+            });
+        }
+
         $("#ddlProduct").prop("disabled", true);
         $('#ddlModels').val(null).trigger('change');
         function GetProductIdBySerial() {
@@ -203,15 +259,23 @@ new { id = "ddlModels", @class = "form-control select2-allow-clear", @onchange =
                 dataType: 'json',
                 data: { AMID: serialid },
                 success: function (data) {
-                    $('#ddlProduct').val(data.ProductId).trigger('change');
-                     $("#ddlProduct").prop("disabled", true);
+                    debugger
+                    $('#spn_ProductName').html(data.ProductName);
+                    $('#spn_ModelName').html(data.ModelName);
+                    $('#hdnProductId').val(data.ProductId);
+                    GetSystemManager(data.ProductId);
+                    //$('#ddlProduct').val(data.ProductId).trigger('change');
+                    // $("#ddlProduct").prop("disabled", true);
                     document.getElementById("loader").style.display = "none";
+
+                   
                 },
                 error: function (ex) {
                     document.getElementById("loader").style.display = "none";
                     //alert('Failed to retrieve accounts.' + ex);
                 }
             });
+
         }
 
         function checkwhitespace() {
@@ -271,20 +335,21 @@ new { id = "ddlModels", @class = "form-control select2-allow-clear", @onchange =
                         if (contentType == fileExtension[j]) {
                             valu = 1;
                         }
-                        
+
                     }
-                    var rnd = Math.random();
+                    var rnd = Math.random() * (1000 - 10) + 10;
 
-                      var file = fileUpload.files[i];
-                            var reader = new FileReader();
+                    var file = fileUpload.files[i];
+                    var reader = new FileReader();
 
-                            reader.onload = function (event) {
-                                var dis = '<div id="div_'+rnd+'" class="col-md-2 mb-2">';
-                                dis = dis + '<img src="' + event.target.result + '" />';
-                                dis = dis + '<a class="" onclick="closeDetails('+rnd+')" class="details-close-button btn btn-danger btn-xs btn-icon btn-circle position-absolute"><i class="la la-close"></i></a>';
-                                dis = dis + '</div>";';
-                                $("#div_images").append(dis);
-                            }
+                    reader.onload = function (event) {
+                        var dis = '<div id="div_' + rnd + '" class="col-md-2 mb-2">';
+                        dis = dis + '<img src="' + event.target.result + '" />';
+                        dis = dis + '<a style="cursor:pointer;" class="" onclick="closeImgDetails(' + rnd + ')" class="details-close-button btn btn-danger btn-xs btn-icon btn-circle position-absolute"><i class="la la-close"></i></a>';
+                        dis = dis + '</div>"';
+                        $("#div_images").append(dis);
+                    }
+                    
                             reader.readAsDataURL(file);
                     if (valu == 0) {
                         $("#customFile").val(null);
@@ -298,6 +363,7 @@ new { id = "ddlModels", @class = "form-control select2-allow-clear", @onchange =
                         var files = $("#customFile").get(0).files;
                         if (files.length > 0) {
                             data.append("MyImages", files[0]);
+                            data.append("UniqueId", rnd);
                         }
 
                          $.ajax({
@@ -310,7 +376,7 @@ new { id = "ddlModels", @class = "form-control select2-allow-clear", @onchange =
                                 //alert('Ok');
                             },
                             error: function (er) {
-                                alert(er);
+                               // alert(er);
                             }
                         });
                     }
@@ -320,9 +386,25 @@ new { id = "ddlModels", @class = "form-control select2-allow-clear", @onchange =
                 }
             });
         });
-        function closeDetails(val) {
-            $('#div_' + val).hide();
+        function closeImgDetails(val) {
 
+            $.ajax({
+                url: '@Url.Action("removeFile")',
+                type: "POST",
+                dataType: 'json',
+                data: { id: val.toString() },
+                success: function (response) {
+                    $('#file_value').html('');
+                    document.getElementById("div_" + val).style.display = "none";
+                    //alert('Ok');
+                },
+                error: function (er) {
+                    $('#file_value').html('');
+                    document.getElementById("div_" + val).style.display = "none";
+                    //alert(er);
+                }
+            });
+            //return $('#div_'+val).css('display', 'none');
         }
         function BindAccounts() {
             document.getElementById("loader").style.display = "block";
@@ -362,21 +444,18 @@ new { id = "ddlModels", @class = "form-control select2-allow-clear", @onchange =
                     var district = "<select id='ddlModels' class='form-control kt-select2'>";
                     district = district + '<option value="0">--Select System No/Serial No--</option>';
                     for (var i = 0; i < data.ModelList.length; i++) {
-                        district = district + '<option value=' + data.ModelList[i].AMModelId + '>' + data.ModelList[i].ModelName + '</option>';
+                        district = district + '<option value=' + data.ModelList[i].AMModelId + '>' + data.ModelList[i].SystemNoSerialNo + '</option>';
                     }
                     district = district + '</select>';
                     $('#ddlModels').html(district);
 
-
-
-                    var district1 = "<select id='ddlProduct' class='form-control kt-select2'>";
-                    district1 = district1 + '<option value="0">--Product--</option>';
-                    for (var i = 0; i < data.ProductList.length; i++) {
-                        district1 = district1 + '<option value=' + data.ProductList[i].ProductId + '>' + data.ProductList[i].ProductName + '</option>';
-                    }
-                    district1 = district1 + '</select>';
-                    $('#ddlProduct').html(district1);
-
+                    //var district1 = "<select id='ddlProduct' class='form-control kt-select2'>";
+                    //district1 = district1 + '<option value="0">--Product--</option>';
+                    //for (var i = 0; i < data.ProductList.length; i++) {
+                    //    district1 = district1 + '<option value=' + data.ProductList[i].ProductId + '>' + data.ProductList[i].ProductName + '</option>';
+                    //}
+                    //district1 = district1 + '</select>';
+                    //$('#ddlProduct').html(district1);
 
                     document.getElementById("loader").style.display = "none";
                 },

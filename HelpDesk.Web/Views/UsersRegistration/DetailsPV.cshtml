@@ -17,13 +17,13 @@
                         <div class="kt-portlet__head-toolbar">
                             <div class="kt-portlet__head-wrapper">
                                 <div class="kt-portlet__head-actions">
-                                    @if (item.isApproved == false)
+                                    @if (item.isApproved == false && item.isCancelled==false && item.SignUp==true)
                                     {
-                                        <a href="#" id="anch_1" onclick="UserStatus(1)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                        <a id="anch_1" onclick="SignUpUserStatus('1')" class="btn btn-brand btn-elevate btn-icon-sm">
                                             <i class="la la-check"></i>
                                             Approve
                                         </a>
-                                        <a href="#" id="anch_2" onclick="UserStatus(2)" class="btn btn-danger btn-elevate btn-icon-sm">
+                                        <a id="anch_2" onclick="SignUpUserStatus('2')" class="btn btn-danger btn-elevate btn-icon-sm">
                                             <i class="la la-close"></i>
                                             Reject
                                         </a>
@@ -46,7 +46,7 @@
                                 Accounts List
                             </h3>
                         </div>
-                        @if (item.SignUp == false)
+                        @if (item.SignUp == false &&(item.RoleId==501||item.RoleId==502||item.RoleId==505))
                         {
                             <div class="kt-portlet__head-toolbar">
                                 <div class="kt-portlet__head-wrapper">
@@ -65,7 +65,7 @@
                                 <thead>
                                     <tr>
                                         <th>Account Name</th>
-                                        @if (item.SignUp == false)
+                                        @if (item.SignUp == false && (item.RoleId == 501 || item.RoleId == 502 || item.RoleId == 505))
                                         {
                                             <th>Actions</th>
                                         }
@@ -78,7 +78,7 @@
                                                 <div class="col-sm-9">
                                                     <div class="input-group">
                                                         <select class="form-control kt-select2" id="ddlAccountUP">
-                                                            @foreach (var accountsddl in Model.AccountddlList)
+                                                            @foreach (var accountsddl in Model.AccountddlList.OrderBy(z => z.AccountName))
                                                             {
                                                                 <option value="@accountsddl.AccountId">@accountsddl.AccountName</option>
                                                             }
@@ -97,7 +97,7 @@
                                         {
                                             <tr id="tra_@itemacc.MUPId">
                                                 <td>@itemacc.AccountName</td>
-                                                @if (item.SignUp == false)
+                                                @if (item.SignUp == false &&(item.RoleId == 501 || item.RoleId == 502 || item.RoleId == 505))
                                                 {
                                                     <td>
                                                         <a href="#" onclick="RemoveAccountProduct(@itemacc.MUACId,1)">
@@ -150,7 +150,7 @@
                                                 <div class="col-sm-9">
                                                     <div class="input-group">
                                                         <select class="form-control kt-select2" id="ddlProductsUP">
-                                                            @foreach (var productsddl in Model.ProductddlList)
+                                                            @foreach (var productsddl in Model.ProductddlList.OrderBy(z => z.ProductName))
                                                             {
                                                                 <option value="@productsddl.ProductId"> @productsddl.ProductName </option>
                                                             }
@@ -284,5 +284,36 @@
             //set initial state.
             $('#ddlProductsUP').select2();
         });
+        function SignUpUserStatus(val) {
+             $.ajax({
+                type: "Post",
+                url: '@Url.Action("UserStatusAPPRJCT")',
+                datatype: "json",
+                 data: { val: val, userid: $('#hdnUserId').val()},
+                success: function (data) {
+                     var v = data.success;
+                    if (v == true) {
+                        document.getElementById("loader").style.display = "none";
+                        $('#anch_1').hide();
+                        $('#anch_2').hide();
+                        if (val == 1) {
+                            $('#anchr_apr').show();
+                        }
+                        else {
+                            $('#anchr_cncl').show();
+                        }   
+                    }
+                    else {
+                        document.getElementById("loader").style.display = "none";
+                        alert('Some thing went wrong');
+                    }
+                },
+                 error: function () {
+                     location.reload();
+                    document.getElementById("loader").style.display = "none";
+                }
+            });
+        }
+
     </script>
 }

@@ -6,6 +6,11 @@
 }
 @section  Styles{
     <link href="~/assets/css/datatables.bundle.css" rel="stylesheet" />
+    <style>
+        a{
+            cursor:pointer;
+        }
+    </style>
 }
 <!-- begin:: Content -->
 <div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4" id="div_upper">
@@ -59,11 +64,11 @@
                                     <td>
                                         @if (item.isActive == true)
                                         {
-                                            <p>Active</p>
+                                            <a onclick="UserisActive(@item.UserId)">Active</a>
                                         }
                                         else
                                         {
-                                            <p>In Active</p>
+                                            <a onclick="UserisActive(@item.UserId)">In Active</a>
                                         }
                                     </td>
                                     <td align="center">
@@ -118,6 +123,62 @@
         $('#kt_select2_13').select2();
         $('#kt_select2_14').select2();
         $('#kt_select2_15').select2();
+         
+        function SignUpUserStatus(val) {
+             $.ajax({
+                type: "Post",
+                url: '@Url.Action("UserStatusAPPRJCT")',
+                datatype: "json",
+                 data: { val: val, userid: $('#hdnUserId').val()},
+                success: function (data) {
+                     var v = data.success;
+                    if (v == true) {
+                        document.getElementById("loader").style.display = "none";
+                        $('#anch_1').hide();
+                        $('#anch_2').hide();
+                        if (val == 1) {
+                            $('#anchr_apr').show();
+                        }
+                        else {
+                            $('#anchr_cncl').show();
+                        }   
+                    }
+                    else {
+                        document.getElementById("loader").style.display = "none";
+                        alert('Some thing went wrong');
+                    }
+                },
+                 error: function () {
+                     location.reload();
+                    document.getElementById("loader").style.display = "none";
+                }
+            });
+        }
+
+        function UserisActive(val) {
+             $.ajax({
+                type: "Post",
+                url: '@Url.Action("UserStatusIsActive")',
+                datatype: "json",
+                 data: { userid: val},
+                success: function (data) {
+                     var v = data.success;
+                    if (v == true) {
+                        alert('Status Changed Successfully')
+                        location.reload();
+                    }
+                    else {
+                        document.getElementById("loader").style.display = "none";
+                        alert('Some thing went wrong');
+                    }
+                },
+                 error: function () {
+                     location.reload();
+                    document.getElementById("loader").style.display = "none";
+                }
+            });
+        }
+
         function AddAccountssUP(id) {
          
             var AccountId = $('#ddlAccountUP').val();

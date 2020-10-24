@@ -162,13 +162,14 @@ namespace HelpDesk.API.DataAccess
             {
                 var para = new[] {
                 new SqlParameter("@CompanyId",obj.CompanyId),
-                new SqlParameter("@RoleId",obj.RoleId)
+                new SqlParameter("@RoleId",obj.RoleId),
+                new SqlParameter("@AccountId",obj.AccountId)
                 };
                 return DbConnector.ExecuteReader("uspGetProductsByCompanyIdRoleWise", para);
             }
             catch (Exception ex)
             {
-                DataModelExceptionUtility.LogException(ex, "UserModel -> GetCompanyProducts");
+                DataModelExceptionUtility.LogException(ex, "UserModel -> GetCompanyProductsRoleWise");
                 return null;
             }
         }
@@ -285,6 +286,43 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
+        public SqlDataReader UpdateSignUpUser(UsersDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@isApproved",obj.isApproved),
+                new SqlParameter("@isCancelled",obj.isCancelled),
+                 new SqlParameter("@UserId",obj.UserId),
+                new SqlParameter("@CreatedBy",obj.CreatedBy),
+                new SqlParameter("@isActive",obj.isActive)
+                };
+                return DbConnector.ExecuteReader("uspUpdateSignUpUser", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "UserModel -> UpdateUser");
+                return null;
+            }
+        }
+        public SqlDataReader UpdateUserStatusActive(UsersDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                 new SqlParameter("@UserId",obj.UserId),
+                new SqlParameter("@CreatedBy",obj.CreatedBy) 
+                };
+                return DbConnector.ExecuteReader("uspUpdateUserStatus", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "UserModel -> UpdateuserStatus");
+                return null;
+            }
+        }
+        
+
         public SqlDataReader UpdateUserpassword(UsersDTO obj)
         {
             try
@@ -324,6 +362,8 @@ namespace HelpDesk.API.DataAccess
     {
         SqlDataReader NewUser(UsersDTO obj);
         SqlDataReader UpdateUser(UsersDTO obj);
+        SqlDataReader UpdateSignUpUser(UsersDTO obj);
+        SqlDataReader UpdateUserStatusActive(UsersDTO obj);
         SqlDataReader UpdateUserpassword(UsersDTO obj);
         string RoleCompanyDropDowns(UsersDTO obj);
         string GetUserDetailsById(UsersDTO obj);

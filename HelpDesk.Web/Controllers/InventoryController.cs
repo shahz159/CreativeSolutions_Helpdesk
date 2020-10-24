@@ -33,6 +33,8 @@ namespace HelpDesk.Web.Controllers
                     {
                         InventoryDTO obj = new InventoryDTO();
                         obj.OrganizationId = int.Parse(Session["SSOrganizationId"].ToString());
+                        long userid = long.Parse(Session["SSUserId"].ToString());
+                        obj.CreatedBy = userid;
                         List<InventoryDTO> sparelst = new List<InventoryDTO>();
 
                         HttpResponseMessage responseMessageViewDocuments = await client.PostAsJsonAsync("api/InventoryAPI/NewSparePartList", obj);
@@ -56,6 +58,7 @@ namespace HelpDesk.Web.Controllers
                                         {
                                             SparePartId = dataRow.Field<long>("SparePartId"),
                                             ProductId = dataRow.Field<int>("ProductId"),
+                                            ProductName = dataRow.Field<string>("ProductName"),
                                             SparePartName = dataRow.Field<string>("SparePartName"),
                                             SparePartNumber = dataRow.Field<string>("SparePartNumber"),
                                             Quantity = dataRow.Field<int>("Quantity"),

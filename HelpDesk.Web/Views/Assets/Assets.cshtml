@@ -9,6 +9,16 @@
 
 @section  Styles{
     <link href="~/assets/css/datatables.bundle.css" rel="stylesheet" />
+    <style>
+        #pagination-demo {
+            display: inline-block;
+            margin-bottom: 1.75em;
+        }
+
+            #pagination-demo li {
+                display: inline-block;
+            }
+    </style>
 }
 <!-- begin:: Content -->
 <div id="Upper_div" class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
@@ -41,27 +51,63 @@
                 <div class="row align-items-center">
                     <div class="col-xl-12 order-2 order-xl-1">
                         <div class="row align-items-center">
-                            <div class="col-md-6 kt-margin-b-20-tablet-and-mobile">
+                            <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
                                 <div class="kt-form__group">
                                     <div class="kt-form__label">
                                         <label>Service Account</label>
                                     </div>
                                     <div class="kt-form__control">
-                                        <div id="div_filters_Account">
+                                        @*<div id="div_filters_Account"></div>*@
+                                        @Html.DropDownListFor(model => model.AccountId, (IEnumerable<SelectListItem>
+                                           )ViewData["ddlAccountList"], "--Please Select --",
+                                           new { id = "ddlAccounts", @class = "form-control kt-select2", @onchange = "BindAssets()" })
 
-                                        </div>
+                                        @Html.ValidationMessageFor(model => model.AccountId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                                <div class="kt-form__group">
+                                    <div class="kt-form__label">
+                                        <label>Service Product</label>
+                                    </div>
+                                    <div class="kt-form__control">
+                                        @*<div id="div_filters_Product"></div>*@
+                                        @Html.DropDownListFor(model => model.ProductId, (IEnumerable<SelectListItem>
+                                                        )ViewData["ddlProductList"], "--Please Select--",
+                                                        new { id = "ddlProduct", @class = "form-control kt-select2", @onchange = "BindAssets()" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                                <div class="kt-form__group">
+                                    <div class="kt-form__label">
+                                        <label>Contract</label>
+                                    </div>
+                                    <div class="kt-form__control">
+                                        <select id="ddlisContract" class="form-control kt-select2" onchange="BindAssets()">
+                                            <option value="">--Please Select--</option>
+                                            <option value="false">No</option>
+                                            <option value="true">Yes</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 kt-margin-b-20-tablet-and-mobile">
+                                <div class="kt-form__group">
+                                    <div class="kt-form__control" style="margin-bottom: -35px;">
+                                        <label>Total Records :</label>
+                                        <a>@Model.TotalRecords</a>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6 kt-margin-b-20-tablet-and-mobile">
                                 <div class="kt-form__group">
                                     <div class="kt-form__label">
-                                        <label>Service Product</label>
+                                        <label>@*Search*@</label>
                                     </div>
                                     <div class="kt-form__control">
-                                        <div id="div_filters_Product">
-
-                                        </div>
+                                        <input placeholder="search" type="text" id="txtsearch" class="form-control" />
                                     </div>
                                 </div>
                             </div>
@@ -72,90 +118,113 @@
         </div>
 
         <div class="kt-portlet__body pt-0">
-            <div class="table-responsive">
-                <table class="table table-striped- table-bordered table-hover table-checkable" id="kt_table_1">
-                    <thead>
-                        <tr>
-                            <th scope="col">Account Name</th>
-                            <th scope="col">System Id</th>
-                            @*<th scope="col">Serial No.</th>*@
-                            <th scope="col">Product</th>
+            <div id="div_assetList">
 
-                            @*<th scope="col">Model</th>
-                            <th scope="col">Station Name</th>
-                            <th scope="col">Location</th>
-                            <th scope="col">IsContract</th>*@
-
-                            @if (Model.RoleId != 504)
-                            {
-                                <th scope="col">Status</th>
-                            }
-
-                            <th scope="col">Details</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model.AssetsList != null)
-                        {
-                            foreach (var item in Model.AssetsList)
-                            {
-                                <tr>
-                                    <td>@item.AccountName</td>
-                                    <td>@item.SystemNo</td>
-                                    @*<td>@item.SerialNo</td>*@
-                                    <td>@item.ProductName</td>
-                                    @*<td>@item.ModelName</td>
-                                    <td>@item.StationName</td>
-                                    <td>@item.Area</td>
-                                    <td>
-                                        @if (item.IsContract == true)
-                                        {
-                                            <p>Yes</p>
-                                        }
-                                        else
-                                        {
-                                            <p>No</p>
-                                        }
-                                    </td>*@
-                                    @if (Model.RoleId != 504)
-                                    {
-                                        <td>
-                                            @if (item.isActive == false && item.IsApproved == false && item.IsRejected == false)
-                                            {
-                                                <p>Under Approval</p>
-                                            }
-                                            else if (item.isActive == false && item.IsApproved == false && item.IsRejected == true)
-                                            {
-                                                <p>Rejected</p>
-                                            }
-                                            else if (item.isActive == true && item.IsApproved == true && item.IsRejected == false)
-                                            {
-                                                <p>Approved</p>
-                                            }
-                                        </td>
-                                    }
-
-                                    <td align="center">
-                                        <a href="#" onclick="ViewAssetDetails(@item.AMId)">
-                                            <i class="fa fa-eye"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
-                        }
-                    </tbody>
-                </table>
             </div>
+            <ul id="pagination-demo" class="pagination-sm"></ul>
             <!--begin: href="@Url.Action("AssetDetails","Assets")" Section-->
         </div>
     </div>
 </div>
 <div id="asset_details" style="display:none;"></div>
 
+<input type="hidden" id="hdnTotalRecords" value="@Model.NoOfPages" />
+
 @section  Scripts{
     <script src="~/assets/js/datatables.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.1/jquery.twbsPagination.min.js"></script>
     <script>
         $('#loader').hide();
+
+        $(document).ready(function () {
+            //set initial state.
+            $('#ddlAccounts,#ddlProduct').select2({
+            });
+        });
+
+        $('#txtsearch').keypress(function (event) {
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == '13') {
+                var accountId = $('#ddlAccounts').val();
+                if (accountId == undefined || accountId == "") {
+                    accountId = 0
+                }
+                var productId = $('#ddlProduct').val();
+                if (productId == undefined || productId == "") {
+                    productId = 0
+                }
+                var search = $('#txtsearch').val();
+                AssetList(1, accountId, productId, search)
+            }
+        });
+
+        function BindAssets() {
+            
+            var accountId = $('#ddlAccounts').val();
+            if (accountId == undefined || accountId == "") {
+                accountId = 0
+            }
+            var productId = $('#ddlProduct').val();
+            if (productId == undefined || productId == "") {
+                productId = 0
+            }
+            var search = $('#txtsearch').val();
+            AssetList(1, accountId, productId, search)
+        }
+
+        //$(document).ready(function () {
+            
+        //    AssetList(1, 0, 0)
+        //});
+        var pNO = $('#hdnTotalRecords').val();
+        $('#pagination-demo').twbsPagination({
+            totalPages: pNO,
+            visiblePages: 6,
+            next: 'Next',
+            prev: 'Prev',
+            onPageClick: function (event, page) {
+                //fetch content and render here
+                var accountId = $('#ddlAccounts').val();
+                if (accountId == undefined || accountId =="") {
+                    accountId=0
+                }
+                var productId = $('#ddlProduct').val();
+                if (productId == undefined || productId == "") {
+                    productId = 0
+                }
+                var search = $('#txtsearch').val();
+                AssetList(page, accountId, productId, search)
+            }
+        });
+
+        async function AssetList(pagenumber, accountId, productId, search) {
+            document.getElementById("loader").style.display = "block";
+            debugger
+            var isContract = $('#ddlisContract').val();
+            var All = true;
+            if (isContract == null || isContract == "undefined" || isContract=="") {
+                isContract = false;
+            }
+            else {
+                All = false;
+                isContract = isContract;
+            }
+            await $.ajax({
+                type: "Post",
+                url: '@Url.Action("AssetListPVs")',
+                datatype: "json",
+                data: { pagenumber: pagenumber, accountId: accountId, productId: productId, search: search, isContract: isContract, All: All },
+                success: function (data) {
+                    document.getElementById("loader").style.display = "none";
+                    $('#div_assetList').html('');
+                    $('#div_assetList').html(data);
+                },
+                error: function () {
+                    $('#div_assetList').html('');
+                    document.getElementById("loader").style.display = "none";
+                }
+            });
+        }
       
         //var KTDatatablesBasicPaginations = function () {
         //    var initTable1 = function () {
@@ -179,56 +248,56 @@
         //});
 
 
-        $(document).ready(function () {
-            $('#kt_table_1').DataTable({
-                initComplete: function () {
-                    this.api().columns().every(function () {
-                        var column = this;
-                         if (column.index() == 2) {  //skip if column 0
-                            $(column.header()).append("<br>")
-                            var select = $('<select class = "form-control kt-select2"><option value="" disabled selected>Select Product</option></select>')
-                                .appendTo(
-                                    //$(column.header())
-                                    $('#div_filters_Product')
-                                )
-                                .on('change', function () {
-                                    var val = $.fn.dataTable.util.escapeRegex(
-                                        $(this).val()
-                                    );
+        //$(document).ready(function () {
+        //    $('#kt_table_1').DataTable({
+        //        initComplete: function () {
+        //            this.api().columns().every(function () {
+        //                var column = this;
+        //                 if (column.index() == 2) {  //skip if column 0
+        //                    $(column.header()).append("<br>")
+        //                    var select = $('<select class = "form-control kt-select2"><option value="" disabled selected>Select Product</option></select>')
+        //                        .appendTo(
+        //                            //$(column.header())
+        //                            $('#div_filters_Product')
+        //                        )
+        //                        .on('change', function () {
+        //                            var val = $.fn.dataTable.util.escapeRegex(
+        //                                $(this).val()
+        //                            );
 
-                                    column
-                                        .search(val ? '^' + val + '$' : '', true, false)
-                                        .draw();
-                                });
-                            column.data().unique().sort().each(function (d, j) {
-                                select.append('<option value="' + d + '">' + d + '</option>')
-                            });
-                        }  //end of if
-                         else if (column.index() == 0) {  //skip if column 0
-                            $(column.header()).append("<br>")
-                            var select = $('<select class = "form-control kt-select2"><option value="" disabled selected>Select Account</option></select>')
-                                .appendTo(
-                                    //$(column.header())
-                                    $('#div_filters_Account')
-                                )
-                                .on('change', function () {
-                                    var val = $.fn.dataTable.util.escapeRegex(
-                                        $(this).val()
-                                    );
+        //                            column
+        //                                .search(val ? '^' + val + '$' : '', true, false)
+        //                                .draw();
+        //                        });
+        //                    column.data().unique().sort().each(function (d, j) {
+        //                        select.append('<option value="' + d + '">' + d + '</option>')
+        //                    });
+        //                }  //end of if
+        //                 else if (column.index() == 0) {  //skip if column 0
+        //                    $(column.header()).append("<br>")
+        //                    var select = $('<select class = "form-control kt-select2"><option value="" disabled selected>Select Account</option></select>')
+        //                        .appendTo(
+        //                            //$(column.header())
+        //                            $('#div_filters_Account')
+        //                        )
+        //                        .on('change', function () {
+        //                            var val = $.fn.dataTable.util.escapeRegex(
+        //                                $(this).val()
+        //                            );
 
-                                    column
-                                        .search(val ? '^' + val + '$' : '', true, false)
-                                        .draw();
-                                });
-                            column.data().unique().sort().each(function (d, j) {
-                                select.append('<option value="' + d + '">' + d + '</option>')
-                            });
-                        }
+        //                            column
+        //                                .search(val ? '^' + val + '$' : '', true, false)
+        //                                .draw();
+        //                        });
+        //                    column.data().unique().sort().each(function (d, j) {
+        //                        select.append('<option value="' + d + '">' + d + '</option>')
+        //                    });
+        //                }
 
-                    });
-                }
-            });
-        });
+        //            });
+        //        }
+        //    });
+        //});
 
          function closeDetails() {
             $('#Upper_div').show();

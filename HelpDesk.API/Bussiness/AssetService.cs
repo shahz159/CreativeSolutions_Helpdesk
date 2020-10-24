@@ -75,6 +75,7 @@ namespace HelpDesk.API.Bussiness
                         obj.ContractTypetxt = data["ContractTypetxt"].ToString();
                         obj.UpdateUserName = data["UpdateUserName"].ToString();
                         obj.ModifiedOn = DateTime.Parse(data["ModifiedOn"].ToString());
+                        obj.RemainingModelsJson = data["RemainingModelsJson"].ToString();
                     }
                 }
             }
@@ -85,12 +86,18 @@ namespace HelpDesk.API.Bussiness
             }
             return obj;
         }
-        public IEnumerable<AssetDTO> GetAssetList(AssetDTO obj)
+        //public IEnumerable<AssetDTO> GetAssetList(AssetDTO obj)
+        //{
+        //    var data = model.GetAssetList(obj);
+        //    var list = CustomDataReaderToGenericExtension.GetDataObjects<AssetDTO>(data);
+        //    data.Close();
+        //    return list;
+        //}
+
+        public AssetDTO GetAssetList(AssetDTO obj)
         {
-            var data = model.GetAssetList(obj);
-            var list = CustomDataReaderToGenericExtension.GetDataObjects<AssetDTO>(data);
-            data.Close();
-            return list;
+            obj.datasetxml = model.GetAssetList(obj);
+            return obj;
         }
         public IEnumerable<AssetDTO> GetCity(AssetDTO obj)
         {
@@ -351,7 +358,8 @@ namespace HelpDesk.API.Bussiness
         AssetDTO UpdatedAsset(AssetDTO obj);
         AssetDTO VerifyAsset(AssetDTO obj);
         AssetDTO updateppmdate(AssetDTO obj);
-        IEnumerable<AssetDTO> GetAssetList(AssetDTO obj);
+        //IEnumerable<AssetDTO> GetAssetList(AssetDTO obj);
+        AssetDTO GetAssetList(AssetDTO obj);
         IEnumerable<AssetDTO> GetCity(AssetDTO obj);
         IEnumerable<AssetDTO> GetModel(AssetDTO obj);
         AssetDTO GetAssetById(AssetDTO obj);
