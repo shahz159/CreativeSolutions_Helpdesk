@@ -80,15 +80,12 @@
             </div>
         </div>
         <div class="kt-portlet__body">
-            <!--begin: Datatable -->
             <div id="AssignedTicktes_div"></div>
-            <!--end: Datatable -->
         </div>
     </div>
 </div>
 
 <div id="ticket_details" style="display:none;"></div>
-
 
 <input type="hidden" id="hdnRoleId" value="@Model.RoleId"/>
 <input type="hidden" id="hdnUserId" value="@Model.UserId" />
@@ -99,22 +96,15 @@
 @section  Scripts{
     <script src="~/assets/js/datatables.bundle.js"></script>
     <script src="~/assets/js/datatable.js"></script>
-
     <script>
-
         document.getElementById("loader").style.display = "none";
-
         $(document).ready(function () {
-
             $('#ddlAccounts,#ddlUsers,#ddlStatus').select2();
-
             var roleid = $('#hdnRoleId').val();
             var userid = $('#hdnUserId').val();
-
             if (roleid==501) {
                 BindFiltersData(0, 0, 0, 1);
             }
-
             if (roleid == 505) {
                 document.getElementById("ddlUsers").disabled = true;
                 $("#ddlUsers option").each(function () {
@@ -126,19 +116,18 @@
                 });
             }
             else {
-                $("#ddlStatus option").each(function () {
-                    var val = $(this).val();
-                    if (val != "") {
-                        $("#ddlStatus").val(val).trigger('change');
-                        return false;
-                    }
-                     //return true;
-                });
+                BindFiltersData(0, 0, 0, 1);
+                //$("#ddlStatus option").each(function () {
+                //    var val = $(this).val();
+                //    if (val != "") {
+                //        $("#ddlStatus").val(val).trigger('change');
+                //        return false;
+                //    }
+                //     //return true;
+                //});
             }
-
             //$("#ddlUsers option").prop("disabled", false);
             //$("#ddlUsers option").attr()
-            
         });
 
         function OnChangeFiletrs(val) {
@@ -151,18 +140,31 @@
             if (val==1) {
                 accountid = $('#ddlAccounts').val();
                 $('#hdnSelectedValues').val(1);
+                if (accountid == "") {
+                    alert('Please Select Proper Option');
+                    return false;
+                }
+                BindFiltersData(userid, statusid, accountid, PageNumber)
             }
             else  if (val==2) {
                 userid = $('#ddlUsers').val();
                 $('#hdnSelectedValues').val(2);
+                if (userid == "") {
+                    alert('Please Select Proper Option');
+                    return false;
+                }
+                BindFiltersData(userid, statusid, accountid, PageNumber)
             }
             else  if (val==3) {
                 statusid = $('#ddlStatus').val();
                 $('#hdnSelectedValues').val(3);
+                if (statusid == "") {
+                    alert('Please Select Proper Option');
+                    return false;
+                }
+                BindFiltersData(userid, statusid, accountid, PageNumber)
             }
-            BindFiltersData(userid, statusid, accountid, PageNumber)
         }
-
         function pageval(i) {
             debugger
             var val = $('#hdnSelectedValues').val();
@@ -184,10 +186,20 @@
             }
             BindFiltersData(userid, statusid, accountid, PageNumber)
         }
-
-        async function BindFiltersData(UserIdF, StatusF, AccountIdF, PageNumber) {
-
-            document.getElementById("loader").style.display = "block";
+        async function BindFiltersData(UserIdF, StatusF, AccountIdF, PageNumber)
+        {
+            //if (StatusF == "undefined") {
+            //    alert('Please Select Proper Option');
+            //    return false;
+            //}
+            //else if (AccountIdF == "") {
+            //    AccountIdF = 0;
+            //}
+            //else if (UserIdF == "") {
+            //    alert('Please Select Proper Option U');
+            //    return false;
+            //}
+           document.getElementById("loader").style.display = "block";
            await $.ajax({
                 type: "Post",
                 url: '@Url.Action("AssignedTicketsPV")',
@@ -205,11 +217,9 @@
                 }
             });
         }
-       
         function TicketDetails(id) {
-             document.getElementById("loader").style.display = "block";
+            document.getElementById("loader").style.display = "block";
             $('#Upper_div').hide();
-
             $.ajax({
                 type: "Post",
                 url: '@Url.Action("TicketDetails")',
@@ -226,18 +236,14 @@
                 }
             });
         }
-
         function closeDetails() {
             $('#ticket_details').html('');
             $('#Upper_div').show();
             $('#ticket_details').hide();
         }
-
         function Reload() {
-          
             location.reload();
         }
-
     </script>
 }
          

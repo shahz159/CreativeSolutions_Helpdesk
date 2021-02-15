@@ -427,6 +427,7 @@
             }
 
             var POContract = $('#txtpocontract').val();
+            
             var WarrantyExpiryDate = $('#txtwarrantydate').val();
             if (IsContract == true) {
                 if (POContract == "" || POContract == null) {
@@ -540,9 +541,7 @@
             $("#ddlModel option[value*='" + id + "']").removeAttr('disabled');
             $('#' + id).remove();
         }
-    </script>
-
-    <script>
+   
         document.getElementById("loader").style.display = "none";
         $(document).ready(function () {
 
@@ -745,6 +744,7 @@
             }
 
             var POContract = $('#txtpocontract').val();
+            
             var WarrantyExpiryDate = $('#txtwarrantydate').val();
 
             if (IsContract == true) {

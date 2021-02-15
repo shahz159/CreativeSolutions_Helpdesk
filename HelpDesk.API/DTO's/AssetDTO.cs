@@ -78,5 +78,12 @@ namespace HelpDesk.API.DTO_s
         public int pageNumber { get; set; }
 
         public string RemainingModelsJson { get; set; }
+        public string StartDateStr { get; set; }
+        public string EndDateStr { get; set; }
+        public string PPMTypeText { get; set; }
+        public string SuperUserEmail { get; set; }
+        public string SuperUserName { get; set; }
+        public string SupervisorEmail { get; set; }
+        public string SupervisorName { get; set; }
     }
 }

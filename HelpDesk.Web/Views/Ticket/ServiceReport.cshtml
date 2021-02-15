@@ -398,345 +398,350 @@
     </div>
     @foreach (var item in Model.TicketList)
     {
-        <div class="form">
-            <h1 class="text-uppercase text-center pb-15 mb-15"><u>Service Report</u></h1>
-            <div class="flex-container-wrap">
-                <div class="col-20">
-                    <label>Ticket No.</label>
-                    <input type="text" value="@item.TicketNumber">
-                </div>
-                <div class="col-20">
-                    <label>Customer I.D.</label>
-                    <input type="text" value="@item.AccountCode">
-                </div>
-                <div class="col-20">
-                    <label>Customer Equipment I.D.</label>
-                    <input type="text" value="@item.SystemNo">
-                </div>
-                <div class="col-20">
-                    <label>Service Report Date</label>
-                    <input type="text" value="@item.ServiceEngineerResolvedDate">
-                </div>
-                <div class="col-20">
-                    <label>Service Report No.</label>
-                    <input type="text" value="@item.TicketNumber">
-                </div>
-                <div class="col-25">
-                    <label>Customer Name.</label>
-                    <input type="text" style="height: 52px" value="@item.ManagerFullName">
-                </div>
-                <div class="col-25">
-                    <label>Customer Location.</label>
-                    <input type="text" style="height: 52px" value="@item.Area">
-                </div>
-                <div class="col-50">
-                    <label>Customer Contacts</label>
-                    <div class="full_border bg-skyblue">
-                        <table class="contact_details">
-                            <tr>
-                                <td> Tel.:</td>
-                                <td><input type="text" class="dotted_border"></td>
-                                <td>&ensp;</td>
-                                <td> Fax.:</td>
-                                <td><input type="text" class="dotted_border"></td>
-                            </tr>
-                            <tr>
-                                <td> Mob.:</td>
-                                <td><input type="text" class="dotted_border"></td>
-                                <td>&ensp;</td>
-                                <td> Email.:</td>
-                                <td><input type="text" class="dotted_border email" value="@item.ManagerEmail"></td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-                <div class="col-25">
-                    <label>Equipment Description/Station Name</label>
-                    <input type="text" value="@item.StationName">
-                </div>
-                <div class="col-25">
-                    <label>Equipment Model</label>
-                    <input type="text" value="@item.ModelName">
-                </div>
-                <div class="col-25">
-                    <label>Equipment Serial No.</label>
-                    <input type="text" value="@item.SerialNo">
-                </div>
-                <div class="col-25">
-                    <label>Customer P.O. No.</label>
-                    <input type="text" value="@item.POContract">
-                </div>
-                <div class="col-20">
-                    <label>Manufacturer/Product</label>
-                    <input type="text" value="@item.ProductName">
-                </div>
-                <div class="col-20">
-                    <label>Installation Date</label>
-                    <input type="text" value="@item.InstallationDate">
-                </div>
-                <div class="col-20">
-                    <label>Warranty End Date</label>
-                    <input type="text" value="@item.WarrantyExpiryDate">
-                </div>
-                <div class="col-20">
-                    <label>Next PPM Schedule</label>
-                    <input type="text" value="@item.PPMDate">
-                </div>
-                <div class="col-20">
-                    <label>Customer Call Date & Time</label>
-                    <input type="text" value="@item.CreatedOn.ToString("dd-MM-yyyy HH:MM")">
-                </div>
-                <div class="col-20">
-                    <label>Report Type</label>
-                    <input type="text" value="@item.ReportTypeName">
-                </div>
-                <div class="col-20">
-                    <label>Service Start Date & Time</label>
-                    <input type="text" value="@item.ServiceStartDate">
-                </div>
-                <div class="col-20">
-                    <label>Service End Date & Time</label>
-                    <input type="text" value="@item.ServiceEngineerResolvedDate">
-                </div>
-                <div class="col-20">
-                    <label>Work Hours</label>
-                    <input type="text" value="@item.WorkHours">
-                </div>
-                <div class="col-20">
-                    <label>Total Charges</label>
-                    <input type="text">
-                </div>
-
-
-                <div class="col-100">
-                    <label>Problem Description</label>
-                    <div class="full_border p-10" style="height: 135px;">
-                        <p class="font-20">
-                            @item.ProblemDescription
-                        </p>
-                    </div>
-                </div>
-                <div class="col-100">
-                    <label>Activities Done</label>
-                    <div class="full_border p-10" style="height: 135px;">
-                        <p class="font-20">
-                            @item.Actioncomments
-                        </p>
-                    </div>
-                </div>
-                <div class="col-100">
-                    <label>Next Action / Follow Up Required</label>
-                    <div class="bottom_border p-10">
-                        <p class="font-14">
-                        </p>
-                    </div>
-                </div>
-                @*<div class="col-100">
-            <label>Remarks / Notes / Other Serial Nos.</label>
-            <div class="full_border p-10">
-                <span>&nbsp;</span>
+    <div class="form">
+        <h1 class="text-uppercase text-center pb-15 mb-15"><u>Service Report</u></h1>
+        <div class="flex-container-wrap">
+            <div class="col-20">
+                <label>Ticket No.</label>
+                <input type="text" value="@item.TicketNumber">
             </div>
-        </div>
-        <div class="col-100">
-            <table class="bg-skyblue p-10 text-left" width="100%">
-                <tr>
-                    <th>
-                        Hand Over to Customer
-                    </th>
-                    <th>
-                        <label class="container m-0">
-                            Operating Manuals
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                    </th>
-                    <th>
-                        <label class="container m-0">
-                            Service Manuals
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                    </th>
-                    <th>
-                        <label class="container m-0">
-                            Software CD's
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                    </th>
-                    <th>&nbsp</th>
-            </table>
-        </div>*@
-                <div class="col-100">
-                    <table width="100%" class="text-left table_bordered table_pad">
-                        <thead>
-                            <tr>
-                                <th class="pl-4">SparePart Description </th>
-                                <th class="pl-4">Part Code</th>
-                                <th class="pl-4">Quantity</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-skyblue">
-                            @{int i = 0;
-                                int sp_count = Model.SparePartList.Count();
-                            }
-                            @foreach (var spritem in Model.SparePartList)
-                            {
-                                if (i < 4)
-                                {
-                                    <tr>
-                                        <td>@spritem.SparePartName</td>
-                                        <td>@spritem.SparePartNumber</td>
-                                        <td>@spritem.Quantity</td>
-                                    </tr>
-                                }
-                                {
-                                    i++;
-                                }
-                            }
-                            @if (sp_count < 4)
-                            {
-                                if (sp_count == 0)
-                                {
-                                    <tr>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                    </tr>
-                                    <tr>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                    </tr>
-                                    <tr>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                    </tr>
-                                    <tr>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                    </tr>
-                                }
-                                if (sp_count == 1)
-                                {
-                                    <tr>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                    </tr>
-                                    <tr>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                    </tr>
-                                    <tr>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                    </tr>
-                                }
-                                if (sp_count == 2)
-                                {
-                                    <tr>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                    </tr>
-                                    <tr>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                    </tr>
-                                }
-                                if (sp_count == 3)
-                                {
-                                    <tr>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                    </tr>
-                                }
-                            }
-
-
-                        </tbody>
+            <div class="col-20">
+                <label>Customer I.D.</label>
+                <input type="text" value="@item.AccountCode">
+            </div>
+            <div class="col-20">
+                <label>Customer Equipment I.D.</label>
+                <input type="text" value="@item.SystemNo">
+            </div>
+            <div class="col-20">
+                <label>Service Report Date</label>
+                <input type="text" value="@item.ServiceEngineerResolvedDate">
+            </div>
+            <div class="col-20">
+                <label>Service Report No.</label>
+                <input type="text" value="@item.TicketNumber">
+            </div>
+            <div class="col-25">
+                <label>Customer Name.</label>
+                <input type="text" style="height: 52px" value="@item.ManagerFullName">
+            </div>
+            <div class="col-25">
+                <label>Customer Location.</label>
+                <input type="text" style="height: 52px" value="@item.Area">
+            </div>
+            <div class="col-50">
+                <label>Customer Contacts</label>
+                <div class="full_border bg-skyblue">
+                    <table class="contact_details">
+                        <tr>
+                            <td> Tel.:</td>
+                            <td><input type="text" class="dotted_border"></td>
+                            <td>&ensp;</td>
+                            <td> Fax.:</td>
+                            <td><input type="text" class="dotted_border"></td>
+                        </tr>
+                        <tr>
+                            <td> Mob.:</td>
+                            <td><input type="text" class="dotted_border"></td>
+                            <td>&ensp;</td>
+                            <td> Email.:</td>
+                            <td><input type="text" class="dotted_border email" value="@item.ManagerEmail"></td>
+                        </tr>
                     </table>
                 </div>
+            </div>
+            <div class="col-25">
+                <label>Equipment Description/Station Name</label>
+                <input type="text" value="@item.StationName">
+            </div>
+            <div class="col-25">
+                <label>Equipment Model</label>
+                <input type="text" value="@item.ModelName">
+            </div>
+            <div class="col-25">
+                <label>Equipment Serial No.</label>
+                <input type="text" value="@item.SerialNo">
+            </div>
+            <div class="col-25">
+                <label>Customer P.O. No.</label>
+                <input type="text" value="@item.POContract">
+            </div>
+            <div class="col-20">
+                <label>Manufacturer/Product</label>
+                <input type="text" value="@item.ProductName">
+            </div>
+            <div class="col-20">
+                <label>Installation Date</label>
+                <input type="text" value="@item.InstallationDate">
+            </div>
+            <div class="col-20">
+                <label>Warranty End Date</label>
+                <input type="text" value="@item.WarrantyExpiryDate">
+            </div>
+            <div class="col-20">
+                <label>Next PPM Schedule</label>
+                <input type="text" value="@item.PPMDate">
+            </div>
+            <div class="col-20">
+                <label>Customer Call Date & Time</label>
+                <input type="text" value="@item.CreatedOn.ToString("dd-MM-yyyy HH:MM")">
+            </div>
+            <div class="col-20">
+                <label>Report Type</label>
+                <input type="text" value="@item.ReportTypeName">
+            </div>
+            <div class="col-20">
+                <label>Service Start Date & Time</label>
+                <input type="text" value="@item.ServiceStartDate">
+            </div>
+            <div class="col-20">
+                <label>Service End Date & Time</label>
+                <input type="text" value="@item.ServiceEngineerResolvedDate">
+            </div>
+            <div class="col-20">
+                <label>Work Hours</label>
+                <input type="text" value="@item.WorkHours">
+            </div>
+            <div class="col-20">
+                <label>Total Charges</label>
+                <input type="text">
+            </div>
 
-                <div class="col-33">
-                    <label class="pl-4">Customer Approval</label>
-                    <div class="full_border bg-skyblue">
-                        <table style="width: 100%; padding: 0 10px 5px">
-                            <tr>
-                                <td> Name.:</td>
-                                @if (item.CreatedUserRoleId == 503) {
-                                    <td><input type="text" class="dotted_border" value="@item.CreatedUser"></td>
-                                }
-                                else if (item.CreatedUserRoleId != 503) {
-                                    <td><input type="text" class="dotted_border" value="@item.ManagerFullName"></td>
-                                }
-                                
-                            </tr>
-                            <tr>
-                                <td> Date.:</td>
-                                @if (item.CreatedUserRoleId == 503)
-                                {
-                                    <td><input type="text" class="dotted_border" value="@item.CustomerConfirmationDate"></td>
-                                }
-                                else if (item.CreatedUserRoleId != 503)
-                                {
-                                    <td><input type="text" class="dotted_border" value="@item.ManagerConfirmationDate"></td>
-                                }
-                            </tr>
-                            <tr>
-                                <td> Signature.:</td>
-                                <td><input type="text" class="dotted_border"></td>
-                            </tr>
-                        </table>
-                    </div>
+
+            <div class="col-100">
+                <label>Problem Description</label>
+                <div class="full_border p-10" style="height: 95px;">
+                    <p class="font-20">
+                        @item.ProblemDescription
+                    </p>
                 </div>
-                <div class="col-33">
-                    <label class="pl-4">Name Of Engineer.</label>
-                    <div class="full_border bg-skyblue">
-                        <table style="width: 100%; padding: 0 10px 5px">
-                            <tr>
-                                <td> Name.:</td>
-                                <td><input type="text" class="dotted_border pb-5" value="@item.FullName"></td>
-                            </tr>
-                            <tr class="mb-15">
-                                <td> Date.:</td>
-                                <td><input type="text" class="dotted_border pb-5" value="@item.ServiceEngineerResolvedDate"></td>
-                            </tr>
-                            <tr class="mb-15">
-                                <td> Signature.:</td>
-                                <td><input type="text" class="dotted_border pb-5"></td>
-                            </tr>
-                        </table>
-                    </div>
+            </div>
+            <div class="col-100">
+                <label>Activities Done</label>
+
+
+                <div class="full_border p-10" style="height: 95px;">
+                    <p class="font-20">
+                        @item.Actioncomments
+                    </p>
                 </div>
-                <div class="col-33">
-                    <label class="pl-4">Name Of Manager.</label>
-                    <div class="full_border bg-skyblue">
-                        <table style="width: 100%; padding: 0 10px 5px">
-                            <tr>
-                                <td> Name.:</td>
-                                <td><input type="text" class="dotted_border pb-5" value="@item.ManagerName"></td>
-                            </tr>
-                            <tr class="mb-15">
-                                <td> Date.:</td>
-                                <td><input type="text" class="dotted_border pb-5" value="@item.ManagerConfirmationDate"></td>
-                            </tr>
-                            <tr class="mb-15">
-                                <td> Signature.:</td>
-                                <td><input type="text" class="dotted_border pb-5"></td>
-                            </tr>
-                        </table>
-                    </div>
+            </div>
+            <div class="col-100">
+                <label>Next Action / Follow Up Required</label>
+                <div class="bottom_border p-10">
+                    <p class="font-14">
+                    </p>
+                </div>
+            </div>
+            @*<div class="col-100">
+                <label>Remarks / Notes / Other Serial Nos.</label>
+                <div class="full_border p-10">
+                    <span>&nbsp;</span>
+                </div>
+            </div>
+            <div class="col-100">
+                <table class="bg-skyblue p-10 text-left" width="100%">
+                    <tr>
+                        <th>
+                            Hand Over to Customer
+                        </th>
+                        <th>
+                            <label class="container m-0">
+                                Operating Manuals
+                                <input type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                        </th>
+                        <th>
+                            <label class="container m-0">
+                                Service Manuals
+                                <input type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                        </th>
+                        <th>
+                            <label class="container m-0">
+                                Software CD's
+                                <input type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                        </th>
+                        <th>&nbsp</th>
+                </table>
+            </div>*@
+            <div class="col-100">
+                <table width="100%" class="text-left table_bordered table_pad">
+                    <thead>
+                        <tr>
+                            <th class="pl-4">SparePart Description </th>
+                            <th class="pl-4">Part Code</th>
+                            <th class="pl-4">Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-skyblue">
+                        @{int i = 0;
+                            int sp_count = Model.SparePartList.Count();
+                        }
+                        @foreach (var spritem in Model.SparePartList)
+                        {
+                            if (i < 4)
+                            {
+                                <tr>
+                                    <td>@spritem.SparePartName</td>
+                                    <td>@spritem.SparePartNumber</td>
+                                    <td>@spritem.Quantity</td>
+                                </tr>
+                            }
+                            {
+                                i++;
+                            }
+                        }
+                        @if (sp_count < 4)
+                        {
+                            if (sp_count == 0)
+                            {
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                            }
+                            if (sp_count == 1)
+                            {
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                            }
+                            if (sp_count == 2)
+                            {
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                            }
+                            if (sp_count == 3)
+                            {
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                            }
+                        }
+
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-33">
+                <label class="pl-4">Customer Approval</label>
+                <div class="full_border bg-skyblue">
+                    <table style="width: 100%; padding: 0 10px 5px">
+                        <tr>
+                            <td> Name.:</td>
+                            @if (item.CreatedUserRoleId == 503)
+                            {
+                                <td><input type="text" class="dotted_border" value="@item.CreatedUser"></td>
+                            }
+                            else if (item.CreatedUserRoleId != 503)
+                            {
+                                <td><input type="text" class="dotted_border" value="@item.ManagerFullName"></td>
+                            }
+
+                        </tr>
+                        <tr>
+                            <td> Date.:</td>
+                            @if (item.CreatedUserRoleId == 503)
+                            {
+                                <td><input type="text" class="dotted_border" value="@item.CustomerConfirmationDate"></td>
+                            }
+                            else if (item.CreatedUserRoleId != 503)
+                            {
+                                <td><input type="text" class="dotted_border" value="@item.ManagerConfirmationDate"></td>
+                            }
+                        </tr>
+                        <tr>
+                            <td> Signature.:</td>
+                            <td><input type="text" class="dotted_border"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="col-33">
+                <label class="pl-4">Name Of Engineer.</label>
+                <div class="full_border bg-skyblue">
+                    <table style="width: 100%; padding: 0 10px 5px">
+                        <tr>
+                            <td> Name.:</td>
+                            <td><input type="text" class="dotted_border pb-5" value="@item.FullName"></td>
+                        </tr>
+                        <tr class="mb-15">
+                            <td> Date.:</td>
+                            <td><input type="text" class="dotted_border pb-5" value="@item.ServiceEngineerResolvedDate"></td>
+                        </tr>
+                        <tr class="mb-15">
+                            <td> Signature.:</td>
+                            <td><input type="text" class="dotted_border pb-5"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="col-33">
+                <label class="pl-4">Name Of Manager.</label>
+                <div class="full_border bg-skyblue">
+                    <table style="width: 100%; padding: 0 10px 5px">
+                        <tr>
+                            <td> Name.:</td>
+                            <td><input type="text" class="dotted_border pb-5" value="@item.ManagerName"></td>
+                        </tr>
+                        <tr class="mb-15">
+                            <td> Date.:</td>
+                            <td><input type="text" class="dotted_border pb-5" value="@item.ManagerConfirmationDate"></td>
+                        </tr>
+                        <tr class="mb-15">
+                            <td> Signature.:</td>
+                            <td><input type="text" class="dotted_border pb-5"></td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
+        <p style="color:red;" class="pb-15 mb-15">This is an Electronically generated Service Report and no signature is required.</p>
+    </div>
     }
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>

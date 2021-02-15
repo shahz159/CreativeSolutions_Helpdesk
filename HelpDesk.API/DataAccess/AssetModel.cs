@@ -167,9 +167,12 @@ namespace HelpDesk.API.DataAccess
         {
             try
             {
+                if (obj.IsContract == false)
+                {
+                    obj.WarrantyExpiryDate = DateTime.Now;
+                }
                 var para = new[]
                 {
-                   
                     new SqlParameter("@ProductId",obj.ProductId),
                     //new SqlParameter("@ModelId",obj.ModelId),
                     new SqlParameter("@StationName",obj.StationName),
@@ -180,7 +183,10 @@ namespace HelpDesk.API.DataAccess
                     new SqlParameter("@CityId",obj.CityId),
                     new SqlParameter("@isActive",obj.isActive),
                     new SqlParameter("@CreatedBy",obj.CreatedBy),
-                    new SqlParameter("@AMId",obj.AMId)
+                    new SqlParameter("@AMId",obj.AMId),
+                    new SqlParameter("@InstallationDate",obj.InstallationDate),
+                    new SqlParameter("@WarrantyExpiryDate",obj.WarrantyExpiryDate),
+                    new SqlParameter("@POContract",obj.POContract)
                     //new SqlParameter("@SerialNo",obj.SerialNo)
                 };
                 return DbConnector.ExecuteReader("uspAddUpdatingRecord", para);
@@ -306,11 +312,11 @@ namespace HelpDesk.API.DataAccess
         {
             try
             {
-                //var para = new[]
-                //{
-                //    new SqlParameter("@OrganizationId",obj.OrganizationId)
-                //};
-                return DbConnector.ExecuteDataSet("uspGetAssetRenewalList", null);
+                var para = new[]
+                {
+                    new SqlParameter("@UserId",obj.CreatedBy)
+                };
+                return DbConnector.ExecuteDataSet("uspGetAssetRenewalList", para);
             }
             catch (Exception ex)
             {

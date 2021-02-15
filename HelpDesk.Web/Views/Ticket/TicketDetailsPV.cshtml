@@ -337,7 +337,7 @@
                                 <div class="kt-widget__top">
                                     <div class="kt-widget__content">
                                         <div class="kt-widget__info">
-                                            <div class="kt-widget__desc" style="overflow-wrap: break-word;width: 7%;">
+                                            <div class="kt-widget__desc">
                                                 <p>
                                                     @item.Description
                                                 </p>
@@ -419,13 +419,13 @@
                         <div class="kt-portlet__body">
                             <table class="ticket-full-details table table-borderless table-sm">
                                 @*<tr>
-                                        <td>Created By.</td>
-                                        <td>: @item.CreatedUser</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Created On.</td>
-                                        <td>: @item.CreatedOn.ToString("dd-MM-yyyy HH:mm")</td>
-                                    </tr>*@
+            <td>Created By.</td>
+            <td>: @item.CreatedUser</td>
+        </tr>
+        <tr>
+            <td>Created On.</td>
+            <td>: @item.CreatedOn.ToString("dd-MM-yyyy HH:mm")</td>
+        </tr>*@
                                 <tr>
                                     <td>Ticket No.</td>
                                     <td>: @item.TicketNumber</td>
@@ -433,6 +433,10 @@
                                 <tr>
                                     <td>Location</td>
                                     <td>: @item.Area</td>
+                                </tr>
+                                <tr>
+                                    <td>Station</td>
+                                    <td>: @item.StationName</td>
                                 </tr>
                                 <tr>
                                     <td>Account</td>
@@ -1309,7 +1313,8 @@
             $('#service_report_prw').show();
             $('#details_upper').hide();
         }
-        else if (val==6) {
+        else if (val == 6) {
+            document.getElementById("loader").style.display = "block";
             var txtdone = $('#txtactivitydone').val();
             if (txtdone == "" || txtdone == "N/A") {
                 alert('fields required');

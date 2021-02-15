@@ -137,6 +137,7 @@ namespace HelpDesk.Web.Controllers
                                             ModelName = dataRow.Field<string>("ModelName"),
                                             //AMId = dataRow.Field<int>("AMId")
                                             AMModelId = dataRow.Field<long>("AMModelId"),
+                                            AccountId = dataRow.Field<int>("AccountId"),
                                             SystemNoSerialNo = dataRow.Field<string>("SystemNoSerialNo")
                                         }).ToList();
 
@@ -689,6 +690,7 @@ namespace HelpDesk.Web.Controllers
                                             SupervisorConfirmationDate = dataRow.Field<string>("SupervisorConfirmationDate"),
                                             SupervisorName = dataRow.Field<string>("SupervisorName"),
                                             ServiceEngineerJson = dataRow.Field<string>("ServiceEngineerJson"),
+                                            StationName = dataRow.Field<string>("StationName"),
                                             AccountCode = dataRow.Field<string>("AccountCode"),
                                             ManagerFullName = dataRow.Field<string>("ManagerFullName"),
                                             ManagerMobile = dataRow.Field<string>("ManagerMobile"),
@@ -990,8 +992,8 @@ namespace HelpDesk.Web.Controllers
                         obj.CompanyId = comid;
                         obj.OrganizationId = orgid;
 
-                        if (roleid == 501 || roleid == 502)
-                            obj.CreatedBy = 0;
+                        //if (roleid == 501 || roleid == 502)
+                        //    obj.CreatedBy = 0;
 
                         List<TicketDTO> tickettlst = new List<TicketDTO>();
                         List<TicketDTO> productlst = new List<TicketDTO>();
@@ -1124,8 +1126,8 @@ namespace HelpDesk.Web.Controllers
                         obj.PageNumber = pagenumber;
                         obj.PageSize = 5;
                         obj.CompanyId = comid;
-                        if (roleid == 501 || roleid == 502)
-                            obj.CreatedBy = 0;
+                        //if (roleid == 501 || roleid == 502)
+                        //    obj.CreatedBy = 0;
                         obj.OrganizationId = orgid;
                         HttpResponseMessage responseMessageViewDocuments = await client.PostAsJsonAsync("api/TicketsAPI/NewServiceEngineerTickets", obj);
                         if (responseMessageViewDocuments.IsSuccessStatusCode)
@@ -1155,7 +1157,9 @@ namespace HelpDesk.Web.Controllers
                                             SystemNo = dataRow.Field<string>("SystemNo"),
                                             ProductName = dataRow.Field<string>("ProductName"),
                                             SerialNo = dataRow.Field<string>("SerialNo"),
-                                            CreatedOn = dataRow.Field<DateTime>("CreatedOn")
+                                            CreatedOn = dataRow.Field<DateTime>("CreatedOn"),
+                                            FullName = dataRow.Field<string>("FullName")
+                                            
                                         }).ToList();
                                         obj.TicketList = tickettlst;
                                     }

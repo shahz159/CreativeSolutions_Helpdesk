@@ -32,7 +32,7 @@ namespace HelpDesk.API.Models
 
                 SmtpClient mSmtpClient = new SmtpClient(SmtpServer, portNo);
                 mSmtpClient.UseDefaultCredentials = false;
-                mSmtpClient.EnableSsl = false;
+                mSmtpClient.EnableSsl = true;
 
                 mSmtpClient.Timeout = 10000;
                 mSmtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;

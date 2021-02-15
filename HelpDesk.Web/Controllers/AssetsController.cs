@@ -763,8 +763,8 @@ namespace HelpDesk.Web.Controllers
                                             ProductId = dataRow.Field<int>("ProductId"),
                                             ProductName = dataRow.Field<string>("ProductName"),
                                             ProductCode = dataRow.Field<string>("ProductCode"),
-                                            ModelId = dataRow.Field<int>("ModelId"),
-                                            ModelName = dataRow.Field<string>("ModelName"),
+                                            //ModelId = dataRow.Field<int>("ModelId"),
+                                            //ModelName = dataRow.Field<string>("ModelName"),
                                             StationName = dataRow.Field<string>("StationName"),
                                             IPAddress = dataRow.Field<string>("IPAddress"),
                                             SerialNo = dataRow.Field<string>("SerialNo"),
@@ -805,7 +805,6 @@ namespace HelpDesk.Web.Controllers
             }
         }
 
-
         public async Task<ActionResult> AddUpdatingAssetDetails(AssetsDTO obj)
         {
             string ses = Convert.ToString(Session["SSUserId"]);
@@ -821,9 +820,7 @@ namespace HelpDesk.Web.Controllers
                     try
                     {
                         long userid = long.Parse(Session["SSUserId"].ToString());
-
                         obj.CreatedBy = userid;
-
                         bool status = false;
                         HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/AssetAPI/NewUpdatedAsset", obj);
                         if (responseMessage.IsSuccessStatusCode)
@@ -995,18 +992,19 @@ namespace HelpDesk.Web.Controllers
             }
             else
             {
-                //int userid = int.Parse(Session["SSUserId"].ToString());
+                int userid = int.Parse(Session["SSUserId"].ToString());
                 //int roleid = int.Parse(Session["SSRoleId"].ToString());
                 //int comid = int.Parse(Session["SSCompanyId"].ToString());
-                int orgid = int.Parse(Session["SSOrganizationId"].ToString());
+                //int orgid = int.Parse(Session["SSOrganizationId"].ToString());
                 using (HttpClient client = new HttpClient())
                 {
                     CommonHeader.setHeaders(client);
                     try
                     {
                         AssetsDTO obj = new AssetsDTO();
-                        obj.OrganizationId = orgid;
+                        obj.CreatedBy = userid;
                         List<AssetsDTO> tickettlst = new List<AssetsDTO>();
+                        List<AssetsDTO> assetlst = new List<AssetsDTO>();
 
                         HttpResponseMessage responseMessageViewDocuments = await client.PostAsJsonAsync("api/AssetAPI/NewRenewalAssetsList", obj);
                         if (responseMessageViewDocuments.IsSuccessStatusCode)
@@ -1057,11 +1055,41 @@ namespace HelpDesk.Web.Controllers
                                     }
                                     else
                                         obj.AssetsList = tickettlst;
+
+                                    if (ds.Tables[1].Rows.Count > 0)
+                                    {
+                                        assetlst = ds.Tables[1].AsEnumerable().Select(dataRow => new AssetsDTO
+                                        {
+                                            AccountId = dataRow.Field<int>("AccountId"),
+                                            AccountName = dataRow.Field<string>("AccountName"),
+                                            AccountCode = dataRow.Field<string>("AccountCode"),
+                                            ProductId = dataRow.Field<int>("ProductId"),
+                                            ProductName = dataRow.Field<string>("ProductName"),
+                                            ProductCode = dataRow.Field<string>("ProductCode"),
+                                            StationName = dataRow.Field<string>("StationName"),
+                                            IPAddress = dataRow.Field<string>("IPAddress"),
+                                            SerialNo = dataRow.Field<string>("SerialNo"),
+                                            SystemNo = dataRow.Field<string>("SystemNo"),
+                                            Configuration = dataRow.Field<string>("Configuration"),
+                                            Area = dataRow.Field<string>("Area"),
+                                            RegionName = dataRow.Field<string>("RegionName"),
+                                            RegionId = dataRow.Field<int>("RegionId"),
+                                            CityId = dataRow.Field<int>("CityId"),
+                                            CityName = dataRow.Field<string>("CityName"),
+                                            InstallationDate = dataRow.Field<DateTime>("InstallationDate"),
+                                            IsContract = dataRow.Field<bool>("IsContract"),
+                                            POContract = dataRow.Field<string>("POContract"),
+                                            WarrantyExpiryDate = dataRow.Field<DateTime>("WarrantyExpiryDate"),
+                                            AMId = dataRow.Field<int>("AMId"),
+                                            FullName = dataRow.Field<string>("FullName")
+                                        }).ToList();
+                                        obj.AssetModelList = assetlst;
+                                    }
+                                    else
+                                        obj.AssetModelList = assetlst;
                                 }
                             }
                         }
-
-
                         return View(obj);
                     }
                     catch (Exception ex)
@@ -1148,6 +1176,7 @@ namespace HelpDesk.Web.Controllers
                         AssetsDTO obj = new AssetsDTO();
                         obj.OrganizationId = orgid;
                         List<AssetsDTO> tickettlst = new List<AssetsDTO>();
+                        List<AssetsDTO> noContracttlst = new List<AssetsDTO>();
 
                         HttpResponseMessage responseMessageViewDocuments = await client.PostAsJsonAsync("api/AssetAPI/NewRenewalRequestAssetsList", obj);
                         if (responseMessageViewDocuments.IsSuccessStatusCode)

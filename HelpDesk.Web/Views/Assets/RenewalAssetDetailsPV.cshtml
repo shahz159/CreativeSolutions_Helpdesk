@@ -225,6 +225,7 @@
                 return false;
             }
             else {
+                document.getElementById("loader").style.display = "block";
                 $.ajax({
                     type: 'POST',
                     url: '@Url.Action("NewAssestRenewalRequest")', // we are calling json method
@@ -234,6 +235,7 @@
                         ContractType: ContractType, AMId: $('#hdnAMId').val()
                     },
                     success: function (data) {
+                        document.getElementById("loader").style.display = "none";
                         alert('Request Sent Successfully');
                         location.reload();
                     },

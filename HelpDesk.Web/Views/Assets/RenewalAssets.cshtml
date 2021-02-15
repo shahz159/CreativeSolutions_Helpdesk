@@ -7,16 +7,41 @@
 
 @section  Styles{
     <link href="~/assets/css/datatables.bundle.css" rel="stylesheet" />
+
 }
+<style>
+    .nav-pills, .nav-tabs {
+        margin: 14px 0 16px 0;
+    }
+</style>
 <!-- begin:: Content -->
 <div id="Upper_div" class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
     <div class="kt-portlet">
         <div class="kt-portlet__head kt-portlet__head--lg">
             <div class="kt-portlet__head-label">
-                <span class="kt-portlet__head-icon">
-                    <i class="kt-font-brand flaticon2-line-chart"></i>
-                </span>
-                <h3 class="kt-portlet__head-title">Expired Assets List</h3>
+
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home">
+                            <span class="nav-icon">
+                                <i class="flaticon2-chat-1"></i>
+                            </span>
+                            <span class="nav-text">Expired Assets List</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" aria-controls="profile">
+                            <span class="nav-icon">
+                                <i class="flaticon2-layers-1"></i>
+                            </span>
+                            <span class="nav-text">No Contract Assets</span>
+                        </a>
+                    </li>
+                </ul>
+                @*<span class="kt-portlet__head-icon">
+                        <i class="kt-font-brand flaticon2-line-chart"></i>
+                    </span>
+                    <h3 class="kt-portlet__head-title">Expired Assets List</h3>*@
             </div>
             @if (Model.RoleId != 505 && Model.RoleId != 504)
             {
@@ -32,131 +57,167 @@
                 </div>
             }
         </div>
-        <div class="kt-portlet__body">
-            <!--begin: Search Form -->
-            <div class="kt-form kt-form--label-right">
-                <div class="row align-items-center">
-                    <div class="col-xl-12 order-2 order-xl-1">
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade active show" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <div class="kt-portlet__body">
+                    <div class="kt-form kt-form--label-right">
                         <div class="row align-items-center">
-                            <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
-                                <div class="kt-form__group">
-                                    <div class="kt-form__label">
-                                        <label>Service Account</label>
-                                    </div>
-                                    <div class="kt-form__control">
-                                        <div id="div_filters_Account">
+                            <div class="col-xl-12 order-2 order-xl-1">
+                                <div class="row align-items-center">
+                                    <div class="col-md-6 kt-margin-b-20-tablet-and-mobile">
+                                        <div class="kt-form__group">
+                                            <div class="kt-form__label">
+                                                <label>Service Account</label>
+                                            </div>
+                                            <div class="kt-form__control">
+                                                <div id="div_filters_Account">
 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 kt-margin-b-20-tablet-and-mobile">
+                                        <div class="kt-form__group">
+                                            <div class="kt-form__label">
+                                                <label>Service Product</label>
+                                            </div>
+                                            <div class="kt-form__control">
+                                                <div id="div_filters_Product">
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
-                                <div class="kt-form__group">
-                                    <div class="kt-form__label">
-                                        <label>Service Product</label>
-                                    </div>
-                                    <div class="kt-form__control">
-                                        <div id="div_filters_Product">
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
-                                <div class="kt-form__group">
-                                    <div class="kt-form__label">
-                                        <label>Service Model</label>
-                                    </div>
-                                    <div class="kt-form__control">
-                                        <div id="div_filters_model">
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
                 </div>
+                <div class="kt-portlet__body pt-0">
+                    <div class="table-responsive">
+                        <table class="table table-striped- table-bordered table-hover table-checkable" id="kt_table_1">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Account Name</th>
+                                    <th scope="col">System Id</th>
+                                    @*<th scope="col">Serial No.</th>*@
+                                    <th scope="col">Product</th>
+                                    <th scope="col">Expired Date</th>
+                                    <th scope="col">Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.AssetsList != null)
+                                {
+                                    foreach (var item in Model.AssetsList)
+                                    {
+                                        <tr>
+                                            <td>@item.AccountName</td>
+                                            <td>@item.SystemNo</td>
+                                            @*<td>@item.SerialNo</td>*@
+                                            <td>@item.ProductName</td>
+                                            <td>@item.WarrantyExpiryDate.ToString("dd-MM-yyyy")</td>
+                                            <td align="center">
+                                                <a href="#" onclick="ViewAssetDetails(@item.AMId)">
+                                                    <i class="fa fa-eye"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--begin: href="@Url.Action("AssetDetails","Assets")" Section-->
+                </div>
             </div>
-        </div>
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="kt-portlet__body">
+                    <div class="kt-form kt-form--label-right">
+                        <div class="row align-items-center">
+                            <div class="col-xl-12 order-2 order-xl-1">
+                                <div class="row align-items-center">
+                                    <div class="col-md-6 kt-margin-b-20-tablet-and-mobile">
+                                        <div class="kt-form__group">
+                                            <div class="kt-form__label">
+                                                <label>Service Account</label>
+                                            </div>
+                                            <div class="kt-form__control">
+                                                <div id="div_filtersM_Account">
 
-        <div class="kt-portlet__body pt-0">
-            <div class="table-responsive">
-                <table class="table table-striped- table-bordered table-hover table-checkable" id="kt_table_1">
-                    <thead>
-                        <tr>
-                            <th scope="col">Account Name</th>
-                            <th scope="col">System Id</th>
-                            <th scope="col">Serial No.</th>
-                            <th scope="col">Product</th>
-                            <th scope="col">Expired Date</th>
-                            <th scope="col">Details</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model.AssetsList != null)
-                        {
-                            foreach (var item in Model.AssetsList)
-                            {
-                        <tr>
-                            <td>@item.AccountName</td>
-                            <td>@item.SystemNo</td>
-                            <td>@item.SerialNo</td>
-                            <td>@item.ProductName</td>
-                            <td>@item.WarrantyExpiryDate.ToString("dd-MM-yyyy")</td>
-                            <td align="center">
-                                <a href="#" onclick="ViewAssetDetails(@item.AMId)">
-                                    <i class="fa fa-eye"></i>
-                                </a>
-                            </td>
-                        </tr>
-                            }
-                        }
-                    </tbody>
-                </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 kt-margin-b-20-tablet-and-mobile">
+                                        <div class="kt-form__group">
+                                            <div class="kt-form__label">
+                                                <label>Service Product</label>
+                                            </div>
+                                            <div class="kt-form__control">
+                                                <div id="div_filtersM_Product">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="kt-portlet__body pt-0">
+                    <div class="table-responsive">
+                        <table class="table table-striped- table-bordered table-hover table-checkable" id="kt_table_11">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Account Name</th>
+                                    <th scope="col">System Id</th>
+                                    <th scope="col">Product</th>
+                                    <th scope="col">Expired Date</th>
+                                    <th scope="col">Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.AssetModelList != null)
+                                {
+                                    foreach (var item in Model.AssetModelList)
+                                    {
+                                        <tr>
+                                            <td>@item.AccountName</td>
+                                            <td>@item.SystemNo</td>
+                                            <td>@item.ProductName</td>
+                                            <td>@item.WarrantyExpiryDate.ToString("dd-MM-yyyy")</td>
+                                            <td align="center">
+                                                <a href="#" onclick="ViewAssetDetails(@item.AMId)">
+                                                    <i class="fa fa-eye"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-            <!--begin: href="@Url.Action("AssetDetails","Assets")" Section-->
         </div>
     </div>
 </div>
 <div id="asset_details" style="display:none;"></div>
 
-@section  Scripts{
-    <script src="~/assets/js/datatables.bundle.js"></script>
-    <script>
+        @section  Scripts{
+<script src="~/assets/js/datatables.bundle.js"></script>
+<script>
         $('#loader').hide();
-        function closeDetails() {
-            $('#asset_details').hide();
-            $('#Upper_div').show();
-        }
-
+    function closeDetails() {
+        $('#asset_details').hide();
+        $('#Upper_div').show();
+    }
         $(document).ready(function () {
             $('#kt_table_1').DataTable({
                 initComplete: function () {
                     this.api().columns().every(function () {
                         var column = this;
-                        if (column.index() == 2) {  //skip if column 0
-                            $(column.header()).append("<br>")
-                            var select = $('<select class = "form-control kt-select2"><option value="" disabled selected>Select Model</option></select>')
-                                .appendTo(
-                                    //$(column.header())
-                                    $('#div_filters_model')
-                                )
-                                .on('change', function () {
-                                    var val = $.fn.dataTable.util.escapeRegex(
-                                        $(this).val()
-                                    );
-
-                                    column
-                                        .search(val ? '^' + val + '$' : '', true, false)
-                                        .draw();
-                                });
-                              column.data().unique().sort().each(function (d, j) {
-                                select.append('<option value="' + d + '">' + d + '</option>')
-                            });
-                        }  //end of if div_filters_Product
-                        else if (column.index() == 1) {  //skip if column 0
+                            if (column.index() == 2) {  //previous value is 1 , current value is 2
                             $(column.header()).append("<br>")
                             var select = $('<select class = "form-control kt-select2"><option value="" disabled selected>Select Product</option></select>')
                                 .appendTo(
@@ -200,6 +261,51 @@
                     });
                 }
             });
+            $('#kt_table_11').DataTable({
+                initComplete: function () {
+                    this.api().columns().every(function () {
+                        var column = this;
+                        if (column.index() == 2) {  //previous value is 1 , current value is 2
+                            $(column.header()).append("<br>")
+                            var select = $('<select class = "form-control kt-select2"><option value="" disabled selected>Select Product</option></select>')
+                                .appendTo(
+                                    //$(column.header())
+                                    $('#div_filtersM_Product')
+                                )
+                                .on('change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                    );
+                                    column
+                                        .search(val ? '^' + val + '$' : '', true, false)
+                                        .draw();
+                                });
+                            column.data().unique().sort().each(function (d, j) {
+                                select.append('<option value="' + d + '">' + d + '</option>')
+                            });
+                        }  //end of if
+                        else if (column.index() == 0) {  //skip if column 0
+                            $(column.header()).append("<br>")
+                            var select = $('<select class = "form-control kt-select2"><option value="" disabled selected>Select Account</option></select>')
+                                .appendTo(
+                                    //$(column.header())
+                                    $('#div_filtersM_Account')
+                                )
+                                .on('change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                    );
+                                    column
+                                        .search(val ? '^' + val + '$' : '', true, false)
+                                        .draw();
+                                });
+                            column.data().unique().sort().each(function (d, j) {
+                                select.append('<option value="' + d + '">' + d + '</option>')
+                            });
+                        }
+                    });
+                }
+            });
         });
 
          function closeDetails() {
@@ -228,11 +334,11 @@
             });
         }
 
-      
 
 
 
-       
-    </script>
+
+
+</script>
 }
 

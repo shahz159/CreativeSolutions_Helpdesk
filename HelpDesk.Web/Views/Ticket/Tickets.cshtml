@@ -82,6 +82,7 @@
                             <th scope="col">Ticket No</th>
                             <th scope="col">System Id</th>
                             <th scope="col">Location</th>
+                            <th scope="col">Account</th>
                             <th scope="col">Product</th>
                             <th scope="col">Service Engineer</th>
                             <th scope="col">Report Type</th>
@@ -94,20 +95,21 @@
                         {
                             foreach (var item in Model.TicketList)
                             {
-                                <tr>
-                                    <td>@item.TicketNumber</td>
-                                    <td>@item.SystemNo</td>
-                                    <td>@item.Area</td>
-                                    <td>@item.ProductName</td>
-                                    <td>@item.FullName</td>
-                                    <td>@item.ReportTypeName</td>
-                                    <td>@item.Statustxt</td>
-                                    <td align="center">
-                                        <a href="#" onclick="TicketDetails(@item.TicketNumber)">
-                                            <i class="fa fa-eye"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                        <tr>
+                            <td>@item.TicketNumber</td>
+                            <td>@item.SystemNo</td>
+                            <td>@item.Area</td>
+                            <td>@item.AccountName</td>
+                            <td>@item.ProductName</td>
+                            <td>@item.FullName</td>
+                            <td>@item.ReportTypeName</td>
+                            <td>@item.Statustxt</td>
+                            <td align="center">
+                                <a href="#" onclick="TicketDetails(@item.TicketNumber)">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                            </td>
+                        </tr>
                             }
                         }
                     </tbody>
@@ -156,7 +158,7 @@
                 initComplete: function () {
                     this.api().columns().every(function () {
                         var column = this;
-                        if (column.index() == 5) {  //skip if column 0
+                        if (column.index() == 6) {  //skip if column 0
                             $(column.header()).append("<br>")
                             var select = $('<select class = "form-control kt-select2"><option value="" disabled selected>Select Ticket Type</option></select>')
                                 .appendTo(
@@ -176,7 +178,7 @@
                                 select.append('<option value="' + d + '">' + d + '</option>')
                             });
                         }  //end of if div_filters_ticket type 
-                         if (column.index() == 6) {  //skip if column 0
+                         if (column.index() == 7) {  //skip if column 0
                             $(column.header()).append("<br>")
                             var select = $('<select class = "form-control kt-select2"><option value="" disabled selected>Select Status</option></select>')
                                 .appendTo(

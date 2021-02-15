@@ -7,8 +7,9 @@
         <tr>
             <th>Ticket No</th>
             <th>Date</th>
+            <th>Account</th>
             <th>Modal No</th>
-            <th>Priority</th>
+            <th>Service Engineer</th>
             <th>Status</th>
             <th>Actions</th>
         </tr>
@@ -21,9 +22,11 @@
                 <tr>
                     <td>@item.TicketNumber</td>
                     <td>@item.CreatedOn.ToString("dd-MM-yyyy HH:mm")</td>
+                    <td>@item.AccountName</td>
                     <td>@item.ModelName</td>
                     <td>
-                        @if (item.Priority == "L")
+                        @item.FullName
+                        @*@if (item.Priority == "L")
                         {
                             <div class="label label-table label-info">Low</div>
                         }
@@ -34,7 +37,7 @@
                         else if (item.Priority == "H")
                         {
                             <div class="label label-table label-primary">High</div>
-                        }
+                        }*@
                     </td>
                     <td>@item.Statustxt</td>
                     <td align="center">

@@ -49,5 +49,20 @@ namespace HelpDesk.API.DTO_s
         public string EngineerEmail { get; set; }
         public string EngineerFullName { get; set; }
         public long AMModelId { get; set; }
+        public string CreatedDateStr { get; set; }
+        public string ManagerName { get; set; }
+        public string ManagerEmail { get; set; }
+        public string StatusText { get; set; }
+
+        public string SuperUserEmail { get; set; }
+        public string SuperUserName { get; set; }
+        public string SupervisorEmail { get; set; }
+        public string SupervisorName { get; set; }
+        public long SupervisorUserId { get; set; }
+        public long ServiceEngineerId { get; set; }
+
+        public string SerialNo { get; set; }
+        public string ModelName { get; set; }
+        public string StationName { get; set; }
     }
 }

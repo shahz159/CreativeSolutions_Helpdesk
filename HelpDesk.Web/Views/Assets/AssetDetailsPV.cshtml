@@ -79,6 +79,19 @@
                                                                 <td>Location</td>
                                                                 <td>@Model.Area </td>
                                                             </tr>
+                                                            <tr>
+                                                                <td>Installation Date</td>
+                                                                <td>@Model.InstallationDate.ToString("dd/MM/yyyy") </td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td>Warranty Expired Date</td>
+                                                                <td>@Model.WarrantyExpiryDate.ToString("dd/MM/yyyy") </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>POContract</td>
+                                                                <td>@Model.POContract </td>
+                                                            </tr>
                                                         </table>
                                                     </div>
                                                 </div>
@@ -161,6 +174,48 @@
                                                                         <tr class="bg-light">
                                                                             <td> Location</td>
                                                                             <td>@item.Area </td>
+                                                                        </tr>
+                                                                    }
+                                                                    if (Model.InstallationDate == item.InstallationDate)
+                                                                    {
+                                                                        <tr>
+                                                                            <td>Installation Date</td>
+                                                                            <td>@item.InstallationDate.ToString("dd/MM/yyyy") </td>
+                                                                        </tr>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <tr class="bg-light">
+                                                                            <td> Installation Date</td>
+                                                                            <td>@item.InstallationDate.ToString("dd/MM/yyyy") </td>
+                                                                        </tr>
+                                                                    }
+                                                                    if (Model.WarrantyExpiryDate == item.WarrantyExpiryDate)
+                                                                    {
+                                                                        <tr>
+                                                                            <td>WarrantyExpiryDate Date</td>
+                                                                            <td>@item.WarrantyExpiryDate.ToString("dd/MM/yyyy") </td>
+                                                                        </tr>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <tr class="bg-light">
+                                                                            <td> WarrantyExpiryDate Date</td>
+                                                                            <td>@item.WarrantyExpiryDate.ToString("dd/MM/yyyy") </td>
+                                                                        </tr>
+                                                                    }
+                                                                    if (Model.POContract == item.POContract)
+                                                                    {
+                                                                        <tr>
+                                                                            <td>POContract</td>
+                                                                            <td>@item.POContract</td>
+                                                                        </tr>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <tr class="bg-light">
+                                                                            <td> POContract</td>
+                                                                            <td>@item.POContract </td>
                                                                         </tr>
                                                                     }
                                                                 }
@@ -300,10 +355,12 @@
                                                         @if (Model.IsContract == true)
                                                         {
                                                             <p>Yes</p>
+                                                            <input type="hidden" id="hdnIsContractType" value="1" />
                                                         }
                                                         else
                                                         {
                                                             <p>No</p>
+                                                            <input type="hidden" id="hdnIsContractType" value="0" />
                                                         }
                                                         @*<input class="form-control" type="text" value="@Model.IsContract" disabled>*@
                                                     </div>
@@ -367,7 +424,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="kt-portlet__head kt-portlet__head--lg">
                         <div class="kt-portlet__head-label">
                             <span class="kt-portlet__head-icon">
@@ -377,31 +433,59 @@
                                 Editable
                             </h3>
                         </div>
-
-
                     </div>
                     <div class="kt-portlet__body kt-portlet__body--fluid kt-portlet__body--fit">
                         <div class="kt-container  kt-grid__item kt-grid__item--fluid">
                             <div class="row">
                                 <div class="col-md-12">
-
                                     <div class="kt-portlet__body all-details-view">
                                         <form class="kt-form kt-form--label-right">
                                             <div class="row">
+                                                <div class="form-group col-lg-6">
+                                                    <label class="col-form-label">Installation Date</label>
+                                                    <div class="input-group date">
+                                                        <input class="form-control" type="text" id="txtInstallationdate" value="@Model.InstallationDate.ToString("MM-dd-yyyy")">
+                                                        <div class="input-group-append">
+                                                            <span class="input-group-text">
+                                                                <i class="la la-calendar-check-o"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                @if (Model.IsContract == true)
+                                                {
+                                                    <div class="form-group col-lg-6">
+                                                        <label class="col-form-label">PO Contract</label>
+                                                        <div>
+                                                            <textarea class="form-control" id="txtpocontractEdt">@Model.POContract</textarea>
+                                                            @*<input  type="text" >*@
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-lg-6">
+                                                        <label class="col-form-label">Warranty Contract Expiry Date</label>
+                                                        <div class="input-group date">
+                                                            <input class="form-control" type="text" id="txtwarrantydate" value="@Model.WarrantyExpiryDate.ToString("MM-dd-yyyy")">
+                                                            <div class="input-group-append">
+                                                                <span class="input-group-text">
+                                                                    <i class="la la-calendar-check-o"></i>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
                                                 <div class="form-group col-lg-6">
                                                     <label class="col-form-label">Station Name</label>
                                                     <div>
                                                         <input class="form-control" id="txtstationNameE" type="text" value="@Model.StationName">
                                                     </div>
                                                 </div>
-
                                                 <div class="form-group col-lg-6">
                                                     <label class="col-form-label">Location</label>
                                                     <div>
                                                         <input class="form-control" id="txtlocationE" type="text" value="@Model.Area">
                                                     </div>
                                                 </div>
-
                                                 <div class="form-group col-lg-6">
                                                     <label class="col-form-label">Select Region</label>
                                                     <div>
@@ -444,7 +528,6 @@
                                                         </select>
                                                     </div>
                                                 </div>
-
                                                 @if (Model.RoleId == 502)
                                                 {
                                                     <div class="form-group col-md-12">
@@ -453,7 +536,6 @@
                                                             <a href="#" onclick="AddUpdatedDetails()" class="btn btn-success">Submit</a>
                                                         </div>
                                                     </div>
-
                                                     <div class="col-lg-12 p-4 mb-4" style="border: 1px solid #ccc;">
                                                         <h3>Add Models</h3>
                                                         <div class="row">
@@ -525,17 +607,14 @@
                                                         </div>
                                                     </div>
                                                     <input type="hidden" id="hdnIpAddress" value="@Model.IPAddress" />
-
                                                 }
                                             </div>
-
                                         </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     @if (Model.PPMList.Count() > 0)
                     {
                         <div class="kt-portlet__body kt-portlet__body--fluid kt-portlet__body--fit">
@@ -605,9 +684,7 @@
                                 </div>
                             </div>
                         </div>
-
                     }
-
                 </div>
             </div>
         </div>
@@ -616,261 +693,261 @@
 <div>
     @if (Model.RoleId == 505 || Model.RoleId == 504)
     {
-    <div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
-        <!--Begin::Dashboard 3-->
-        <!--Begin::Row-->
-        <div class="row">
-            <div class="col-lg-12 col-xl-12 order-lg-1 order-xl-1">
-                <div class="kt-portlet kt-portlet--head--noborder kt-portlet--height-fluid">
-                    <div class="kt-portlet__head kt-portlet__head--lg">
-                        <div class="kt-portlet__head-label">
-                            <span class="kt-portlet__head-icon">
-                                <i class="kt-font-brand flaticon2-line-chart"></i>
-                            </span>
-                            <h3 class="kt-portlet__head-title">
-                                Non-Editable
-                            </h3>
-                        </div>
-                        @if (Model.RoleId == 501 && Model.EditMode == true)
-                        {
-
-                        }
-                        else
-                        {
-                            <div class="kt-portlet__head-toolbar">
-                                <div class="kt-portlet__head-wrapper">
-                                    @if (Model.RoleId == 501)
-                                    {
-                                        if (Model.IsApproved == false && Model.IsRejected == false)
-                                        {
-                                            <a href="#" onclick="UpdateStatus(1)" class="btn btn-brand btn-elevate btn-icon-sm">
-                                                <i class="la la-check"></i>
-                                                Approve
-                                            </a>
-                                            <a href="#" onclick="UpdateStatus(2)" class="btn btn-danger btn-elevate btn-icon-sm">
-                                                <i class="la la-close"></i>
-                                                Reject
-                                            </a>
-                                        }
-                                        else if (Model.IsApproved == true)
-                                        {
-                                            <i class="btn btn-brand btn-elevate btn-icon-sm">
-                                                <i class="la la-check"></i>
-                                                Approved
-                                            </i>
-                                        }
-                                        else if (Model.IsRejected == true)
-                                        {
-                                            <i class="btn btn-danger btn-elevate btn-icon-sm">
-                                                <i class="la la-close"></i>
-                                                Rejected
-                                            </i>
-                                        }
-                                    }
-                                </div>
+        <div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
+            <!--Begin::Dashboard 3-->
+            <!--Begin::Row-->
+            <div class="row">
+                <div class="col-lg-12 col-xl-12 order-lg-1 order-xl-1">
+                    <div class="kt-portlet kt-portlet--head--noborder kt-portlet--height-fluid">
+                        <div class="kt-portlet__head kt-portlet__head--lg">
+                            <div class="kt-portlet__head-label">
+                                <span class="kt-portlet__head-icon">
+                                    <i class="kt-font-brand flaticon2-line-chart"></i>
+                                </span>
+                                <h3 class="kt-portlet__head-title">
+                                    Non-Editable
+                                </h3>
                             </div>
-                            <a href="#" onclick="closeDetails()" class="details-close-button btn btn-danger btn-sm btn-icon btn-circle position-absolute">
-                                <i class="la la-close"></i>
-                            </a>
-                        }
-                    </div>
-                    <div class="kt-portlet__body kt-portlet__body--fluid kt-portlet__body--fit">
-                        <div class="kt-container  kt-grid__item kt-grid__item--fluid">
-                            <div class="row">
-                                <div class="col-md-12 pt-3 d-flex justify-content-between">
-                                    <h4><small>Created By : </small>@Model.FullName</h4>
-                                    <h4><small>Created On : </small>@Model.CreatedOn.ToString("dd-MM-yyyy HH:mm")</h4>
-                                </div>
-                                <div class="col-md-12">
-                                    <form class="kt-form kt-form--label-right">
-                                        <div class="kt-portlet__body all-details-view pt-1">
-                                            <div class="row">
-                                                <div class="form-group col-lg-6">
-                                                    <label class="col-form-label">Account</label>
-                                                    <div>
-                                                        <input class="form-control" type="text" value="@Model.AccountName" disabled>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group col-lg-6">
-                                                    <label class="col-form-label">Product</label>
-                                                    <div>
-                                                        <select class="form-control kt-select2" id="ddlproductE" onchange="BindModels()" disabled>
-                                                            @if (Model.ProductList != null)
-                                                            {
-                                                                foreach (var item in Model.ProductList)
-                                                                {
-                                                                    if (Model.ProductId == item.ProductId)
-                                                                    {
-                                                                        <option value="@item.ProductId" selected>@item.ProductName</option>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <option value="@item.ProductId">@item.ProductName</option>
-                                                                    }
-                                                                }
-                                                            }
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group col-lg-6">
-                                                    <label class="col-form-label">System ID</label>
-                                                    <div>
-                                                        <input class="form-control" type="text" value="@Model.SystemNo" disabled>
-                                                    </div>
-                                                </div>
+                            @if (Model.RoleId == 501 && Model.EditMode == true)
+                            {
 
-                                                <div class="form-group col-lg-6">
-                                                    <label class="col-form-label">Installation Date</label>
-                                                    <div>
-                                                        <input class="form-control" type="text" value="@Model.InstallationDate.ToString("dd-MM-yyyy")" disabled>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group col-lg-6">
-                                                    <label class="col-form-label">Is Contract</label>
-                                                    <div>
-                                                        @*<input class="form-control" type="text" value="@Model.IsContract" disabled>*@
-                                                        @if (Model.IsContract == true)
-                                                        {
-                                                            <p>Yes</p>
-                                                        }
-                                                        else
-                                                        {
-                                                            <p>No</p>
-                                                        }
-                                                    </div>
-                                                </div>
-                                                @if (Model.IsContract == true)
-                                                {
-                                                    <div class="form-group col-lg-6">
-                                                        <label class="col-form-label">Contract Type</label>
-                                                        <div>
-                                                            <input class="form-control" type="text" value="@Model.ContractTypetxt" disabled>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-lg-6">
-                                                        <label class="col-form-label">PO Contract</label>
-                                                        <div>
-                                                            <input class="form-control" type="text" value="@Model.POContract" disabled>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-lg-6">
-                                                        <label class="col-form-label">Warranty Contract Expiry Date</label>
-                                                        <div>
-                                                            <input class="form-control" type="text" value="@Model.WarrantyExpiryDate.ToString("dd-MM-yyyy")" disabled>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-lg-6">
-                                                        <label class="col-form-label">PPM-Months</label>
-                                                        <div>
-                                                            <input class="form-control" type="text" value="@Model.PPMType" disabled>
-                                                        </div>
-                                                    </div>
-                                                }
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <table class="table table-bordered mb-4">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Model</th>
-                                                                <th>Serial Number</th>
-                                                                <th>Configuration</th>
-                                                                <th>IP Address</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @foreach (var item_ast in Model.AssetModelList)
-                                                            {
-                                                                <tr>
-                                                                    <td>@item_ast.ModelName</td>
-                                                                    <td>@item_ast.SerialNo</td>
-                                                                    <td>@item_ast.Configuration</td>
-                                                                    <td>@item_ast.IPAddress</td>
-                                                                </tr>
-                                                            }
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
+                            }
+                            else
+                            {
+                                <div class="kt-portlet__head-toolbar">
+                                    <div class="kt-portlet__head-wrapper">
+                                        @if (Model.RoleId == 501)
+                                        {
+                                            if (Model.IsApproved == false && Model.IsRejected == false)
+                                            {
+                                                <a href="#" onclick="UpdateStatus(1)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                                    <i class="la la-check"></i>
+                                                    Approve
+                                                </a>
+                                                <a href="#" onclick="UpdateStatus(2)" class="btn btn-danger btn-elevate btn-icon-sm">
+                                                    <i class="la la-close"></i>
+                                                    Reject
+                                                </a>
+                                            }
+                                            else if (Model.IsApproved == true)
+                                            {
+                                                <i class="btn btn-brand btn-elevate btn-icon-sm">
+                                                    <i class="la la-check"></i>
+                                                    Approved
+                                                </i>
+                                            }
+                                            else if (Model.IsRejected == true)
+                                            {
+                                                <i class="btn btn-danger btn-elevate btn-icon-sm">
+                                                    <i class="la la-close"></i>
+                                                    Rejected
+                                                </i>
+                                            }
+                                        }
+                                    </div>
                                 </div>
-                            </div>
+                                <a href="#" onclick="closeDetails()" class="details-close-button btn btn-danger btn-sm btn-icon btn-circle position-absolute">
+                                    <i class="la la-close"></i>
+                                </a>
+                            }
                         </div>
-                    </div>
-
-                    @if (Model.PPMList.Count() > 0)
-                    {
                         <div class="kt-portlet__body kt-portlet__body--fluid kt-portlet__body--fit">
                             <div class="kt-container  kt-grid__item kt-grid__item--fluid">
                                 <div class="row">
+                                    <div class="col-md-12 pt-3 d-flex justify-content-between">
+                                        <h4><small>Created By : </small>@Model.FullName</h4>
+                                        <h4><small>Created On : </small>@Model.CreatedOn.ToString("dd-MM-yyyy HH:mm")</h4>
+                                    </div>
                                     <div class="col-md-12">
-                                        <div class="kt-form kt-form--label-right">
-                                            <div class="kt-portlet__body all-details-view">
-                                                
-                                                <div class="table-responsive">
-                                                    <table class="table table-bordered table-hover">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>PPM Date</th>
-                                                                <th>Is Done</th>
-                                                                <th>Actions</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @foreach (var item in Model.PPMList)
-                                                            {
-                                                                <tr>
-                                                                    <td>@item.isPPMDoneStr</td>
-                                                                    <td>
-                                                                        @if (item.isPPMDone == true)
+                                        <form class="kt-form kt-form--label-right">
+                                            <div class="kt-portlet__body all-details-view pt-1">
+                                                <div class="row">
+                                                    <div class="form-group col-lg-6">
+                                                        <label class="col-form-label">Account</label>
+                                                        <div>
+                                                            <input class="form-control" type="text" value="@Model.AccountName" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-lg-6">
+                                                        <label class="col-form-label">Product</label>
+                                                        <div>
+                                                            <select class="form-control kt-select2" id="ddlproductE" onchange="BindModels()" disabled>
+                                                                @if (Model.ProductList != null)
+                                                                {
+                                                                    foreach (var item in Model.ProductList)
+                                                                    {
+                                                                        if (Model.ProductId == item.ProductId)
                                                                         {
-                                                                            <div class="kt-badge kt-badge--success kt-badge--inline">
-                                                                                Yes
-                                                                            </div>
+                                                                            <option value="@item.ProductId" selected>@item.ProductName</option>
                                                                         }
                                                                         else
                                                                         {
-                                                                            <div class="kt-badge kt-badge--primary kt-badge--inline">
-                                                                                No
-                                                                            </div>
+                                                                            <option value="@item.ProductId">@item.ProductName</option>
                                                                         }
-                                                                    </td>
-                                                                    <td>
-                                                                        @if (item.TicketCreationStatus == 1 || item.TicketCreationStatus == 2)
-                                                                        {
-                                                                            if (item.TicketNumber == 0)
+                                                                    }
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-lg-6">
+                                                        <label class="col-form-label">System ID</label>
+                                                        <div>
+                                                            <input class="form-control" type="text" value="@Model.SystemNo" disabled>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group col-lg-6">
+                                                        <label class="col-form-label">Installation Date</label>
+                                                        <div>
+                                                            <input class="form-control" type="text" value="@Model.InstallationDate.ToString("dd-MM-yyyy")" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-lg-6">
+                                                        <label class="col-form-label">Is Contract</label>
+                                                        <div>
+                                                            @*<input class="form-control" type="text" value="@Model.IsContract" disabled>*@
+                                                            @if (Model.IsContract == true)
+                                                            {
+                                                                <p>Yes</p>
+                                                            }
+                                                            else
+                                                            {
+                                                                <p>No</p>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                    @if (Model.IsContract == true)
+                                                    {
+                                                        <div class="form-group col-lg-6">
+                                                            <label class="col-form-label">Contract Type</label>
+                                                            <div>
+                                                                <input class="form-control" type="text" value="@Model.ContractTypetxt" disabled>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-lg-6">
+                                                            <label class="col-form-label">PO Contract</label>
+                                                            <div>
+                                                                <input class="form-control" type="text" value="@Model.POContract" disabled>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-lg-6">
+                                                            <label class="col-form-label">Warranty Contract Expiry Date</label>
+                                                            <div>
+                                                                <input class="form-control" type="text" value="@Model.WarrantyExpiryDate.ToString("dd-MM-yyyy")" disabled>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-lg-6">
+                                                            <label class="col-form-label">PPM-Months</label>
+                                                            <div>
+                                                                <input class="form-control" type="text" value="@Model.PPMType" disabled>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <table class="table table-bordered mb-4">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Model</th>
+                                                                    <th>Serial Number</th>
+                                                                    <th>Configuration</th>
+                                                                    <th>IP Address</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (var item_ast in Model.AssetModelList)
+                                                                {
+                                                                    <tr>
+                                                                        <td>@item_ast.ModelName</td>
+                                                                        <td>@item_ast.SerialNo</td>
+                                                                        <td>@item_ast.Configuration</td>
+                                                                        <td>@item_ast.IPAddress</td>
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @if (Model.PPMList.Count() > 0)
+                        {
+                            <div class="kt-portlet__body kt-portlet__body--fluid kt-portlet__body--fit">
+                                <div class="kt-container  kt-grid__item kt-grid__item--fluid">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="kt-form kt-form--label-right">
+                                                <div class="kt-portlet__body all-details-view">
+
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>PPM Date</th>
+                                                                    <th>Is Done</th>
+                                                                    <th>Actions</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (var item in Model.PPMList)
+                                                                {
+                                                                    <tr>
+                                                                        <td>@item.isPPMDoneStr</td>
+                                                                        <td>
+                                                                            @if (item.isPPMDone == true)
                                                                             {
-                                                                                <a onclick="GetAPPMId(@item.APPMId,'@item.isPPMDoneStr')" data-toggle="modal" data-target="#PPmTicketModal" href="#">
-                                                                                    <i class="la la-ticket la-2x"></i>
-                                                                                </a>
+                                                                                <div class="kt-badge kt-badge--success kt-badge--inline">
+                                                                                    Yes
+                                                                                </div>
                                                                             }
                                                                             else
                                                                             {
-                                                                                <a>Ticket Assigned</a>
+                                                                                <div class="kt-badge kt-badge--primary kt-badge--inline">
+                                                                                    No
+                                                                                </div>
                                                                             }
-                                                                        }
-                                                                        @*|
-                                                                        <a href="#" onclick="GetAPPMId(@item.APPMId,'@item.isPPMDoneStr')" data-toggle="modal" data-target="#kt_modal_4_2">
-                                                                            <i class="fa fa-edit la-2x"></i>
-                                                                        </a>*@
-                                                                    </td>
-                                                                </tr>
-                                                            }
-                                                        </tbody>
-                                                    </table>
+                                                                        </td>
+                                                                        <td>
+                                                                            @if (item.TicketCreationStatus == 1 || item.TicketCreationStatus == 2)
+                                                                            {
+                                                                                if (item.TicketNumber == 0)
+                                                                                {
+                                                                                    <a onclick="GetAPPMId(@item.APPMId,'@item.isPPMDoneStr')" data-toggle="modal" data-target="#PPmTicketModal" href="#">
+                                                                                        <i class="la la-ticket la-2x"></i>
+                                                                                    </a>
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <a>Ticket Assigned</a>
+                                                                                }
+                                                                            }
+                                                                            @*|
+                                                                                <a href="#" onclick="GetAPPMId(@item.APPMId,'@item.isPPMDoneStr')" data-toggle="modal" data-target="#kt_modal_4_2">
+                                                                                    <i class="fa fa-edit la-2x"></i>
+                                                                                </a>*@
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    }
+                        }
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     }
 </div>
 <input type="hidden" id="hdnAssetId" value="@Model.AMId" />
@@ -882,8 +959,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Update Shedule</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                </button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form>
@@ -915,8 +991,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">PPM Ticket</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                </button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form>
@@ -956,10 +1031,19 @@
 
 <input type="hidden" id="hdnProductId" value="@Model.ProductId" />
 <input type="hidden" id="hdnAccountId" value="@Model.AccountId" />
-
-<script src="~/assets/js/bootstrap-datepicker.js"></script>
-<script src="~/assets/js/select2.js"></script>
-<script>
+ 
+    <script src="~/assets/js/bootstrap-datepicker.js"></script>
+    <script>
+    //$(document).ready(function () {
+    //});
+        $('#txtInstallationdate,#txtwarrantydate').datepicker({
+            rtl: KTUtil.isRTL(),
+            todayHighlight: true,
+            orientation: "bottom left",
+            autoclose: true 
+        });
+        $('#ddlcityE,#ddlregionE').select2({
+        });
     function isNumberKey(evt) {
         //var e = evt || window.event;
         var charCode = (evt.which) ? evt.which : evt.keyCode
@@ -970,7 +1054,7 @@
     function AddMoreModels(AMID) {
         var val = 0;
 
-        var ModelId = $('#ddlModelE').val();    
+        var ModelId = $('#ddlModelE').val();
         if (ModelId == 0 || ModelId == null) {
             val = 1;
             $('#spn_ddlModel').show();
@@ -1059,6 +1143,7 @@
                         'success'
                     );
                     ViewAssetDetails($('#hdnAMId').val());
+                    $('#loader').hide();
                 }
                 else {
                     Swal.fire({
@@ -1141,5 +1226,6 @@
             }
         });
     }
-</script>
+    </script>
 
+ 

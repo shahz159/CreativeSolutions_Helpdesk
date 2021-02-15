@@ -1,10 +1,10 @@
 ﻿@model HelpDesk.Web.Models.AssetsDTO
 
 @{
-                /**/
+    /**/
 
-                ViewBag.Title = "Assets";
-                Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Assets";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @section  Styles{
@@ -132,6 +132,7 @@
 
 @section  Scripts{
     <script src="~/assets/js/datatables.bundle.js"></script>
+    <script src="~/assets/js/select2.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.1/jquery.twbsPagination.min.js"></script>
     <script>
         $('#loader').hide();
@@ -140,6 +141,7 @@
             //set initial state.
             $('#ddlAccounts,#ddlProduct').select2({
             });
+            
         });
 
         $('#txtsearch').keypress(function (event) {
@@ -159,7 +161,7 @@
         });
 
         function BindAssets() {
-            
+
             var accountId = $('#ddlAccounts').val();
             if (accountId == undefined || accountId == "") {
                 accountId = 0
@@ -173,10 +175,25 @@
         }
 
         //$(document).ready(function () {
-            
+
         //    AssetList(1, 0, 0)
         //});
         var pNO = $('#hdnTotalRecords').val();
+        //alert(pNO);
+
+        if (pNO == 1) {
+            var accountId = $('#ddlAccounts').val();
+            if (accountId == undefined || accountId == "") {
+                accountId = 0
+            }
+            var productId = $('#ddlProduct').val();
+            if (productId == undefined || productId == "") {
+                productId = 0
+            }
+            var search = $('#txtsearch').val();
+            AssetList(1, accountId, productId, search)
+        }
+
         $('#pagination-demo').twbsPagination({
             totalPages: pNO,
             visiblePages: 6,
@@ -225,7 +242,7 @@
                 }
             });
         }
-      
+
         //var KTDatatablesBasicPaginations = function () {
         //    var initTable1 = function () {
         //        var table = $('#kt_table_1');
@@ -389,8 +406,36 @@
             //    alert('Fields required');
             //    return false;
             //}
+            var InstallationDate = $('#txtInstallationdate').val();
+            if (InstallationDate == '' || InstallationDate == null) {
+                alert('Fields required');
+                return false;
+            }
+            var WarrantyExpiryDate = null;
+            var POContract = null;
+            var IsContract = $('#hdnIsContractType').val();
+            if (IsContract == 1) {
+                WarrantyExpiryDate = $('#txtwarrantydate').val();
+                if (WarrantyExpiryDate == '' || WarrantyExpiryDate == null) {
+                    alert('Fields required');
+                    return false;
+                }
 
-
+                POContract = $('#txtpocontractEdt').val();
+                if (POContract == '' || POContract == null) {
+                    alert('Fields required');
+                    return false;
+                }
+                IsContract = true;
+            }
+            else {
+                IsContract = false;
+            }
+            //else {
+            //    WarrantyExpiryDate = new Date();
+            //    POContract = '';
+            //}
+            
          var AMId = $('#hdnAMId').val();
         $.ajax({
             type: "Post",
@@ -405,7 +450,11 @@
                 StationName: StationName,
                 Area: Area,
                 //IPAddress: IPAddress,
-                AMId: AMId
+                AMId: AMId,
+                InstallationDate: InstallationDate,
+                WarrantyExpiryDate: WarrantyExpiryDate,
+                POContract: POContract,
+                IsContract: IsContract
                 //SerialNo: SerialNumber
             },
             success: function (data) {
