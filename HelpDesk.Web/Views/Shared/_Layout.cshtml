@@ -299,14 +299,30 @@
                                                                     var cnt = objlt.Where(x => x.ParentId == item.MenuId).ToList();
                                                                     foreach (var subitem in cnt)
                                                                     {
-                                                                        <li class="kt-menu__item">
-                                                                            <a href="@Url.Action(subitem.ActionName,subitem.ControllerName)" class="kt-menu__link">
-                                                                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot">
-                                                                                    <span></span>
-                                                                                </i>
-                                                                                <span class="kt-menu__link-text">@subitem.MenuName</span>
-                                                                            </a>
-                                                                        </li>
+                                                                        if (item.MenuId == 1039)
+                                                                        {
+                                                                            <li class="kt-menu__item">
+                                                                                <a href="@Url.Action(subitem.ActionName,subitem.ControllerName)" target="_blank" class="kt-menu__link">
+                                                                                    <i class="kt-menu__link-bullet kt-menu__link-bullet--dot">
+                                                                                        <span></span>
+                                                                                    </i>
+                                                                                    <span class="kt-menu__link-text">@subitem.MenuName</span>
+                                                                                </a>
+                                                                            </li>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <li class="kt-menu__item">
+                                                                                <a href="@Url.Action(subitem.ActionName,subitem.ControllerName)" class="kt-menu__link">
+                                                                                    <i class="kt-menu__link-bullet kt-menu__link-bullet--dot">
+                                                                                        <span></span>
+                                                                                    </i>
+                                                                                    @*@Html.ActionLink(subitem.MenuName, subitem.ActionName, subitem.ControllerName, null, new { target = "_blank", @class = "kt-menu__link-text" })*@
+                                                                                    <span class="kt-menu__link-text">@subitem.MenuName</span>
+                                                                                </a>
+                                                                            </li>
+                                                                        }
+
                                                                     }
                                                                 }
                                                             </ul>

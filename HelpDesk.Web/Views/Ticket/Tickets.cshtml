@@ -25,9 +25,9 @@
                             New Ticket
                         </a>
                     </div>
-                    <div class="kt-portlet__head-actions">
+                    @*<div class="kt-portlet__head-actions">
                          <a href="#" onclick="GetCrmRawDataReport()">View Report</a>
-                    </div>
+                    </div>*@
                 </div>
             </div>
 
@@ -242,9 +242,9 @@
                   var URL = '@System.Configuration.ConfigurationManager.AppSettings["clienturl"]DailyReport/GetProjectList/';
                 window.open(URL);
         }*@
-        function GetCrmRawDataReport() {
-            window.open("http://localhost:1599/Ticket/GetProjectList/");
-        }
+        //function GetCrmRawDataReport() {
+        //    window.open("http://localhost:1599/Ticket/GetProjectList/");
+        //}
     </script>
 }
 
