@@ -1015,6 +1015,17 @@
                         <label for="message-text" class="form-control-label">Description:</label>
                         <h2 id="date_header"> Auto Generated PPM Ticket. </h2>
                     </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div id="Info_div" style="display:none" class="card card-custom bg-danger card-stretch gutter-b">
+                                <div class="card-body">
+                                    <span class="card-title font-weight-bolder text-white font-size-h2 mb-0 mt-6 d-block">System Manger is not Assigned for the selected Asset.</span>
+                                    <span class="font-weight-bold text-white font-size-sm">For more Info Please Contact Arabian HelpDesk Team.</span>
+                                </div>
+                                <!--end::Body-->
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -1127,38 +1138,66 @@
         var AccountId = $('#hdnAccountId').val();
         var ProductId = $('#hdnProductId').val();
 
+          $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SystemManagerId")', // we are calling json method
+                dataType: 'json',
+                data: { ProductId: ProductId, AccountId: AccountId },
+              success: function (data) {
+                  var SysId = data.SystemManagerId;
+                    //alert(data.SystemManagerId)
+                    if (data.SystemManagerId == 0) {
+                        $('#btn_div').hide();
+                        $('#Info_div').show();
+                    }
+                    else if (data.SystemManagerId != 0) {
+                        $('#btn_div').show();
+                        $('#Info_div').hide();
+                        $.ajax({
+                            type: "Post",
+                            url: '@Url.Action("NewTicket")',
+                            datatype: "json",
+                            data: { APPMId: APPMId, AMId: AMId, AccountId: AccountId, ProductId: ProductId, SystemManagerId: SysId },
+                            success: function (data) {
+                                var v = data.success;
+                                if (v == true) {
+                                    $('#PPmTicketModal').modal('toggle');
+                                    Swal.fire(
+                                        'Request!',
+                                        'Sent Successfully',
+                                        'success'
+                                    );
+                                    ViewAssetDetails($('#hdnAMId').val());
+                                    $('#loader').hide();
+                                }
+                                else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Oops...',
+                                        text: 'Something went wrong!'
+                                    });
+                                }
+                                document.getElementById("loader").style.display = "none";
+                            },
+                            error: function () {
+                                $('#loader').hide();
+                                document.getElementById("loader").style.display = "none";
+                            }
+                        });
+                    }
+                    $('#hdnSystemManagerId').val(data.SystemManagerId);
+                    document.getElementById("loader").style.display = "none";
+                  //  alert($('#ddlProduct').text());
+                },
+                error: function (ex) {
+                    document.getElementById("loader").style.display = "none";
+                    $('#hdnSystemManagerId').val(0);
+                    //alert('Failed to retrieve accounts.' + ex);
+                }
+            });
 
-         $.ajax({
-            type: "Post",
-            url: '@Url.Action("NewTicket")',
-            datatype: "json",
-            data: { APPMId: APPMId, AMId: AMId,AccountId:AccountId,ProductId:ProductId },
-            success: function (data) {
-                var v = data.success;
-                if (v == true) {
-                    $('#PPmTicketModal').modal('toggle');
-                    Swal.fire(
-                        'Request!',
-                        'Sent Successfully',
-                        'success'
-                    );
-                    ViewAssetDetails($('#hdnAMId').val());
-                    $('#loader').hide();
-                }
-                else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Something went wrong!'
-                    });
-                }
-                document.getElementById("loader").style.display = "none";
-            },
-             error: function () {
-                 $('#loader').hide();
-                document.getElementById("loader").style.display = "none";
-            }
-        });
+
+        
     }
 
      function UpdatePPMScheduleDate() {
