@@ -265,5 +265,14 @@ namespace HelpDesk.API.Controllers
             return Ok(result);
         }
         #endregion
+
+        #region Report
+        [ResponseType(typeof(TicketDTO))]
+        public IHttpActionResult NewCrmRawData(TicketDTO obj)
+        {
+            var result = service.CrmRawData(obj);
+            return Ok(result);
+        }
+        #endregion
     }
 }

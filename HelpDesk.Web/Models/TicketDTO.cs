@@ -152,6 +152,26 @@ namespace HelpDesk.Web.Models
         public string ManagerMobile { get; set; }
         public string ManagerEmail { get; set; }
 
+        public IEnumerable<TicketDTO> RawDataReportList { get; set; }
+        public string CreatedByName { get; set; }
+        public string Duration { get; set; }
+        public string ClosedName { get; set; }
+        public string RequestMethod { get; set; }
+        public string RequestType { get; set; }
+        public string AccountPhones { get; set; }
+        public string ContactName { get; set; }
+        public string ContactPhones { get; set; }
+        public string AddressName { get; set; }
+        public string RequestMainStatus { get; set; }
+        public string RequestNotes { get; set; }
+        public string Action { get; set; }
+        public string EngineerName { get; set; }
+        public string EngineerAssignedDate { get; set; }
+        public string EngineerClosedDate { get; set; }
+        public string ServiceReportId { get; set; }
+        public string Configuration { get; set; }
+        public string ClosedDate { get; set; }
+       
     }
 }
 

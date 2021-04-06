@@ -445,6 +445,18 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
+        public SqlDataReader CrmRawData(TicketDTO obj)
+        {
+            try
+            {
+                return DbConnector.ExecuteReader("uspCRMRawDataReport", null);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "TicketModel -> CrmRawData");
+                return null;
+            }
+        }
     }
 
     public interface ITicketModel
@@ -478,6 +490,7 @@ namespace HelpDesk.API.DataAccess
 
         SqlDataReader AddEnquirycomments(TicketDTO obj);
         SqlDataReader AddEnquiry(TicketDTO obj);
+        SqlDataReader CrmRawData(TicketDTO obj);
     }
 }
 

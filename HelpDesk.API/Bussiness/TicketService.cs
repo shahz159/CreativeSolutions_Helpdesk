@@ -713,6 +713,30 @@ namespace HelpDesk.API.Bussiness
             return obj;
         }
 
+
+        public TicketDTO CrmRawData(TicketDTO obj)
+        {
+            try
+            {
+                var data = model.CrmRawData(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["JsonData"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
+
     }
 
     public interface ITicketService
@@ -745,5 +769,6 @@ namespace HelpDesk.API.Bussiness
 
         TicketDTO GetTicketDetails(TicketDTO obj);
         TicketDTO GetSparePartListById(TicketDTO obj);
+        TicketDTO CrmRawData(TicketDTO obj);
     }
 }
