@@ -581,7 +581,6 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
-
         public async Task<ActionResult> PPMDateUpdateAssetStatus(int statusid, long UpdatedId)
         {
             string ses = Convert.ToString(Session["SSUserId"]);
@@ -715,7 +714,6 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
-
         public async Task<ActionResult> PPMDatesApproval()
         {
             string ses = Convert.ToString(Session["SSUserId"]);
@@ -804,7 +802,6 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
-
         public async Task<ActionResult> AddUpdatingAssetDetails(AssetsDTO obj)
         {
             string ses = Convert.ToString(Session["SSUserId"]);
@@ -885,7 +882,6 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
-
         public async Task<ActionResult> UpdatePPMSchedule(AssetsDTO obj)
         {
             string ses = Convert.ToString(Session["SSUserId"]);
@@ -923,6 +919,54 @@ namespace HelpDesk.Web.Controllers
                     catch (Exception ex)
                     {
                         return Json(new { success = false });
+                    }
+                }
+            }
+        }
+        public async Task<ActionResult> SystemManagerId(int ProductId, int AccountId)
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        long CreatedBy = long.Parse(Session["SSUserId"].ToString());
+                        int roleid = int.Parse(Session["SSRoleId"].ToString());
+
+                        TicketDTO obj = new TicketDTO();
+                        obj.CreatedBy = CreatedBy;
+                        obj.ProductId = ProductId;
+                        obj.AccountId = AccountId;
+
+                        HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/TicketsAPI/NewSystemManagerId", obj);
+                        if (responseMessage.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                            var docs = JsonConvert.DeserializeObject<TicketDTO>(responseData);
+                            if (roleid == 504)
+                            {
+                                obj.SystemManagerId = int.Parse(CreatedBy.ToString());
+                            }
+                            else
+                            {
+                                obj.SystemManagerId = docs.SystemManagerId;
+                            }
+
+
+                        }
+                        return Json(new { SystemManagerId = obj.SystemManagerId });
+                    }
+                    catch (Exception ex)
+                    {
+                        TicketDTO obj = new TicketDTO();
+                        return Json(obj.ModelList);
                     }
                 }
             }
@@ -982,7 +1026,6 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
-
         public async Task<ActionResult> RenewalAssets()
         {
             string ses = Convert.ToString(Session["SSUserId"]);
@@ -1105,7 +1148,6 @@ namespace HelpDesk.Web.Controllers
             obj.AMId = amid;
             return PartialView("RenewalAssetDetailsPV", obj);
         }
-
         [HttpPost]
         public async Task<ActionResult> NewAssestRenewalRequest(AssetsDTO obj)
         {
