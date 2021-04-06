@@ -1,6 +1,8 @@
 ﻿using HelpDesk.Web.Handlers;
 using HelpDesk.Web.Models;
+using Microsoft.Reporting.WebForms;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -1159,7 +1161,7 @@ namespace HelpDesk.Web.Controllers
                                             SerialNo = dataRow.Field<string>("SerialNo"),
                                             CreatedOn = dataRow.Field<DateTime>("CreatedOn"),
                                             FullName = dataRow.Field<string>("FullName")
-                                            
+
                                         }).ToList();
                                         obj.TicketList = tickettlst;
                                     }
@@ -2268,5 +2270,52 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
+
+        #region Report
+        public async Task<ActionResult> GetProjectList()
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                CommonHeader.setHeaders(client);
+                try
+                {
+                    TicketDTO obj = new TicketDTO();
+
+                    HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/TicketsAPI/NewCrmRawData", obj);
+                    if (responseMessage.IsSuccessStatusCode)
+                    {
+                        var response = JObject.Parse(responseMessage.Content.ReadAsStringAsync().Result);
+                        var Data = response.SelectToken("message");
+                        var lstReportLists = JsonConvert.DeserializeObject<List<TicketDTO>>(Data.ToString());
+
+                        List<TicketDTO> RawDetails = new List<TicketDTO>();
+                        if (response != null)
+                        {
+                            //var CategoryData = response.SelectToken("message");
+
+                            if (lstReportLists != null)
+                            {
+                                obj.RawDataReportList = lstReportLists;
+                            }
+                            ReportViewer reportViewer = new ReportViewer();
+                            reportViewer.ProcessingMode = ProcessingMode.Local;
+                            reportViewer.SizeToReportContent = true;
+                            reportViewer.LocalReport.ReportPath = Server.MapPath("~/Reports/CRMRawdataReport.rdlc");
+
+                            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("RawDataReportDS", obj.RawDataReportList));
+                            ViewBag.ReportViewer = reportViewer;
+
+                        }
+                    }
+                    return View();
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction("Error");
+                }
+            }
+
+        }
+        #endregion
     }
 }

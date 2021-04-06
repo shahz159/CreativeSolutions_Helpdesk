@@ -25,8 +25,12 @@
                             New Ticket
                         </a>
                     </div>
+                    <div class="kt-portlet__head-actions">
+                         <a href="#" onclick="GetCrmRawDataReport()">View Report</a>
+                    </div>
                 </div>
             </div>
+
         </div>
         <div class="kt-portlet__body">
             <!--begin: Search Form -->
@@ -233,6 +237,13 @@
         function closeDetails() {
             $('#Upper_div').show();
             $('#ticket_details').hide();
+        }
+          @*function GetCrmRawDataReport() {
+                  var URL = '@System.Configuration.ConfigurationManager.AppSettings["clienturl"]DailyReport/GetProjectList/';
+                window.open(URL);
+        }*@
+        function GetCrmRawDataReport() {
+            window.open("http://localhost:1599/Ticket/GetProjectList/");
         }
     </script>
 }
