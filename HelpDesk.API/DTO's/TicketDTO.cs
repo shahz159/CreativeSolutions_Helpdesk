@@ -64,5 +64,6 @@ namespace HelpDesk.API.DTO_s
         public string SerialNo { get; set; }
         public string ModelName { get; set; }
         public string StationName { get; set; }
+        public string TicketClosedDate { get; set; }
     }
 }

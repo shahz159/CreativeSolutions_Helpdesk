@@ -358,7 +358,6 @@ namespace HelpDesk.API.DataAccess
             }
         }
 
-        
         public string GetServiceEngineerTicketsFilerts(TicketDTO obj)
         {
             try

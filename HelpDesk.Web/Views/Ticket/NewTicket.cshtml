@@ -194,19 +194,13 @@ new { id = "ddlModels", @class = "form-control select2-allow-clear", @onchange =
             </div>
             <!--end:: Widgets/Trends-->
         </div>
-
         <input type="hidden" id="hdnRoleId" value="@Model.RoleId" />
         @Html.HiddenFor(m => m.SystemManagerId, new { id = "hdnSystemManagerId" })
         @*<input type="hidden" id="hdnSystemManagerId" value="0" />*@
         <input type="hidden" id="hdnProductId" value="0" />
-
+        <input type="hidden" id="hdnAccountId" value="0" />
     }
 </div>
-
-
-
-
-
 @section Scripts{
     <script src="~/assets/js/select2.js"></script>
     <script>
@@ -218,8 +212,12 @@ new { id = "ddlModels", @class = "form-control select2-allow-clear", @onchange =
             //var ProductId = $('#hdnProductId').val();
             var AccountId = 0;
             var roleid = $('#hdnRoleId').val();
-            if (roleid != 504 & roleid !=503) {
+            if (roleid != 504 & roleid != 503) {
                 AccountId = $('#ddlAccounts').val();
+            }
+            else {
+                
+                AccountId = $('#hdnAccountId').val();
             }
             document.getElementById("loader").style.display = "block";
             $.ajax({
@@ -266,12 +264,11 @@ new { id = "ddlModels", @class = "form-control select2-allow-clear", @onchange =
                     $('#spn_ProductName').html(data.ProductName);
                     $('#spn_ModelName').html(data.ModelName);
                     $('#hdnProductId').val(data.ProductId);
+                    $('#hdnAccountId').val(data.AccountId);
                     GetSystemManager(data.ProductId);
                     //$('#ddlProduct').val(data.ProductId).trigger('change');
                     // $("#ddlProduct").prop("disabled", true);
                     document.getElementById("loader").style.display = "none";
-
-                   
                 },
                 error: function (ex) {
                     document.getElementById("loader").style.display = "none";
