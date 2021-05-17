@@ -76,6 +76,7 @@ namespace HelpDesk.Web.Models
         public long UserId { get; set; }
         public string SerialNo { get; set; }
         public DateTime CreatedOn { get; set; }
+        public string CreatedOnNew { get; set; }
         public string CompanyName { get; set; }
         public string RequestResponseStr { get; set; }
         public string ActualStartTime { get; set; }
@@ -172,6 +173,10 @@ namespace HelpDesk.Web.Models
         public string ServiceReportId { get; set; }
         public string Configuration { get; set; }
         public string ClosedDate { get; set; }
+        public string CreatedandScheduleDuration { get; set; }
+        public string ScheduleandActualRespocsetimeDuration { get; set; }
+        public string ResolvedtoCloseDate { get; set; }
+        public string ScheduleTime { get; set; }
        
     }
 }
