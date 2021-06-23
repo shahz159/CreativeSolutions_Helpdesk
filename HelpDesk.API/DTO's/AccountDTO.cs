@@ -7,6 +7,8 @@ namespace HelpDesk.API
 {
     public class AccountDTO
     {
+
+
         public string message { get; set; }
         public int AccountId { get; set; }
         public string AccountCode { get; set; }
