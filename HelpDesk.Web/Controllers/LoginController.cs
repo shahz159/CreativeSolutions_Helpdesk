@@ -278,5 +278,13 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
+
+        public ActionResult Enquiry()
+        {
+            UserDTO obj = new UserDTO();
+            obj.RoleId = 503;
+            obj.CompanyId = 10;
+            return View(obj);
+        }
     }
 }

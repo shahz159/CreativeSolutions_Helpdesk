@@ -1,12 +1,16 @@
 ﻿using HelpDesk.API.Bussiness;
 using HelpDesk.API.DTO_s;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Xml;
 
 namespace HelpDesk.API.Controllers
 {
@@ -25,8 +29,66 @@ namespace HelpDesk.API.Controllers
         [ResponseType(typeof(TicketDTO))]
         public IHttpActionResult NewInsertTicketRequest(TicketDTO obj)
         {
+            obj.IsMobile = false;
             var result = service.InsertTicketRequest(obj);
             return Ok(result);
+        }
+
+        [ResponseType(typeof(TicketDTO))]
+        public IHttpActionResult NewInsertTicketRequestM(TicketDTO obj)
+        {
+//            "TicketDocuments":{
+//                "FileName":"1953shirtsb3.jpeg",
+//"Base64FileData":"/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aG9KNuTjvQAsnTHvUdSSc4PqT/OmD3pAFJS0lMBaBRSigDZ8J2ou/EFojDKq28/8AARn+letV5v8AD2Pfrrv/AHIWP6gV6TUPcYUUUUgCiiigAooooAKKKKACiiigAooooA//2Q==",
+//"FileUploadLocation":"/ProfilePicture/",
+//"FileURLLocation":null
+//}
+
+            if (obj.TicketDocuments != null)
+            {
+                obj.TicketDocuments = Utils.Common.UploadFile(obj.TicketDocuments);
+                string path = obj.TicketDocuments.FileURLLocation;
+
+                var xmldoc_docs = new XmlDocument();
+                var parentelemeng_docs = xmldoc_docs.CreateElement("MultiDocuments");
+                var parent_docs = xmldoc_docs.CreateElement("MultiDocument");
+
+                var parentelement = xmldoc_docs.CreateElement("Row");
+                var filepath_xml = xmldoc_docs.CreateElement("filepath");
+                var ContentType_xml = xmldoc_docs.CreateElement("ContentType");
+
+                filepath_xml.InnerText = path;
+                ContentType_xml.InnerText = obj.TicketDocuments._ext;
+
+                parentelement.AppendChild(filepath_xml);
+                parentelement.AppendChild(ContentType_xml);
+                //parentelement.AppendChild(UniqueId_xml);
+
+                parentelemeng_docs.AppendChild(parent_docs);
+                parent_docs.AppendChild(parentelement);
+
+                obj.multipledocuments_xml = parentelemeng_docs.InnerXml;
+                obj.Url = "";
+                obj.ContentType = "";
+            }
+
+            obj.IsMobile = true;
+            var result = service.InsertTicketRequest(obj);
+
+            string msg = "";
+            bool val = false;
+
+            if (result.message != "0")
+            {
+                val = true;
+            }
+            //JObject res1 = new JObject(new JProperty("SystemManagerId", result.SystemManagerId.ToString())
+            //            );
+            msg = val == true ? "Ticket created successfully." : "Failure";
+            JObject res = new JObject(new JProperty("Status", val),
+                                        (new JProperty("Message", msg))
+                         );
+            return Ok(res);
         }
         /// <summary>
         /// Get Under Approval Tickets
@@ -50,6 +112,27 @@ namespace HelpDesk.API.Controllers
             var result = service.UpdateTicketStatus(obj);
             return Ok(result);
         }
+
+        [ResponseType(typeof(TicketDTO))]
+        public IHttpActionResult NewUpdateTicketStatusM(TicketDTO obj)
+        {
+            var result = service.UpdateTicketStatus(obj);
+
+            string msg = "";
+            bool val = false;
+
+            if (result.message != "0")
+            {
+                val = true;
+            }
+            //JObject res1 = new JObject(new JProperty("SystemManagerId", result.SystemManagerId.ToString())
+            //            );
+            msg = val == true ? "Ticket Status Updated Successfully." : "Failure";
+            JObject res = new JObject(new JProperty("Status", val),
+                                        (new JProperty("Message", msg))
+                         );
+            return Ok(res);
+        }
         /// <summary>
         /// Ticket transfer
         /// </summary>
@@ -57,6 +140,13 @@ namespace HelpDesk.API.Controllers
         /// <returns></returns>
         [ResponseType(typeof(TicketDTO))]
         public IHttpActionResult NewTransferTicket(TicketDTO obj)
+        {
+            var result = service.TicketTransfer(obj);
+            return Ok(result);
+        }
+
+        [ResponseType(typeof(TicketDTO))]
+        public IHttpActionResult NewTransferTicketM(TicketDTO obj)
         {
             var result = service.TicketTransfer(obj);
             return Ok(result);
@@ -74,6 +164,24 @@ namespace HelpDesk.API.Controllers
             return Ok(result);
         }
 
+
+        [ResponseType(typeof(TicketDTO))]
+        public IHttpActionResult NewResponseTimeM(TicketDTO obj)
+        {
+            var result = service.AddResponseTime(obj);
+            string msg = "";
+            bool val = false;
+
+            if (result.message != "0")
+                val = true;
+            msg = val == true ? "Respomse Time Added Successfully." : "Failure";
+            JObject res = new JObject(new JProperty("Status", val),
+                                        (new JProperty("Message", msg))
+                         );
+            return Ok(res);
+        }
+
+
         /// <summary>
         /// Get System User Products
         /// </summary>
@@ -85,6 +193,127 @@ namespace HelpDesk.API.Controllers
             var result = service.GetSystemUserProducts(obj);
             return Ok(result);
         }
+        /// <summary>
+        /// For Mobile
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        [ResponseType(typeof(TicketDTO))]
+        public IHttpActionResult NewSystemUserProductsM(TicketDTO obj)
+        {
+            var result = service.GetSystemUserProducts(obj);
+            string msg = "";
+            bool val = true;
+            JArray JProductDetails = JArray.Parse("[]");
+            JArray JAccountDetails = JArray.Parse("[]");
+            JArray JCompanyDetails = JArray.Parse("[]");
+            JArray JAssetModelDetails = JArray.Parse("[]");
+            JArray JReportDetails = JArray.Parse("[]");
+            if (result != null)
+            {
+                if (!string.IsNullOrEmpty(result.datasetxml))
+                {
+                    var document = new XmlDocument();
+                    document.LoadXml(result.datasetxml);
+                    DataSet ds = new DataSet();
+                    ds.ReadXml(new XmlNodeReader(document));
+                    if (ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JProductDetails = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JProductDetails = strjarry;
+                        }
+                        if (ds.Tables[1].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[1]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JAccountDetails = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[1]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JAccountDetails = strjarry;
+                        }
+                        if (ds.Tables[2].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[2]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JCompanyDetails = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[2]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JCompanyDetails = strjarry;
+                        }
+                        if (ds.Tables[3].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[3]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JAssetModelDetails = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[3]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JAssetModelDetails = strjarry;
+                        }
+                        if (ds.Tables[4].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[4]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JReportDetails = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[4]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JReportDetails = strjarry;
+                        }
+                    }
+                }
+            }
+            JObject res1 = new JObject(new JProperty("ProductList", JProductDetails),
+                        new JProperty("AccountList", JAccountDetails),
+                        new JProperty("CompanyList", JCompanyDetails)
+                        , new JProperty("AssetModelDetails", JAssetModelDetails), new JProperty("ReportList", JReportDetails)
+                        );
+            msg = val == true ? "Success." : "Failure";
+            JObject res = new JObject(new JProperty("Status", true),
+                               (new JProperty("Message", msg)),
+                               (new JProperty("Data", res1)));
+            return Ok(res);
+        }
+
         /// <summary>
         /// Get System User Models
         /// </summary>
@@ -118,6 +347,51 @@ namespace HelpDesk.API.Controllers
             var result = service.GetProducts(obj);
             return Ok(result);
         }
+        [ResponseType(typeof(TicketDTO))]
+        public IHttpActionResult NewproductsByCompanyM(TicketDTO obj)
+        {
+            var result = service.GetProducts(obj);
+
+            string msg = "";
+            bool val = true;
+            JArray JProductandModelDetails = JArray.Parse("[]");
+            if (result != null)
+            {
+                if (!string.IsNullOrEmpty(result.datasetxml))
+                {
+                    var document = new XmlDocument();
+                    document.LoadXml(result.datasetxml);
+                    DataSet ds = new DataSet();
+                    ds.ReadXml(new XmlNodeReader(document));
+                    if (ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JProductandModelDetails = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JProductandModelDetails = strjarry;
+                        }
+                    }
+                }
+            }
+            JObject res1 = new JObject(new JProperty("ProductandModelList", JProductandModelDetails)
+                        );
+            msg = val == true ? "Success." : "Failure";
+            JObject res = new JObject(new JProperty("Status", true),
+                               (new JProperty("Message", msg)),
+                               (new JProperty("Data", res1)));
+            return Ok(res);
+        }
 
         /// <summary>
         /// Get System User Ticktes
@@ -129,6 +403,52 @@ namespace HelpDesk.API.Controllers
         {
             var result = service.GetSystemUserTickets(obj);
             return Ok(result);
+        }
+
+        [ResponseType(typeof(TicketDTO))]
+        public IHttpActionResult NewSystemUserTicketsM(TicketDTO obj)
+        {
+            var result = service.GetSystemUserTickets(obj);
+
+            string msg = "";
+            bool val = true;
+            JArray JTicketList = JArray.Parse("[]");
+            if (result != null)
+            {
+                if (!string.IsNullOrEmpty(result.datasetxml))
+                {
+                    var document = new XmlDocument();
+                    document.LoadXml(result.datasetxml);
+                    DataSet ds = new DataSet();
+                    ds.ReadXml(new XmlNodeReader(document));
+                    if (ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JTicketList = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JTicketList = strjarry;
+                        }
+                    }
+                }
+            }
+            JObject res1 = new JObject(new JProperty("TicketList", JTicketList)
+                        );
+            msg = val == true ? "Success." : "Failure";
+            JObject res = new JObject(new JProperty("Status", true),
+                               (new JProperty("Message", msg)),
+                               (new JProperty("Data", res1)));
+            return Ok(res);
         }
         [ResponseType(typeof(TicketDTO))]
         public IHttpActionResult NewRejectedTickets(TicketDTO obj)
@@ -146,6 +466,73 @@ namespace HelpDesk.API.Controllers
         {
             var result = service.GetServiceEngineerTickets(obj);
             return Ok(result);
+        }
+        [ResponseType(typeof(TicketDTO))]
+        public IHttpActionResult NewServiceEngineerTicketsM(TicketDTO obj)
+        {
+            var result = service.GetServiceEngineerTickets(obj);
+
+            string msg = "";
+            bool val = true;
+            JArray JTicketList = JArray.Parse("[]");
+            JArray JTotalRecords = JArray.Parse("[]");
+
+            if (result != null)
+            {
+                if (!string.IsNullOrEmpty(result.datasetxml))
+                {
+                    var document = new XmlDocument();
+                    document.LoadXml(result.datasetxml);
+                    DataSet ds = new DataSet();
+                    ds.ReadXml(new XmlNodeReader(document));
+                    if (ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JTicketList = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JTicketList = strjarry;
+                        }
+
+                        if (ds.Tables[1].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[1]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JTotalRecords = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[1]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JTotalRecords = strjarry;
+                        }
+
+                       
+                    }
+                }
+            }
+            JObject res1 = new JObject(new JProperty("TicketList", JTicketList),
+                        new JProperty("TotalRecords", JTotalRecords)
+                        );
+            msg = val == true ? "Success." : "Failure";
+            JObject res = new JObject(new JProperty("Status", true),
+                               (new JProperty("Message", msg)),
+                               (new JProperty("Data", res1)));
+            return Ok(res);
         }
         /// <summary>
         /// get dashboard count by user id
@@ -170,6 +557,27 @@ namespace HelpDesk.API.Controllers
             return Ok(result);
         }
 
+        [ResponseType(typeof(TicketDTO))]
+        public IHttpActionResult NewSystemManagerIdM(TicketDTO obj)
+        {
+            var result = service.GetSystemManagerId(obj);
+
+            string msg = "";
+            bool val = false;
+            
+            if (result.SystemManagerId != 0)
+            {
+                val = true;
+            }
+            JObject res1 = new JObject(new JProperty("SystemManagerId", result.SystemManagerId.ToString())
+                        );
+            msg = val == true ? "Success." : "Failure";
+            JObject res = new JObject(new JProperty("Status", val),
+                               (new JProperty("Message", msg)),
+                               (new JProperty("Data", res1)));
+            return Ok(res);
+        }
+
         /// <summary>
         /// get filters of service engineer tickets
         /// </summary>
@@ -180,6 +588,90 @@ namespace HelpDesk.API.Controllers
         {
             var result = service.GetServiceEngineerTicketsFiletrs(obj);
             return Ok(result);
+        }
+
+        [ResponseType(typeof(TicketDTO))]
+        public IHttpActionResult NewServiceEngineerTicketsFiletersM(TicketDTO obj)
+        {
+            var result = service.GetServiceEngineerTicketsFiletrs(obj);
+            string msg = "";
+            bool val = true;
+            JArray JServiceEngineerDetails = JArray.Parse("[]");
+            JArray JAccountDetails = JArray.Parse("[]");
+            JArray JStatusDetails = JArray.Parse("[]");
+             
+            if (result != null)
+            {
+                if (!string.IsNullOrEmpty(result.datasetxml))
+                {
+                    var document = new XmlDocument();
+                    document.LoadXml(result.datasetxml);
+                    DataSet ds = new DataSet();
+                    ds.ReadXml(new XmlNodeReader(document));
+                    if (ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JAccountDetails = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JAccountDetails = strjarry;
+                        }
+
+                        if (ds.Tables[1].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[1]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JServiceEngineerDetails = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[1]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JServiceEngineerDetails = strjarry;
+                        }
+                        
+                        if (ds.Tables[2].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[2]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JStatusDetails = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[2]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JStatusDetails = strjarry;
+                        }
+                    }
+                }
+            }
+            JObject res1 = new JObject(new JProperty("AccountList", JAccountDetails),
+                        new JProperty("ServiceEngineerList", JServiceEngineerDetails),
+                        new JProperty("StatusList", JStatusDetails)
+                        );
+            msg = val == true ? "Success." : "Failure";
+            JObject res = new JObject(new JProperty("Status", true),
+                               (new JProperty("Message", msg)),
+                               (new JProperty("Data", res1)));
+            return Ok(res);
         }
         /// <summary>
         /// get ticket details by ticket number
@@ -193,6 +685,83 @@ namespace HelpDesk.API.Controllers
             return Ok(result);
         }
 
+        [ResponseType(typeof(TicketDTO))]
+        public IHttpActionResult NewGetTicketDetailsByIdM(TicketDTO obj)
+        {
+            var result = service.GetTicketDetails(obj);
+            string msg = "";
+            bool val = true;
+            JArray JTicketDetails = JArray.Parse("[]");
+            if (result != null)
+            {
+                if (!string.IsNullOrEmpty(result.datasetxml))
+                {
+                    var document = new XmlDocument();
+                    document.LoadXml(result.datasetxml);
+                    DataSet ds = new DataSet();
+                    ds.ReadXml(new XmlNodeReader(document));
+                    if (ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            foreach (JObject item in strjarry)
+                            {
+                                var pv = item.SelectToken("WarehouseJson");
+                                var pvj = JArray.Parse(pv.ToString());
+                                item.Add(new JProperty("JWarehouseJson", pvj));
+
+                                var Url = item.SelectToken("Url");
+                                var Urlj = JArray.Parse(Url.ToString());
+                                item.Add(new JProperty("JUrl", Urlj));
+
+                                var ReportJson = item.SelectToken("ReportJson");
+                                var ReportJsonj = JArray.Parse(ReportJson.ToString());
+                                item.Add(new JProperty("JReportJson", ReportJsonj));
+
+                                var SparePartRequestJson = item.SelectToken("SparePartRequestJson");
+                                var SparePartRequestJsonj = JArray.Parse(SparePartRequestJson.ToString());
+                                item.Add(new JProperty("JSparePartRequestJson", SparePartRequestJsonj));
+
+                                var StatusJson = item.SelectToken("StatusJson");
+                                var StatusJsonj = JArray.Parse(StatusJson.ToString());
+                                item.Add(new JProperty("JStatusJson", StatusJsonj));
+
+                                var commentsjson = item.SelectToken("commentsjson");
+                                var commentsjsonj = JArray.Parse(commentsjson.ToString());
+                                item.Add(new JProperty("JCommentsjson", commentsjsonj));
+
+                                var ServiceEngineerJson = item.SelectToken("ServiceEngineerJson");
+                                var ServiceEngineerJsonj = JArray.Parse(ServiceEngineerJson.ToString());
+                                item.Add(new JProperty("JServiceEngineerJson", ServiceEngineerJsonj));
+                                
+                            }
+
+                            if (!string.IsNullOrEmpty(str))
+                                JTicketDetails = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JTicketDetails = strjarry;
+                        }
+                    }
+                }
+            }
+            JObject res1 = new JObject(new JProperty("TicketDetails", JTicketDetails)
+                        );
+            msg = val == true ? "Success." : "Failure";
+            JObject res = new JObject(new JProperty("Status", true),
+                               (new JProperty("Message", msg)),
+                               (new JProperty("Data", res1)));
+            return Ok(res);
+        }
+
         /// <summary>
         /// Get Spare part list by warehouseid
         /// </summary>
@@ -204,6 +773,51 @@ namespace HelpDesk.API.Controllers
             var result = service.GetSparePartListById(obj);
             return Ok(result);
         }
+        [ResponseType(typeof(TicketDTO))]
+        public IHttpActionResult NewGetSparePartsListM(TicketDTO obj)
+        {
+
+            var result = service.GetSparePartListById(obj);
+            string msg = "";
+            bool val = true;
+            JArray JSparePartDetails = JArray.Parse("[]");
+            if (result != null)
+            {
+                if (!string.IsNullOrEmpty(result.datasetxml))
+                {
+                    var document = new XmlDocument();
+                    document.LoadXml(result.datasetxml);
+                    DataSet ds = new DataSet();
+                    ds.ReadXml(new XmlNodeReader(document));
+                    if (ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+                             
+                            if (!string.IsNullOrEmpty(str))
+                                JSparePartDetails = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JSparePartDetails = strjarry;
+                        }
+                    }
+                }
+            }
+            JObject res1 = new JObject(new JProperty("SparePartList", JSparePartDetails)
+                        );
+            msg = val == true ? "Success." : "Failure";
+            JObject res = new JObject(new JProperty("Status", true),
+                               (new JProperty("Message", msg)),
+                               (new JProperty("Data", res1)));
+            return Ok(res);
+        }
         /// <summary>
         /// Insert spare part request
         /// </summary>
@@ -214,6 +828,27 @@ namespace HelpDesk.API.Controllers
         {
             var result = service.AddSparePartRequest(obj);
             return Ok(result);
+        }
+
+        [ResponseType(typeof(TicketDTO))]
+        public IHttpActionResult NewSparePartRequestM(TicketDTO obj)
+        {
+            var result = service.AddSparePartRequest(obj);
+            string msg = "";
+            bool val = false;
+
+            if (result.message != "0")
+                val = true;
+
+            if (obj.FlagId == 2)
+                msg = "Spare Part Requested Successfully.";
+            else if (obj.FlagId==1)
+                msg = "Assigned Spare Part Added Successfully.";
+            msg = val == true ? "" : "Failure";
+            JObject res = new JObject(new JProperty("Status", val),
+                                        (new JProperty("Message", msg))
+                         );
+            return Ok(res);
         }
         /// <summary>
         /// Add comments
@@ -247,10 +882,49 @@ namespace HelpDesk.API.Controllers
             return Ok(result);
         }
         [ResponseType(typeof(TicketDTO))]
+        public IHttpActionResult NewEnquiryCommentsM(TicketDTO obj)
+        {
+            var result = service.AddEnquirycomments(obj);
+            string msg = "";
+            bool val = false;
+
+            if (result.message != "0")
+            {
+                val = true;
+            }
+            //JObject res1 = new JObject(new JProperty("SystemManagerId", result.SystemManagerId.ToString())
+            //            );
+            msg = val == true ? "Comments Send Successfully." : "Failure";
+            JObject res = new JObject(new JProperty("Status", val),
+                                        (new JProperty("Message", msg))
+                         );
+            return Ok(res);
+        }
+        [ResponseType(typeof(TicketDTO))]
         public IHttpActionResult NewEnquiry(TicketDTO obj)
         {
             var result = service.AddEnquiry(obj);
             return Ok(result);
+        }
+
+        [ResponseType(typeof(TicketDTO))]
+        public IHttpActionResult NewEnquiryM(TicketDTO obj)
+        {
+            var result = service.AddEnquiry(obj);
+            string msg = "";
+            bool val = false;
+
+            if (result.message != "0")
+            {
+                val = true;
+            }
+            //JObject res1 = new JObject(new JProperty("SystemManagerId", result.SystemManagerId.ToString())
+            //            );
+            msg = val == true ? "Enquiry Added Successfully." : "Failure";
+            JObject res = new JObject(new JProperty("Status", val),
+                                        (new JProperty("Message", msg))
+                         );
+            return Ok(res);
         }
         [ResponseType(typeof(TicketDTO))]
         public IHttpActionResult NewEnquiryList(TicketDTO obj)
@@ -258,13 +932,170 @@ namespace HelpDesk.API.Controllers
             var result = service.GetEnquiryList(obj);
             return Ok(result);
         }
+
+        [ResponseType(typeof(TicketDTO))]
+        public IHttpActionResult NewEnquiryListM(TicketDTO obj)
+        {
+            var result = service.GetEnquiryList(obj);
+            string msg = "";
+            bool val = true;
+            JArray JEnquiryList = JArray.Parse("[]");
+            if (result != null)
+            {
+                if (!string.IsNullOrEmpty(result.datasetxml))
+                {
+                    var document = new XmlDocument();
+                    document.LoadXml(result.datasetxml);
+                    DataSet ds = new DataSet();
+                    ds.ReadXml(new XmlNodeReader(document));
+                    if (ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JEnquiryList = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JEnquiryList = strjarry;
+                        }
+                    }
+                }
+            }
+            JObject res1 = new JObject(new JProperty("EnquiryList", JEnquiryList)
+                        );
+            msg = val == true ? "Success." : "Failure";
+            JObject res = new JObject(new JProperty("Status", true),
+                               (new JProperty("Message", msg)),
+                               (new JProperty("Data", res1)));
+            return Ok(res);
+        }
         [ResponseType(typeof(TicketDTO))]
         public IHttpActionResult NewEnquiryDetails(TicketDTO obj)
         {
             var result = service.GetEnquiryDetails(obj);
             return Ok(result);
         }
+
+        [ResponseType(typeof(TicketDTO))]
+        public IHttpActionResult NewEnquiryDetailsM(TicketDTO obj)
+        {
+            var result = service.GetEnquiryDetails(obj);
+            string msg = "";
+            bool val = true;
+            JArray JTicketDetails = JArray.Parse("[]");
+            if (result != null)
+            {
+                if (!string.IsNullOrEmpty(result.datasetxml))
+                {
+                    var document = new XmlDocument();
+                    document.LoadXml(result.datasetxml);
+                    DataSet ds = new DataSet();
+                    ds.ReadXml(new XmlNodeReader(document));
+                    if (ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            foreach (JObject item in strjarry)
+                            {
+                                 
+                                var commentsjson = item.SelectToken("commentsJson");
+                                var commentsjsonj = JArray.Parse(commentsjson.ToString());
+                                item.Add(new JProperty("JCommentsjson", commentsjsonj));
+                                 
+                            }
+
+                            if (!string.IsNullOrEmpty(str))
+                                JTicketDetails = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JTicketDetails = strjarry;
+                        }
+                    }
+                }
+            }
+            JObject res1 = new JObject(new JProperty("EnquiryDetails", JTicketDetails)
+                        );
+            msg = val == true ? "Success." : "Failure";
+            JObject res = new JObject(new JProperty("Status", true),
+                               (new JProperty("Message", msg)),
+                               (new JProperty("Data", res1)));
+            return Ok(res);
+        }
         #endregion
+
+        [ResponseType(typeof(TicketDTO))]
+        public IHttpActionResult NewAddTicketRatingM(TicketDTO obj)
+        {
+            var result = service.AddTicketRating(obj);
+            string msg = "";
+            bool val = true;
+             
+            msg = val == true ? "Rating Added Successfully." : "Failure";
+            JObject res = new JObject(new JProperty("Status", true),
+                               (new JProperty("Message", msg)));
+            return Ok(res);
+        }
+
+        [ResponseType(typeof(TicketDTO))]
+        public IHttpActionResult NewTicketRatingDetailsM(TicketDTO obj)
+        {
+            var result = service.GetTicketRatingList(obj);
+            string msg = "";
+            bool val = true;
+            JArray JTicketDetails = JArray.Parse("[]");
+            if (result != null)
+            {
+                if (!string.IsNullOrEmpty(result.datasetxml))
+                {
+                    var document = new XmlDocument();
+                    document.LoadXml(result.datasetxml);
+                    DataSet ds = new DataSet();
+                    ds.ReadXml(new XmlNodeReader(document));
+                    if (ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JTicketDetails = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JTicketDetails = strjarry;
+                        }
+                    }
+                }
+            }
+            JObject res1 = new JObject(new JProperty("RatingDetails", JTicketDetails)
+                        );
+            msg = val == true ? "Success." : "Failure";
+            JObject res = new JObject(new JProperty("Status", true),
+                               (new JProperty("Message", msg)),
+                               (new JProperty("Data", res1)));
+            return Ok(res);
+        }
 
         #region Report
         [ResponseType(typeof(TicketDTO))]

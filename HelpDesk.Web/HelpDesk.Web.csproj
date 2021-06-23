@@ -385,6 +385,7 @@
     <Content Include="Views\Assets\AssetListPV.cshtml" />
     <Content Include="Views\Warehouse\AssignWarehouse.cshtml" />
     <Content Include="Views\Ticket\GetProjectList.cshtml" />
+    <Content Include="Views\Login\Enquiry.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

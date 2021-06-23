@@ -395,6 +395,7 @@ namespace HelpDesk.Web.Controllers
                                         {
                                             AccountName = dataRow.Field<string>("AccountName"),
                                             SystemNo = dataRow.Field<string>("SystemNo"),
+                                            SerialNo = dataRow.Field<string>("SerialNo"),
                                             ProductName = dataRow.Field<string>("ProductName"),
                                             isActive = dataRow.Field<bool>("isActive"),
                                             IsApproved = dataRow.Field<bool>("IsApproved"),
@@ -402,6 +403,7 @@ namespace HelpDesk.Web.Controllers
                                             AMId = dataRow.Field<int>("AMId"),
                                             IsContract = dataRow.Field<bool>("IsContract"),
                                             POContract = dataRow.Field<string>("POContract"),
+                                            ContractTypetxt = dataRow.Field<string>("ContractType"),
                                             WarrantyExpiryDate = dataRow.Field<DateTime>("WarrantyExpiryDate")
                                         }).ToList();
 

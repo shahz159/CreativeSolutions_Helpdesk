@@ -799,6 +799,7 @@ namespace HelpDesk.Web.Controllers
                                             AccountName = dataRow.Field<string>("AccountName"),
                                             ModelName = dataRow.Field<string>("ModelName"),
                                             SystemNo = dataRow.Field<string>("SystemNo"),
+                                            SerialNo = dataRow.Field<string>("SerialNo"),
                                             ProductName = dataRow.Field<string>("ProductName"),
                                             FullName = dataRow.Field<string>("FullName"),
                                             UserId = dataRow.Field<long>("UserId"),

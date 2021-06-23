@@ -32,7 +32,8 @@ namespace HelpDesk.API.DataAccess
                     new SqlParameter("@ReportId",obj.ReportId),
                     new SqlParameter("@APPMId",obj.APPMId),
                     new SqlParameter("@AMId",obj.AMId),
-                    new SqlParameter("@SystemManagerId",obj.SystemManagerId)
+                    new SqlParameter("@SystemManagerId",obj.SystemManagerId),
+                    new SqlParameter("@IsMobile",obj.IsMobile)
                 };
                 return DbConnector.ExecuteReader("uspNewTicketRequest", para);
             }
@@ -176,6 +177,40 @@ namespace HelpDesk.API.DataAccess
             catch (Exception ex)
             {
                 DataModelExceptionUtility.LogException(ex, "UpdateTicketStatus -> UpdateTicketStatus");
+                return null;
+            }
+        }
+
+        public SqlDataReader AddticketRating(TicketDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@TicketId",obj.TicketNumber),
+                new SqlParameter("@RatingCount",obj.RatingCount),
+                new SqlParameter("@description",obj.Description),
+                new SqlParameter("@UserId",obj.CreatedBy)
+                };
+                return DbConnector.ExecuteReader("uspAddRating", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "AddticketRating -> AddticketRating");
+                return null;
+            }
+        }
+        public string TicketRatingList(TicketDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@TicketId",obj.TicketNumber) 
+                };
+                return DbConnector.ExecuteDataSet("uspGetRating", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "ticketRatinglist -> ticketRatinglist");
                 return null;
             }
         }
@@ -409,7 +444,6 @@ namespace HelpDesk.API.DataAccess
             }
         }
 
-
         public SqlDataReader AddEnquirycomments(TicketDTO obj)
         {
             try
@@ -470,6 +504,9 @@ namespace HelpDesk.API.DataAccess
         string GetSystemUserTickets(TicketDTO obj);
         string GetRejectedTickets(TicketDTO obj);
         SqlDataReader UpdateTicketStatus(TicketDTO obj);
+        SqlDataReader AddticketRating(TicketDTO obj);
+        string TicketRatingList(TicketDTO obj);
+        
         SqlDataReader TicketTransfer(TicketDTO obj);
         SqlDataReader GetSystemManagerId(TicketDTO obj);
         SqlDataReader AddResponseTieme(TicketDTO obj);
