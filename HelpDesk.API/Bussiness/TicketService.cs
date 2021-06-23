@@ -3,9 +3,12 @@ using HelpDesk.API.DTO_s;
 using HelpDesk.API.GenericHelpers;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Xml;
+using System.Net.Http;
 
 namespace HelpDesk.API.Bussiness
 {
@@ -21,6 +24,7 @@ namespace HelpDesk.API.Bussiness
         {
             try
             {
+                
                 var data = model.NewTicketRequest(obj);
                 if (data.HasRows)
                 {
@@ -694,8 +698,36 @@ namespace HelpDesk.API.Bussiness
             obj.datasetxml = model.GetEnquiryDetails(obj);
             return obj;
         }
+        public TicketDTO GetTicketRatingList(TicketDTO obj)
+        {
+            obj.datasetxml = model.TicketRatingList(obj);
+            return obj;
+        }
+        
+        public TicketDTO AddTicketRating(TicketDTO obj)
+        {
+            try
+            {
+                var data = model.AddticketRating(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["message"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
 
-
+        
 
         public TicketDTO GetServiceEngineerTicketsFiletrs(TicketDTO obj)
         {
@@ -764,6 +796,8 @@ namespace HelpDesk.API.Bussiness
 
         TicketDTO GetSparePartRequestTickets(TicketDTO obj);
         TicketDTO GetEnquiryDetails(TicketDTO obj);
+        TicketDTO GetTicketRatingList(TicketDTO obj);
+        TicketDTO AddTicketRating(TicketDTO obj);
         TicketDTO GetEnquiryList(TicketDTO obj);
         TicketDTO GetServiceEngineerTicketsFiletrs(TicketDTO obj);
 

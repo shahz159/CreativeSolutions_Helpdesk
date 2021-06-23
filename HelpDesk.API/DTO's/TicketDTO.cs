@@ -7,6 +7,7 @@ namespace HelpDesk.API.DTO_s
 {
     public class TicketDTO
     {
+        public bool IsMobile { get; set; }
         public long EnquiryId { get; set; }
 
         public string multipledocuments_xml { get; set; }
@@ -25,11 +26,13 @@ namespace HelpDesk.API.DTO_s
         public int AccountId { get; set; }
         public int RoleId { get; set; }
         public long CreatedBy { get; set; }
+        public int RatingCount { get; set; }
         public int OrganizationId { get; set; }
         public int FlagId { get; set; }
         public long UserId { get; set; }
         public string Url { get; set; }
         public string ContentType { get; set; }
+        public string UniqueId { get; set; }
         public long TicketNumber { get; set; }
         public int WarehouseId { get; set; }
         public string Comments { get; set; }
@@ -64,5 +67,12 @@ namespace HelpDesk.API.DTO_s
         public string SerialNo { get; set; }
         public string ModelName { get; set; }
         public string StationName { get; set; }
+        public string TicketClosedDate { get; set; }
+
+        //public List<Utils.FileAttribs> TicketDocuments { get; set; }
+        public Utils.FileAttribs TicketDocuments { get; set; }
+        public string Base64FileData { get; set; }
+        public List<TicketDTO> multiple_images { get; set; }
+
     }
 }

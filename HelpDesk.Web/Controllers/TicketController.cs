@@ -576,15 +576,17 @@ namespace HelpDesk.Web.Controllers
             //            select a.ModelName;
             var employee = obj.ModelList
     .Where(x => x.AMModelId == AMID)
-    .Select(x => new { x.ProductId, x.ProductName, x.ModelName });
+    .Select(x => new { x.ProductId, x.ProductName, x.ModelName,x.AccountId });
             int ProductId = 0;
             string ModelName = "";
             string ProductName = "";
+            int AccountId = 0;
             foreach (var item in employee)
             {
                 ProductName = item.ProductName;
                 ModelName = item.ModelName;
                 ProductId = int.Parse(item.ProductId.ToString());
+                AccountId= int.Parse(item.AccountId.ToString());
             }
 
             //var ModelName = from a in obj.ModelList
@@ -596,7 +598,7 @@ namespace HelpDesk.Web.Controllers
             //{ 
             //    ProductId = int.Parse(item.ToString());
             //}
-            return Json(new { ProductId = ProductId, ModelName = ModelName, ProductName = ProductName });
+            return Json(new { ProductId = ProductId, ModelName = ModelName, ProductName = ProductName, AccountId = AccountId});
         }
         public async Task<ActionResult> TicketDetails(long id)
         {
@@ -696,7 +698,8 @@ namespace HelpDesk.Web.Controllers
                                             AccountCode = dataRow.Field<string>("AccountCode"),
                                             ManagerFullName = dataRow.Field<string>("ManagerFullName"),
                                             ManagerMobile = dataRow.Field<string>("ManagerMobile"),
-                                            ManagerEmail = dataRow.Field<string>("ManagerEmail")
+                                            ManagerEmail = dataRow.Field<string>("ManagerEmail"),
+                                            TicketClosedDate = dataRow.Field<string>("TicketClosedDate")
                                         }).ToList();
 
                                         obj.TicketList = tickettlst;
@@ -796,6 +799,7 @@ namespace HelpDesk.Web.Controllers
                                             AccountName = dataRow.Field<string>("AccountName"),
                                             ModelName = dataRow.Field<string>("ModelName"),
                                             SystemNo = dataRow.Field<string>("SystemNo"),
+                                            SerialNo = dataRow.Field<string>("SerialNo"),
                                             ProductName = dataRow.Field<string>("ProductName"),
                                             FullName = dataRow.Field<string>("FullName"),
                                             UserId = dataRow.Field<long>("UserId"),

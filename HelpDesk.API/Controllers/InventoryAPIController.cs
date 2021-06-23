@@ -1,12 +1,16 @@
 ﻿using HelpDesk.API.Bussiness;
 using HelpDesk.API.DTO_s;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Xml;
 
 namespace HelpDesk.API.Controllers
 {
@@ -104,6 +108,51 @@ namespace HelpDesk.API.Controllers
         }
 
         [ResponseType(typeof(InventoryDTO))]
+        public IHttpActionResult NewSparePartListByWHIdM(InventoryDTO obj)
+        {
+            var result = service.SparePartListByWHId(obj);
+            string msg = "";
+            bool val = true;
+            JArray JSparePartList = JArray.Parse("[]");
+            if (result != null)
+            {
+                if (!string.IsNullOrEmpty(result.datasetxml))
+                {
+                    var document = new XmlDocument();
+                    document.LoadXml(result.datasetxml);
+                    DataSet ds = new DataSet();
+                    ds.ReadXml(new XmlNodeReader(document));
+                    if (ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JSparePartList = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JSparePartList = strjarry;
+                        }
+                    }
+                }
+            }
+            JObject res1 = new JObject(new JProperty("SparePartList", JSparePartList)
+                        );
+            msg = val == true ? "Success." : "Failure";
+            JObject res = new JObject(new JProperty("Status", true),
+                               (new JProperty("Message", msg)),
+                               (new JProperty("Data", res1)));
+            return Ok(res);
+        }
+
+        [ResponseType(typeof(InventoryDTO))]
         public IHttpActionResult NewConsignmentList(InventoryDTO obj)
         {
             var result = service.ConsignmentList(obj);
@@ -120,6 +169,53 @@ namespace HelpDesk.API.Controllers
         {
             var result = service.Warehouseddl(obj);
             return Ok(result); 
+        }
+
+
+        [ResponseType(typeof(InventoryDTO))]
+        public IHttpActionResult NewGetWarehouseDropDownsM(InventoryDTO obj)
+        {
+            var result = service.Warehouseddl(obj);
+
+            string msg = "";
+            bool val = true;
+            JArray JWarehouseList = JArray.Parse("[]");
+            if (result != null)
+            {
+                if (!string.IsNullOrEmpty(result.datasetxml))
+                {
+                    var document = new XmlDocument();
+                    document.LoadXml(result.datasetxml);
+                    DataSet ds = new DataSet();
+                    ds.ReadXml(new XmlNodeReader(document));
+                    if (ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JWarehouseList = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JWarehouseList = strjarry;
+                        }
+                    }
+                }
+            }
+            JObject res1 = new JObject(new JProperty("WarehouseList", JWarehouseList)
+                        );
+            msg = val == true ? "Success." : "Failure";
+            JObject res = new JObject(new JProperty("Status", true),
+                               (new JProperty("Message", msg)),
+                               (new JProperty("Data", res1)));
+            return Ok(res);
         }
         /// <summary>
         /// check spare part name
