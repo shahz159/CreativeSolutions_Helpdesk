@@ -248,8 +248,6 @@ namespace HelpDesk.API.DataAccess
             }
         }
 
-        
-
         public SqlDataReader AddResponseTieme(TicketDTO obj)
         {
             try
