@@ -184,10 +184,45 @@
     <Compile Include="Models\UserDTO.cs" />
     <Compile Include="Models\WarehouseDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReportDataSet\AccountTicketReportDS.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AccountTicketReportDS.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ReportDataSet\AssetListReport.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AssetListReport.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ReportDataSet\EngineerWiseStatusDS.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EngineerWiseStatusDS.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ReportDataSet\PerMonthStatusDS.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PerMonthStatusDS.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ReportDataSet\ProductReportDS.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProductReportDS.xsd</DependentUpon>
+    </Compile>
     <Compile Include="ReportDataSet\RawDataReportDS.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>RawDataReportDS.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ReportDataSet\RepeatedErrorReportDS.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RepeatedErrorReportDS.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ReportDataSet\SparePartTicketsCountReportDS.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SparePartTicketsCountReportDS.xsd</DependentUpon>
     </Compile>
     <Compile Include="SqlServerTypes\Loader.cs" />
   </ItemGroup>
@@ -275,6 +310,61 @@
     <Content Include="ReportDataSet\RawDataReportDS.xsc">
       <DependentUpon>RawDataReportDS.xsd</DependentUpon>
     </Content>
+    <Content Include="ReportDataSet\AssetListReport.xsc">
+      <DependentUpon>AssetListReport.xsd</DependentUpon>
+    </Content>
+    <Content Include="ReportDataSet\AccountTicketReportDS.xsc">
+      <DependentUpon>AccountTicketReportDS.xsd</DependentUpon>
+    </Content>
+    <None Include="ReportDataSet\AccountTicketReportDS.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>AccountTicketReportDS.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="ReportDataSet\AccountTicketReportDS.xss">
+      <DependentUpon>AccountTicketReportDS.xsd</DependentUpon>
+    </Content>
+    <None Include="ReportDataSet\AssetListReport.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>AssetListReport.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="ReportDataSet\AssetListReport.xss">
+      <DependentUpon>AssetListReport.xsd</DependentUpon>
+    </Content>
+    <Content Include="ReportDataSet\ProductReportDS.xsc">
+      <DependentUpon>ProductReportDS.xsd</DependentUpon>
+    </Content>
+    <Content Include="ReportDataSet\EngineerWiseStatusDS.xsc">
+      <DependentUpon>EngineerWiseStatusDS.xsd</DependentUpon>
+    </Content>
+    <None Include="ReportDataSet\EngineerWiseStatusDS.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>EngineerWiseStatusDS.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="ReportDataSet\EngineerWiseStatusDS.xss">
+      <DependentUpon>EngineerWiseStatusDS.xsd</DependentUpon>
+    </Content>
+    <Content Include="ReportDataSet\PerMonthStatusDS.xsc">
+      <DependentUpon>PerMonthStatusDS.xsd</DependentUpon>
+    </Content>
+    <None Include="ReportDataSet\PerMonthStatusDS.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>PerMonthStatusDS.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="ReportDataSet\PerMonthStatusDS.xss">
+      <DependentUpon>PerMonthStatusDS.xsd</DependentUpon>
+    </Content>
+    <None Include="ReportDataSet\ProductReportDS.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ProductReportDS.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="ReportDataSet\ProductReportDS.xss">
+      <DependentUpon>ProductReportDS.xsd</DependentUpon>
+    </Content>
     <None Include="ReportDataSet\RawDataReportDS.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -282,6 +372,28 @@
     </None>
     <Content Include="ReportDataSet\RawDataReportDS.xss">
       <DependentUpon>RawDataReportDS.xsd</DependentUpon>
+    </Content>
+    <Content Include="ReportDataSet\RepeatedErrorReportDS.xsc">
+      <DependentUpon>RepeatedErrorReportDS.xsd</DependentUpon>
+    </Content>
+    <None Include="ReportDataSet\RepeatedErrorReportDS.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>RepeatedErrorReportDS.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="ReportDataSet\RepeatedErrorReportDS.xss">
+      <DependentUpon>RepeatedErrorReportDS.xsd</DependentUpon>
+    </Content>
+    <Content Include="ReportDataSet\SparePartTicketsCountReportDS.xsc">
+      <DependentUpon>SparePartTicketsCountReportDS.xsd</DependentUpon>
+    </Content>
+    <None Include="ReportDataSet\SparePartTicketsCountReportDS.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>SparePartTicketsCountReportDS.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="ReportDataSet\SparePartTicketsCountReportDS.xss">
+      <DependentUpon>SparePartTicketsCountReportDS.xsd</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -386,6 +498,13 @@
     <Content Include="Views\Warehouse\AssignWarehouse.cshtml" />
     <Content Include="Views\Ticket\GetProjectList.cshtml" />
     <Content Include="Views\Login\Enquiry.cshtml" />
+    <Content Include="Views\Ticket\GetAssetListReport.cshtml" />
+    <Content Include="Views\Ticket\GetProductReport.cshtml" />
+    <Content Include="Views\Ticket\GetEngineerWiseStatusReport.cshtml" />
+    <Content Include="Views\Ticket\GetAccountTicketReport.cshtml" />
+    <Content Include="Views\Ticket\GetPerMonthStatus.cshtml" />
+    <Content Include="Views\Ticket\GetRepeatedErrorReport.cshtml" />
+    <Content Include="Views\Ticket\GetSparePartTicketsCountReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -405,7 +524,14 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Reports\AccountTicketReport.rdlc" />
+    <EmbeddedResource Include="Reports\AssetListReport.rdlc" />
     <EmbeddedResource Include="Reports\CRMRawdataReport.rdlc" />
+    <EmbeddedResource Include="Reports\EngineerWiseStatus.rdlc" />
+    <EmbeddedResource Include="Reports\PerMonthStatusReport.rdlc" />
+    <EmbeddedResource Include="Reports\ProductReport.rdlc" />
+    <EmbeddedResource Include="Reports\RepeatedErrorReportReport.rdlc" />
+    <EmbeddedResource Include="Reports\SparePartTicketsCountReport.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

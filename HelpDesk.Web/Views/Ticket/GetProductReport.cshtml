@@ -1,0 +1,42 @@
+﻿@using ReportViewerForMvc
+@{
+    Layout = null;
+    ViewBag.Title = "Product Report Details";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Product Report</title>
+    <style>
+        .main {
+            width: 100%;
+            margin: 10px auto;
+            text-align: center
+        }
+
+        .Training_Attendance {
+            max-width: 103%;
+            height: 750px;
+            /* overflow: auto; */
+            width: 53%;
+        }
+
+    </style>
+
+</head>
+<body>
+    <div class="main">
+        <div id="reportView" class="card-body">
+            @Html.ReportViewer(ViewBag.ReportViewer as Microsoft.Reporting.WebForms.ReportViewer, new { scrolling = "yes", @class = "Training_Attendance" })
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+

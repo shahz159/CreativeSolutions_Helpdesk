@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="PerMonthStatusDS" targetNamespace="http://tempuri.org/PerMonthStatusDS.xsd" xmlns:mstns="http://tempuri.org/PerMonthStatusDS.xsd" xmlns="http://tempuri.org/PerMonthStatusDS.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="PerMonthStatusDS" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="PerMonthStatusDS" msprop:Generator_UserDSName="PerMonthStatusDS">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="PerMonthStatusDS" msprop:Generator_TableClassName="PerMonthStatusDSDataTable" msprop:Generator_TableVarName="tablePerMonthStatusDS" msprop:Generator_TablePropName="_PerMonthStatusDS" msprop:Generator_RowDeletingName="PerMonthStatusDSRowDeleting" msprop:Generator_RowChangingName="PerMonthStatusDSRowChanging" msprop:Generator_RowEvHandlerName="PerMonthStatusDSRowChangeEventHandler" msprop:Generator_RowDeletedName="PerMonthStatusDSRowDeleted" msprop:Generator_UserTableName="PerMonthStatusDS" msprop:Generator_RowChangedName="PerMonthStatusDSRowChanged" msprop:Generator_RowEvArgName="PerMonthStatusDSRowChangeEvent" msprop:Generator_RowClassName="PerMonthStatusDSRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Month" msprop:Generator_ColumnVarNameInTable="columnMonth" msprop:Generator_ColumnPropNameInRow="Month" msprop:Generator_ColumnPropNameInTable="MonthColumn" msprop:Generator_UserColumnName="Month" type="xs:string" minOccurs="0" />
+              <xs:element name="Year" msprop:Generator_ColumnVarNameInTable="columnYear" msprop:Generator_ColumnPropNameInRow="Year" msprop:Generator_ColumnPropNameInTable="YearColumn" msprop:Generator_UserColumnName="Year" type="xs:string" minOccurs="0" />
+              <xs:element name="New" msprop:Generator_ColumnVarNameInTable="columnNew" msprop:Generator_ColumnPropNameInRow="New" msprop:Generator_ColumnPropNameInTable="NewColumn" msprop:Generator_UserColumnName="New" type="xs:string" minOccurs="0" />
+              <xs:element name="Closed" msprop:Generator_ColumnVarNameInTable="columnClosed" msprop:Generator_ColumnPropNameInRow="Closed" msprop:Generator_ColumnPropNameInTable="ClosedColumn" msprop:Generator_UserColumnName="Closed" type="xs:string" minOccurs="0" />
+              <xs:element name="Resolved" msprop:Generator_ColumnVarNameInTable="columnResolved" msprop:Generator_ColumnPropNameInRow="Resolved" msprop:Generator_ColumnPropNameInTable="ResolvedColumn" msprop:Generator_UserColumnName="Resolved" type="xs:string" minOccurs="0" />
+              <xs:element name="InProgress" msprop:Generator_ColumnVarNameInTable="columnInProgress" msprop:Generator_ColumnPropNameInRow="InProgress" msprop:Generator_ColumnPropNameInTable="InProgressColumn" msprop:Generator_UserColumnName="InProgress" type="xs:string" minOccurs="0" />
+              <xs:element name="GrandTotal" msprop:Generator_ColumnVarNameInTable="columnGrandTotal" msprop:Generator_ColumnPropNameInRow="GrandTotal" msprop:Generator_ColumnPropNameInTable="GrandTotalColumn" msprop:Generator_UserColumnName="GrandTotal" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

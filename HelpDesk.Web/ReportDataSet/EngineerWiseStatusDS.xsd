@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="EngineerWiseStatusDS" targetNamespace="http://tempuri.org/EngineerWiseStatusDS.xsd" xmlns:mstns="http://tempuri.org/EngineerWiseStatusDS.xsd" xmlns="http://tempuri.org/EngineerWiseStatusDS.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="EngineerWiseStatusDS" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="EngineerWiseStatusDS" msprop:Generator_UserDSName="EngineerWiseStatusDS">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="EngineerWiseStatusDS" msprop:Generator_TableClassName="EngineerWiseStatusDSDataTable" msprop:Generator_TableVarName="tableEngineerWiseStatusDS" msprop:Generator_TablePropName="_EngineerWiseStatusDS" msprop:Generator_RowDeletingName="EngineerWiseStatusDSRowDeleting" msprop:Generator_RowChangingName="EngineerWiseStatusDSRowChanging" msprop:Generator_RowEvHandlerName="EngineerWiseStatusDSRowChangeEventHandler" msprop:Generator_RowDeletedName="EngineerWiseStatusDSRowDeleted" msprop:Generator_UserTableName="EngineerWiseStatusDS" msprop:Generator_RowChangedName="EngineerWiseStatusDSRowChanged" msprop:Generator_RowEvArgName="EngineerWiseStatusDSRowChangeEvent" msprop:Generator_RowClassName="EngineerWiseStatusDSRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="EngineerName" msprop:Generator_ColumnVarNameInTable="columnEngineerName" msprop:Generator_ColumnPropNameInRow="EngineerName" msprop:Generator_ColumnPropNameInTable="EngineerNameColumn" msprop:Generator_UserColumnName="EngineerName" type="xs:string" minOccurs="0" />
+              <xs:element name="New" msprop:Generator_ColumnVarNameInTable="columnNew" msprop:Generator_ColumnPropNameInRow="New" msprop:Generator_ColumnPropNameInTable="NewColumn" msprop:Generator_UserColumnName="New" type="xs:string" minOccurs="0" />
+              <xs:element name="Closed" msprop:Generator_ColumnVarNameInTable="columnClosed" msprop:Generator_ColumnPropNameInRow="Closed" msprop:Generator_ColumnPropNameInTable="ClosedColumn" msprop:Generator_UserColumnName="Closed" type="xs:string" minOccurs="0" />
+              <xs:element name="Resolved" msprop:Generator_ColumnVarNameInTable="columnResolved" msprop:Generator_ColumnPropNameInRow="Resolved" msprop:Generator_ColumnPropNameInTable="ResolvedColumn" msprop:Generator_UserColumnName="Resolved" type="xs:string" minOccurs="0" />
+              <xs:element name="InProgress" msprop:Generator_ColumnVarNameInTable="columnInProgress" msprop:Generator_ColumnPropNameInRow="InProgress" msprop:Generator_ColumnPropNameInTable="InProgressColumn" msprop:Generator_UserColumnName="InProgress" type="xs:string" minOccurs="0" />
+              <xs:element name="AverageTime" msprop:Generator_ColumnVarNameInTable="columnAverageTime" msprop:Generator_ColumnPropNameInRow="AverageTime" msprop:Generator_ColumnPropNameInTable="AverageTimeColumn" msprop:Generator_UserColumnName="AverageTime" type="xs:string" minOccurs="0" />
+              <xs:element name="GrandTotal" msprop:Generator_ColumnVarNameInTable="columnGrandTotal" msprop:Generator_ColumnPropNameInRow="GrandTotal" msprop:Generator_ColumnPropNameInTable="GrandTotalColumn" msprop:Generator_UserColumnName="GrandTotal" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -9,7 +9,7 @@ using System.Web;
 
 namespace HelpDesk.API.DataAccess
 {
-    public class TicketModel: ITicketModel
+    public class TicketModel : ITicketModel
     {
         public SqlDataReader NewTicketRequest(TicketDTO obj)
         {
@@ -127,14 +127,14 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
-        
+
 
         public string GetSystemUserTickets(TicketDTO obj)
         {
             try
             {
                 var para = new[] {
-                new SqlParameter("@UserId",obj.CreatedBy) 
+                new SqlParameter("@UserId",obj.CreatedBy)
                 };
                 return DbConnector.ExecuteDataSet("uspGetSystemUserTicket", para);
             }
@@ -160,7 +160,7 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
-        
+
         public SqlDataReader UpdateTicketStatus(TicketDTO obj)
         {
             try
@@ -204,7 +204,7 @@ namespace HelpDesk.API.DataAccess
             try
             {
                 var para = new[] {
-                new SqlParameter("@TicketId",obj.TicketNumber) 
+                new SqlParameter("@TicketId",obj.TicketNumber)
                 };
                 return DbConnector.ExecuteDataSet("uspGetRating", para);
             }
@@ -221,7 +221,7 @@ namespace HelpDesk.API.DataAccess
                 var para = new[] {
                 new SqlParameter("@TicketNumber",obj.TicketNumber),
                 new SqlParameter("@UserId",obj.UserId),
-                new SqlParameter("@CreatedBy",obj.CreatedBy) 
+                new SqlParameter("@CreatedBy",obj.CreatedBy)
                 };
                 return DbConnector.ExecuteReader("uspTransferTicket", para);
             }
@@ -252,7 +252,7 @@ namespace HelpDesk.API.DataAccess
         {
             try
             {
-                var para = new[] { 
+                var para = new[] {
                 new SqlParameter("@ResponseTime",obj.ResponseTime),
                 new SqlParameter("@CreatedBy",obj.CreatedBy),
                 new SqlParameter("@TicketNumber",obj.TicketNumber)
@@ -293,7 +293,7 @@ namespace HelpDesk.API.DataAccess
                 var para = new[] {
                 new SqlParameter("@TicketNumber",obj.TicketNumber),
                 new SqlParameter("@UserId",obj.UserId),
-                new SqlParameter("@Comment",obj.message) 
+                new SqlParameter("@Comment",obj.message)
                 };
                 return DbConnector.ExecuteReader("uspAddComments", para);
             }
@@ -303,7 +303,7 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
-        
+
         public string GetServiceEngineerTickets(TicketDTO obj)
         {
             try
@@ -331,7 +331,7 @@ namespace HelpDesk.API.DataAccess
             try
             {
                 var para = new[] {
-                new SqlParameter("@UserId",obj.CreatedBy) 
+                new SqlParameter("@UserId",obj.CreatedBy)
                 };
                 return DbConnector.ExecuteDataSet("uspGetDashboardCount", para);
             }
@@ -341,7 +341,7 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
-        
+
         public string GetSparePartRequestTickets(TicketDTO obj)
         {
             try
@@ -414,7 +414,7 @@ namespace HelpDesk.API.DataAccess
             try
             {
                 var para = new[] {
-                new SqlParameter("@TicketNumber",obj.TicketNumber) 
+                new SqlParameter("@TicketNumber",obj.TicketNumber)
                 };
                 return DbConnector.ExecuteDataSet("UspGetTicketDetails", para);
             }
@@ -428,7 +428,7 @@ namespace HelpDesk.API.DataAccess
         {
             try
             {
-               
+
                 var para = new[] {
                 new SqlParameter("@WarehouseId",obj.WarehouseId) ,
                 new SqlParameter("@TicketNumber",obj.TicketNumber)
@@ -488,6 +488,103 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
+
+        public SqlDataReader AssetListReport(TicketDTO obj)
+        {
+            try
+            {
+                return DbConnector.ExecuteReader("uspAssetListReport", null);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "TicketModel -> AssetListReport");
+                return null;
+            }
+        }
+
+        public SqlDataReader ProductReport(TicketDTO obj)
+        {
+            try
+            {
+
+                return DbConnector.ExecuteReader("uspProductReport", null);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "TicketModel -> ProductReport");
+                return null;
+            }
+        }
+
+        public SqlDataReader EngineerWiseStatusReport(TicketDTO obj)
+        {
+            try
+            {
+
+                return DbConnector.ExecuteReader("uspEngineerWiseStatusReport", null);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "TicketModel -> EngineerWiseStatusReport");
+                return null;
+            }
+        }
+
+        public SqlDataReader AccountTicketReport(TicketDTO obj)
+        {
+            try
+            {
+
+                return DbConnector.ExecuteReader("uspAccountTicketReport", null);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "TicketModel -> AccountTicketReport");
+                return null;
+            }
+        }
+
+        public SqlDataReader PerMonthStatus(TicketDTO obj)
+        {
+            try
+            {
+
+                return DbConnector.ExecuteReader("uspPerMonthStatus", null);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "TicketModel -> PerMonthStatus");
+                return null;
+            }
+        }
+
+        public SqlDataReader RepeatedErrorReport(TicketDTO obj)
+        {
+            try
+            {
+
+                return DbConnector.ExecuteReader("uspRepeatedErrorReport", null);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "TicketModel -> RepeatedErrorReport");
+                return null;
+            }
+        }
+
+        public SqlDataReader SparePartTicketsCountReport(TicketDTO obj)
+        {
+            try
+            {
+
+                return DbConnector.ExecuteReader("uspSparePartTicketsCountReport", null);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "TicketModel -> SparePartTicketsCountReport");
+                return null;
+            }
+        }
     }
 
     public interface ITicketModel
@@ -504,7 +601,7 @@ namespace HelpDesk.API.DataAccess
         SqlDataReader UpdateTicketStatus(TicketDTO obj);
         SqlDataReader AddticketRating(TicketDTO obj);
         string TicketRatingList(TicketDTO obj);
-        
+
         SqlDataReader TicketTransfer(TicketDTO obj);
         SqlDataReader GetSystemManagerId(TicketDTO obj);
         SqlDataReader AddResponseTieme(TicketDTO obj);
@@ -525,6 +622,13 @@ namespace HelpDesk.API.DataAccess
         SqlDataReader AddEnquirycomments(TicketDTO obj);
         SqlDataReader AddEnquiry(TicketDTO obj);
         SqlDataReader CrmRawData(TicketDTO obj);
+        SqlDataReader AssetListReport(TicketDTO obj);
+        SqlDataReader ProductReport(TicketDTO obj);
+        SqlDataReader EngineerWiseStatusReport(TicketDTO obj);
+        SqlDataReader AccountTicketReport(TicketDTO obj);
+        SqlDataReader PerMonthStatus(TicketDTO obj);
+        SqlDataReader RepeatedErrorReport(TicketDTO obj);
+        SqlDataReader SparePartTicketsCountReport(TicketDTO obj);
     }
 }
 
