@@ -570,6 +570,7 @@ namespace HelpDesk.API.Bussiness
             }
             return obj;
         }
+
         public TicketDTO AddEnquirycomments(TicketDTO obj)
         {
             try

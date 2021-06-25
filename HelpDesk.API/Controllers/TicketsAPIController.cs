@@ -861,6 +861,19 @@ namespace HelpDesk.API.Controllers
             var result = service.Addcomments(obj);
             return Ok(result);
         }
+
+        [ResponseType(typeof(TicketDTO))]
+        public IHttpActionResult NewCommentsM(TicketDTO obj)
+        {
+            var result = service.Addcomments(obj);
+            string msg = "";
+            bool val = true;
+
+            msg = val == true ? "Comment Added Successfully." : "Failure";
+            JObject res = new JObject(new JProperty("Status", true),
+                               (new JProperty("Message", msg)));
+            return Ok(res);
+        }
         /// <summary>
         /// get Spare part request tickets
         /// </summary>
