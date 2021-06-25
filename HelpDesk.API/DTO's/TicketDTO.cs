@@ -74,5 +74,32 @@ namespace HelpDesk.API.DTO_s
         public string Base64FileData { get; set; }
         public List<TicketDTO> multiple_images { get; set; }
 
+
+        public string SystemNo { get; set; }
+        public string InstallationDate { get; set; }
+        public string ExpiryDate { get; set; }
+        public string POContract { get; set; }
+        public string ContractTypeName { get; set; }
+        public int PPMType { get; set; }
+        public string PPMDate { get; set; }
+        public string CityName { get; set; }
+        public string RegionName { get; set; }
+        public int TicketsRaised { get; set; }
+        public string EngineerName { get; set; }
+        public int New { get; set; }
+        public int Closed { get; set; }
+        public int Resolved { get; set; }
+        public int InProgress { get; set; }
+        public string AverageTime { get; set; }
+        public int GrandTotal { get; set; }
+        public string AccountCode { get; set; }
+        public int TotalTickets { get; set; }
+        public string Month { get; set; }
+        public string Year { get; set; }
+
+        public string SparePartName { get; set; }
+        public string SparePartNumber { get; set; }
+        public int TotalQuantity { get; set; }
+        public int UsedQuantity { get; set; }
     }
 }

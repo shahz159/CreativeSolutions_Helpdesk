@@ -101,7 +101,7 @@ namespace HelpDesk.Web.Models
         public int Quantity { get; set; }
         public int BaseQuantity { get; set; }
         public string Price { get; set; }
-        public  IEnumerable<TicketDTO> SparePartList { get; set; }
+        public IEnumerable<TicketDTO> SparePartList { get; set; }
         public IEnumerable<TicketDTO> StatusLst { get; set; }
         public IEnumerable<TicketDTO> CommentsList { get; set; }
         public IEnumerable<TicketDTO> ServiceEngineerList { get; set; }
@@ -110,7 +110,7 @@ namespace HelpDesk.Web.Models
         public string commentsjson { get; set; }
         public int ParentId { get; set; }
         public long ECommentsId { get; set; }
-       // public string CommentsDate { get; set; }
+        // public string CommentsDate { get; set; }
         public string Gruop { get; set; }
         public int NewTickets { get; set; }
         public int InProgressTickets { get; set; }
@@ -155,6 +155,9 @@ namespace HelpDesk.Web.Models
         public string ManagerEmail { get; set; }
 
         public IEnumerable<TicketDTO> RawDataReportList { get; set; }
+        public IEnumerable<TicketDTO> AssetListReport { get; set; }
+        public IEnumerable<TicketDTO> ProductReport { get; set; }
+        public IEnumerable<TicketDTO> EngineerWiseStatusReport { get; set; }
         public string CreatedByName { get; set; }
         public string Duration { get; set; }
         public string ClosedName { get; set; }
@@ -177,6 +180,21 @@ namespace HelpDesk.Web.Models
         public string ScheduleandActualRespocsetimeDuration { get; set; }
         public string ResolvedtoCloseDate { get; set; }
         public string ScheduleTime { get; set; }
+
+
+        public string ExpiryDate { get; set; }
+        public string ContractTypeName { get; set; }
+        public int PPMType { get; set; }
+        public string Location { get; set; }
+        public string CityName { get; set; }
+        public string RegionName { get; set; }
+        public int TicketsRaised { get; set; }
+        public int InProgress { get; set; }
+        public string AverageTime { get; set; }
+        public int GrandTotal { get; set; }
+        public int TotalTickets { get; set; }
+        public int TotalQuantity { get; set; }
+        public int UsedQuantity { get; set; }
        
     }
 }

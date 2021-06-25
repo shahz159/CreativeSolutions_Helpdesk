@@ -770,6 +770,56 @@ namespace HelpDesk.API.Bussiness
             return obj;
         }
 
+        public IEnumerable<TicketDTO> AssetListReport(TicketDTO obj)
+        {
+            var data = model.AssetListReport(obj);
+            var list = CustomDataReaderToGenericExtension.GetDataObjects<TicketDTO>(data);
+            data.Close();
+            return list;
+        }
+        public IEnumerable<TicketDTO> ProductReport(TicketDTO obj)
+        {
+            var data = model.ProductReport(obj);
+            var list = CustomDataReaderToGenericExtension.GetDataObjects<TicketDTO>(data);
+            data.Close();
+            return list;
+        }
+        public IEnumerable<TicketDTO> EngineerWiseStatusReport(TicketDTO obj)
+        {
+            var data = model.EngineerWiseStatusReport(obj);
+            var list = CustomDataReaderToGenericExtension.GetDataObjects<TicketDTO>(data);
+            data.Close();
+            return list;
+        }
+        public IEnumerable<TicketDTO> AccountTicketReport(TicketDTO obj)
+        {
+            var data = model.AccountTicketReport(obj);
+            var list = CustomDataReaderToGenericExtension.GetDataObjects<TicketDTO>(data);
+            data.Close();
+            return list;
+        }
+        public IEnumerable<TicketDTO> PerMonthStatus(TicketDTO obj)
+        {
+            var data = model.PerMonthStatus(obj);
+            var list = CustomDataReaderToGenericExtension.GetDataObjects<TicketDTO>(data);
+            data.Close();
+            return list;
+        }
+        public IEnumerable<TicketDTO> RepeatedErrorReport(TicketDTO obj)
+        {
+            var data = model.RepeatedErrorReport(obj);
+            var list = CustomDataReaderToGenericExtension.GetDataObjects<TicketDTO>(data);
+            data.Close();
+            return list;
+        }
+        public IEnumerable<TicketDTO> SparePartTicketsCountReport(TicketDTO obj)
+        {
+            var data = model.SparePartTicketsCountReport(obj);
+            var list = CustomDataReaderToGenericExtension.GetDataObjects<TicketDTO>(data);
+            data.Close();
+            return list;
+        }
+       
     }
 
     public interface ITicketService
@@ -805,5 +855,13 @@ namespace HelpDesk.API.Bussiness
         TicketDTO GetTicketDetails(TicketDTO obj);
         TicketDTO GetSparePartListById(TicketDTO obj);
         TicketDTO CrmRawData(TicketDTO obj);
+        IEnumerable<TicketDTO> AssetListReport(TicketDTO obj);
+        IEnumerable<TicketDTO> ProductReport(TicketDTO obj);
+        IEnumerable<TicketDTO> EngineerWiseStatusReport(TicketDTO obj);
+        IEnumerable<TicketDTO> AccountTicketReport(TicketDTO obj);
+        IEnumerable<TicketDTO> PerMonthStatus(TicketDTO obj);
+        IEnumerable<TicketDTO> RepeatedErrorReport(TicketDTO obj);
+        IEnumerable<TicketDTO> SparePartTicketsCountReport(TicketDTO obj);
+       
     }
 }

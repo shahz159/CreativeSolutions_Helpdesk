@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="SparePartTicketsCountReportDS" targetNamespace="http://tempuri.org/SparePartTicketsCountReportDS.xsd" xmlns:mstns="http://tempuri.org/SparePartTicketsCountReportDS.xsd" xmlns="http://tempuri.org/SparePartTicketsCountReportDS.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="SparePartTicketsCountReportDS" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="SparePartTicketsCountReportDS" msprop:Generator_UserDSName="SparePartTicketsCountReportDS">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="SparePartTicketsCountReportDS" msprop:Generator_TableClassName="SparePartTicketsCountReportDSDataTable" msprop:Generator_TableVarName="tableSparePartTicketsCountReportDS" msprop:Generator_TablePropName="_SparePartTicketsCountReportDS" msprop:Generator_RowDeletingName="SparePartTicketsCountReportDSRowDeleting" msprop:Generator_RowChangingName="SparePartTicketsCountReportDSRowChanging" msprop:Generator_RowEvHandlerName="SparePartTicketsCountReportDSRowChangeEventHandler" msprop:Generator_RowDeletedName="SparePartTicketsCountReportDSRowDeleted" msprop:Generator_UserTableName="SparePartTicketsCountReportDS" msprop:Generator_RowChangedName="SparePartTicketsCountReportDSRowChanged" msprop:Generator_RowEvArgName="SparePartTicketsCountReportDSRowChangeEvent" msprop:Generator_RowClassName="SparePartTicketsCountReportDSRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SparePartName" msprop:Generator_ColumnVarNameInTable="columnSparePartName" msprop:Generator_ColumnPropNameInRow="SparePartName" msprop:Generator_ColumnPropNameInTable="SparePartNameColumn" msprop:Generator_UserColumnName="SparePartName" type="xs:string" minOccurs="0" />
+              <xs:element name="SparePartNumber" msprop:Generator_ColumnVarNameInTable="columnSparePartNumber" msprop:Generator_ColumnPropNameInRow="SparePartNumber" msprop:Generator_ColumnPropNameInTable="SparePartNumberColumn" msprop:Generator_UserColumnName="SparePartNumber" type="xs:string" minOccurs="0" />
+              <xs:element name="TotalQuantity" msprop:Generator_ColumnVarNameInTable="columnTotalQuantity" msprop:Generator_ColumnPropNameInRow="TotalQuantity" msprop:Generator_ColumnPropNameInTable="TotalQuantityColumn" msprop:Generator_UserColumnName="TotalQuantity" type="xs:string" minOccurs="0" />
+              <xs:element name="UsedQuantity" msprop:Generator_ColumnVarNameInTable="columnUsedQuantity" msprop:Generator_ColumnPropNameInRow="UsedQuantity" msprop:Generator_ColumnPropNameInTable="UsedQuantityColumn" msprop:Generator_UserColumnName="UsedQuantity" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

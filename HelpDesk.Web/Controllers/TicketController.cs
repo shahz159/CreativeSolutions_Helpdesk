@@ -576,7 +576,7 @@ namespace HelpDesk.Web.Controllers
             //            select a.ModelName;
             var employee = obj.ModelList
     .Where(x => x.AMModelId == AMID)
-    .Select(x => new { x.ProductId, x.ProductName, x.ModelName,x.AccountId });
+    .Select(x => new { x.ProductId, x.ProductName, x.ModelName, x.AccountId });
             int ProductId = 0;
             string ModelName = "";
             string ProductName = "";
@@ -586,7 +586,7 @@ namespace HelpDesk.Web.Controllers
                 ProductName = item.ProductName;
                 ModelName = item.ModelName;
                 ProductId = int.Parse(item.ProductId.ToString());
-                AccountId= int.Parse(item.AccountId.ToString());
+                AccountId = int.Parse(item.AccountId.ToString());
             }
 
             //var ModelName = from a in obj.ModelList
@@ -598,7 +598,7 @@ namespace HelpDesk.Web.Controllers
             //{ 
             //    ProductId = int.Parse(item.ToString());
             //}
-            return Json(new { ProductId = ProductId, ModelName = ModelName, ProductName = ProductName, AccountId = AccountId});
+            return Json(new { ProductId = ProductId, ModelName = ModelName, ProductName = ProductName, AccountId = AccountId });
         }
         public async Task<ActionResult> TicketDetails(long id)
         {
@@ -2275,7 +2275,7 @@ namespace HelpDesk.Web.Controllers
             }
         }
 
-        #region Report
+        #region sharfuddin Report
         public async Task<ActionResult> GetProjectList()
         {
             using (HttpClient client = new HttpClient())
@@ -2320,6 +2320,295 @@ namespace HelpDesk.Web.Controllers
             }
 
         }
+
+        public async Task<ActionResult> GetAssetListReport()
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                CommonHeader.setHeaders(client);
+                try
+                {
+                    TicketDTO obj = new TicketDTO();
+
+                    HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/TicketsAPI/NewAssetListReport", obj);
+                    if (responseMessage.IsSuccessStatusCode)
+                    {
+                        var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                        var categories = JsonConvert.DeserializeObject<List<TicketDTO>>(responseData);
+                        if (categories.Count != 0)
+                            obj.AssetListReport = categories;
+                        else
+                            obj.AssetListReport = null;
+
+
+                        if (categories != null)
+                        {
+                            ReportViewer reportViewer = new ReportViewer();
+                            reportViewer.ProcessingMode = ProcessingMode.Local;
+                            reportViewer.SizeToReportContent = true;
+                            reportViewer.LocalReport.ReportPath = Server.MapPath("~/Reports/AssetListReport.rdlc");
+
+                            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("AssetListReport", obj.AssetListReport));
+                            ViewBag.ReportViewer = reportViewer;
+                        }
+                    }
+                    return View();
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction("Error");
+                }
+            }
+
+        }
+
+        public async Task<ActionResult> GetProductReport()
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                CommonHeader.setHeaders(client);
+                try
+                {
+                    TicketDTO obj = new TicketDTO();
+
+                    HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/TicketsAPI/NewProductReport", obj);
+                    if (responseMessage.IsSuccessStatusCode)
+                    {
+                        var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                        var ReportList = JsonConvert.DeserializeObject<List<TicketDTO>>(responseData);
+                        if (ReportList.Count != 0)
+                            obj.ProductReport = ReportList;
+                        else
+                            obj.ProductReport = null;
+
+                        if (ReportList != null)
+                        {
+                            ReportViewer reportViewer = new ReportViewer();
+                            reportViewer.ProcessingMode = ProcessingMode.Local;
+                            reportViewer.SizeToReportContent = true;
+                            reportViewer.LocalReport.ReportPath = Server.MapPath("~/Reports/ProductReport.rdlc");
+
+                            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("ProductReportDS", obj.ProductReport));
+                            ViewBag.ReportViewer = reportViewer;
+                        }
+                    }
+                    return View();
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction("Error");
+                }
+            }
+
+        }
+
+        public async Task<ActionResult> GetEngineerWiseStatusReport()
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                CommonHeader.setHeaders(client);
+                try
+                {
+                    TicketDTO obj = new TicketDTO();
+
+                    HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/TicketsAPI/NewEngineerWiseStatusReport", obj);
+                    if (responseMessage.IsSuccessStatusCode)
+                    {
+                        var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                        var ReportList = JsonConvert.DeserializeObject<List<TicketDTO>>(responseData);
+                        if (ReportList.Count != 0)
+                            obj.ProductReport = ReportList;
+                        else
+                            obj.ProductReport = null;
+
+                        if (ReportList != null)
+                        {
+
+                            ReportViewer reportViewer = new ReportViewer();
+                            reportViewer.ProcessingMode = ProcessingMode.Local;
+                            reportViewer.SizeToReportContent = true;
+                            reportViewer.LocalReport.ReportPath = Server.MapPath("~/Reports/EngineerWiseStatus.rdlc");
+
+                            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("EngineerWiseStatusDS", obj.ProductReport));
+                            ViewBag.ReportViewer = reportViewer;
+                        }
+                    }
+                    return View();
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction("Error");
+                }
+            }
+
+        }
+
+        public async Task<ActionResult> GetAccountTicketReport()
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                CommonHeader.setHeaders(client);
+                try
+                {
+                    TicketDTO obj = new TicketDTO();
+
+                    HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/TicketsAPI/NewAccountTicketReport", obj);
+                    if (responseMessage.IsSuccessStatusCode)
+                    {
+
+                        var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                        var ReportList = JsonConvert.DeserializeObject<List<TicketDTO>>(responseData);
+                        if (ReportList.Count != 0)
+                            obj.ProductReport = ReportList;
+                        else
+                            obj.ProductReport = null;
+
+                        if (ReportList != null)
+                        {
+                            ReportViewer reportViewer = new ReportViewer();
+                            reportViewer.ProcessingMode = ProcessingMode.Local;
+                            reportViewer.SizeToReportContent = true;
+                            reportViewer.LocalReport.ReportPath = Server.MapPath("~/Reports/AccountTicketReport.rdlc");
+
+                            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("AccountTicketReportDS", obj.ProductReport));
+                            ViewBag.ReportViewer = reportViewer;
+                        }
+                    }
+                    return View();
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction("Error");
+                }
+            }
+
+        }
+
+        public async Task<ActionResult> GetPerMonthStatus()
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                CommonHeader.setHeaders(client);
+                try
+                {
+                    TicketDTO obj = new TicketDTO();
+
+                    HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/TicketsAPI/NewPerMonthStatus", obj);
+                    if (responseMessage.IsSuccessStatusCode)
+                    {
+
+                        var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                        var ReportList = JsonConvert.DeserializeObject<List<TicketDTO>>(responseData);
+                        if (ReportList.Count != 0)
+                            obj.ProductReport = ReportList;
+                        else
+                            obj.ProductReport = null;
+
+
+                        if (ReportList != null)
+                        {
+                            ReportViewer reportViewer = new ReportViewer();
+                            reportViewer.ProcessingMode = ProcessingMode.Local;
+                            reportViewer.SizeToReportContent = true;
+                            reportViewer.LocalReport.ReportPath = Server.MapPath("~/Reports/PerMonthStatusReport.rdlc");
+
+                            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("PerMonthStatusDS", obj.ProductReport));
+                            ViewBag.ReportViewer = reportViewer;
+                        }
+                    }
+                    return View();
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction("Error");
+                }
+            }
+
+        }
+
+        public async Task<ActionResult> GetRepeatedErrorReport()
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                CommonHeader.setHeaders(client);
+                try
+                {
+                    TicketDTO obj = new TicketDTO();
+
+                    HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/TicketsAPI/NewRepeatedErrorReport", obj);
+                    if (responseMessage.IsSuccessStatusCode)
+                    {
+
+                        var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                        var ReportList = JsonConvert.DeserializeObject<List<TicketDTO>>(responseData);
+                        if (ReportList.Count != 0)
+                            obj.ProductReport = ReportList;
+                        else
+                            obj.ProductReport = null;
+
+                        if (ReportList.Count != 0)
+                        {
+                            ReportViewer reportViewer = new ReportViewer();
+                            reportViewer.ProcessingMode = ProcessingMode.Local;
+                            reportViewer.SizeToReportContent = true;
+                            reportViewer.LocalReport.ReportPath = Server.MapPath("~/Reports/RepeatedErrorReportReport.rdlc");
+
+                            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("RepeatedErrorReportDS", obj.ProductReport));
+                            ViewBag.ReportViewer = reportViewer;
+                        }
+                    }
+                    return View();
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction("Error");
+                }
+            }
+
+        }
+
+        public async Task<ActionResult> GetSparePartTicketsCountReport()
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                CommonHeader.setHeaders(client);
+                try
+                {
+                    TicketDTO obj = new TicketDTO();
+
+                    HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/TicketsAPI/NewSparePartTicketsCountReport", obj);
+                    if (responseMessage.IsSuccessStatusCode)
+                    {
+                        var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                        var ReportList = JsonConvert.DeserializeObject<List<TicketDTO>>(responseData);
+                        if (ReportList.Count != 0)
+                            obj.ProductReport = ReportList;
+                        else
+                            obj.ProductReport = null;
+
+
+                        List<TicketDTO> RawDetails = new List<TicketDTO>();
+                        if (ReportList.Count != 0)
+                        {
+                            ReportViewer reportViewer = new ReportViewer();
+                            reportViewer.ProcessingMode = ProcessingMode.Local;
+                            reportViewer.SizeToReportContent = true;
+                            reportViewer.LocalReport.ReportPath = Server.MapPath("~/Reports/SparePartTicketsCountReport.rdlc");
+
+                            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("SparePartTicketsCountReportDS", obj.ProductReport));
+                            ViewBag.ReportViewer = reportViewer;
+                        }
+                    }
+                    return View();
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction("Error");
+                }
+            }
+
+        }
+
         #endregion
     }
 }

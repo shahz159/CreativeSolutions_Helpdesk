@@ -37,12 +37,12 @@ namespace HelpDesk.API.Controllers
         [ResponseType(typeof(TicketDTO))]
         public IHttpActionResult NewInsertTicketRequestM(TicketDTO obj)
         {
-//            "TicketDocuments":{
-//                "FileName":"1953shirtsb3.jpeg",
-//"Base64FileData":"/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aG9KNuTjvQAsnTHvUdSSc4PqT/OmD3pAFJS0lMBaBRSigDZ8J2ou/EFojDKq28/8AARn+letV5v8AD2Pfrrv/AHIWP6gV6TUPcYUUUUgCiiigAooooAKKKKACiiigAooooA//2Q==",
-//"FileUploadLocation":"/ProfilePicture/",
-//"FileURLLocation":null
-//}
+            //            "TicketDocuments":{
+            //                "FileName":"1953shirtsb3.jpeg",
+            //"Base64FileData":"/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aG9KNuTjvQAsnTHvUdSSc4PqT/OmD3pAFJS0lMBaBRSigDZ8J2ou/EFojDKq28/8AARn+letV5v8AD2Pfrrv/AHIWP6gV6TUPcYUUUUgCiiigAooooAKKKKACiiigAooooA//2Q==",
+            //"FileUploadLocation":"/ProfilePicture/",
+            //"FileURLLocation":null
+            //}
 
             if (obj.TicketDocuments != null)
             {
@@ -521,7 +521,7 @@ namespace HelpDesk.API.Controllers
                                 JTotalRecords = strjarry;
                         }
 
-                       
+
                     }
                 }
             }
@@ -564,7 +564,7 @@ namespace HelpDesk.API.Controllers
 
             string msg = "";
             bool val = false;
-            
+
             if (result.SystemManagerId != 0)
             {
                 val = true;
@@ -599,7 +599,7 @@ namespace HelpDesk.API.Controllers
             JArray JServiceEngineerDetails = JArray.Parse("[]");
             JArray JAccountDetails = JArray.Parse("[]");
             JArray JStatusDetails = JArray.Parse("[]");
-             
+
             if (result != null)
             {
                 if (!string.IsNullOrEmpty(result.datasetxml))
@@ -643,7 +643,7 @@ namespace HelpDesk.API.Controllers
                             if (!string.IsNullOrEmpty(str))
                                 JServiceEngineerDetails = strjarry;
                         }
-                        
+
                         if (ds.Tables[2].Rows.Count > 0)
                         {
                             var str = JsonConvert.SerializeObject(ds.Tables[2]);
@@ -736,7 +736,7 @@ namespace HelpDesk.API.Controllers
                                 var ServiceEngineerJson = item.SelectToken("ServiceEngineerJson");
                                 var ServiceEngineerJsonj = JArray.Parse(ServiceEngineerJson.ToString());
                                 item.Add(new JProperty("JServiceEngineerJson", ServiceEngineerJsonj));
-                                
+
                             }
 
                             if (!string.IsNullOrEmpty(str))
@@ -795,7 +795,7 @@ namespace HelpDesk.API.Controllers
                         {
                             var str = JsonConvert.SerializeObject(ds.Tables[0]);
                             var strjarry = JArray.Parse(str);
-                             
+
                             if (!string.IsNullOrEmpty(str))
                                 JSparePartDetails = strjarry;
                         }
@@ -842,7 +842,7 @@ namespace HelpDesk.API.Controllers
 
             if (obj.FlagId == 2)
                 msg = "Spare Part Requested Successfully.";
-            else if (obj.FlagId==1)
+            else if (obj.FlagId == 1)
                 msg = "Assigned Spare Part Added Successfully.";
             msg = val == true ? "" : "Failure";
             JObject res = new JObject(new JProperty("Status", val),
@@ -1021,11 +1021,11 @@ namespace HelpDesk.API.Controllers
 
                             foreach (JObject item in strjarry)
                             {
-                                 
+
                                 var commentsjson = item.SelectToken("commentsJson");
                                 var commentsjsonj = JArray.Parse(commentsjson.ToString());
                                 item.Add(new JProperty("JCommentsjson", commentsjsonj));
-                                 
+
                             }
 
                             if (!string.IsNullOrEmpty(str))
@@ -1058,7 +1058,7 @@ namespace HelpDesk.API.Controllers
             var result = service.AddTicketRating(obj);
             string msg = "";
             bool val = true;
-             
+
             msg = val == true ? "Rating Added Successfully." : "Failure";
             JObject res = new JObject(new JProperty("Status", true),
                                (new JProperty("Message", msg)));
@@ -1117,6 +1117,52 @@ namespace HelpDesk.API.Controllers
             var result = service.CrmRawData(obj);
             return Ok(result);
         }
+
+        [ResponseType(typeof(TicketDTO))]
+        public IEnumerable<TicketDTO> NewAssetListReport(TicketDTO obj)
+        {
+            var list = service.AssetListReport(obj);
+            return list;
+        }
+
+        [ResponseType(typeof(TicketDTO))]
+        public IEnumerable<TicketDTO> NewProductReport(TicketDTO obj)
+        {
+            var list = service.ProductReport(obj);
+            return list;
+        }
+
+        [ResponseType(typeof(TicketDTO))]
+        public IEnumerable<TicketDTO> NewEngineerWiseStatusReport(TicketDTO obj)
+        {
+            var list = service.EngineerWiseStatusReport(obj);
+            return list;
+        }
+        [ResponseType(typeof(TicketDTO))]
+        public IEnumerable<TicketDTO> NewAccountTicketReport(TicketDTO obj)
+        {
+            var list = service.AccountTicketReport(obj);
+            return list;
+        }
+        [ResponseType(typeof(TicketDTO))]
+        public IEnumerable<TicketDTO> NewPerMonthStatus(TicketDTO obj)
+        {
+            var list = service.PerMonthStatus(obj);
+            return list;
+        }
+        [ResponseType(typeof(TicketDTO))]
+        public IEnumerable<TicketDTO> NewRepeatedErrorReport(TicketDTO obj)
+        {
+            var list = service.RepeatedErrorReport(obj);
+            return list;
+        }
+         [ResponseType(typeof(TicketDTO))]
+        public IEnumerable<TicketDTO> NewSparePartTicketsCountReport(TicketDTO obj)
+        {
+            var list = service.SparePartTicketsCountReport(obj);
+            return list;
+        }
+
         #endregion
     }
 }
