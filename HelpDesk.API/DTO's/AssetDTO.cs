@@ -10,10 +10,14 @@ namespace HelpDesk.API.DTO_s
         public long TicketNumber { get; set; }
         public string ContractTypetxt { get; set; }
         public string PPMJson { get; set; }
+        public string JVMOrdersJson { get; set; }
+        public string JVMOrderDate { get; set; }
         public int AMId { get; set; }
         public int AccountId { get; set; }
         public int ProductId { get; set; }
         public int ModelId { get; set; }
+        public int Canister { get; set; }
+        public bool IsJVM { get; set; }
         public string AccountName { get; set; }
         public string AccountCode { get; set; }
         public string ProductName { get; set; }
@@ -76,7 +80,7 @@ namespace HelpDesk.API.DTO_s
 
         public int PageSize { get; set; }
         public int pageNumber { get; set; }
-
+        public int TotalCanister { get; set; }
         public string RemainingModelsJson { get; set; }
         public string StartDateStr { get; set; }
         public string EndDateStr { get; set; }

@@ -26,6 +26,39 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
+        public SqlDataReader changepasswordrequest(string email,string token)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@Email",email),
+                new SqlParameter("@token",token)
+                };
+                return DbConnector.ExecuteReader("uspChangePasswordRequest", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "UserModel -> CheckEmailExists");
+                return null;
+            }
+        }
+        public SqlDataReader verifypasswordrequest(string email, string token)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@email",email),
+                new SqlParameter("@token",token)
+                };
+                return DbConnector.ExecuteReader("uspverifyrequest", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "UserModel -> CheckEmailExists");
+                return null;
+            }
+        }
+        
         public SqlDataReader CheckEmpIdExists(string empid)
         {
             try
@@ -339,6 +372,22 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
+        public SqlDataReader UpdateUserpasswordwithemail(UsersDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@email",obj.Email),
+                new SqlParameter("@Password",obj.Password)
+                };
+                return DbConnector.ExecuteReader("uspChangePasswordWithEmail", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "UserModel -> UpdateUserpassword");
+                return null;
+            }
+        }
         
         public string RoleCompanyDropDowns(UsersDTO obj)
         {
@@ -365,12 +414,15 @@ namespace HelpDesk.API.DataAccess
         SqlDataReader UpdateSignUpUser(UsersDTO obj);
         SqlDataReader UpdateUserStatusActive(UsersDTO obj);
         SqlDataReader UpdateUserpassword(UsersDTO obj);
+        SqlDataReader UpdateUserpasswordwithemail(UsersDTO obj);
         string RoleCompanyDropDowns(UsersDTO obj);
         string GetUserDetailsById(UsersDTO obj);
         string GetUserList(UsersDTO obj);
         string GetSystemUserListforApproval(UsersDTO obj);
         string GetSystemUserDetailsById(UsersDTO obj);
         SqlDataReader CheckEmailExists(string email);
+        SqlDataReader changepasswordrequest(string email, string token);
+        SqlDataReader verifypasswordrequest(string email, string token);
         SqlDataReader CheckEmpIdExists(string empid);
         SqlDataReader updateuserstatus(UsersDTO obj);
         SqlDataReader addproduct(UsersDTO obj);

@@ -7,6 +7,12 @@ namespace HelpDesk.Web.Models
 {
     public class AssetsDTO
     {
+        public int Quantity { get; set; }
+        public string JVMOrderDate { get; set; }
+        public string JVMOrdersJson { get; set; }
+        public int TotalCanister { get; set; }
+        public bool IsJVM { get; set; }
+        public int Canister { get; set; }
         public int NoOfPages { get; set; }
         public int TotalRecords { get; set; }
         public string AssetModelJson { get; set; }
@@ -33,6 +39,7 @@ namespace HelpDesk.Web.Models
         public IEnumerable<AssetsDTO> ModelList { get; set; }
         public IEnumerable<AssetsDTO> AssetModelList { get; set; }
         public IEnumerable<AssetsDTO> RemainingModelList { get; set; }
+        public IEnumerable<AssetsDTO> JVMOrderList { get; set; }
         public string RemainingModelsJson { get; set; }
         public IEnumerable<AssetsDTO> CityList { get; set; }
         public IEnumerable<AssetsDTO> UpdatedList { get; set; }
@@ -58,9 +65,11 @@ namespace HelpDesk.Web.Models
         public int CityId { get; set; }
         public string CityName { get; set; }
         public DateTime InstallationDate { get; set; }
+        public DateTime NextPPMDate { get; set; }
         public bool IsContract { get; set; }
         public string POContract { get; set; }
         public DateTime WarrantyExpiryDate { get; set; }
+        public int RemainingCanister { get; set; }
         public DateTime PreviousDate { get; set; }
         public DateTime NewDate { get; set; }
         public long UpdatedId { get; set; }

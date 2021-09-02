@@ -1,0 +1,242 @@
+﻿@model HelpDesk.Web.Models.TicketDTO
+@{
+    ViewBag.Title = "ArchiveTab";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section  Styles{
+    <link href="~/assets/css/datatables.bundle.css" rel="stylesheet" />
+}
+<div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 order-lg-1 order-xl-1">
+            <div class="kt-portlet kt-portlet--head--noborder">
+                <div class="kt-portlet__head kt-portlet__head--lg">
+                    <div class="kt-portlet__head-label">
+                        <span class="kt-portlet__head-icon">
+                            <i class="kt-font-brand flaticon2-line-chart"></i>
+                        </span>
+                        <h3 class="kt-portlet__head-title">
+                            Service Report
+                        </h3>
+                    </div>
+                </div>
+                <div class="kt-portlet__body kt-portlet__body--fluid kt-portlet__body--fit">
+                    <div class="kt-container kt-grid__item kt-grid__item--fluid">
+                                <div class="kt-form kt-form--label-right">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="col-form-label">Select Month</label>
+                                                    <select id="ddlMonths" class="form-control select2-allow-clear">
+                                                        <option value="1">Jan</option>
+                                                        <option value="2">Feb</option>
+                                                        <option value="3">Mar</option>
+                                                        <option value="4">Apr</option>
+                                                        <option value="5">May</option>
+                                                        <option value="6">June</option>
+                                                        <option value="7">July</option>
+                                                        <option value="8">Aug</option>
+                                                        <option value="9">Sep</option>
+                                                        <option value="10">Oct</option>
+                                                        <option value="11">Nov</option>
+                                                        <option value="12">Dec</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group mb-0">
+                                                    <label for="example-text-input" class="col-form-label">Select Year</label>
+                                                    <select id="ddlYear" class="form-control select2-allow-clear">
+                                                        <option value="2021">2021</option>
+                                                        <option value="2022">2022</option>
+                                                        <option value="2023">2023</option>
+                                                        <option value="2024">2024</option>
+                                                        <option value="2025">2025</option>
+                                                        <option value="2026">2026</option>
+                                                        <option value="2027">2027</option>
+                                                        <option value="2028">2028</option>
+                                                        <option value="2029">2029</option>
+                                                        <option value="2030">2030</option>
+                                                        <option value="2031">2031</option>
+                                                        <option value="2032">2032</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="example-text-input" class="col-form-label invisible">Select Year</label>
+                                                <div>
+                                                    <a href="#" class="btn btn-success" onclick="Binddata()">Submit</a>
+                                                    <a href="#" class=" btn btn-secondary">Cancel</a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    @*<div class="kt-portlet__foot">
+                                            <div class="kt-form__actions">
+                                                <div id="btn_div" class="row">
+                                                    <div class="col-2">
+                                                    </div>
+                                                    <div class="col-10">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>*@
+                                </div>
+                    </div>
+                </div>
+            </div>
+            <div id="ArchiveTicktes_div"></div>
+        </div>
+    </div>
+</div>
+
+@section  Scripts{
+    <script src="~/assets/js/select2.js"></script>
+    <script src="~/assets/js/datatables.bundle.js"></script>
+    @*<script src="~/assets/js/datatable.js"></script>*@
+
+    <script>
+        $('#kt_table_1').DataTable();
+        document.getElementById("loader").style.display = "none";
+        function Binddata() {
+            document.getElementById("loader").style.display = "block";
+        $.ajax({
+            type: "Post",
+            url: '@Url.Action("ArchiveTab")',
+            datatype: "json",
+            data: { MonthId: $('#ddlMonths').val(), YearId: $('#ddlYear').val() },
+            success: function (data) {
+                document.getElementById("loader").style.display = "none";
+                $('#ArchiveTicktes_div').html('');
+                $('#ArchiveTicktes_div').html(data);
+
+                $(document).ready(function () {
+                    $('#kt_table_1').DataTable({
+                        "order": [[0, "desc"]],
+                        initComplete: function () {
+                            this.api().columns().every(function () {
+                                var column = this;
+                                if (column.index() == 2) {  //skip if column 0
+                                    $(column.header()).append("<br>")
+                                    var select = $('<select class = "form-control kt-select2"><option value="" disabled selected>Select Account</option></select>')
+                                        .appendTo(
+                                            //$(column.header())
+                                            $('#div_filters_Account')
+                                        )
+                                        .on('change', function () {
+                                            var val = $.fn.dataTable.util.escapeRegex(
+                                                $(this).val()
+                                            );
+
+                                            column
+                                                .search(val ? '^' + val + '$' : '', true, false)
+                                                .draw();
+                                        });
+                                    column.order('asc').data().unique().sort().each(function (d, j) {
+                                        select.append('<option value="' + d + '">' + d + '</option>')
+                                    });
+                                }  //end of if div_filters_ticket type
+                                if (column.index() == 5) {  //skip if column 0
+                                    $(column.header()).append("<br>")
+                                    var select = $('<select class = "form-control kt-select2"><option value="" disabled selected>Select Status</option></select>')
+                                        .appendTo(
+                                            //$(column.header())
+                                            $('#div_filters_Status')
+                                        )
+                                        .on('change', function () {
+                                            var val = $.fn.dataTable.util.escapeRegex(
+                                                $(this).val()
+                                            );
+
+                                            column
+                                                .search(val ? '^' + val + '$' : '', true, false)
+                                                .draw();
+                                        });
+                                    column.order('asc').data().unique().sort().each(function (d, j) {
+                                        select.append('<option value="' + d + '">' + d + '</option>')
+                                    });
+                                }
+                                if (column.index() == 4) {  //skip if column 0
+                                    $(column.header()).append("<br>")
+                                    var select = $('<select class = "form-control kt-select2"><option value="" disabled selected>Select Ticket Type</option></select>')
+                                        .appendTo(
+                                            //$(column.header())
+                                            $('#div_filters_tickettype')
+                                        )
+                                        .on('change', function () {
+                                            var val = $.fn.dataTable.util.escapeRegex(
+                                                $(this).val()
+                                            );
+
+                                            column
+                                                .search(val ? '^' + val + '$' : '', true, false)
+                                                .draw();
+                                        });
+                                    column.order('asc').data().unique().sort().each(function (d, j) {
+                                        select.append('<option value="' + d + '">' + d + '</option>')
+                                    });
+                                }
+                                //div_filters_tickettype
+                            });
+                        }
+                    });
+                });
+            },
+            error: function () {
+                alert('error');
+                $('#ArchiveTicktes_div').html('');
+                document.getElementById("loader").style.display = "none";
+            }
+        });
+        }
+
+        function exportData() {
+            debugger
+            /* Get the HTML data using Element by Id */
+            var table = document.getElementById("kt_table_1");
+
+            /* Declaring array variable */
+            var rows = [];
+
+            //iterate through rows of table
+            for (var i = 0, row; row = table.rows[i]; i++) {
+                //rows would be accessed using the "row" variable assigned in the for loop
+                //Get each cell value/column from the row
+                column1 = row.cells[0].innerText;
+                column2 = row.cells[1].innerText;
+                column3 = row.cells[2].innerText;
+                column4 = row.cells[3].innerText;
+                column5 = row.cells[4].innerText;
+
+                /* add a new records in the array */
+                rows.push(
+                    [
+                        column1,
+                        column2,
+                        column3,
+                        column4,
+                        column5
+                    ]
+                );
+
+            }
+            csvContent = "data:text/csv;charset=utf-8,";
+            /* add the column delimiter as comma(,) and each row splitted by new line character (\n) */
+            rows.forEach(function (rowArray) {
+                row = rowArray.join(",");
+                csvContent += row + "\r\n";
+            });
+
+            /* create a hidden <a> DOM node and set its download attribute */
+            var encodedUri = encodeURI(csvContent);
+            var link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "Archive_Report.csv");
+            document.body.appendChild(link);
+            /* download the data file named "Stock_Price_Report.csv" */
+            link.click();
+        }
+    </script>
+}

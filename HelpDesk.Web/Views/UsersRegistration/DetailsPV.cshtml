@@ -46,7 +46,7 @@
                                 Accounts List
                             </h3>
                         </div>
-                        @if (item.SignUp == false &&(item.RoleId==501||item.RoleId==502||item.RoleId==505))
+                        @if (item.SignUp == false &&(item.RoleId==501||item.RoleId==502||item.RoleId==505 || item.RoleId == 506))
                         {
                             <div class="kt-portlet__head-toolbar">
                                 <div class="kt-portlet__head-wrapper">
@@ -65,7 +65,7 @@
                                 <thead>
                                     <tr>
                                         <th>Account Name</th>
-                                        @if (item.SignUp == false && (item.RoleId == 501 || item.RoleId == 502 || item.RoleId == 505))
+                                        @if (item.SignUp == false && (item.RoleId == 501 || item.RoleId == 502 || item.RoleId == 505 || item.RoleId == 506))
                                         {
                                             <th>Actions</th>
                                         }
@@ -97,7 +97,7 @@
                                         {
                                             <tr id="tra_@itemacc.MUPId">
                                                 <td>@itemacc.AccountName</td>
-                                                @if (item.SignUp == false &&(item.RoleId == 501 || item.RoleId == 502 || item.RoleId == 505))
+                                                @if (item.SignUp == false &&(item.RoleId == 501 || item.RoleId == 502 || item.RoleId == 505 || item.RoleId == 506))
                                                 {
                                                     <td>
                                                         <a href="#" onclick="RemoveAccountProduct(@itemacc.MUACId,1)">
@@ -282,7 +282,7 @@
     <script>
         $(document).ready(function () {
             //set initial state.
-            $('#ddlProductsUP').select2();
+            $('#ddlProductsUP,#ddlRole,#ddlgender,#ddlAccountUP').select2({});
         });
         function SignUpUserStatus(val) {
              $.ajax({

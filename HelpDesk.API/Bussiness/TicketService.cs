@@ -24,7 +24,7 @@ namespace HelpDesk.API.Bussiness
         {
             try
             {
-                
+
                 var data = model.NewTicketRequest(obj);
                 if (data.HasRows)
                 {
@@ -54,7 +54,7 @@ namespace HelpDesk.API.Bussiness
                             obj.SupervisorEmail = data["SupervisorEmail"].ToString();
                             obj.SupervisorName = data["SupervisorName"].ToString();
                             obj.SupervisorUserId = long.Parse(data["SupervisorUserId"].ToString());
-                            obj.ReportTypeName =data["ReportTypeName"].ToString();
+                            obj.ReportTypeName = data["ReportTypeName"].ToString();
                             obj.StationName = data["StationName"].ToString();
                             obj.ModelName = data["ModelName"].ToString();
                             obj.SerialNo = data["SerialNo"].ToString();
@@ -125,7 +125,7 @@ namespace HelpDesk.API.Bussiness
         private void SendEmailToSuperUser(long TicketNumber, string CreatedDate, string ProductName,
           string SystemId, string AccountName, string Location, string ProblemDescription,
           string SuperUserEmail, string CustomerFullName, string EngineerFullName
-          , string StatusText, string SuperUserName, string SupervisorEmail, string SupervisorName,string ReportTypeName, string StationName
+          , string StatusText, string SuperUserName, string SupervisorEmail, string SupervisorName, string ReportTypeName, string StationName
             , string ModelName, string SerialNo)
         {
             try
@@ -570,6 +570,7 @@ namespace HelpDesk.API.Bussiness
             }
             return obj;
         }
+
         public TicketDTO AddEnquirycomments(TicketDTO obj)
         {
             try
@@ -641,6 +642,13 @@ namespace HelpDesk.API.Bussiness
             obj.datasetxml = model.GetSystemUserTickets(obj);
             return obj;
         }
+        public TicketDTO GetSystemUserTicketsMobile(TicketDTO obj)
+        {
+            obj.datasetxml = model.GetSystemUserTicketsMobile(obj);
+            return obj;
+        }
+
+
         public TicketDTO GetRejectedTickets(TicketDTO obj)
         {
             obj.datasetxml = model.GetRejectedTickets(obj);
@@ -682,7 +690,11 @@ namespace HelpDesk.API.Bussiness
             return obj;
         }
 
-
+        public TicketDTO GetServiceEngineerCounts(TicketDTO obj)
+        {
+            obj.datasetxml = model.GetServiceEngineerCounts(obj);
+            return obj;
+        }
         public TicketDTO GetSparePartRequestTickets(TicketDTO obj)
         {
             obj.datasetxml = model.GetSparePartRequestTickets(obj);
@@ -703,7 +715,7 @@ namespace HelpDesk.API.Bussiness
             obj.datasetxml = model.TicketRatingList(obj);
             return obj;
         }
-        
+
         public TicketDTO AddTicketRating(TicketDTO obj)
         {
             try
@@ -727,7 +739,7 @@ namespace HelpDesk.API.Bussiness
             return obj;
         }
 
-        
+
 
         public TicketDTO GetServiceEngineerTicketsFiletrs(TicketDTO obj)
         {
@@ -751,6 +763,28 @@ namespace HelpDesk.API.Bussiness
             try
             {
                 var data = model.CrmRawData(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["JsonData"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
+        public TicketDTO TicketServiceTab(TicketDTO obj)
+        {
+            try
+            {
+                var data = model.ServiceArchiveTicket(obj);
                 if (data.HasRows)
                 {
                     while (data.Read())
@@ -818,7 +852,7 @@ namespace HelpDesk.API.Bussiness
             data.Close();
             return list;
         }
-       
+
     }
 
     public interface ITicketService
@@ -838,12 +872,13 @@ namespace HelpDesk.API.Bussiness
         TicketDTO GetAccounts(TicketDTO obj);
         TicketDTO GetProducts(TicketDTO obj);
         TicketDTO GetSystemUserTickets(TicketDTO obj);
+        TicketDTO GetSystemUserTicketsMobile(TicketDTO obj);
         TicketDTO GetRejectedTickets(TicketDTO obj);
         TicketDTO GetServiceEngineerTickets(TicketDTO obj);
         TicketDTO GetDashboardCount(TicketDTO obj);
 
         TicketDTO GetSystemManagerId(TicketDTO obj);
-
+        TicketDTO GetServiceEngineerCounts(TicketDTO obj);
         TicketDTO GetSparePartRequestTickets(TicketDTO obj);
         TicketDTO GetEnquiryDetails(TicketDTO obj);
         TicketDTO GetTicketRatingList(TicketDTO obj);
@@ -854,6 +889,7 @@ namespace HelpDesk.API.Bussiness
         TicketDTO GetTicketDetails(TicketDTO obj);
         TicketDTO GetSparePartListById(TicketDTO obj);
         TicketDTO CrmRawData(TicketDTO obj);
+        TicketDTO TicketServiceTab(TicketDTO obj);
         IEnumerable<TicketDTO> AssetListReport(TicketDTO obj);
         IEnumerable<TicketDTO> ProductReport(TicketDTO obj);
         IEnumerable<TicketDTO> EngineerWiseStatusReport(TicketDTO obj);
@@ -861,6 +897,6 @@ namespace HelpDesk.API.Bussiness
         IEnumerable<TicketDTO> PerMonthStatus(TicketDTO obj);
         IEnumerable<TicketDTO> RepeatedErrorReport(TicketDTO obj);
         IEnumerable<TicketDTO> SparePartTicketsCountReport(TicketDTO obj);
-       
+
     }
 }

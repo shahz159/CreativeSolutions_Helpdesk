@@ -1,0 +1,165 @@
+﻿@model HelpDesk.Web.Models.TicketDTO
+
+@*@section  Styles{
+    <link href="~/assets/css/datatables.bundle.css" rel="stylesheet" />
+    <style>
+        .dataTables_length label {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+}*@
+<div class="kt-portlet kt-portlet--head--noborder">
+    <div class="kt-portlet__body">
+        <!--begin: Search Form -->
+        <div class="kt-form kt-form--label-right">
+            <div class="row align-items-center">
+                <div class="col-xl-12 order-2 order-xl-1">
+                    <div class="row align-items-center">
+                        <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
+                            <div class="kt-form__group">
+                                <div class="kt-form__label">
+                                    <label>Account</label>
+                                </div>
+                                <div class="kt-form__control">
+                                    <div id="div_filters_Account">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
+                            <div class="kt-form__group">
+                                <div class="kt-form__label">
+                                    <label>Ticket Type</label>
+                                </div>
+                                <div class="kt-form__control">
+                                    <div id="div_filters_tickettype">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
+                            <div class="kt-form__group">
+                                <div class="kt-form__label">
+                                    <label>Status</label>
+                                </div>
+                                <div class="kt-form__control">
+                                    <div id="div_filters_Status">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
+                            <div class="kt-form__group">
+                                <div class="kt-form__label">
+                                    <label class="invisible">Select Year</label>
+                                </div>
+                                <div class="kt-form__control">
+                                    <a style="cursor:pointer;" class="btn btn-info" onclick="reload()">Clear Filters</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr />
+
+        <table class="table table-striped- table-bordered table-hover table-checkable" id="kt_table_1">
+            <thead>
+                <tr>
+                    <th>Ticket No</th>
+                    <th>Created Date</th>
+                    <th>Account</th>
+                    <th>Serial No</th>
+                    <th>Ticket Type</th>
+                    <th>Status</th>
+                    <th>Download</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.TicketList != null)
+                {
+                    foreach (var item in Model.TicketList)
+                    {
+                        <tr>
+                            <td>@item.TicketNumber</td>
+                            <td>@item.CreatedOnNew</td>
+                            <td>@item.AccountName</td>
+                            <td>@item.SerialNo</td>
+                            <td>@item.RequestType</td>
+                            <td>@item.RequestMainStatus</td>
+                            <td>
+                                <a target="_blank" href="@Url.Action("ServiceReportDownload", "Ticket", new { TicketNumber = item.TicketNumber })">Download</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@*@section Scripts{
+        <script src="~/assets/js/select2.js"></script>
+        <script src="~/assets/js/datatables.bundle.js"></script>
+        <script src="~/assets/js/datatable.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                $('#kt_table_1').DataTable({
+                    "order": [[0, "desc"]],
+                    initComplete: function () {
+                        this.api().columns().every(function () {
+                            var column = this;
+                            if (column.index() == 2) {  //skip if column 0
+                                $(column.header()).append("<br>")
+                                var select = $('<select class = "form-control kt-select2"><option value="" disabled selected>Select Account</option></select>')
+                                    .appendTo(
+                                        //$(column.header())
+                                        $('#div_filters_Account')
+                                    )
+                                    .on('change', function () {
+                                        var val = $.fn.dataTable.util.escapeRegex(
+                                            $(this).val()
+                                        );
+
+                                        column
+                                            .search(val ? '^' + val + '$' : '', true, false)
+                                            .draw();
+                                    });
+                                column.order('asc').data().unique().sort().each(function (d, j) {
+                                    select.append('<option value="' + d + '">' + d + '</option>')
+                                });
+                            }  //end of if div_filters_ticket type
+                            if (column.index() == 4) {  //skip if column 0
+                                $(column.header()).append("<br>")
+                                var select = $('<select class = "form-control kt-select2"><option value="" disabled selected>Select Status</option></select>')
+                                    .appendTo(
+                                        //$(column.header())
+                                        $('#div_filters_Status')
+                                    )
+                                    .on('change', function () {
+                                        var val = $.fn.dataTable.util.escapeRegex(
+                                            $(this).val()
+                                        );
+
+                                        column
+                                            .search(val ? '^' + val + '$' : '', true, false)
+                                            .draw();
+                                    });
+                                column.order('asc').data().unique().sort().each(function (d, j) {
+                                    select.append('<option value="' + d + '">' + d + '</option>')
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+        </script>
+    }*@

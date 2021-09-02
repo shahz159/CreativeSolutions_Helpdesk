@@ -196,6 +196,13 @@ namespace HelpDesk.Web.Controllers
                             string dd = DateTime.Now.ToString("M/d/yyyy");
                             obj.WarrantyExpiryDate = DateTime.Parse(dd);
                         }
+                        if (obj.ProductId == 4)
+                            obj.IsJVM = true;
+                        else
+                        {
+                            obj.IsJVM = false;
+                            obj.Canister = 0;
+                        }
 
                         HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/AssetAPI/NewInsertUpdateAsset", obj);
                         if (responseMessage.IsSuccessStatusCode)
@@ -307,7 +314,7 @@ namespace HelpDesk.Web.Controllers
                                     }
                                     if (ds.Tables[3].Rows.Count > 0)
                                     {
-                                        obj.TotalRecords =int.Parse(ds.Tables[3].Rows[0]["TotalRecords"].ToString());
+                                        obj.TotalRecords = int.Parse(ds.Tables[3].Rows[0]["TotalRecords"].ToString());
                                         long toc = obj.TotalRecords;
                                         obj.PageSize = 20;
                                         decimal d = decimal.Parse(toc.ToString());
@@ -340,7 +347,7 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
-        public async Task<ActionResult> AssetListPVs(int pagenumber, int accountId, int productId,string search,bool isContract,bool All)
+        public async Task<ActionResult> AssetListPVs(int pagenumber, int accountId, int productId, string search, bool isContract, bool All)
         {
             string ses = Convert.ToString(Session["SSUserId"]);
             if (string.IsNullOrEmpty(ses))
@@ -397,6 +404,7 @@ namespace HelpDesk.Web.Controllers
                                             SystemNo = dataRow.Field<string>("SystemNo"),
                                             SerialNo = dataRow.Field<string>("SerialNo"),
                                             ProductName = dataRow.Field<string>("ProductName"),
+                                            ProductId = dataRow.Field<int>("ProductId"),
                                             isActive = dataRow.Field<bool>("isActive"),
                                             IsApproved = dataRow.Field<bool>("IsApproved"),
                                             IsRejected = dataRow.Field<bool>("IsRejected"),
@@ -404,7 +412,8 @@ namespace HelpDesk.Web.Controllers
                                             IsContract = dataRow.Field<bool>("IsContract"),
                                             POContract = dataRow.Field<string>("POContract"),
                                             ContractTypetxt = dataRow.Field<string>("ContractType"),
-                                            WarrantyExpiryDate = dataRow.Field<DateTime>("WarrantyExpiryDate")
+                                            WarrantyExpiryDate = dataRow.Field<DateTime>("WarrantyExpiryDate"),
+                                            RemainingCanister = dataRow.Field<int>("RemainingCanister"),
                                         }).ToList();
 
                                         obj.AssetsList = assetlst;
@@ -506,6 +515,10 @@ namespace HelpDesk.Web.Controllers
                             string remainingassetmodeljson = obj.RemainingModelsJson;
                             var remaining_asset_model_model = JsonConvert.DeserializeObject<List<AssetsDTO>>(remainingassetmodeljson);
                             obj.RemainingModelList = remaining_asset_model_model;
+
+                            string jvmordersjson = obj.JVMOrdersJson;
+                            var jvmordersjsn = JsonConvert.DeserializeObject<List<AssetsDTO>>(jvmordersjson);
+                            obj.JVMOrderList = jvmordersjsn;
                         }
                         obj.RoleId = roleid;
                         return PartialView("AssetDetailsPV", obj);
@@ -974,6 +987,46 @@ namespace HelpDesk.Web.Controllers
             }
         }
 
+        public async Task<ActionResult> NewAddJVMOrders(int AMId, int quantity)
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+                return RedirectToAction("Index", "Login");
+            else
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        long CreatedBy = long.Parse(Session["SSUserId"].ToString());
+                        AssetsDTO obj = new AssetsDTO();
+                        obj.CreatedBy = CreatedBy;
+                        obj.AMId = AMId;
+                        obj.Canister = quantity;
+                        bool status = false;
+                        HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/AssetAPI/NewJVMOrders", obj);
+                        if (responseMessage.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                            var docs = JsonConvert.DeserializeObject<TicketDTO>(responseData);
+                            string msg = docs.message;
+                            if (msg == "1")
+                                status = true;
+                            else if (msg == "2")
+                                status = true;
+                        }
+                        return Json(new { success = status });
+                    }
+                    catch (Exception ex)
+                    {
+                        TicketDTO obj = new TicketDTO();
+                        return Json(obj.ModelList);
+                    }
+                }
+            }
+        }
+
         [HttpPost]
         public async Task<JsonResult> NewTicket(TicketDTO obj)
         {
@@ -1056,7 +1109,7 @@ namespace HelpDesk.Web.Controllers
                         {
                             var responseData = responseMessageViewDocuments.Content.ReadAsStringAsync().Result;
                             var docs = JsonConvert.DeserializeObject<AssetsDTO>(responseData);
-
+                            List<AssetsDTO> activeassetlst = new List<AssetsDTO>();
                             var data = docs.datasetxml;
                             if (data != null)
                             {
@@ -1132,6 +1185,38 @@ namespace HelpDesk.Web.Controllers
                                     }
                                     else
                                         obj.AssetModelList = assetlst;
+                                    if (ds.Tables[2].Rows.Count > 0)
+                                    {
+                                        activeassetlst = ds.Tables[2].AsEnumerable().Select(dataRow => new AssetsDTO
+                                        {
+                                            AccountId = dataRow.Field<int>("AccountId"),
+                                            AccountName = dataRow.Field<string>("AccountName"),
+                                            AccountCode = dataRow.Field<string>("AccountCode"),
+                                            ProductId = dataRow.Field<int>("ProductId"),
+                                            ProductName = dataRow.Field<string>("ProductName"),
+                                            ProductCode = dataRow.Field<string>("ProductCode"),
+                                            StationName = dataRow.Field<string>("StationName"),
+                                            IPAddress = dataRow.Field<string>("IPAddress"),
+                                            SerialNo = dataRow.Field<string>("SerialNo"),
+                                            SystemNo = dataRow.Field<string>("SystemNo"),
+                                            Configuration = dataRow.Field<string>("Configuration"),
+                                            Area = dataRow.Field<string>("Area"),
+                                            RegionName = dataRow.Field<string>("RegionName"),
+                                            RegionId = dataRow.Field<int>("RegionId"),
+                                            CityId = dataRow.Field<int>("CityId"),
+                                            CityName = dataRow.Field<string>("CityName"),
+                                            InstallationDate = dataRow.Field<DateTime>("InstallationDate"),
+                                            IsContract = dataRow.Field<bool>("IsContract"),
+                                            POContract = dataRow.Field<string>("POContract"),
+                                            WarrantyExpiryDate = dataRow.Field<DateTime>("WarrantyExpiryDate"),
+                                            AMId = dataRow.Field<int>("AMId"),
+                                            FullName = dataRow.Field<string>("FullName"),
+                                            NextPPMDate = dataRow.Field<DateTime>("NextPPMDate")
+                                        }).ToList();
+                                        obj.RemainingModelList = activeassetlst;
+                                    }
+                                    else
+                                        obj.RemainingModelList = activeassetlst;
                                 }
                             }
                         }
@@ -1452,5 +1537,249 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
+
+        public async Task<ActionResult> POContracts()
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        AssetsDTO obj = new AssetsDTO();
+                        obj.CreatedBy = long.Parse(Session["SSUserId"].ToString());
+
+                        HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/AssetAPI/NewGe" +
+                            "tPOContractList", obj);
+                        if (responseMessage.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                            var categories = JsonConvert.DeserializeObject<List<AssetsDTO>>(responseData);
+                            if (categories.Count != 0)
+                                obj.CityList = categories;
+                            else
+                                obj.CityList = null;
+                        }
+                        return View(obj);
+                    }
+                    catch (Exception ex)
+                    {
+                        return View();
+                    }
+                }
+            }
+           
+        }
+        public ActionResult POContractListM(string POContract)
+        {
+            AssetsDTO obj = new AssetsDTO();
+            return PartialView("POContractAssetListPV", obj);
+        }
+        public async Task<ActionResult> POContractList(string POContract)
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                //int userid = int.Parse(Session["SSUserId"].ToString());
+                int roleid = int.Parse(Session["SSRoleId"].ToString());
+                //int comid = int.Parse(Session["SSCompanyId"].ToString());
+                int orgid = int.Parse(Session["SSOrganizationId"].ToString());
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        AssetsDTO obj = new AssetsDTO();
+                        obj.POContract = POContract;
+                        List<AssetsDTO> tickettlst = new List<AssetsDTO>();
+
+                        HttpResponseMessage responseMessageViewDocuments = await client.PostAsJsonAsync("api/AssetAPI/NewGetAssetListByPOContract", obj);
+                        if (responseMessageViewDocuments.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessageViewDocuments.Content.ReadAsStringAsync().Result;
+                            var docs = JsonConvert.DeserializeObject<AssetsDTO>(responseData);
+
+                            var data = docs.datasetxml;
+                            if (data != null)
+                            {
+                                var document = new XmlDocument();
+                                document.LoadXml(data);
+                                DataSet ds = new DataSet();
+                                ds.ReadXml(new XmlNodeReader(document));
+                                if (ds.Tables.Count > 0)
+                                {
+                                    if (ds.Tables[0].Rows.Count > 0)
+                                    {
+                                        tickettlst = ds.Tables[0].AsEnumerable().Select(dataRow => new AssetsDTO
+                                        {
+                                            AMId = dataRow.Field<int>("AMId"),
+                                            POContract = dataRow.Field<string>("POContract"),
+                                            PPMType = dataRow.Field<int>("PPMType"),
+                                            InstallationDate = dataRow.Field<DateTime>("InstallationDate"),
+                                            WarrantyExpiryDate = dataRow.Field<DateTime>("WarrantyExpiryDate"),
+                                            AccountId = dataRow.Field<int>("AccountId"),
+                                            AccountName = dataRow.Field<string>("AccountName"),
+                                            AccountCode = dataRow.Field<string>("AccountCode"),
+                                            ProductId = dataRow.Field<int>("ProductId"),
+                                            ProductName = dataRow.Field<string>("ProductName"),
+                                            ProductCode = dataRow.Field<string>("ProductCode"),
+                                            //ModelId = dataRow.Field<int>("ModelId"),
+                                            //ModelName = dataRow.Field<string>("ModelName"),
+                                            StationName = dataRow.Field<string>("StationName"),
+                                            IPAddress = dataRow.Field<string>("IPAddress"),
+                                            SerialNo = dataRow.Field<string>("SerialNo"),
+                                            SystemNo = dataRow.Field<string>("SystemNo"),
+                                            Configuration = dataRow.Field<string>("Configuration"),
+                                            ContractTypetxt = dataRow.Field<string>("ContractTypetxt"),
+                                            Area = dataRow.Field<string>("Area")
+                                        }).ToList();
+                                        obj.AssetsList = tickettlst;
+                                    }
+                                    else
+                                        obj.AssetsList = tickettlst;
+                                }
+                            }
+                        }
+                        return PartialView("POContractAssetListPV", obj);
+                    }
+                    catch (Exception ex)
+                    {
+                        AssetsDTO obj = new AssetsDTO();
+                        return View(obj);
+                    }
+                }
+
+            }
+        }
+
+        public async Task<ActionResult> POContractAssetListDetails(int id)
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                //int userid = int.Parse(Session["SSUserId"].ToString());
+                int roleid = int.Parse(Session["SSRoleId"].ToString());
+                //int comid = int.Parse(Session["SSCompanyId"].ToString());
+                int orgid = int.Parse(Session["SSOrganizationId"].ToString());
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        AssetsDTO obj = new AssetsDTO();
+                        obj.AMId = id;
+                        HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/AssetAPI/NewGetAssetDetailsById", obj);
+                        if (responseMessage.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                            var assets = JsonConvert.DeserializeObject<AssetsDTO>(responseData);
+                            obj = assets;
+                            string accountsjson = obj.PPMJson;
+                            var model = JsonConvert.DeserializeObject<List<AssetsDTO>>(accountsjson);
+                            obj.PPMList = model;
+
+                            string productsjson = obj.ProductJson;
+                            var model_pro = JsonConvert.DeserializeObject<List<AssetsDTO>>(productsjson);
+                            obj.ProductList = model_pro;
+
+                            string modeljson = obj.ModelJson;
+                            var model_model = JsonConvert.DeserializeObject<List<AssetsDTO>>(modeljson);
+                            obj.ModelList = model_model;
+
+                            string regionjson = obj.RegionJson;
+                            var model_region = JsonConvert.DeserializeObject<List<AssetsDTO>>(regionjson);
+                            obj.RegionList = model_region;
+
+                            string cityjson = obj.CityJson;
+                            var model_city = JsonConvert.DeserializeObject<List<AssetsDTO>>(cityjson);
+                            obj.CityList = model_city;
+
+                            string updatedjson = obj.UpdatedJson;
+                            var model_updated = JsonConvert.DeserializeObject<List<AssetsDTO>>(updatedjson);
+                            obj.UpdatedList = model_updated;
+
+
+                            string assetmodeljson = obj.AssetModelJson;
+                            var asset_model_model = JsonConvert.DeserializeObject<List<AssetsDTO>>(assetmodeljson);
+                            obj.AssetModelList = asset_model_model;
+
+                            string remainingassetmodeljson = obj.RemainingModelsJson;
+                            var remaining_asset_model_model = JsonConvert.DeserializeObject<List<AssetsDTO>>(remainingassetmodeljson);
+                            obj.RemainingModelList = remaining_asset_model_model;
+
+                            string jvmordersjson = obj.JVMOrdersJson;
+                            var jvmordersjsn = JsonConvert.DeserializeObject<List<AssetsDTO>>(jvmordersjson);
+                            obj.JVMOrderList = jvmordersjsn;
+                        }
+                        return PartialView("POContractAssetDetailsPV", obj);
+                    }
+                    catch (Exception ex)
+                    {
+                        AssetsDTO obj = new AssetsDTO();
+                        return View(obj);
+                    }
+                }
+
+            }
+        }
+
+
+        public async Task<ActionResult> CheckSerialNumber(string SerialNumber)
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        AssetsDTO obj = new AssetsDTO();
+                        obj.SerialNo = SerialNumber;
+                         
+                        bool status = false;
+                        HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/AssetAPI/NewCheckSerialNumber", obj);
+                        if (responseMessage.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                            var docs = JsonConvert.DeserializeObject<TicketDTO>(responseData);
+                            string msg = docs.message;
+                            if (msg == "1")
+                                status = false;
+                            else if (msg == "2")
+                            {
+                                status = true;
+                            };
+                        }
+                        return Json(new { success = status });
+                    }
+                    catch (Exception ex)
+                    {
+                        TicketDTO obj = new TicketDTO();
+                        return Json(obj.ModelList);
+                    }
+                }
+            }
+        }
+
+
     }
 }

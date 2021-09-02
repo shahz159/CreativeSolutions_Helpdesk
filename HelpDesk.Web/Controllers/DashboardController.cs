@@ -72,13 +72,45 @@ namespace HelpDesk.Web.Controllers
                                             WarehouseJson = dataRow.Field<string>("InProgressTicketsJson"),
                                             ResolvedTickets = dataRow.Field<int>("ResolvedTickets"),
                                             SparePartRequestJson = dataRow.Field<string>("ResolvedTicketsJson") ,
-                                            message = dataRow.Field<string>("CountsJson")
+                                            message = dataRow.Field<string>("CountsJson"),
+                                            NewUser = dataRow.Field<int>("NewUser"),
+                                            WarrantyExpiredApprovalCount = dataRow.Field<int>("WarrantyExpiredApprovalCount"),
+                                            SparePartRequestCount = dataRow.Field<int>("SparePartRequestCount"),
+                                            AssetRenewalCount = dataRow.Field<int>("AssetRenewalCount"),
+                                            AssetApprovalCount = dataRow.Field<int>("AssetApprovalCount"),
+                                            InventoryAdjustment = dataRow.Field<int>("InventoryAdjustment"),
+                                            PPMDatesApprovalCount = dataRow.Field<int>("PPMDatesApprovalCount"),
+                                            ServiceEngineerListWithCount = dataRow.Field<string>("ServiceEngineerListWithCount"),
+                                            ScheduleTickets = dataRow.Field<int>("ScheduleTickets"),
+                                            PauseTickets = dataRow.Field<int>("PauseTickets"),
+                                            ClosedTickets = dataRow.Field<int>("ClosedTickets"),
+                                            ServiceEngineerJson = dataRow.Field<string>("ServiceEngineerJson")
                                         }).ToList();
                                         obj.TicketList = tickettlst;
 
                                         obj.NewTickets=obj.TicketList.FirstOrDefault().NewTickets;
                                         obj.InProgressTickets = obj.TicketList.FirstOrDefault().InProgressTickets;
                                         obj.ResolvedTickets = obj.TicketList.FirstOrDefault().ResolvedTickets;
+                                        obj.SparePartRequestCount = obj.TicketList.FirstOrDefault().SparePartRequestCount;
+
+                                        obj.ScheduleTickets = obj.TicketList.FirstOrDefault().ScheduleTickets;
+                                        obj.PauseTickets = obj.TicketList.FirstOrDefault().PauseTickets;
+                                        obj.ClosedTickets = obj.TicketList.FirstOrDefault().ClosedTickets;
+
+                                        obj.NewUser = obj.TicketList.FirstOrDefault().NewUser;
+                                        obj.WarrantyExpiredApprovalCount = obj.TicketList.FirstOrDefault().WarrantyExpiredApprovalCount;
+                                        obj.AssetRenewalCount = obj.TicketList.FirstOrDefault().AssetRenewalCount;
+                                        obj.AssetApprovalCount = obj.TicketList.FirstOrDefault().AssetApprovalCount;
+                                        obj.InventoryAdjustment = obj.TicketList.FirstOrDefault().InventoryAdjustment;
+                                        obj.PPMDatesApprovalCount = obj.TicketList.FirstOrDefault().PPMDatesApprovalCount;
+
+                                        string ServiceEngineerList = obj.TicketList.FirstOrDefault().ServiceEngineerJson;
+                                        var modelIIServiceEngineerList = JsonConvert.DeserializeObject<List<TicketDTO>>(ServiceEngineerList);
+                                        obj.ServiceEngineerList = modelIIServiceEngineerList;
+
+                                        string ServiceEngineerListWithCount = obj.TicketList.FirstOrDefault().ServiceEngineerListWithCount;
+                                        var modelII = JsonConvert.DeserializeObject<List<TicketDTO>>(ServiceEngineerListWithCount);
+                                        obj.ServiceEngineerListWithCountList = modelII;
 
                                         string accountsjson = obj.TicketList.FirstOrDefault().ReportsJson;
                                         var model = JsonConvert.DeserializeObject<List<TicketDTO>>(accountsjson);
@@ -128,5 +160,76 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
+
+        public async Task<ActionResult> GetEngineerTicketCounts(long UserId)
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        TicketDTO obj = new TicketDTO();
+
+                        obj.UserId = UserId;
+
+                        List<TicketDTO> modellst = new List<TicketDTO>();
+                        HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/TicketsAPI/NewServiceEngineerDashboardCounts", obj);
+                        if (responseMessage.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+
+                            var docs = JsonConvert.DeserializeObject<TicketDTO>(responseData);
+                            var data = docs.datasetxml;
+                            if (data != null)
+                            {
+                                var document = new XmlDocument();
+                                document.LoadXml(data);
+                                DataSet ds = new DataSet();
+                                ds.ReadXml(new XmlNodeReader(document));
+                                if (ds.Tables.Count > 0)
+                                {
+                                    if (ds.Tables[0].Rows.Count > 0)
+                                    {
+                                        modellst = ds.Tables[0].AsEnumerable().Select(dataRow => new TicketDTO
+                                        {
+                                            //WarehouseStockId = dataRow.Field<long>("WarehouseStockId"),
+                                            NewTickets = dataRow.Field<int>("NewTickets"),
+                                            InProgressTickets = dataRow.Field<int>("InProgressTickets"),
+                                            ResolvedTickets = dataRow.Field<int>("ResolvedTickets"),
+                                            ScheduleTickets = dataRow.Field<int>("ScheduleTickets"),
+                                            PauseTickets = dataRow.Field<int>("PauseTickets"),
+                                            ClosedTickets = dataRow.Field<int>("ClosedTickets")
+                                        }).ToList();
+                                        obj.SparePartList = modellst;
+                                    }
+                                    else
+                                        obj.SparePartList = modellst;
+                                }
+                                else
+                                {
+                                    obj.SparePartList = modellst;
+                                    TempData["SparePartListtmp"] = obj.SparePartList;
+                                }
+                            }
+                        }
+                        return Json(obj.SparePartList);
+                    }
+                    catch (Exception ex)
+                    {
+                        TicketDTO obj = new TicketDTO();
+                        return Json(obj.SparePartList);
+                    }
+                }
+            }
+        }
+
+        // 
     }
 }

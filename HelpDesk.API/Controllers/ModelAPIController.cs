@@ -1,5 +1,6 @@
 ﻿using HelpDesk.API.Bussiness;
 using HelpDesk.API.DTO_s;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,6 +48,21 @@ namespace HelpDesk.API.Controllers
         {
             var result = service.InsertUpdateModel(obj);
             return Ok(result);
+        }
+
+        public IHttpActionResult NewInsertUpdateModelM(ModelDTO obj)
+        {
+            var result = service.InsertUpdateModel(obj);
+            string msg = "";
+            bool val = false;
+
+            if (result.message != "0")
+                val = true;
+            msg = val == true ? "Added Successfully." : "Failure";
+            JObject res = new JObject(new JProperty("Status", val),
+                                        (new JProperty("Message", msg))
+                         );
+            return Ok(res);
         }
         /// <summary>
         /// Get Model Details by Id

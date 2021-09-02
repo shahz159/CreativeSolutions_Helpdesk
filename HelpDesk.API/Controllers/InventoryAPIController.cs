@@ -34,10 +34,49 @@ namespace HelpDesk.API.Controllers
         }
 
         [ResponseType(typeof(InventoryDTO))]
+        public IHttpActionResult NewInsertSparePartM(InventoryDTO obj)
+        {
+            var result = service.InsertUpdateSparePart(obj);
+            string msg = "";
+            bool val = false;
+
+            if (result.message != "0")
+                val = true;
+
+            if (obj.FlagId == 2)
+                msg = "Spare Part Added Successfully.";
+            else if (obj.FlagId == 1)
+                msg = "Spare Part Updated Successfully.";
+            msg = val == true ? "" : "Failure";
+            JObject res = new JObject(new JProperty("Status", val),
+                                        (new JProperty("Message", msg))
+                         );
+            return Ok(res);
+        }
+
+        [ResponseType(typeof(InventoryDTO))]
         public IHttpActionResult NewInsertConsignment(InventoryDTO obj)
         {
             var result = service.InsertUpdateConsignment(obj);
             return Ok(result);
+        }
+
+
+        [ResponseType(typeof(InventoryDTO))]
+        public IHttpActionResult NewInsertConsignmentM(InventoryDTO obj)
+        {
+            var result = service.InsertUpdateConsignment(obj);
+            string msg = "";
+            bool val = false;
+
+            if (result.message != "0")
+                val = true;
+            msg = "Stock Added Successfully.";
+            msg = val == true ? "" : "Failure";
+            JObject res = new JObject(new JProperty("Status", val),
+                                        (new JProperty("Message", msg))
+                         );
+            return Ok(res);
         }
 
         [ResponseType(typeof(InventoryDTO))]
@@ -62,7 +101,30 @@ namespace HelpDesk.API.Controllers
         }
 
         [ResponseType(typeof(InventoryDTO))]
+        public IHttpActionResult NewStockChangeRequestM(InventoryDTO obj)
+        {
+            var result = service.StockChange(obj);
+            string msg = "";
+            bool val = false;
+            if (result.message != "0")
+                val = true;
+            msg = val == true ? "Stock Updated Successfully." : "Failure";
+            JObject res = new JObject(new JProperty("Status", val),
+                                        (new JProperty("Message", msg))
+                         );
+            return Ok(res);
+        }
+
+        [ResponseType(typeof(InventoryDTO))]
         public IHttpActionResult NewTrasnferQuantity(InventoryDTO obj)
+        {
+            var result = service.TrasnferQuantity(obj);
+            return Ok(result);
+        }
+
+
+        [ResponseType(typeof(InventoryDTO))]
+        public IHttpActionResult NewTrasnferQuantityM(InventoryDTO obj)
         {
             var result = service.TrasnferQuantity(obj);
             return Ok(result);
@@ -81,11 +143,188 @@ namespace HelpDesk.API.Controllers
             return Ok(detail);
         }
 
+
+        [ResponseType(typeof(InventoryDTO))]
+        public IHttpActionResult NewGetSparePartDetailsByIdStockList(InventoryDTO obj)
+        {
+            var result = service.SparePartById(obj);
+            string msg = "";
+            bool val = true;
+            JArray JSparePartList = JArray.Parse("[]");
+            if (result != null)
+            {
+                if (!string.IsNullOrEmpty(result.datasetxml))
+                {
+                    var document = new XmlDocument();
+                    document.LoadXml(result.datasetxml);
+                    DataSet ds = new DataSet();
+                    ds.ReadXml(new XmlNodeReader(document));
+                    if (ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            foreach (JObject item in strjarry)
+                            {
+                                var pv = item.SelectToken("WarehouseJson");
+                                var pvj = JArray.Parse(pv.ToString());
+                                item.Add(new JProperty("JWarehouseJson", pvj));
+
+                                var Url = item.SelectToken("HistoryJson");
+                                var Urlj = JArray.Parse(Url.ToString());
+                                item.Add(new JProperty("JHistoryJson", Urlj));
+                            }
+
+
+                            if (!string.IsNullOrEmpty(str))
+                                JSparePartList = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JSparePartList = strjarry;
+                        }
+                    }
+                }
+            }
+            JObject res1 = new JObject(new JProperty("SparePartList", JSparePartList)
+                        );
+            msg = val == true ? "Success." : "Failure";
+            JObject res = new JObject(new JProperty("Status", true),
+                               (new JProperty("Message", msg)),
+                               (new JProperty("Data", res1)));
+            return Ok(res);
+        }
+
         [ResponseType(typeof(InventoryDTO))]
         public IHttpActionResult NewGetSparePartDetailsByIdSP(InventoryDTO obj)
         {
             var detail = service.SparePartByIdSP(obj);
             return Ok(detail);
+        }
+
+        [ResponseType(typeof(InventoryDTO))]
+        public IHttpActionResult NewGetSparePartDetailsByIdSPM(InventoryDTO obj)
+        {
+            var result = service.SparePartByIdSP(obj);
+            string msg = "";
+            bool val = true;
+            JArray JSparePartList = JArray.Parse("[]");
+            if (result != null)
+            {
+                if (!string.IsNullOrEmpty(result.datasetxml))
+                {
+                    var document = new XmlDocument();
+                    document.LoadXml(result.datasetxml);
+                    DataSet ds = new DataSet();
+                    ds.ReadXml(new XmlNodeReader(document));
+                    if (ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JSparePartList = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JSparePartList = strjarry;
+                        }
+                    }
+                }
+            }
+            JObject res1 = new JObject(new JProperty("SparePartDetails", JSparePartList)
+                        );
+            msg = val == true ? "Success." : "Failure";
+            JObject res = new JObject(new JProperty("Status", true),
+                               (new JProperty("Message", msg)),
+                               (new JProperty("Data", res1)));
+            return Ok(res);
+        }
+        /// <summary>
+        /// Get Details for Edit
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        [ResponseType(typeof(InventoryDTO))]
+        public IHttpActionResult NewGetSparePartDetailsByIdEdit(InventoryDTO obj)
+        {
+            var detail = service.SparePartByIdEdit(obj);
+            return Ok(detail);
+        }
+
+        [ResponseType(typeof(InventoryDTO))]
+        public IHttpActionResult NewGetSparePartDetailsByIdEditM(InventoryDTO obj)
+        {
+            var result = service.SparePartByIdEdit(obj);
+            string msg = "";
+            bool val = true;
+            JArray JProductList = JArray.Parse("[]");
+            JArray JSparePartList = JArray.Parse("[]");
+            if (result != null)
+            {
+                if (!string.IsNullOrEmpty(result.datasetxml))
+                {
+                    var document = new XmlDocument();
+                    document.LoadXml(result.datasetxml);
+                    DataSet ds = new DataSet();
+                    ds.ReadXml(new XmlNodeReader(document));
+                    if (ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JProductList = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JProductList = strjarry;
+                        }
+
+                        if (ds.Tables[1].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[1]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JSparePartList = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[1]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JSparePartList = strjarry;
+                        }
+                    }
+                }
+            }
+            JObject res1 = new JObject(new JProperty("SparePartDetails", JSparePartList), new JProperty("ProductList", JProductList)
+                        );
+            msg = val == true ? "Success." : "Failure";
+            JObject res = new JObject(new JProperty("Status", true),
+                               (new JProperty("Message", msg)),
+                               (new JProperty("Data", res1)));
+            return Ok(res);
         }
 
         /// <summary>
@@ -98,6 +337,51 @@ namespace HelpDesk.API.Controllers
         {
             var result = service.SparePartList(obj);
             return Ok(result);
+        }
+
+        [ResponseType(typeof(InventoryDTO))]
+        public IHttpActionResult NewSparePartListM(InventoryDTO obj)
+        {
+            var result = service.SparePartList(obj);
+            string msg = "";
+            bool val = true;
+            JArray JSparePartList = JArray.Parse("[]");
+            if (result != null)
+            {
+                if (!string.IsNullOrEmpty(result.datasetxml))
+                {
+                    var document = new XmlDocument();
+                    document.LoadXml(result.datasetxml);
+                    DataSet ds = new DataSet();
+                    ds.ReadXml(new XmlNodeReader(document));
+                    if (ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JSparePartList = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JSparePartList = strjarry;
+                        }
+                    }
+                }
+            }
+            JObject res1 = new JObject(new JProperty("SparePartList", JSparePartList)
+                        );
+            msg = val == true ? "Success." : "Failure";
+            JObject res = new JObject(new JProperty("Status", true),
+                               (new JProperty("Message", msg)),
+                               (new JProperty("Data", res1)));
+            return Ok(res);
         }
 
         [ResponseType(typeof(InventoryDTO))]
@@ -159,6 +443,51 @@ namespace HelpDesk.API.Controllers
             return Ok(result);
         }
 
+        [ResponseType(typeof(InventoryDTO))]
+        public IHttpActionResult NewConsignmentListM(InventoryDTO obj)
+        {
+            var result = service.ConsignmentList(obj);
+            string msg = "";
+            bool val = true;
+            JArray JSparePartList = JArray.Parse("[]");
+            if (result != null)
+            {
+                if (!string.IsNullOrEmpty(result.datasetxml))
+                {
+                    var document = new XmlDocument();
+                    document.LoadXml(result.datasetxml);
+                    DataSet ds = new DataSet();
+                    ds.ReadXml(new XmlNodeReader(document));
+                    if (ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JSparePartList = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JSparePartList = strjarry;
+                        }
+                    }
+                }
+            }
+            JObject res1 = new JObject(new JProperty("InventoryAdjustmentList", JSparePartList)
+                        );
+            msg = val == true ? "Success." : "Failure";
+            JObject res = new JObject(new JProperty("Status", true),
+                               (new JProperty("Message", msg)),
+                               (new JProperty("Data", res1)));
+            return Ok(res);
+        }
+
         /// <summary>
         /// get warehouse dropdown
         /// </summary>
@@ -171,7 +500,6 @@ namespace HelpDesk.API.Controllers
             return Ok(result); 
         }
 
-
         [ResponseType(typeof(InventoryDTO))]
         public IHttpActionResult NewGetWarehouseDropDownsM(InventoryDTO obj)
         {
@@ -180,10 +508,13 @@ namespace HelpDesk.API.Controllers
             string msg = "";
             bool val = true;
             JArray JWarehouseList = JArray.Parse("[]");
+            JArray JProductList = JArray.Parse("[]");
+            JArray JSparePartList = JArray.Parse("[]");
             if (result != null)
             {
                 if (!string.IsNullOrEmpty(result.datasetxml))
                 {
+
                     var document = new XmlDocument();
                     document.LoadXml(result.datasetxml);
                     DataSet ds = new DataSet();
@@ -206,10 +537,42 @@ namespace HelpDesk.API.Controllers
                             if (!string.IsNullOrEmpty(str))
                                 JWarehouseList = strjarry;
                         }
+                        if (ds.Tables[1].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[1]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JProductList = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[1]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JProductList = strjarry;
+                        }
+                        if (ds.Tables[2].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[2]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JSparePartList = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[2]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JSparePartList = strjarry;
+                        }
                     }
                 }
             }
-            JObject res1 = new JObject(new JProperty("WarehouseList", JWarehouseList)
+            JObject res1 = new JObject(new JProperty("WarehouseList", JWarehouseList), new JProperty("ProductList", JProductList), new JProperty("SparePartList", JSparePartList)
                         );
             msg = val == true ? "Success." : "Failure";
             JObject res = new JObject(new JProperty("Status", true),
@@ -236,6 +599,13 @@ namespace HelpDesk.API.Controllers
             return Ok(detail);
         }
 
+        [ResponseType(typeof(InventoryDTO))]
+        public IHttpActionResult NewConsignmentStatusM(InventoryDTO obj)
+        {
+            var detail = service.ConsignmentStatus(obj);
+            return Ok(detail);
+        }
+
 
         /// <summary>
         /// get list of warehouse by spare part id
@@ -257,6 +627,18 @@ namespace HelpDesk.API.Controllers
         public IHttpActionResult NewGetSparePartDetailsByWareHouseStock(InventoryDTO obj)
         {
             var result = service.WarehouseStockById(obj);
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Main Page Enquiry details add
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        [ResponseType(typeof(InventoryDTO))]
+        public IHttpActionResult NewMainEnquiry(InventoryDTO obj)
+        {
+            var result = service.AddMainEnquiry(obj);
             return Ok(result);
         }
     }

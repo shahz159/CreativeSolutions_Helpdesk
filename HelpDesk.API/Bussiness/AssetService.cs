@@ -9,7 +9,7 @@ using System.Web;
 
 namespace HelpDesk.API.Bussiness
 {
-    public class AssetService: IAssetService
+    public class AssetService : IAssetService
     {
         string WebURLPath = System.Configuration.ConfigurationManager.AppSettings["weburl"];
         private readonly IAssetModel model;
@@ -30,14 +30,11 @@ namespace HelpDesk.API.Bussiness
                         obj.AccountId = int.Parse(data["AccountId"].ToString());
                         obj.AccountName = data["AccountName"].ToString();
                         obj.AccountCode = data["AccountCode"].ToString();
-
                         obj.ProductId = int.Parse(data["ProductId"].ToString());
                         obj.ProductName = data["ProductName"].ToString();
                         obj.ProductCode = data["ProductCode"].ToString();
-
                         //obj.ModelId = int.Parse(data["ModelId"].ToString());
                         //obj.ModelName = data["ModelName"].ToString();
-
                         obj.StationName = data["StationName"].ToString();
                         //obj.IPAddress = data["IPAddress"].ToString();
                         //obj.SerialNo = data["SerialNo"].ToString();
@@ -47,20 +44,18 @@ namespace HelpDesk.API.Bussiness
                         obj.RegionId = int.Parse(data["RegionId"].ToString());
                         obj.CityId = int.Parse(data["CityId"].ToString());
                         obj.CityName = data["CityName"].ToString();
-                        obj.InstallationDate =DateTime.Parse(data["InstallationDate"].ToString());
-                        obj.IsContract =bool.Parse(data["IsContract"].ToString());
+                        obj.InstallationDate = DateTime.Parse(data["InstallationDate"].ToString());
+                        obj.IsContract = bool.Parse(data["IsContract"].ToString());
                         obj.POContract = data["POContract"].ToString();
-
                         obj.WarrantyExpiryDate = DateTime.Parse(data["WarrantyExpiryDate"].ToString());
-                        obj.PPMType =int.Parse(data["PPMType"].ToString());
+                        obj.PPMType = int.Parse(data["PPMType"].ToString());
                         obj.SystemNo = data["SystemNo"].ToString();
-                        obj.IsApproved =bool.Parse(data["IsApproved"].ToString());
+                        obj.IsApproved = bool.Parse(data["IsApproved"].ToString());
                         obj.IsRejected = bool.Parse(data["IsRejected"].ToString());
-                        obj.ApprovedBy =long.Parse(data["ApprovedBy"].ToString());
+                        obj.ApprovedBy = long.Parse(data["ApprovedBy"].ToString());
                         obj.isActive = bool.Parse(data["isActive"].ToString());
-
-                        obj.CreatedOn =DateTime.Parse(data["CreatedOn"].ToString());
-                        obj.CreatedBy =long.Parse(data["CreatedBy"].ToString());
+                        obj.CreatedOn = DateTime.Parse(data["CreatedOn"].ToString());
+                        obj.CreatedBy = long.Parse(data["CreatedBy"].ToString());
                         obj.FullName = data["FullName"].ToString();
                         obj.AMId = int.Parse(data["AMId"].ToString());
                         obj.PPMJson = data["PPMJson"].ToString();
@@ -78,6 +73,8 @@ namespace HelpDesk.API.Bussiness
                         obj.UpdateUserName = data["UpdateUserName"].ToString();
                         obj.ModifiedOn = DateTime.Parse(data["ModifiedOn"].ToString());
                         obj.RemainingModelsJson = data["RemainingModelsJson"].ToString();
+                        obj.TotalCanister = int.Parse(data["TotalCanister"].ToString());
+                        obj.JVMOrdersJson = data["JVMOrdersJson"].ToString();
                     }
                 }
             }
@@ -123,12 +120,49 @@ namespace HelpDesk.API.Bussiness
             obj.datasetxml = model.GetPPMChangeDateRequestList(obj);
             return obj;
         }
+        public AssetDTO GetASsetListByPOContract(AssetDTO obj)
+        {
+            obj.datasetxml = model.GetAssetListByPOContract(obj);
+            return obj;
+        }
+
+
         public IEnumerable<AssetDTO> GetModel(AssetDTO obj)
         {
             var data = model.GetModels(obj);
             var list = CustomDataReaderToGenericExtension.GetDataObjects<AssetDTO>(data);
             data.Close();
             return list;
+        }
+        public IEnumerable<AssetDTO> GetPOContractList(AssetDTO obj)
+        {
+            var data = model.GetPOContractList(obj);
+            var list = CustomDataReaderToGenericExtension.GetDataObjects<AssetDTO>(data);
+            data.Close();
+            return list;
+        }
+
+        public AssetDTO CheckSerialNumber(AssetDTO obj)
+        {
+            try
+            {
+                var data = model.CheckSerialNumber(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["message"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
         }
         public AssetDTO InsertUpdateAsset(AssetDTO obj)
         {
@@ -262,6 +296,29 @@ namespace HelpDesk.API.Bussiness
             }
             return obj;
         }
+        public AssetDTO AddJVMOrders(AssetDTO obj)
+        {
+            try
+            {
+                var data = model.AddJVMOrder(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["message"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
+
         public AssetDTO GetAssetsRenewalDetails(AssetDTO obj)
         {
             obj.datasetxml = model.GetAssetRenewalDetails(obj);
@@ -304,7 +361,7 @@ namespace HelpDesk.API.Bussiness
                 else
                     obj.message = "0";
                 string _val = "";
-                if (obj.StatusId==2)
+                if (obj.StatusId == 2)
                     _val = "Approved";
                 else if (obj.StatusId == 3)
                     _val = "Rejected";
@@ -344,7 +401,7 @@ obj.ContractTypetxt, obj.AccountName, obj.PPMTypeText, obj.StartDateStr, obj.End
             return obj;
         }
 
-        
+
         public AssetDTO InsertAssetRenewalRequest(AssetDTO obj)
         {
             try
@@ -374,7 +431,7 @@ obj.ContractTypetxt, obj.AccountName, obj.PPMTypeText, obj.StartDateStr, obj.End
                     obj.message = "0";
 
                 SendEmailToSuperUser(obj.SystemNo, obj.POContract, obj.ProductName, obj.SuperUserName,
-        obj.ContractTypetxt, obj.AccountName, obj.PPMTypeText, obj.StartDateStr, obj.EndDateStr, obj.SuperUserEmail,"Under Approval");
+        obj.ContractTypetxt, obj.AccountName, obj.PPMTypeText, obj.StartDateStr, obj.EndDateStr, obj.SuperUserEmail, "Under Approval");
 
                 SendEmailToSupervisorUser(obj.SystemNo, obj.POContract, obj.ProductName, obj.SupervisorName,
 obj.ContractTypetxt, obj.AccountName, obj.PPMTypeText, obj.StartDateStr, obj.EndDateStr, obj.SupervisorEmail, "Under Approval");
@@ -474,6 +531,7 @@ obj.ContractTypetxt, obj.AccountName, obj.PPMTypeText, obj.StartDateStr, obj.End
         AssetDTO UpdateAssetRenewalRequest(AssetDTO obj);
         AssetDTO InsertAssetModels(AssetDTO obj);
         AssetDTO InsertUpdateAsset(AssetDTO obj);
+        AssetDTO CheckSerialNumber(AssetDTO obj);
         AssetDTO UpdatedAsset(AssetDTO obj);
         AssetDTO VerifyAsset(AssetDTO obj);
         AssetDTO updateppmdate(AssetDTO obj);
@@ -481,11 +539,14 @@ obj.ContractTypetxt, obj.AccountName, obj.PPMTypeText, obj.StartDateStr, obj.End
         AssetDTO GetAssetList(AssetDTO obj);
         IEnumerable<AssetDTO> GetCity(AssetDTO obj);
         IEnumerable<AssetDTO> GetModel(AssetDTO obj);
+        IEnumerable<AssetDTO> GetPOContractList(AssetDTO obj);
         AssetDTO GetAssetById(AssetDTO obj);
         AssetDTO GetDropDowns(AssetDTO obj);
         AssetDTO GetApprovalAssets(AssetDTO obj);
         AssetDTO GetPPMChnageRequest(AssetDTO obj);
+        AssetDTO GetASsetListByPOContract(AssetDTO obj);
         AssetDTO UpdateAssetStatus(AssetDTO obj);
         AssetDTO UpdatePPMDateChangeRequest(AssetDTO obj);
+        AssetDTO AddJVMOrders(AssetDTO obj);
     }
 }

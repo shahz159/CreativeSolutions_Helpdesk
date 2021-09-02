@@ -99,6 +99,13 @@
                                                                 <small id="spn_ddlProducts" class="text-danger" style="display:none;">Field required.</small>
                                                             </div>
                                                         </div>
+                                                        <div id="div_canister"style="display:none;" class="form-group row">
+                                                            <label for="example-text-input" class="col-sm-2 col-form-label">Enter Canister</label>
+                                                            <div class="col-sm-9">
+                                                                <input class="form-control" type="text" id="txtCanister" value="">
+                                                                <small id="spn_txtCanister" class="text-danger" style="display:none;">Field required.</small>
+                                                            </div>
+                                                        </div>
 
                                                         <div class="form-group row">
                                                             <label for="example-text-input" class="col-sm-2 col-form-label">Station Name</label>
@@ -170,16 +177,16 @@
                                                             </div>
                                                         </div>
                                                         @*<div class="form-group row mb-0">
-                                                                <label class="col-sm-2 col-form-label">Is Contract</label>
-                                                                <div class="col-sm-9">
-                                                                    <span class="kt-switch kt-switch--icon">
-                                                                        <label>
-                                                                            <input type="checkbox" name="" id="chkiscontract">
-                                                                            <span></span>
-                                                                        </label>
-                                                                    </span>
-                                                                </div>
-                                                            </div>*@
+            <label class="col-sm-2 col-form-label">Is Contract</label>
+            <div class="col-sm-9">
+                <span class="kt-switch kt-switch--icon">
+                    <label>
+                        <input type="checkbox" name="" id="chkiscontract">
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+        </div>*@
                                                         <div id="Contarct_Div" class="p-4" style="display: none">
                                                             <h5 class="contract-head">Contract Details</h5>
                                                             <hr class="mb-4" />
@@ -302,7 +309,7 @@
                                                 </div>
                                             </form>
 
-                                            <table class="table table-bordered mb-4">
+                                            <table id="asset_models" class="table table-bordered mb-4">
                                                 <thead>
                                                     <tr>
                                                         <th>Select Model</th>
@@ -367,6 +374,18 @@
             }
             else {
                 $('#spn_ddlProducts').hide();
+            }
+
+            var Canister = 0;
+            if (ProductId == 4) {
+                Canister = $('#txtCanister').val();
+                if (Canister == "" || Canister == null) {
+                    val = 1;
+                    $('#spn_txtCanister').show();
+                }
+                else {
+                    $('#spn_txtCanister').hide();
+                }
             }
             
             var StationName = $('#txtstationName').val();
@@ -488,6 +507,7 @@
         }
 
         function AddDetails() {
+
             //th_spr
             var ModelId = $('#ddlModel').val();
             if (ModelId == 0 || ModelId == null) {
@@ -506,6 +526,7 @@
                 return false;
             }
             else {
+               
                 $('#spn_txtserialnumber').hide();
             }
 
@@ -519,23 +540,69 @@
             var ip4 = $('#txtipaddress4').val();
             ipAddress = ip1 + '.' + ip2 + '.' + ip3 + '.' + ip4;
 
-            var dist = '<tr id="' + ModelId + '">';
-            dist = dist + '<td>' + modelname + '</td>';
-            dist = dist + '<td><label id="lblSerialNumber_' + ModelId + '">' + serialNumber + '</label></td>';
-            dist = dist + '<td><label id="lblConfiguration_' + ModelId + '">' + configuration + '</label></td>';
-            dist = dist + '<td><label id="lblIPAddress_' + ModelId + '">' + ipAddress + '</label></td>';
-            
-            dist = dist + '<td> <i onclick="enablevaluesparepartA(' + ModelId + ')" class="la la-trash la-2x"></i></td>';
-            dist = dist + '</tr>';
-            $('#th_spr').append(dist);
-            //$("#ddlModel option[value*='" + ModelId + "']").attr('disabled', 'disabled');
-            $('#txtserialnumber').val('');
-            $('#txtconfiguration').val('');
-            $('#txtipaddress1').val('');
-            $('#txtipaddress2').val('');
-            $('#txtipaddress3').val('');
-            $('#txtipaddress4').val('');
-            $('#ddlModel').val('0').trigger('change');
+
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("CheckSerialNumber")', // we are calling json method
+                dataType: 'json',
+                data: { SerialNumber: serialNumber },
+                success: function (data) {
+                    var v = data.success;
+                    if (v == false) {
+                        alert('Serial Number Already Exists');
+                        $('#txtserialnumber').val('');
+                        return false;
+                    }
+                    else {
+                        //$('#tblspecializations tr > td:contains(Some Value) + td:contains(2)').length
+                        
+                        var inc = 0;
+
+                        var cnt = 0;
+                        $('#th_spr tr').each(function (i, el) {
+                            //var value1 = $(el).children().eq(0).text();
+                            var value2 = $(el).children().eq(1).text();
+                            var res = $(el).children().eq(2).text();
+                            if (value2 == serialNumber) {
+                                inc = (inc) + 1;
+                                res = parseInt(res) + (1);
+                                $(this).children(":eq(2)").text(res);
+                            }
+                            cnt = cnt + 1;
+                        })
+                        if (inc == 0) {
+
+                        var dist = '<tr id="' + ModelId + '">';
+                        dist = dist + '<td>' + modelname + '</td>';
+                        dist = dist + '<td><label id="lblSerialNumber_' + ModelId + '">' + serialNumber + '</label></td>';
+                        dist = dist + '<td><label id="lblConfiguration_' + ModelId + '">' + configuration + '</label></td>';
+                        dist = dist + '<td><label id="lblIPAddress_' + ModelId + '">' + ipAddress + '</label></td>';
+
+                        dist = dist + '<td> <i onclick="enablevaluesparepartA(' + ModelId + ')" class="la la-trash la-2x"></i></td>';
+                        dist = dist + '</tr>';
+                        $('#th_spr').append(dist);
+                        //$("#ddlModel option[value*='" + ModelId + "']").attr('disabled', 'disabled');
+                        $('#txtserialnumber').val('');
+                        $('#txtconfiguration').val('');
+                        $('#txtipaddress1').val('');
+                        $('#txtipaddress2').val('');
+                        $('#txtipaddress3').val('');
+                        $('#txtipaddress4').val('');
+                            $('#ddlModel').val('0').trigger('change');
+                        } else {
+                           alert('Serial Number Already Exists')
+                        }
+                    }
+                    document.getElementById("loader").style.display = "none";
+                },
+                error: function (ex) {
+                    document.getElementById("loader").style.display = "none";
+                    alert('Failed to retrieve models.' + ex);
+                }
+            });
+
+           
         }
         function enablevaluesparepartA(id) {
             $("#ddlModel option[value*='" + id + "']").removeAttr('disabled');
@@ -597,7 +664,14 @@
                 dataType: 'json',
                 data: { id: $("#ddlProducts").val() },
                 success: function (data) {
-                    debugger
+
+                    if ($("#ddlProducts").val() == 4) {
+                        $("#div_canister").show();
+                    }
+                    else {
+                        $("#div_canister").hide();
+                    }
+
                     var district = "<select id='ddlModel' class='form-control kt-select2'>";
                     district = district + '<option value="0">--Select Model--</option>';
                     for (var i = 0; i < data.length; i++) {
@@ -661,6 +735,19 @@
             else {
                 $('#spn_ddlProducts').hide();
             }
+
+            var Canister = 0;
+            if (ProductId == 4) {
+                Canister = $('#txtCanister').val();
+                if (Canister == "" || Canister == null) {
+                    val = 1;
+                    $('#spn_txtCanister').show();
+                }
+                else {
+                    $('#spn_txtCanister').hide();
+                }
+            }
+
             //var ModelId = $('#ddlModel').val();
             //if (ModelId == 0 || ModelId == null) {
             //    val = 1;
@@ -789,7 +876,7 @@
                     url: '@Url.Action("NewUpdateAssest")', // we are calling json method
                     dataType: 'json',
                     data: {
-                        AccountId: AccountId, ProductId: ProductId,StationName: StationName,
+                        AccountId: AccountId, ProductId: ProductId, StationName: StationName, Canister: Canister,
                         //ModelId: ModelId,IPAddress: IPAddress, SerialNo: SerialNo, Configuration: Configuration,
                         message: JSON.stringify(jsonary),
                         Area: Area, RegionId: RegionId, CityId: CityId, InstallationDate: InstallationDate, IsContract: IsContract,

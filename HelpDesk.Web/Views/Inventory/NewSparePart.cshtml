@@ -51,6 +51,12 @@
                                                 <input name="SparePartNumber" class="form-control" type="text" value="@Model.SparePartNumber" placeholder="" id="txtNumber">
                                             </div>
                                         </div>
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-sm-2 col-form-label">SAP Code</label>
+                                            <div class="col-sm-9">
+                                                <input name="SAPCode" class="form-control" type="text" value="@Model.SAPCode" placeholder="" id="txtsapcode">
+                                            </div>
+                                        </div>
                                         <div class="form-group row" style="display:none;">
                                             <label for="example-text-input" class="col-sm-2 col-form-label">Quantity</label>
                                             <div class="col-sm-9">
@@ -146,6 +152,17 @@
                 $('#txtNameerror').html('');
             }
 
+            ////////////////////////////////
+            var SAPCode = $("#txtsapcode").val();
+            if (SAPCode == "") {
+                isvalid = false;
+                $('#txtsapcodeerror').html('');
+                $("#txtsapcode").after('<span id="txtNameerror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtsapcodeerror').html('');
+            }
+
             //////////////
             var Number = $("#txtNumber").val();
             if (Number == "") {
@@ -197,7 +214,8 @@
                     dataType: 'json',
                     data: {
                         ProductId: ProductId, SparePartName: SparePartName, SparePartNumber: Number, Quantity: Quantity, BaseQuantity: BaseQuantity, Price: Price,
-                        FlagId: $('#hdnFlagId').val(), SparePartId: $('#hdnSparePartId').val()
+                        FlagId: $('#hdnFlagId').val(), SparePartId: $('#hdnSparePartId').val(),
+                        SAPCode: SAPCode
                     },
                       success: function (data) {
                           var flagid = $('#hdnFlagId').val();

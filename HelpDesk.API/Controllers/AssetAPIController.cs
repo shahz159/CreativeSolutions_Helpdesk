@@ -22,6 +22,28 @@ namespace HelpDesk.API.Controllers
         {
             service = _service;
         }
+        [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewCheckSerialNumber(AssetDTO obj)
+        {
+            var result = service.CheckSerialNumber(obj);
+            return Ok(result);
+        }
+
+        [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewCheckSerialNumberM(AssetDTO obj)
+        {
+            var result = service.CheckSerialNumber(obj);
+            string msg = "";
+            bool val = false;
+
+            if (result.message == "2")
+                val = true;
+            msg = val == true ? "Not Exists." : "Exists";
+            JObject res = new JObject(new JProperty("Status", val),
+                                        (new JProperty("Message", msg))
+                         );
+            return Ok(res);
+        }
         /// <summary>
         /// Insert Update of Asset by differentiate by flag id
         /// for insert flagid=1 and for update flagid=2
@@ -33,6 +55,24 @@ namespace HelpDesk.API.Controllers
         {
             var result = service.InsertUpdateAsset(obj);
             return Ok(result);
+        }
+
+        
+
+        [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewInsertUpdateAssetM(AssetDTO obj)
+        {
+            var result = service.InsertUpdateAsset(obj);
+            string msg = "";
+            bool val = false;
+
+            if (result.message != "0")
+                val = true;
+            msg = val == true ? "Added Successfully." : "Failure";
+            JObject res = new JObject(new JProperty("Status", val),
+                                        (new JProperty("Message", msg))
+                         );
+            return Ok(res);
         }
         /// <summary>
         /// Add upadted asset data
@@ -47,7 +87,34 @@ namespace HelpDesk.API.Controllers
         }
 
         [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewUpdatedAssetM(AssetDTO obj)
+        {
+            var result = service.UpdatedAsset(obj);
+            string msg = "";
+            bool val = false;
+
+            if (result.message != "0")
+                val = true;
+
+            if (obj.FlagId == 2)
+                msg = "Asset Update Request Sent Successfully.";
+           
+            msg = val == true ? "" : "Failure";
+            JObject res = new JObject(new JProperty("Status", val),
+                                        (new JProperty("Message", msg))
+                         );
+            return Ok(res);
+        }
+
+        [ResponseType(typeof(AssetDTO))]
         public IHttpActionResult NewVerifyAsset(AssetDTO obj)
+        {
+            var result = service.VerifyAsset(obj);
+            return Ok(result);
+        }
+
+        [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewVerifyAssetM(AssetDTO obj)
         {
             var result = service.VerifyAsset(obj);
             return Ok(result);
@@ -273,7 +340,15 @@ namespace HelpDesk.API.Controllers
                 var UpdatedAMJsonj = JArray.Parse(UpdatedAMJson.ToString());
                 objects.Add(new JProperty("JUpdatedAMJson", UpdatedAMJsonj));
             }
-            
+
+            var JVMOrderJson = objects.SelectToken("JVMOrdersJson");
+            if (JVMOrderJson is null)
+                objects.Add(new JProperty("JVMOrdersJson", "[]"));
+            else
+            {
+                var JVMOrderJsonj = JArray.Parse(JVMOrderJson.ToString());
+                objects.Add(new JProperty("JJVMOrdersJson", JVMOrderJsonj));
+            }
 
             var AMModelsJson = objects.SelectToken("AssetModelJson");
             if (AMModelsJson is null)
@@ -284,8 +359,6 @@ namespace HelpDesk.API.Controllers
                 objects.Add(new JProperty("JAssetModelJson", AMModelsJsonj));
             }
 
-            
-
             var RemainingModelsJson = objects.SelectToken("RemainingModelsJson");
             if (RemainingModelsJson is null)
                 objects.Add(new JProperty("RemainingModelsJson", "[]"));
@@ -294,6 +367,7 @@ namespace HelpDesk.API.Controllers
                 var RemainingModelsJsonj = JArray.Parse(RemainingModelsJson.ToString());
                 objects.Add(new JProperty("JRemainingModelsJson", RemainingModelsJsonj));
             }
+
             
 
             JObject res1 = new JObject(new JProperty("AssetDetails", objects) 
@@ -315,6 +389,13 @@ namespace HelpDesk.API.Controllers
             var list = service.GetCity(obj);
             return list;
         }
+
+        public IEnumerable<AssetDTO> NewGetCityListM(AssetDTO obj)
+        {
+            var list = service.GetCity(obj);
+            return list;
+        }
+
         /// <summary>
         /// Get List of Active and Non Active records of Model by Product Id
         /// </summary>
@@ -323,6 +404,121 @@ namespace HelpDesk.API.Controllers
         public IEnumerable<AssetDTO> NewGetModelList(AssetDTO obj)
         {
             var list = service.GetModel(obj);
+            //string msg = "";
+            //bool val = true;
+            //JArray JProductList = JArray.Parse("[]");
+            //JArray JAccoountList = JArray.Parse("[]");
+            //JArray JRegionList = JArray.Parse("[]");
+
+            //if (result != null)
+            //{
+            //    if (!string.IsNullOrEmpty(result.datasetxml))
+            //    {
+            //        var document = new XmlDocument();
+            //        document.LoadXml(result.datasetxml);
+            //        DataSet ds = new DataSet();
+            //        ds.ReadXml(new XmlNodeReader(document));
+            //        if (ds.Tables.Count > 0)
+            //        {
+            //            if (ds.Tables[0].Rows.Count > 0)
+            //            {
+            //                var str = JsonConvert.SerializeObject(ds.Tables[0]);
+            //                var strjarry = JArray.Parse(str);
+
+            //                if (!string.IsNullOrEmpty(str))
+            //                    JProductList = strjarry;
+            //            }
+            //            else
+            //            {
+            //                var str = JsonConvert.SerializeObject(ds.Tables[0]);
+            //                var strjarry = JArray.Parse(str);
+
+            //                if (!string.IsNullOrEmpty(str))
+            //                    JProductList = strjarry;
+            //            }
+            //            if (ds.Tables[1].Rows.Count > 0)
+            //            {
+            //                var str = JsonConvert.SerializeObject(ds.Tables[1]);
+            //                var strjarry = JArray.Parse(str);
+
+            //                if (!string.IsNullOrEmpty(str))
+            //                    JAccoountList = strjarry;
+            //            }
+            //            else
+            //            {
+            //                var str = JsonConvert.SerializeObject(ds.Tables[1]);
+            //                var strjarry = JArray.Parse(str);
+
+            //                if (!string.IsNullOrEmpty(str))
+            //                    JAccoountList = strjarry;
+            //            }
+
+            //            if (ds.Tables[2].Rows.Count > 0)
+            //            {
+            //                var str = JsonConvert.SerializeObject(ds.Tables[2]);
+            //                var strjarry = JArray.Parse(str);
+
+            //                if (!string.IsNullOrEmpty(str))
+            //                    JRegionList = strjarry;
+            //            }
+            //            else
+            //            {
+            //                var str = JsonConvert.SerializeObject(ds.Tables[2]);
+            //                var strjarry = JArray.Parse(str);
+
+            //                if (!string.IsNullOrEmpty(str))
+            //                    JRegionList = strjarry;
+            //            }
+            //        }
+            //    }
+            //}
+            //JObject res1 = new JObject(new JProperty("ProductList", JProductList), new JProperty("AccountList", JAccoountList), new JProperty("RegionList", JRegionList)
+            //            );
+            //msg = val == true ? "Success." : "Failure";
+            //JObject res = new JObject(new JProperty("Status", true),
+            //                   (new JProperty("Message", msg)),
+            //                   (new JProperty("Data", res1)));
+            //return Ok(res);
+            return list;
+        }
+
+
+        public IEnumerable<AssetDTO> NewGetPOContractList(AssetDTO obj)
+        {
+            var list = service.GetPOContractList(obj);
+            return list;
+        }
+
+        [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewGetPOContractListM(AssetDTO obj)
+        {
+            var list = service.GetPOContractList(obj);
+           
+
+            string msg = "";
+            bool val = true;
+            JArray JProductList = JArray.Parse("[]");
+
+            var str = JsonConvert.SerializeObject(list);
+            var strjarry = JArray.Parse(str);
+
+            if (!string.IsNullOrEmpty(str))
+                JProductList = strjarry;
+
+            JObject res1 = new JObject(new JProperty("ProductList", JProductList)
+                        );
+            msg = val == true ? "Success." : "Failure";
+            JObject res = new JObject(new JProperty("Status", true),
+                               (new JProperty("Message", msg)),
+                               (new JProperty("Data", res1)));
+            return Ok(res);
+
+            //return list;
+        }
+
+        public IEnumerable<AssetDTO> NewGetModelListM(AssetDTO obj)
+        {
+            var list = service.GetPOContractList(obj);
             return list;
         }
 
@@ -338,6 +534,87 @@ namespace HelpDesk.API.Controllers
             var detail = service.GetDropDowns(obj);
             return Ok(detail);
         }
+
+        [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewGetAssetDropDownsM(AssetDTO obj)
+        {
+            var result = service.GetDropDowns(obj);
+            string msg = "";
+            bool val = true;
+            JArray JProductList = JArray.Parse("[]");
+            JArray JAccoountList = JArray.Parse("[]");
+            JArray JRegionList = JArray.Parse("[]");
+
+            if (result != null)
+            {
+                if (!string.IsNullOrEmpty(result.datasetxml))
+                {
+                    var document = new XmlDocument();
+                    document.LoadXml(result.datasetxml);
+                    DataSet ds = new DataSet();
+                    ds.ReadXml(new XmlNodeReader(document));
+                    if (ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JProductList = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JProductList = strjarry;
+                        }
+                        if (ds.Tables[1].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[1]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JAccoountList = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[1]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JAccoountList = strjarry;
+                        }
+
+                        if (ds.Tables[2].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[2]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JRegionList = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[2]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JRegionList = strjarry;
+                        }
+                    }
+                }
+            }
+            JObject res1 = new JObject(new JProperty("ProductList", JProductList), new JProperty("AccountList", JAccoountList), new JProperty("RegionList", JRegionList)
+                        );
+            msg = val == true ? "Success." : "Failure";
+            JObject res = new JObject(new JProperty("Status", true),
+                               (new JProperty("Message", msg)),
+                               (new JProperty("Data", res1)));
+            return Ok(res);
+        }
         /// <summary>
         /// Get Approval Assets by organiztionid
         /// </summary>
@@ -349,6 +626,51 @@ namespace HelpDesk.API.Controllers
             var detail = service.GetApprovalAssets(obj);
             return Ok(detail);
         }
+        [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewApprovalAssetsM(AssetDTO obj)
+        {
+            var result = service.GetApprovalAssets(obj);
+            string msg = "";
+            bool val = true;
+            JArray JUnderApprovalAssets = JArray.Parse("[]");
+            if (result != null)
+            {
+                if (!string.IsNullOrEmpty(result.datasetxml))
+                {
+                    var document = new XmlDocument();
+                    document.LoadXml(result.datasetxml);
+                    DataSet ds = new DataSet();
+                    ds.ReadXml(new XmlNodeReader(document));
+                    if (ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JUnderApprovalAssets = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JUnderApprovalAssets = strjarry;
+                        }
+                    }
+                }
+            }
+            JObject res1 = new JObject(new JProperty("AssetApprovalList", JUnderApprovalAssets)
+                        );
+            msg = val == true ? "Success." : "Failure";
+            JObject res = new JObject(new JProperty("Status", true),
+                               (new JProperty("Message", msg)),
+                               (new JProperty("Data", res1)));
+            return Ok(res);
+        }
+
         /// <summary>
         /// PPM Date change list
         /// </summary>
@@ -360,6 +682,105 @@ namespace HelpDesk.API.Controllers
             var detail = service.GetPPMChnageRequest(obj);
             return Ok(detail);
         }
+
+        [ResponseType(typeof(AssetDTO))]
+
+        public IHttpActionResult NewPPMDateChangeRequestM(AssetDTO obj)
+        {
+            var result = service.GetPPMChnageRequest(obj);
+            string msg = "";
+            bool val = true;
+            JArray JUnderApprovalAssets = JArray.Parse("[]");
+            if (result != null)
+            {
+                if (!string.IsNullOrEmpty(result.datasetxml))
+                {
+                    var document = new XmlDocument();
+                    document.LoadXml(result.datasetxml);
+                    DataSet ds = new DataSet();
+                    ds.ReadXml(new XmlNodeReader(document));
+                    if (ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JUnderApprovalAssets = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JUnderApprovalAssets = strjarry;
+                        }
+                    }
+                }
+            }
+            JObject res1 = new JObject(new JProperty("PPMDateChangeRequestList", JUnderApprovalAssets)
+                        );
+            msg = val == true ? "Success." : "Failure";
+            JObject res = new JObject(new JProperty("Status", true),
+                               (new JProperty("Message", msg)),
+                               (new JProperty("Data", res1)));
+            return Ok(res);
+        }
+
+        [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewGetAssetListByPOContract(AssetDTO obj)
+        {
+            var result = service.GetASsetListByPOContract(obj);
+            return Ok(result);
+        }
+
+        [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewGetAssetListByPOContractM(AssetDTO obj)
+        {
+            var result = service.GetASsetListByPOContract(obj);
+            string msg = "";
+            bool val = true;
+            JArray JUnderApprovalAssets = JArray.Parse("[]");
+            if (result != null)
+            {
+                if (!string.IsNullOrEmpty(result.datasetxml))
+                {
+                    var document = new XmlDocument();
+                    document.LoadXml(result.datasetxml);
+                    DataSet ds = new DataSet();
+                    ds.ReadXml(new XmlNodeReader(document));
+                    if (ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JUnderApprovalAssets = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JUnderApprovalAssets = strjarry;
+                        }
+                    }
+                }
+            }
+            JObject res1 = new JObject(new JProperty("AssetListByPOContract", JUnderApprovalAssets)
+                        );
+            msg = val == true ? "Success." : "Failure";
+            JObject res = new JObject(new JProperty("Status", true),
+                               (new JProperty("Message", msg)),
+                               (new JProperty("Data", res1)));
+            return Ok(res);
+        }
+
         /// <summary>
         /// Update IsApproved or IsRejected status of Asset
         /// </summary>
@@ -371,6 +792,23 @@ namespace HelpDesk.API.Controllers
             var result = service.UpdateAssetStatus(obj);
             return Ok(result);
         }
+
+
+        [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewUpdateAssetStatusM(AssetDTO obj)
+        {
+            var result = service.UpdateAssetStatus(obj);
+            string msg = "";
+            bool val = false;
+            if (result.message != "0")
+                val = true;
+            msg = val == true ? "Updated Successfully." : "Failure";
+            JObject res = new JObject(new JProperty("Status", val),
+                                        (new JProperty("Message", msg))
+                         );
+            return Ok(res);
+        }
+
         /// <summary>
         /// PPM date change record approval or reject
         /// </summary>
@@ -381,6 +819,44 @@ namespace HelpDesk.API.Controllers
         {
             var result = service.UpdatePPMDateChangeRequest(obj);
             return Ok(result);
+        }
+
+        [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewUpdatePPMDateChangeM(AssetDTO obj)
+        {
+            var result = service.UpdatePPMDateChangeRequest(obj);
+            string msg = "";
+            bool val = false;
+            if (result.message != "0")
+                val = true;
+            msg = val == true ? "Updated Successfully." : "Failure";
+            JObject res = new JObject(new JProperty("Status", val),
+                                        (new JProperty("Message", msg))
+                         );
+            return Ok(res);
+        }
+
+        [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewJVMOrders(AssetDTO obj)
+        {
+            var result = service.AddJVMOrders(obj);
+            return Ok(result);
+        }
+
+        [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewJVMOrdersM(AssetDTO obj)
+        {
+            var result = service.AddJVMOrders(obj);
+            string msg = "";
+            bool val = false;
+
+            if (result.message != "0")
+                val = true;
+            msg = val == true ? "Added Successfully." : "Failure";
+            JObject res = new JObject(new JProperty("Status", val),
+                                        (new JProperty("Message", msg))
+                         );
+            return Ok(res);
         }
 
         /// <summary>
@@ -394,6 +870,91 @@ namespace HelpDesk.API.Controllers
             var detail = service.GetAssetsRenewalList(obj);
             return Ok(detail);
         }
+
+        [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewRenewalAssetsListM(AssetDTO obj)
+        {
+            var result = service.GetAssetsRenewalList(obj);
+            string msg = "";
+            bool val = true;
+            JArray JExpiredAssetList = JArray.Parse("[]");
+            JArray JNoContracAssettList = JArray.Parse("[]");
+            JArray JActiveContracAssettList = JArray.Parse("[]");
+
+            if (result != null)
+            {
+                if (!string.IsNullOrEmpty(result.datasetxml))
+                {
+                    var document = new XmlDocument();
+                    document.LoadXml(result.datasetxml);
+                    DataSet ds = new DataSet();
+                    ds.ReadXml(new XmlNodeReader(document));
+                    if (ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JExpiredAssetList = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JExpiredAssetList = strjarry;
+                        }
+
+                        if (ds.Tables[1].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[1]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JNoContracAssettList = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[1]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JNoContracAssettList = strjarry;
+                        }
+                        if (ds.Tables[2].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[2]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JActiveContracAssettList = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[2]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JActiveContracAssettList = strjarry;
+                        }
+                    }
+                }
+            }
+            JObject res1 = new JObject(new JProperty("ExpiredAssetList", JExpiredAssetList),
+                        new JProperty("NoContractAssetList", JNoContracAssettList),
+                        new JProperty("ActiveContractAssetList", JActiveContracAssettList)
+                        );
+            msg = val == true ? "Success." : "Failure";
+            JObject res = new JObject(new JProperty("Status", true),
+                               (new JProperty("Message", msg)),
+                               (new JProperty("Data", res1)));
+            return Ok(res);
+        }
+
+
         /// <summary>
         /// Get renewal request list of asset
         /// </summary>
@@ -405,6 +966,53 @@ namespace HelpDesk.API.Controllers
             var detail = service.GetAssetsRenewalRequestList(obj);
             return Ok(detail);
         }
+
+
+        [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewRenewalRequestAssetsListM(AssetDTO obj)
+        {
+            var result = service.GetAssetsRenewalRequestList(obj);
+            string msg = "";
+            bool val = true;
+            JArray JUnderApprovalAssets = JArray.Parse("[]");
+            if (result != null)
+            {
+                if (!string.IsNullOrEmpty(result.datasetxml))
+                {
+                    var document = new XmlDocument();
+                    document.LoadXml(result.datasetxml);
+                    DataSet ds = new DataSet();
+                    ds.ReadXml(new XmlNodeReader(document));
+                    if (ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JUnderApprovalAssets = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JUnderApprovalAssets = strjarry;
+                        }
+                    }
+                }
+            }
+            JObject res1 = new JObject(new JProperty("AssetRenewalList", JUnderApprovalAssets)
+                        );
+            msg = val == true ? "Success." : "Failure";
+            JObject res = new JObject(new JProperty("Status", true),
+                               (new JProperty("Message", msg)),
+                               (new JProperty("Data", res1)));
+            return Ok(res);
+        }
+
         /// <summary>
         /// insert renewal request of expired asset
         /// </summary>
@@ -416,6 +1024,21 @@ namespace HelpDesk.API.Controllers
             var detail = service.InsertAssetRenewalRequest(obj);
             return Ok(detail);
         }
+
+        [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewInsertRenewalRequestAssetsM(AssetDTO obj)
+        {
+            var detail = service.InsertAssetRenewalRequest(obj);
+            string msg = "";
+            bool val = true;
+
+            msg = val == true ? "Renewal Request Sent Successfully." : "Failure";
+            JObject res = new JObject(new JProperty("Status", true),
+                               (new JProperty("Message", msg)));
+            return Ok(res);
+        }
+
+
         /// <summary>
         /// update status of renewal asset request
         /// </summary>
@@ -427,6 +1050,27 @@ namespace HelpDesk.API.Controllers
             var detail = service.UpdateAssetRenewalRequest(obj);
             return Ok(detail);
         }
+
+        [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewUpdateAssetRenewalRequestM(AssetDTO obj)
+        {
+            var result = service.UpdateAssetRenewalRequest(obj);
+            string msg = "";
+            bool val = false;
+
+            if (result.message != "0")
+            {
+                val = true;
+            }
+            //JObject res1 = new JObject(new JProperty("SystemManagerId", result.SystemManagerId.ToString())
+            //            );
+            msg = val == true ? "Updated Successfully." : "Failure";
+            JObject res = new JObject(new JProperty("Status", val),
+                                        (new JProperty("Message", msg))
+                         );
+            return Ok(res);
+        }
+
         /// <summary>
         /// get asset reneawl asset details by AMId(Asset Management Id)
         /// </summary>
@@ -439,6 +1083,52 @@ namespace HelpDesk.API.Controllers
             return Ok(detail);
         }
 
+        [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewRenewalAssetsDetailsM(AssetDTO obj)
+        {
+            var result = service.GetAssetsRenewalDetails(obj);
+            string msg = "";
+            bool val = true;
+            JArray JUnderApprovalAssets = JArray.Parse("[]");
+            if (result != null)
+            {
+                if (!string.IsNullOrEmpty(result.datasetxml))
+                {
+                    var document = new XmlDocument();
+                    document.LoadXml(result.datasetxml);
+                    DataSet ds = new DataSet();
+                    ds.ReadXml(new XmlNodeReader(document));
+                    if (ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JUnderApprovalAssets = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JUnderApprovalAssets = strjarry;
+                        }
+                    }
+                }
+            }
+            JObject res1 = new JObject(new JProperty("AssetRenewalDetails", JUnderApprovalAssets)
+                        );
+            msg = val == true ? "Success." : "Failure";
+            JObject res = new JObject(new JProperty("Status", true),
+                               (new JProperty("Message", msg)),
+                               (new JProperty("Data", res1)));
+            return Ok(res);
+        }
+
+
         /// <summary>
         /// Add more models of each asset 
         /// </summary>
@@ -449,6 +1139,22 @@ namespace HelpDesk.API.Controllers
         {
             var detail = service.InsertAssetModels(obj);
             return Ok(detail);
+        }
+
+        [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewAssetModelsInsertM(AssetDTO obj)
+        {
+            var detail = service.InsertAssetModels(obj);
+            string msg = "";
+            bool val = false;
+
+            if (detail.message != "0")
+                val = true;
+            msg = val == true ? "Added Successfully." : "Failure";
+            JObject res = new JObject(new JProperty("Status", val),
+                                        (new JProperty("Message", msg))
+                         );
+            return Ok(res);
         }
     }
 }

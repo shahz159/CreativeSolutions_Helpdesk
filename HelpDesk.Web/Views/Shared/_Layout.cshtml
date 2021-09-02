@@ -299,7 +299,7 @@
                                                                     var cnt = objlt.Where(x => x.ParentId == item.MenuId).ToList();
                                                                     foreach (var subitem in cnt)
                                                                     {
-                                                                        if (item.MenuId == 1039)
+                                                                        if (subitem.MenuId == 1039 || subitem.MenuId == 1041 || subitem.MenuId == 1042 || subitem.MenuId == 1043 || subitem.MenuId == 1044 || subitem.MenuId == 1045 || subitem.MenuId == 1046 || subitem.MenuId == 1047)
                                                                         {
                                                                             <li class="kt-menu__item">
                                                                                 <a href="@Url.Action(subitem.ActionName,subitem.ControllerName)" target="_blank" class="kt-menu__link">
@@ -310,6 +310,7 @@
                                                                                 </a>
                                                                             </li>
                                                                         }
+
                                                                         else
                                                                         {
                                                                             <li class="kt-menu__item">

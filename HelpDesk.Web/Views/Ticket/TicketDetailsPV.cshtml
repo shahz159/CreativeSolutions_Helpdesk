@@ -11,6 +11,49 @@
         background-color: #ffffff;
         opacity: 1;
     }
+    /* === Star Rating CSS === */
+    .rating {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: center
+    }
+
+        .rating > input {
+            display: none
+        }
+
+        .rating > label {
+            position: relative;
+            width: 1em;
+            font-size: 6vw;
+            color: #FFD600;
+            cursor: pointer
+        }
+
+            .rating > label::before {
+                content: "\2605";
+                position: absolute;
+                opacity: 0
+            }
+
+            .rating > label:hover:before,
+            .rating > label:hover ~ label:before {
+                opacity: 1 !important
+            }
+
+        .rating > input:checked ~ label:before {
+            opacity: 1
+        }
+
+        .rating:hover > input:checked ~ label:before {
+            opacity: 0.4
+        }
+    .checked {
+        color: orange;
+    }
+    .ratingclr {
+        color:#d7d7d7;
+    }
 </style>
 <div>
     @foreach (var item in Model.TicketList)
@@ -320,7 +363,7 @@
                                         &nbsp;&nbsp;&nbsp;
                                         Created On : <strong class="color-primary">@item.CreatedOn.ToString("dd-MM-yyyy HH:mm")</strong>
                                     </div>
-                                    <input type="hidden" id="hdnCreatedDate" value="@item.CreatedOn"/>
+                                    <input type="hidden" id="hdnCreatedDate" value="@item.CreatedOn" />
                                 </div>
                                 @*<h4 class="kt-portlet__head-title">Created By: &nbsp;&nbsp;&nbsp; @item.CreatedUser</h4>*@
                             </div>
@@ -335,12 +378,41 @@
                         <div class="kt-portlet__body">
                             <div class="kt-widget kt-widget--user-profile-3">
                                 <div class="kt-widget__top">
-                                    <div class="kt-widget__content">
+                                    <div class="kt-widget__content pl-0">
                                         <div class="kt-widget__info">
                                             <div class="kt-widget__desc">
+                                                <strong>Ticket Discription : </strong>
                                                 <p>
                                                     @item.Description
                                                 </p>
+                                                <strong>Rating : </strong>
+                                                @for (int i = 0; i < item.RatingCount; i++)
+                                                {
+                                                    <span class="fa fa-star checked"></span>
+                                                }
+                                                @{
+                                                    if (item.RatingCount == 0)
+                                                    {
+                                                        for (int i = 0; i < 5; i++)
+                                                        {
+                                                            <span class="fa fa-star-o"></span>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        int rtcnt = 5 - item.RatingCount;
+                                                        for (int i = 0; i < rtcnt; i++)
+                                                        {
+                                                            <span class="fa fa-star"></span>
+                                                        }
+                                                    }
+                                                }
+                                                <p>@item.RatingText</p>
+                                                @*<span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>*@
                                             </div>
                                         </div>
                                     </div>
@@ -419,13 +491,13 @@
                         <div class="kt-portlet__body">
                             <table class="ticket-full-details table table-borderless table-sm">
                                 @*<tr>
-            <td>Created By.</td>
-            <td>: @item.CreatedUser</td>
-        </tr>
-        <tr>
-            <td>Created On.</td>
-            <td>: @item.CreatedOn.ToString("dd-MM-yyyy HH:mm")</td>
-        </tr>*@
+                                        <td>Created By.</td>
+                                        <td>: @item.CreatedUser</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Created On.</td>
+                                        <td>: @item.CreatedOn.ToString("dd-MM-yyyy HH:mm")</td>
+                                    </tr>*@
                                 <tr>
                                     <td>Ticket No.</td>
                                     <td>: @item.TicketNumber</td>
@@ -478,6 +550,29 @@
                                 <tr>
                                     <td>Closed Date</td>
                                     <td>: @item.TicketClosedDate</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="kt-portlet__head">
+                            <div class="kt-portlet__head-label">
+                                <h3 class="kt-portlet__head-title">
+                                    Supervisor Details
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="kt-portlet__body">
+                            <table class="ticket-full-details table table-borderless table-sm">
+                                <tr>
+                                    <td>Name </td>
+                                    <td>: @item.SupervisorName</td>
+                                </tr>
+                                <tr>
+                                    <td>Email </td>
+                                    <td>: @item.SupervisorEmail</td>
+                                </tr>
+                                <tr>
+                                    <td>Contact Number </td>
+                                    <td>: @item.SupervisorContact</td>
                                 </tr>
                             </table>
                         </div>
@@ -617,38 +712,38 @@
                                                     </a>
                                                 }
                                                 @*  TicketType/ReportType
-            1 for Warranty
-            2 for Charged Repair
-            4 for Service Contract
-            9 for PPM
+                                                    1 for Warranty
+                                                    2 for Charged Repair
+                                                    4 for Service Contract
+                                                    9 for PPM
                                                 *@
-                                            else if (Model.RoleId == 504)
-                                            {
-                                                //(item.CreatedUserRoleId == 503 &&
-                                                if (item.Status == 13 || item.Status == 6)
+                                                else if (Model.RoleId == 504)
                                                 {
+                                                    //(item.CreatedUserRoleId == 503 &&
+                                                    if (item.Status == 13 || item.Status == 6)
+                                                    {
                                                         <a href="#" onclick="UpdateStatus(14)" class="btn btn-brand btn-elevate btn-icon-sm">
                                                             <i class="la la-check"></i>
                                                             Confirm
                                                         </a>
-                                                }
+                                                    }
                                                     @*if (item.CreatedUserRoleId == 503 && item.Status == 13 && (item.ReportId == 1 || item.ReportId == 4))
-                    {
-                        <a href="#" onclick="UpdateStatus(14)" class="btn btn-brand btn-elevate btn-icon-sm">
-                            <i class="la la-check"></i>
-                            Confirm
-                        </a>
-                     }
-                            else if (item.CreatedUserRoleId != 503 && item.Status == 6 )/*&& (item.ReportId == 9 || item.ReportId == 2 || item.ReportId == 1 || item.ReportId == 4)*/
-                            {
-                        <a href="#" onclick="UpdateStatus(14)" class="btn btn-brand btn-elevate btn-icon-sm">
-                            <i class="la la-check"></i>
-                            Confirm
-                        </a>
-                }*@
-                                            }
-                                            else if (Model.RoleId == 502 && item.Status == 6 && (item.CreatedUserRoleId == 501 || item.CreatedUserRoleId == 502))
-                                            {
+                                                            {
+                                                                <a href="#" onclick="UpdateStatus(14)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                                                    <i class="la la-check"></i>
+                                                                    Confirm
+                                                                </a>
+                                                             }
+                                                                    else if (item.CreatedUserRoleId != 503 && item.Status == 6 )/*&& (item.ReportId == 9 || item.ReportId == 2 || item.ReportId == 1 || item.ReportId == 4)*/
+                                                                    {
+                                                                <a href="#" onclick="UpdateStatus(14)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                                                    <i class="la la-check"></i>
+                                                                    Confirm
+                                                                </a>
+                                                        }*@
+                                                }
+                                                else if (Model.RoleId == 502 && item.Status == 6 && (item.CreatedUserRoleId == 501 || item.CreatedUserRoleId == 502))
+                                                {
                                                     <a href="#" onclick="UpdateStatus(1013)" class="btn btn-brand btn-elevate btn-icon-sm">
                                                         <i class="la la-check"></i>
                                                         Confirm
@@ -699,7 +794,8 @@
 
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>Customer Name</label>
-                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.ManagerFullName">
+                                            @*<input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.ManagerFullName">*@
+                                            <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.AccountName">
                                         </div>
                                         <div class="form-group col-xl-4 col-md-6">
                                             <label>Customer Location</label>
@@ -840,31 +936,31 @@
                                             </h5>
                                         </div>
                                         @*@if (item.ReportId == 1 || item.ReportId == 2 || item.ReportId == 4 || item.ReportId == 9)
-                                        {
-                                            <div class="form-group col-md-4">
-                                                <label> System Manager</label>
-                                                <h5>
-                                                    @item.ManagerName
-                                                    <br />
-                                                    <small>
-                                                        @item.ManagerConfirmationDate
-                                                    </small>
-                                                </h5>
-                                            </div>
-                                        }
-                                        else
-                                        {
-                                            <div class="form-group col-md-4">
-                                                <label> Supervisor Admin</label>
-                                                <h5>
-                                                    @item.SupervisorName
-                                                    <br />
-                                                    <small>
-                                                        @item.SupervisorConfirmationDate
-                                                    </small>
-                                                </h5>
-                                            </div>
-                                        }*@
+                                            {
+                                                <div class="form-group col-md-4">
+                                                    <label> System Manager</label>
+                                                    <h5>
+                                                        @item.ManagerName
+                                                        <br />
+                                                        <small>
+                                                            @item.ManagerConfirmationDate
+                                                        </small>
+                                                    </h5>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="form-group col-md-4">
+                                                    <label> Supervisor Admin</label>
+                                                    <h5>
+                                                        @item.SupervisorName
+                                                        <br />
+                                                        <small>
+                                                            @item.SupervisorConfirmationDate
+                                                        </small>
+                                                    </h5>
+                                                </div>
+                                            }*@
                                     </div>
                                 </div>
                             </div>
@@ -880,6 +976,37 @@
         <input type="hidden" id="hdnAssignedWarehouseId" value="@item.MappedWarehouseId" />
         <input type="hidden" id="hdnActionComments" value="@item.Actioncomments" />
     }
+
+   
+    
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Rate The Ticket</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="rating">
+                        <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+                        <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+                        <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+                        <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+                        <input type="radio" name="rating" value="1" id="1" checked><label for="1">☆</label>
+                    </div>
+                    <textarea rows="5" id="txtrating"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-primary" onclick="ManagerConfirmation(14)">Confirm Ticket</a>
+                    @*<button type="button" class="btn btn-primary">Confirm Ticket</button>*@
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @*<script src="~/assets/plugins/global/plugins.bundle.js"></script>*@
 <script src="~/assets/js/bootstrap-datepicker.js"></script>
@@ -914,7 +1041,7 @@
                 rightArrow: '<i class="la la-angle-right"></i>'
             }
         }
-        
+
         $('#txtResponseTime').datetimepicker({
             minDate: new Date(),
             todayHighlight: true,
@@ -1284,7 +1411,7 @@
             return false;
         }
         var CreatedDate = $('#hdnCreatedDate').val();
-        
+
         var d = new Date(CreatedDate);
         var ds = new Date(datetime);
         if (d <= ds) {
@@ -1314,11 +1441,88 @@
             alert("Invalid Date")
         }
 
-       
+
     }
     function ViewResponseDiv() {
         $('#AddResponseTime_Div').slideToggle();
+        
     }
+    //async
+    async function ManagerConfirmation(val) {
+        var ticketnumber = $('#hdnTicketNumber').val();
+        var rating = $('input[name="rating"]:checked').val();
+        var comments = $('#comments');
+        document.getElementById("loader").style.display = "block";
+        await $.ajax({
+            type: 'POST',
+            url: '@Url.Action("TicketRating")', // we are calling json method
+            dataType: 'json',
+            data: { TicketNumber: ticketnumber, rating: rating, comments: comments },
+            success: function (data) {
+                var v = data.success;
+                if (v == true) {
+                    $('#exampleModal').modal('toggle');
+                    //document.getElementById("loader").style.display = "none";
+                    //var ticketno = $('#hdnTicketNumber').val();
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("UpdateTicketStatus")', // we are calling json method
+                        dataType: 'json',
+                        data: { id: val, TicketNumber: ticketnumber, comments: '', problemdescription: '' },
+                        success: function (data) {
+                            var v = data.success;
+                            if (v == true) {
+                                //document.getElementById("loader").style.display = "none";
+                                var ticketno = $('#hdnTicketNumber').val();
+                                TicketDetails(ticketno)
+                            }
+                            else {
+                                document.getElementById("loader").style.display = "none";
+                                alert('Some thing went wrong');
+                            }
+                        },
+                        error: function (ex) {
+                            document.getElementById("loader").style.display = "none";
+                            alert('Failed to retrieve details.' + ex);
+                        }
+                    });
+                }
+                else {
+                    document.getElementById("loader").style.display = "none";
+                    alert('Some thing went wrong');
+                }
+            },
+            error: function (ex) {
+                document.getElementById("loader").style.display = "none";
+                alert('Failed to retrieve details.' + ex);
+            }
+        });
+        @*var ticketnumber = $('#hdnTicketNumber').val();
+         document.getElementById("loader").style.display = "block";
+            await $.ajax({
+                type: 'POST',
+                url: '@Url.Action("UpdateTicketStatus")', // we are calling json method
+                dataType: 'json',
+                data: { id: val, TicketNumber: ticketnumber, comments: '',problemdescription:''  },
+                success: function (data) {
+                    var v = data.success;
+                    if (v == true) {
+                        document.getElementById("loader").style.display = "none";
+                        var ticketno = $('#hdnTicketNumber').val();
+                        TicketDetails(ticketno)
+                    }
+                    else {
+                        document.getElementById("loader").style.display = "none";
+                        alert('Some thing went wrong');
+                    }
+                },
+                error: function (ex) {
+                    document.getElementById("loader").style.display = "none";
+                    alert('Failed to retrieve details.' + ex);
+                }
+            });*@
+    }
+
     async function UpdateStatus(val) {
          var ticketnumber = $('#hdnTicketNumber').val();
         if (val == 00) {
@@ -1339,7 +1543,7 @@
                 alert('fields required');
                 return false;
             }
-            
+
             await $.ajax({
                 type: 'POST',
                 url: '@Url.Action("UpdateTicketStatus")', // we are calling json method
@@ -1362,6 +1566,9 @@
                     alert('Failed to retrieve details.' + ex);
                 }
             });
+        }
+        else if (val == 14) {
+            $("#exampleModal").modal("show");
         }
         else {
             document.getElementById("loader").style.display = "block";

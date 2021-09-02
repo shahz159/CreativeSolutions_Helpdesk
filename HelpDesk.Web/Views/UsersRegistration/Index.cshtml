@@ -206,7 +206,7 @@
 
             //////////////////////
             var Accounts = [];
-            if (RoleId == 505|| RoleId == 502) {
+            if (RoleId == 505 || RoleId == 502 || RoleId == 506) {
                 Accounts = $("#ddlAccountM").val();
                 if (Accounts=="") {
                     isvalid = false;
@@ -358,7 +358,7 @@
 
         function ViewDivs() {
             var selected_role = $('#ddlRole').val();
-            if (selected_role == 505 || selected_role == 502) {
+            if (selected_role == 505 || selected_role == 502 || selected_role == 506) {
                 $('#div_Multiselect').show();
                 $('#div_SingleSelect').hide();
             }
@@ -479,7 +479,7 @@
                     //district = district + "<select id='ddlAccount' class='form-control kt-select2'>";
                     var selected_role = $('#ddlRole').val();
 
-                    if (selected_role == 505 || selected_role == 502) {
+                    if (selected_role == 505 || selected_role == 502 || selected_role == 506) {
                         district = district + "<select id='ddlAccountM' onchange='BindProducts()' class='form-control kt-select2' multiple>";
                     }
                     else {
@@ -492,7 +492,7 @@
                         district = district + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
                     }
                     district = district + '</select>';
-                    if (selected_role == 505 || selected_role == 502) {
+                    if (selected_role == 505 || selected_role == 502 || selected_role == 506) {
                         $('#ddlAccountM').html(district);
                     }
                     else {

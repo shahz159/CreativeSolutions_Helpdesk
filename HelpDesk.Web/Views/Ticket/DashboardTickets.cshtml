@@ -69,7 +69,7 @@
                                 }
                             }
                         }
-                        else if (Model.val == 3)
+                        else if (Model.val == 6)
                         {
                             if (Model.SparePartList != null)
                             {
@@ -91,6 +91,73 @@
                                 }
                             }
                         }
+                        else if (Model.val == 12)
+                        {
+                            if (Model.ScheduleTicketsList != null)
+                            {
+                                foreach (var item in Model.ScheduleTicketsList)
+                                {
+                                    <tr>
+                                        <td>@item.TicketNumber</td>
+                                        <td>@item.SystemNo</td>
+                                        <td>@item.Area</td>
+                                        <td>@item.ProductName</td>
+                                        <td>@item.FullName</td>
+                                        <td>@item.Statustxt</td>
+                                        <td align="center">
+                                            <a href="#" onclick="TicketDetails(@item.TicketNumber)">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        }
+                        else if (Model.val == 4)
+                        {
+                            if (Model.PauseTicketsList != null)
+                            {
+                                foreach (var item in Model.PauseTicketsList)
+                                {
+                                    <tr>
+                                        <td>@item.TicketNumber</td>
+                                        <td>@item.SystemNo</td>
+                                        <td>@item.Area</td>
+                                        <td>@item.ProductName</td>
+                                        <td>@item.FullName</td>
+                                        <td>@item.Statustxt</td>
+                                        <td align="center">
+                                            <a href="#" onclick="TicketDetails(@item.TicketNumber)">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        }
+                        else if (Model.val == 7)
+                        {
+                            if (Model.ClosedTicketsList != null)
+                            {
+                                foreach (var item in Model.ClosedTicketsList)
+                                {
+                                    <tr>
+                                        <td>@item.TicketNumber</td>
+                                        <td>@item.SystemNo</td>
+                                        <td>@item.Area</td>
+                                        <td>@item.ProductName</td>
+                                        <td>@item.FullName</td>
+                                        <td>@item.Statustxt</td>
+                                        <td align="center">
+                                            <a href="#" onclick="TicketDetails(@item.TicketNumber)">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        }
+
 
 
 

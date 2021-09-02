@@ -40,6 +40,86 @@ namespace HelpDesk.API.Bussiness
             }
             return obj;
         }
+        public UsersDTO ChangePasswordRequest(string email)
+        {
+            UsersDTO obj = new UsersDTO();
+            try
+            {
+                Guid obj_token = Guid.NewGuid();
+                string token = obj_token.ToString();
+                
+                var data = model.changepasswordrequest(email,token);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["message"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+                if (obj.message == "1")
+                {
+                    //Send Email to Customer                    
+                    SendEmailToCustomer(
+                                    email,token
+                                );
+                }
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
+
+        public UsersDTO verifyPasswordRequest(string email,string token)
+        {
+            UsersDTO obj = new UsersDTO();
+            try
+            {
+                var data = model.verifypasswordrequest(email, token);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["message"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
+
+        
+        private void SendEmailToCustomer(string email, string token)
+        {
+            try
+            {
+                // Customer Email
+                string restlink = "http://208.109.10.196/AHCHelpdeskTest/Login/ResetPassword?username=" + email + "&token=" + token;
+                string htmlstr = @"";
+                StringBuilder HeaderHtml = new StringBuilder();
+                HeaderHtml.Append("<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'><html xmlns='http://www.w3.org/1999/xhtml'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' /><title>AHC Helpdesk</title><link href='https://fonts.googleapis.com/css?family=Open+Sans&display=swap' rel='stylesheet'><style type='text/css'>body{font-family:'Open Sans',sans-serif;background:#f1f1f1;color:#0f0f0f;font-size:14px;padding:20px}.pb-15{padding-bottom:15px}.mb-15{margin-bottom:15px}.text-center{text-align:center}.button{padding:8px 12px;background-color:#2cafdd;border-radius:4px;color:#fff;text-decoration:none;display:inline-block;margin-bottom:15px}</style></head><body style='background-color: #f1f1f1; padding: 15px;'><table align='center' style='width: 600px; margin: 0 auto 0 auto;background-color: #fff;padding: 20px 15px;'><tr><td> <img src='http://support.arabianhc.com/assets/images/ahc_new_logo.png' class='pb-15' height='44px;'><h4 style='color: #2cafdd;font-size: 30px;margin: 15px 0;'>Forget Your Password..?</h4><p style='color:black; font-size: 14px;line-height: 1.5;'> It seems like you forgot your password for [customer portal]. If this is true, click the link below to reset your password.</p><div style='background-color: #fff; padding-top: 20px; padding-bottom: 15px;'><table><tr><td align='ce'> <a href='"+ restlink + "' class='button'>Reset password</a></td></tr></table></div><p style='color:black;'> If you did not forget your password, please disregard this email.</p> <br><hr><div class='text-center'> <small>Please do not hesitate to contact <code style='font-size: 14px; color:black;'>AHC</code> Customer Service Support Center <strong> 800 2444416</strong>, </small></div></td></tr></table></body></html>");
+                htmlstr = HeaderHtml.ToString();
+                string Subject = "AHC Helpdesk Support Centre";
+                string mailFrom = System.Configuration.ConfigurationManager.AppSettings["mailFrom"].ToString();
+                string mailHRBCC = string.Empty;
+                //CustomerEmail = "aqibshahbaz@gmail.com";
+                Models.EmailUtility.sendEmail(mailFrom, email, htmlstr, Subject, mailHRBCC);
+            }
+            catch (Exception)
+            {
+
+            }
+        }
 
         public UsersDTO CheckEmpIdExists(string empid)
         {
@@ -281,7 +361,29 @@ namespace HelpDesk.API.Bussiness
             }
             return obj;
         }
-
+        public UsersDTO UpdateUserPasswordWithEmail(UsersDTO obj)
+        {
+            try
+            {
+                var data = model.UpdateUserpasswordwithemail(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["message"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
+        
         public UsersDTO RoleCompanyDropDowns(UsersDTO obj)
         {
             obj.datasetxml = model.RoleCompanyDropDowns(obj);
@@ -382,6 +484,7 @@ namespace HelpDesk.API.Bussiness
 
     public interface IUserService
     {
+        UsersDTO UpdateUserPasswordWithEmail(UsersDTO obj);
         UsersDTO UpdateUserPassword(UsersDTO obj);
         UsersDTO UpdateUserInfoBasic(UsersDTO obj);
         UsersDTO UpdateSignUpUserStatus(UsersDTO obj);
@@ -397,6 +500,8 @@ namespace HelpDesk.API.Bussiness
         UsersDTO GetSystemUserforApprovalList(UsersDTO obj);
         UsersDTO GetSystemUserDetailsById(UsersDTO obj);
         UsersDTO CheckEmailExists(string email);
+        UsersDTO ChangePasswordRequest(string email);
+        UsersDTO verifyPasswordRequest(string email,string token);
         UsersDTO CheckEmpIdExists(string empid);
         IEnumerable<UsersDTO> GetCompanyAccounts(UsersDTO obj);
         IEnumerable<UsersDTO> GetCompanyManagerAccounts(UsersDTO obj);

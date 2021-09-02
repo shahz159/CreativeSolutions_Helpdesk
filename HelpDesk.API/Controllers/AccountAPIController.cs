@@ -1,4 +1,5 @@
 ﻿using HelpDesk.API.Bussiness;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,6 +46,27 @@ namespace HelpDesk.API.Controllers
         {
             var result = service.InsertUpdateAccount(obj);
             return Ok(result);
+        }
+        public IHttpActionResult NewInsertUpdateAccountsM(AccountDTO obj)
+        {
+            var result = service.InsertUpdateAccount(obj);
+            string msg = "";
+            bool val = true;
+
+            if (result.message == "3")
+                val = false;
+
+            if (obj.FlagId == 2)
+                msg = "Update Successfully.";
+            else if (obj.FlagId == 1)
+                msg = "Added Successfully.";
+            else if (obj.FlagId == 3)
+                msg = "Already ASsigned.";
+            msg = val == true ? "" : "Failure";
+            JObject res = new JObject(new JProperty("Status", val),
+                                        (new JProperty("Message", msg))
+                         );
+            return Ok(res);
         }
         /// <summary>
         /// Get Account Details by Id

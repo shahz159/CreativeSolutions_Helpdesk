@@ -74,12 +74,22 @@
                                     </div>
                                 </div>
                             </div>
+                            @*<div class="col-md-9 kt-margin-b-20-tablet-and-mobile">
+                                <div class="kt-form__group">
+                                    <div class="kt-form__label">
+                                        <label></label>
+                                    </div>
+                                    <div class="kt-form__control">
+                                        <input type="text" id="txtsearch" class="form-control" placeholder="Search..." />
+                                    </div>
+                                </div>
+                            </div>*@
+
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="kt-portlet__body">
+        
             <div id="AssignedTicktes_div"></div>
         </div>
     </div>
@@ -128,6 +138,8 @@
             }
             //$("#ddlUsers option").prop("disabled", false);
             //$("#ddlUsers option").attr()
+
+         
         });
 
         function OnChangeFiletrs(val) {
@@ -199,12 +211,18 @@
             //    alert('Please Select Proper Option U');
             //    return false;
             //}
+
+            var search = $('#txtsearch').val();
+            if (search == null || search == "") {
+                search = "";
+            }
+
            document.getElementById("loader").style.display = "block";
            await $.ajax({
                 type: "Post",
                 url: '@Url.Action("AssignedTicketsPV")',
                 datatype: "json",
-                data: { useridF: UserIdF, statusF: StatusF, accountF: AccountIdF, pagenumber: PageNumber },
+               data: { useridF: UserIdF, statusF: StatusF, accountF: AccountIdF, pagenumber: PageNumber, Search: search},
                 success: function (data) {
                     document.getElementById("loader").style.display = "none";
                     $('#AssignedTicktes_div').html('');

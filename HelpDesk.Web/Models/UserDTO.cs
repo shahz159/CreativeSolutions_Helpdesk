@@ -50,5 +50,11 @@ namespace HelpDesk.Web.Models
         public long MUACId { get; set; }
         public DateTime CreatedOn { get; set; }
         public string AccountCode { get; set; }
+
+        public string EnquiryType { get; set; }
+        public string Enquiry { get; set; }
+        public string CustomerName { get; set; }
+        public string CustomerEmail { get; set; }
+        public string CustomerPhone { get; set; }
     }
 }
