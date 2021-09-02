@@ -1,5 +1,7 @@
 ﻿using HelpDesk.Web.Handlers;
 using HelpDesk.Web.Models;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using Microsoft.Reporting.WebForms;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -10,16 +12,24 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Xml;
+using ClosedXML.Excel;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using Pechkin.Synchronized;
+using Pechkin;
+using System.Net;
 
 namespace HelpDesk.Web.Controllers
 {
     public class TicketController : Controller
     {
+        
         // GET: Ticket
         public async Task<ActionResult> NewTicket()
         {
@@ -693,13 +703,17 @@ namespace HelpDesk.Web.Controllers
                                             CreatedUserRoleId = dataRow.Field<int>("CreatedUserRoleId"),
                                             SupervisorConfirmationDate = dataRow.Field<string>("SupervisorConfirmationDate"),
                                             SupervisorName = dataRow.Field<string>("SupervisorName"),
+                                            SupervisorEmail = dataRow.Field<string>("SupervisorEmail"),
+                                            SupervisorContact = dataRow.Field<string>("SupervisorContact"),
                                             ServiceEngineerJson = dataRow.Field<string>("ServiceEngineerJson"),
                                             StationName = dataRow.Field<string>("StationName"),
                                             AccountCode = dataRow.Field<string>("AccountCode"),
                                             ManagerFullName = dataRow.Field<string>("ManagerFullName"),
                                             ManagerMobile = dataRow.Field<string>("ManagerMobile"),
                                             ManagerEmail = dataRow.Field<string>("ManagerEmail"),
-                                            TicketClosedDate = dataRow.Field<string>("TicketClosedDate")
+                                            TicketClosedDate = dataRow.Field<string>("TicketClosedDate"),
+                                            RatingCount = dataRow.Field<int>("RatingCount"),
+                                            RatingText = dataRow.Field<string>("RatingText")
                                         }).ToList();
 
                                         obj.TicketList = tickettlst;
@@ -1102,7 +1116,7 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
-        public async Task<ActionResult> AssignedTicketsPV(long useridF, int statusF, int accountF, int pagenumber)
+        public async Task<ActionResult> AssignedTicketsPV(long useridF, int statusF, int accountF, int pagenumber,string Search)
         {
             string ses = Convert.ToString(Session["SSUserId"]);
             if (string.IsNullOrEmpty(ses))
@@ -1135,6 +1149,7 @@ namespace HelpDesk.Web.Controllers
                         //if (roleid == 501 || roleid == 502)
                         //    obj.CreatedBy = 0;
                         obj.OrganizationId = orgid;
+                        obj.message = Search;
                         HttpResponseMessage responseMessageViewDocuments = await client.PostAsJsonAsync("api/TicketsAPI/NewServiceEngineerTickets", obj);
                         if (responseMessageViewDocuments.IsSuccessStatusCode)
                         {
@@ -1241,6 +1256,56 @@ namespace HelpDesk.Web.Controllers
                             {
                                 status = true;
                             };
+                        }
+                        return Json(new { success = status });
+                    }
+                    catch (Exception ex)
+                    {
+                        TicketDTO obj = new TicketDTO();
+                        return Json(obj.ModelList);
+                    }
+                }
+            }
+        }
+        public async Task<ActionResult> TicketRating(long TicketNumber, int rating, string comments)
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        long userid = long.Parse(Session["SSUserId"].ToString());
+
+                        TicketDTO obj = new TicketDTO();
+
+                        obj.CreatedBy = userid;
+                        obj.TicketNumber = TicketNumber;
+                        obj.Description = comments;
+                        obj.RatingCount = rating;
+
+                        bool status = false;
+                        HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/TicketsAPI/NewAddTicketRatingM", obj);
+                        if (responseMessage.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                            dynamic data = JObject.Parse(responseData);
+                             
+                            //var docs = JsonConvert.DeserializeObject<TicketDTO>(responseData);
+                             status = data.Status;
+                            //string msg=:"";
+                            //if (msg == "1")
+                            //    status = true;
+                            //else if (msg == "2")
+                            //{
+                            //    status = true;
+                            //};
                         }
                         return Json(new { success = status });
                     }
@@ -1846,13 +1911,24 @@ namespace HelpDesk.Web.Controllers
                                             InProgressTickets = dataRow.Field<int>("InProgressTickets"),
                                             WarehouseJson = dataRow.Field<string>("InProgressTicketsJson"),
                                             ResolvedTickets = dataRow.Field<int>("ResolvedTickets"),
-                                            SparePartRequestJson = dataRow.Field<string>("ResolvedTicketsJson")
+                                            SparePartRequestJson = dataRow.Field<string>("ResolvedTicketsJson"),
+                                            ScheduleTickets = dataRow.Field<int>("ScheduleTickets"),
+                                            ScheduleTicketsJson = dataRow.Field<string>("ScheduleTicketsJson"),
+                                            PauseTickets = dataRow.Field<int>("PauseTickets"),
+                                            PauseTicketsJson = dataRow.Field<string>("PauseTicketsJson"),
+                                            ClosedTickets = dataRow.Field<int>("ClosedTickets"),
+                                            ClosedTicketsJson = dataRow.Field<string>("ClosedTicketsJson")
                                         }).ToList();
                                         obj.TicketList = tickettlst;
 
                                         obj.NewTickets = obj.TicketList.FirstOrDefault().NewTickets;
                                         obj.InProgressTickets = obj.TicketList.FirstOrDefault().InProgressTickets;
                                         obj.ResolvedTickets = obj.TicketList.FirstOrDefault().ResolvedTickets;
+
+
+                                        obj.ScheduleTickets = obj.TicketList.FirstOrDefault().ScheduleTickets;
+                                        obj.PauseTickets = obj.TicketList.FirstOrDefault().PauseTickets;
+                                        obj.ClosedTickets = obj.TicketList.FirstOrDefault().ClosedTickets;
 
                                         string accountsjson = obj.TicketList.FirstOrDefault().ReportsJson;
                                         var model = JsonConvert.DeserializeObject<List<TicketDTO>>(accountsjson);
@@ -1865,6 +1941,19 @@ namespace HelpDesk.Web.Controllers
                                         string sparepart = obj.TicketList.FirstOrDefault().SparePartRequestJson;
                                         var modelsp = JsonConvert.DeserializeObject<List<TicketDTO>>(sparepart);
                                         obj.SparePartList = modelsp;
+
+                                        string ScheduleTicketsList = obj.TicketList.FirstOrDefault().ScheduleTicketsJson;
+                                        var ScheduleTicketsList_model = JsonConvert.DeserializeObject<List<TicketDTO>>(ScheduleTicketsList);
+                                        obj.ScheduleTicketsList = ScheduleTicketsList_model;
+
+                                        string PauseTicketsList = obj.TicketList.FirstOrDefault().PauseTicketsJson;
+                                        var PauseTicketsList_model = JsonConvert.DeserializeObject<List<TicketDTO>>(PauseTicketsList);
+                                        obj.PauseTicketsList = PauseTicketsList_model;
+
+                                        string ClosedTicketsList = obj.TicketList.FirstOrDefault().ClosedTicketsJson;
+                                        var ClosedTicketsList_model = JsonConvert.DeserializeObject<List<TicketDTO>>(ClosedTicketsList);
+                                        obj.ClosedTicketsList = ClosedTicketsList_model;
+
                                     }
                                     else
                                         obj.TicketList = tickettlst;
@@ -1940,7 +2029,6 @@ namespace HelpDesk.Web.Controllers
             }
 
         }
-
         public JsonResult removeFile(string id)
         {
             int userid = int.Parse(Session["SSUserId"].ToString());
@@ -1958,7 +2046,6 @@ namespace HelpDesk.Web.Controllers
             Session["MultipleImagesLst" + userid] = multiple_images;
             return Json(new { success = status });
         }
-
         public async Task<ActionResult> ServiceReport(long id)
         {
             string ses = Convert.ToString(Session["SSUserId"]);
@@ -2097,6 +2184,14 @@ namespace HelpDesk.Web.Controllers
                                 }
                             }
                         }
+                        //var globalConfig = new Pechkin.GlobalConfig().SetMargins(0, 0, 0, 0).SetPaperSize(System.Drawing.Printing.PaperKind.A4);
+                        //var pdfWriter = new SynchronizedPechkin(globalConfig);
+                        ////pdfWriter.Error+=OnEr
+                        //var objectConfig = new Pechkin.ObjectConfig().SetPrintBackground(true).SetIntelligentShrinking(false);
+                        //var pdfBuffer = pdfWriter.Convert(objectConfig, File.ReadAllText(invoiceHtmlFile));
+                        //File.WriteAllBytes(invoicePdfFile, pdfBuffer);
+
+
                         return View(obj);
                     }
                     catch (Exception ex)
@@ -2106,7 +2201,6 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
-
         public async Task<ActionResult> TicketTransfer(long ServiceEngineerId, long TicketNumber)
         {
             string ses = Convert.ToString(Session["SSUserId"]);
@@ -2225,7 +2319,6 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
-
         public async Task<ActionResult> SystemManagerId(int ProductId, int AccountId)
         {
             string ses = Convert.ToString(Session["SSUserId"]);
@@ -2320,7 +2413,6 @@ namespace HelpDesk.Web.Controllers
             }
 
         }
-
         public async Task<ActionResult> GetAssetListReport()
         {
             using (HttpClient client = new HttpClient())
@@ -2361,7 +2453,6 @@ namespace HelpDesk.Web.Controllers
             }
 
         }
-
         public async Task<ActionResult> GetProductReport()
         {
             using (HttpClient client = new HttpClient())
@@ -2401,7 +2492,6 @@ namespace HelpDesk.Web.Controllers
             }
 
         }
-
         public async Task<ActionResult> GetEngineerWiseStatusReport()
         {
             using (HttpClient client = new HttpClient())
@@ -2442,7 +2532,6 @@ namespace HelpDesk.Web.Controllers
             }
 
         }
-
         public async Task<ActionResult> GetAccountTicketReport()
         {
             using (HttpClient client = new HttpClient())
@@ -2483,7 +2572,6 @@ namespace HelpDesk.Web.Controllers
             }
 
         }
-
         public async Task<ActionResult> GetPerMonthStatus()
         {
             using (HttpClient client = new HttpClient())
@@ -2525,7 +2613,6 @@ namespace HelpDesk.Web.Controllers
             }
 
         }
-
         public async Task<ActionResult> GetRepeatedErrorReport()
         {
             using (HttpClient client = new HttpClient())
@@ -2566,7 +2653,6 @@ namespace HelpDesk.Web.Controllers
             }
 
         }
-
         public async Task<ActionResult> GetSparePartTicketsCountReport()
         {
             using (HttpClient client = new HttpClient())
@@ -2607,6 +2693,230 @@ namespace HelpDesk.Web.Controllers
                 }
             }
 
+        }
+        #endregion
+
+        #region Archive Tab
+        public ActionResult ArchiveTab()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ArchiveTab(TicketDTO obj)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                CommonHeader.setHeaders(client);
+                try
+                {
+                    obj.CreatedBy = long.Parse(Session["SSUserId"].ToString()); ;
+
+                    HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/TicketsAPI/NewArchiveReportTicket", obj);
+                    if (responseMessage.IsSuccessStatusCode)
+                    {
+                        var response = JObject.Parse(responseMessage.Content.ReadAsStringAsync().Result);
+                        var Data = response.SelectToken("message");
+                        var lstReportLists = JsonConvert.DeserializeObject<List<TicketDTO>>(Data.ToString());
+
+                        List<TicketDTO> RawDetails = new List<TicketDTO>();
+                        if (response != null)
+                        {
+                            if (lstReportLists != null)
+                            {
+                                
+
+                                //var gv = new GridView();
+                                //gv.DataSource = lstReportLists;
+                                //gv.DataBind();
+                                //Response.ClearContent();
+                                //Response.Buffer = true;
+                                //Response.AddHeader("content-disposition", "attachment; filename=DemoExcel.xls");
+                                //Response.ContentType = "application/ms-excel";
+                                //Response.Charset = "";
+                                //StringWriter objStringWriter = new StringWriter();
+                                //HtmlTextWriter objHtmlTextWriter = new HtmlTextWriter(objStringWriter);
+                                //gv.RenderControl(objHtmlTextWriter);
+                                //Response.Output.Write(objStringWriter.ToString());
+                                //Response.Flush();
+                                //Response.End();
+
+                                obj.TicketList = lstReportLists;
+                            }
+                            else
+                            {
+                                obj.TicketList = null;
+                            }
+                        }
+                    }
+                    return PartialView("ArchiveReport", obj);
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction("Error");
+                }
+            }
+
+        }
+
+        public async Task<ActionResult> ServiceReportDownload(long TicketNumber)
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                //return Json("../Login/Index");
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        int userid = int.Parse(Session["SSUserId"].ToString());
+                        int roleid = int.Parse(Session["SSRoleId"].ToString());
+                        int comid = int.Parse(Session["SSCompanyId"].ToString());
+                        int orgid = int.Parse(Session["SSOrganizationId"].ToString());
+                        TicketDTO obj = new TicketDTO();
+                        obj.TicketNumber = TicketNumber;
+                        obj.RoleId = roleid;
+                        obj.CompanyId = comid;
+                        obj.OrganizationId = orgid;
+
+                        List<TicketDTO> tickettlst = new List<TicketDTO>();
+
+                        HttpResponseMessage responseMessageViewDocuments = await client.PostAsJsonAsync("api/TicketsAPI/NewGetTicketDetailsById", obj);
+                        if (responseMessageViewDocuments.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessageViewDocuments.Content.ReadAsStringAsync().Result;
+                            var docs = JsonConvert.DeserializeObject<TicketDTO>(responseData);
+
+                            var data = docs.datasetxml;
+                            if (data != null)
+                            {
+                                var document = new XmlDocument();
+                                document.LoadXml(data);
+                                DataSet ds = new DataSet();
+                                ds.ReadXml(new XmlNodeReader(document));
+                                if (ds.Tables.Count > 0)
+                                {
+                                    if (ds.Tables[0].Rows.Count > 0)
+                                    {
+                                        tickettlst = ds.Tables[0].AsEnumerable().Select(dataRow => new TicketDTO
+                                        {
+                                            TicketNumber = dataRow.Field<long>("TicketNumber"),
+                                            Description = dataRow.Field<string>("Description"),
+                                            Priority = dataRow.Field<string>("Priority"),
+                                            Statustxt = dataRow.Field<string>("Status"),
+                                            Status = dataRow.Field<int>("StatusId"),
+                                            AccountName = dataRow.Field<string>("AccountName"),
+                                            ModelName = dataRow.Field<string>("ModelName"),
+                                            SystemNo = dataRow.Field<string>("SystemNo"),
+                                            ProductName = dataRow.Field<string>("ProductName"),
+                                            FullName = dataRow.Field<string>("FullName"),
+                                            UserId = dataRow.Field<long>("UserId"),
+                                            SerialNo = dataRow.Field<string>("SerialNo"),
+                                            CreatedOn = dataRow.Field<DateTime>("CreatedOn"),
+                                            Url = dataRow.Field<string>("Url"),
+                                            //ContentType = dataRow.Field<string>("ContentType"),
+                                            CreatedUser = dataRow.Field<string>("CreatedUser"),
+                                            ReportsJson = dataRow.Field<string>("ReportJson"),
+                                            RequestResponseStr = dataRow.Field<string>("RequestResponseStr"),
+                                            ActualStartTime = dataRow.Field<string>("ActualStartTime"),
+                                            ResolvedTime = dataRow.Field<string>("ResolvedTime"),
+                                            MappedWarehouseId = dataRow.Field<int>("MappedWarehouseId"),
+                                            WarehouseJson = dataRow.Field<string>("WarehouseJson"),
+                                            SparePartRequestJson = dataRow.Field<string>("SparePartRequestJson"),
+                                            StatusJson = dataRow.Field<string>("StatusJson"),
+                                            commentsjson = dataRow.Field<string>("commentsjson"),
+                                            Area = dataRow.Field<string>("Area"),
+                                            CreatedUserId = dataRow.Field<long>("CreatedUserId"),
+                                            Mobile = dataRow.Field<string>("Mobile"),
+                                            Email = dataRow.Field<string>("Email"),
+                                            POContract = dataRow.Field<string>("POContract"),
+                                            InstallationDate = dataRow.Field<string>("InstallationDate"),
+                                            IsContract = dataRow.Field<bool>("IsContract"),
+                                            WarrantyExpiryDate = dataRow.Field<string>("WarrantyExpiryDate"),
+                                            PPMDate = dataRow.Field<string>("PPMDate"),
+                                            ServiceStartDate = dataRow.Field<string>("ServiceStartDate"),
+                                            ReportTypeName = dataRow.Field<string>("ReportTypeName"),
+                                            ServiceEngineerResolvedDate = dataRow.Field<string>("ServiceEngineerResolvedDate"),
+                                            CustomerConfirmationDate = dataRow.Field<string>("CustomerConfirmationDate"),
+                                            ManagerConfirmationDate = dataRow.Field<string>("ManagerConfirmationDate"),
+                                            ManagerName = dataRow.Field<string>("ManagerName"),
+                                            Actioncomments = dataRow.Field<string>("Actioncomments"),
+                                            ProblemDescription = dataRow.Field<string>("ProblemDescription"),
+                                            WorkHours = dataRow.Field<string>("WorkHours"),
+                                            ReportId = dataRow.Field<int>("ReportTypeId"),
+                                            CreatedUserRoleId = dataRow.Field<int>("CreatedUserRoleId"),
+                                            SupervisorConfirmationDate = dataRow.Field<string>("SupervisorConfirmationDate"),
+                                            SupervisorName = dataRow.Field<string>("SupervisorName"),
+                                            ServiceEngineerJson = dataRow.Field<string>("ServiceEngineerJson"),
+                                            StationName = dataRow.Field<string>("StationName"),
+                                            AccountCode = dataRow.Field<string>("AccountCode"),
+                                            ManagerFullName = dataRow.Field<string>("ManagerFullName"),
+                                            ManagerMobile = dataRow.Field<string>("ManagerMobile"),
+                                            ManagerEmail = dataRow.Field<string>("ManagerEmail")
+                                        }).ToList();
+
+                                        obj.TicketList = tickettlst;
+
+                                        string urlsjson = obj.TicketList.FirstOrDefault().Url;
+                                        var modelurl = JsonConvert.DeserializeObject<List<TicketDTO>>(urlsjson);
+                                        obj.UrlList = modelurl;
+
+                                        string accountsjson = obj.TicketList.FirstOrDefault().ReportsJson;
+                                        var model = JsonConvert.DeserializeObject<List<TicketDTO>>(accountsjson);
+                                        obj.ReportList = model;
+
+                                        string warehousejson = obj.TicketList.FirstOrDefault().WarehouseJson;
+                                        var modelwa = JsonConvert.DeserializeObject<List<TicketDTO>>(warehousejson);
+                                        obj.WarehouseList = modelwa;
+
+                                        string sparepart = obj.TicketList.FirstOrDefault().SparePartRequestJson;
+                                        var modelsp = JsonConvert.DeserializeObject<List<TicketDTO>>(sparepart);
+                                        obj.SparePartList = modelsp;
+
+                                        string statusj = obj.TicketList.FirstOrDefault().StatusJson;
+                                        var modelstaj = JsonConvert.DeserializeObject<List<TicketDTO>>(statusj);
+                                        obj.StatusLst = modelstaj;
+
+                                        string commentsj = obj.TicketList.FirstOrDefault().commentsjson;
+                                        var modalcomments = JsonConvert.DeserializeObject<List<TicketDTO>>(commentsj);
+                                        obj.CommentsList = modalcomments;
+
+                                        string serviceenglst = obj.TicketList.FirstOrDefault().ServiceEngineerJson;
+                                        var modalserviceLst = JsonConvert.DeserializeObject<List<TicketDTO>>(serviceenglst);
+                                        obj.ServiceEngineerList = modalserviceLst;
+
+                                        //ServiceEngineerList
+                                    }
+                                    else
+                                        obj.TicketList = tickettlst;
+                                }
+                            }
+                        }
+                        //var globalConfig = new Pechkin.GlobalConfig().SetMargins(0, 0, 0, 0).SetPaperSize(System.Drawing.Printing.PaperKind.A4);
+                        //var pdfWriter = new SynchronizedPechkin(globalConfig);
+                        ////pdfWriter.Error+=OnEr
+                        //var objectConfig = new Pechkin.ObjectConfig().SetPrintBackground(true).SetIntelligentShrinking(false);
+                        //var pdfBuffer = pdfWriter.Convert(objectConfig, File.ReadAllText(invoiceHtmlFile));
+                        //File.WriteAllBytes(invoicePdfFile, pdfBuffer);
+
+                        return View(obj);
+                    }
+                    catch (Exception ex)
+                    {
+                        return RedirectToAction("Index", "Login");
+                    }
+                }
+            }
+        }
+
+        public ActionResult Pdf()
+        {
+            return View();
         }
 
         #endregion

@@ -1,0 +1,322 @@
+﻿@model HelpDesk.Web.Models.AssetsDTO
+
+@{
+    ViewBag.Title = "POContracts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .controctors-list {
+        display: flex;
+        flex: 1 1 0px;
+        will-change: width;
+        box-sizing: border-box;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .contracts-left-column {
+        display: flex;
+        flex-direction: column;
+        background: #f4f4f4;
+        transition: width 180ms ease;
+        width: 260px;
+        margin-right: 15px;
+    }
+
+    .contracts-center-column.short {
+        flex: none;
+        width: 260px;
+        margin-right: 15px;
+    }
+
+    .contracts-center-column.short table tr th:nth-child(2),
+    .contracts-center-column.short table tr th:nth-child(3),
+    .contracts-center-column.short table tr th:nth-child(4),
+    .contracts-center-column.short table tr th:nth-child(5),
+    .contracts-center-column.short table tr td:nth-child(2),
+    .contracts-center-column.short table tr td:nth-child(3),
+    .contracts-center-column.short table tr td:nth-child(4),
+    .contracts-center-column.short table tr td:nth-child(5){
+        display: none;
+    }
+
+
+
+    .contracts-center-column {
+        flex: 1 1 0px;
+        display: flex;
+        overflow: hidden;
+    }
+
+    .curser-pointer {
+        cursor: pointer
+    }
+
+    .po-contract-list-table tr td {
+        position: relative;
+        transition: transform .5s;
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+
+        .po-contract-list-table tr td.active {
+            background-color: rgba(44, 175, 221,0.2);
+        }
+
+        .po-contract-list-table tr td:hover {
+            transform: scale(1.03)
+        }
+
+        .po-contract-list-table tr td:after {
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            content: "\f054";
+            position: absolute;
+            right: 5px;
+            color: #a7a7a7
+        }
+
+    .has-search {
+        position: relative;
+    }
+
+        .has-search .form-control-feedback {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            z-index: 2;
+            display: block;
+            width: 2.375rem;
+            height: 2.375rem;
+            line-height: 2.375rem;
+            text-align: center;
+            pointer-events: none;
+            color: #aaa;
+        }
+        .height-60{
+            height: 56vh;
+            overflow-y: hidden
+        }
+        .height-60:hover{
+            overflow-y: auto
+        }
+    .height-60::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    /* Track */
+    .height-60::-webkit-scrollbar-track {
+        background: #f9f9f9;
+    }
+
+    /* Handle */
+    .height-60::-webkit-scrollbar-thumb {
+        background: #f1f1f1;
+    }
+
+        /* Handle on hover */
+        .height-60::-webkit-scrollbar-thumb:hover {
+            background: #f1f1f1;
+        }
+</style>
+
+
+<div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
+    <div id="main_div" class="controctors-list">
+        <div class="contracts-left-column">
+            <div class="kt-portlet">
+                <div class="kt-portlet__head kt-portlet__head--lg align-items-center">
+                    <div class="kt-portlet__head-label">
+                        <span class="kt-portlet__head-icon">
+                            <i class="kt-font-brand flaticon2-line-chart"></i>
+                        </span>
+                        <h3 class="kt-portlet__head-title">PO Contract List</h3>
+                    </div>
+                    <div class="kt-portlet__head-actions">
+                        <a href="#" onclick="showSearch()"><i class="fa fa-search"></i> </a>
+                    </div>
+                </div>
+                <div class="kt-portlet__body pt-0 height-60">
+                    <div class="form-group my-2 has-search" id="search-show" style="display: none">
+                        <span class="fa fa-search form-control-feedback"></span>
+                        <input id="myInput" onkeyup="myFunction()" type="text" class="form-control" placeholder="Search">
+                    </div>
+
+                    <table id="myTable" class="table po-contract-list-table">
+                        <tbody>
+                            @if (Model.CityList != null)
+                            {
+                                foreach (var item in Model.CityList)
+                                {
+                                    <tr>
+                                        <td id="td_@item.POContract" class="curser-pointer" onclick="ViewAssetlist('@item.POContract')">@item.POContract</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="contracts-center-column" id="assetdiv">
+            <div class="kt-portlet">
+                <div class="kt-portlet__head kt-portlet__head--lg">
+                    <div class="kt-portlet__head-label">
+                        <span class="kt-portlet__head-icon">
+                            <i class="kt-font-brand flaticon2-line-chart"></i>
+                        </span>
+                        <h3 class="kt-portlet__head-title">Asset List</h3>
+                    </div>
+                </div>
+                <div class="kt-portlet__body pt-0 height-60">
+                     <div id="asset_List">
+
+                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="contracts-center-column" id="detailsdiv" style="display: none">
+            <div class="kt-portlet" id="asset_details">
+                
+                </div>
+            </div>
+        </div>
+    @*<div id="asset_List" style="display:none;">
+
+    </div>*@
+</div>
+@section Scripts{
+    <script src="~/assets/js/select2.js"></script>
+    <script src="~/assets/js/datatables.bundle.js"></script>
+    <script>
+
+
+
+        function showSearch() {
+            $('#search-show').show('slow');
+        }
+
+        $('#loader').hide();
+        var KTDatatablesBasicPaginations = function () {
+            var initTable1 = function () {
+                var table = $('#kt_table_1');
+                // begin first table
+                table.DataTable({
+                    responsive: true
+                });
+            };
+            return {
+                //main function to initiate the module
+                init: function () {
+                    initTable1();
+                },
+            };
+        }();
+
+        jQuery(document).ready(function () {
+            KTDatatablesBasicPaginations.init();
+        });
+        function myFunction() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        function ViewAssetDetails(id) {
+            
+
+            document.getElementById("loader").style.display = "block";
+
+            $.ajax({
+                type: "Post",
+                url: '@Url.Action("POContractAssetListDetails")',
+                datatype: "json",
+                data: { id: id },
+                success: function (data) {
+                    //document.getElementById("loader").style.display = "none";
+                    $('#assetlist tr').removeClass('active');
+                    $('#Asstd_' + id).addClass('active');
+
+                    $('#loader').hide();
+                    $('#assetdiv').addClass('short');
+                    $('#detailsdiv').show();
+                    $('#asset_details').html(data);
+                },
+                error: function () {
+                    $('#asset_details').html('');
+                    document.getElementById("loader").style.display = "none";
+                }
+            });
+        }
+
+
+        function hidedetails() {
+            $('#assetdiv').removeClass('short');
+            $('#detailsdiv').hide();
+        }
+
+        function ViewAssetlist(pocontract) {
+            $('#loader').show();
+
+            $.ajax({
+                type: "Post",
+                url: '@Url.Action("POContractList")',
+                datatype: "json",
+                data: { POContract: pocontract },
+                success: function (data) {
+                    $('#myTable td').removeClass('active');
+                    $('#td_' + pocontract).addClass('active');
+
+
+                    $('#loader').hide();
+                    //$('#main_div').hide();
+                    //$('#asset_List').show();
+                    $('#asset_List').html(data);
+                },
+                error: function () {
+                    $('#asset_details').html('');
+                   // document.getElementById("loader").style.display = "none";
+                }
+            });
+        }
+
+          function UpdateStatus(val) {
+            document.getElementById("loader").style.display = "block";
+            var AMID = $('#hdnAssetId').val();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("UpdateAssetStatus")', // we are calling json method
+                dataType: 'json',
+                data: { id: val, AMId: AMID },
+                success: function (data) {
+                    var v = data.success;
+                    if (v == true) {
+                        ViewAssetDetails($('#hdnAssetId').val());
+                    }
+                    else {
+                        alert('Some thing went wrong');
+                    }
+                    document.getElementById("loader").style.display = "none";
+                },
+                error: function (ex) {
+                    document.getElementById("loader").style.display = "none";
+                    alert('Failed to update status.' + ex);
+                }
+            });
+        }
+    </script>
+}

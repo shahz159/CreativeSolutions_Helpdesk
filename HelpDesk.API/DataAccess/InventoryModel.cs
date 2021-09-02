@@ -60,7 +60,8 @@ namespace HelpDesk.API.DataAccess
                 new SqlParameter("@CreatedBy",obj.CreatedBy),
                 new SqlParameter("@FlagId",obj.FlagId),
                  new SqlParameter("@SparePartId",obj.SparePartId),
-                new SqlParameter("@OrganizationId",obj.OrganizationId) 
+                new SqlParameter("@OrganizationId",obj.OrganizationId) ,
+                new SqlParameter("@SAPCode",obj.SAPCode)
                 };
                 return DbConnector.ExecuteReader("uspInserUpdateSpareParts", para);
             }
@@ -122,7 +123,8 @@ namespace HelpDesk.API.DataAccess
                 new SqlParameter("@Price",obj.Price),
                 new SqlParameter("@Quantity",obj.Quantity),
                 new SqlParameter("@BaseQuantity",obj.BaseQuantity),
-                new SqlParameter("@SparepartId",obj.SparePartId)
+                new SqlParameter("@SparepartId",obj.SparePartId),
+                new SqlParameter("@SparepartId",obj.SAPCode)
                 };
                 return DbConnector.ExecuteReader("uspUpdateSparePart", para);
             }
@@ -132,6 +134,31 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
+
+        public SqlDataReader addmainenquiry(InventoryDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@EnquiryType",obj.EnquiryType),
+                new SqlParameter("@CompanyName",obj.CompanyName),
+                new SqlParameter("@ProductName",obj.ProductName),
+                new SqlParameter("@CustomerName",obj.CustomerName),
+                new SqlParameter("@CustomerEmail",obj.CustomerEmail),
+                new SqlParameter("@CustomerPhone",obj.CustomerPhone),
+                new SqlParameter("@Enquiry",obj.Enquiry)
+                };
+                return DbConnector.ExecuteReader("uspAddMainEnquiry", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "InventoryModel -> addmainenquiry");
+                return null;
+            }
+        }
+
+
+        
         public SqlDataReader stockchnage(InventoryDTO obj)
         {
             try
@@ -205,8 +232,23 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
-
+        public string SparePartByIdSEdit(InventoryDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@SparePartId",obj.SparePartId) 
+                };
+                return DbConnector.ExecuteDataSet("uspSparePartDetailsById", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "InventoryModel -> SparePartByIdSEdit");
+                return null;
+            }
+        }
         
+
         public string SparePartList(InventoryDTO obj)
         {
             try
@@ -319,6 +361,7 @@ namespace HelpDesk.API.DataAccess
         SqlDataReader InsertUpdateConsginment(InventoryDTO obj);
         SqlDataReader InsertBulkTransfer(InventoryDTO obj);
         SqlDataReader UpdateSparePart(InventoryDTO obj);
+        SqlDataReader addmainenquiry(InventoryDTO obj);
         SqlDataReader stockchnage(InventoryDTO obj);
         SqlDataReader transferquantity(InventoryDTO obj);
         SqlDataReader CheckSparePartName(InventoryDTO obj);
@@ -330,6 +373,7 @@ namespace HelpDesk.API.DataAccess
         string ConsignmentList(InventoryDTO obj);
         string SparePartById(InventoryDTO obj);
         string SparePartByIdSP(InventoryDTO obj);
+        string SparePartByIdSEdit(InventoryDTO obj);
         string Warehouseddl(InventoryDTO obj);
     }
 }

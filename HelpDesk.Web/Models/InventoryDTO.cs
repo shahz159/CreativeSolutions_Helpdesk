@@ -39,6 +39,7 @@ namespace HelpDesk.Web.Models
         public int BaseQuantity { get; set; }
         public long SparePartId { get; set; }
         public string SparePartName { get; set; }
+        public string SAPCode { get; set; }
         public string SparePartNumber { get; set; }
         public string Price { get; set; }
 

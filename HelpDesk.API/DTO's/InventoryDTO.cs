@@ -20,7 +20,7 @@ namespace HelpDesk.API.DTO_s
         public bool Status { get; set; }
         public long CreatedBy { get; set; }
         public int OrganizationId { get; set; }
-
+        public string SAPCode { get; set; }
         public int FlagId { get; set; }
         //public int Organizationid { get; set; }
 
@@ -36,5 +36,12 @@ namespace HelpDesk.API.DTO_s
         public string Price { get; set; }
         public string ConsignmentsJson { get; set; }
         public string WarehouseJson { get; set; }
+
+        public string EnquiryType { get; set; }
+        public string CompanyName { get; set; }
+        public string Enquiry { get; set; }
+        public string CustomerName { get; set; }
+        public string CustomerEmail { get; set; }
+        public string CustomerPhone { get; set; }
     }
 }

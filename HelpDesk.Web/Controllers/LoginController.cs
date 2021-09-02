@@ -81,7 +81,7 @@ namespace HelpDesk.Web.Controllers
                                     Session["SSEmail"] = Email;
                                     Session["SSPassword"] = Password;
 
-                                    List<TicketDTO> multipleimages= new List<TicketDTO>();
+                                    List<TicketDTO> multipleimages = new List<TicketDTO>();
                                     Session["MultipleImagesLst" + UserId] = multipleimages;
                                 }
                                 return RedirectToAction("Index", "Dashboard");
@@ -118,7 +118,7 @@ namespace HelpDesk.Web.Controllers
                 {
                     obj.OrganizationId = 1001;
                     obj.CreatedBy = 0;
-                    
+
                     var xmldoc_docs = new XmlDocument();
                     var parentelemeng_docs = xmldoc_docs.CreateElement("MultiAccounts");
                     var parent_docs = xmldoc_docs.CreateElement("MultiAccount");
@@ -164,7 +164,7 @@ namespace HelpDesk.Web.Controllers
                         var categories = JsonConvert.DeserializeObject<AccountsDTO>(responseData);
                         obj.message = categories.message;
                         string msg = obj.message;
-                        if (msg=="1")
+                        if (msg == "1")
                             status = true;
                         else
                             status = false;
@@ -286,5 +286,149 @@ namespace HelpDesk.Web.Controllers
             obj.CompanyId = 10;
             return View(obj);
         }
+
+        [HttpPost]
+        public async Task<ActionResult> NewMainEnquiry(UserDTO obj)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                CommonHeader.setHeaders(client);
+                try
+                {
+                    obj.OrganizationId = 1001;
+                    obj.CreatedBy = 0;
+
+                    bool status = false;
+                    HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/InventoryAPI/NewMainEnquiry", obj);
+                    if (responseMessage.IsSuccessStatusCode)
+                    {
+                        var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                        var categories = JsonConvert.DeserializeObject<AccountsDTO>(responseData);
+                        obj.message = categories.message;
+                        string msg = obj.message;
+                        if (msg == "1")
+                            status = true;
+                        else
+                            status = false;
+                    }
+                    return Json(new { success = status });
+                }
+                catch (Exception ex)
+                {
+                    return View();
+                }
+            }
+        }
+
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+        public async Task<JsonResult> SendChangePasswordRequest(string useremail)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                CommonHeader.setHeaders(client);
+                try
+                {
+                    Guid obj_token = Guid.NewGuid();
+                    string token = obj_token.ToString();
+
+
+
+                    bool status = false;
+                    HttpResponseMessage responseMessage = await client.GetAsync("api/UserAPI/GetChangePasswordRequest?email=" + useremail);
+                    if (responseMessage.IsSuccessStatusCode)
+                    {
+                        var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                        var check = JsonConvert.DeserializeObject<UserDTO>(responseData);
+                        string msg = check.message;
+                        if (msg == "1")
+                            status = true;
+                        else if (msg == "2")
+                        {
+                            UserDTO model = new UserDTO();
+                            status = false;
+
+                        };
+                        return Json(new { success = status });
+                    }
+                    else
+                    {
+                        var result = "3";
+                        return Json(result, JsonRequestBehavior.AllowGet);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Json(new SelectList("", "Value", "Text"));
+                }
+            }
+        }
+
+        public async Task<ActionResult> ResetPassword(string username, string token)
+        {
+            UserDTO model = new UserDTO();
+            using (HttpClient client = new HttpClient())
+            {
+                CommonHeader.setHeaders(client);
+                try
+                {
+
+                    HttpResponseMessage responseMessage = await client.GetAsync("api/UserAPI/GetVerifyPasswordChangeRequest?email=" + username + "&token=" + token);
+                    if (responseMessage.IsSuccessStatusCode)
+                    {
+                        var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                        var check = JsonConvert.DeserializeObject<UserDTO>(responseData);
+                        string msg = check.message;
+                        if (msg == "1")
+                            model.isCancelled = false;
+                        else if (msg == "0")
+                            model.isCancelled = true;
+                    }
+                    model.Email = username;
+                    return View(model);
+                }
+                catch (Exception ex)
+                {
+                    return View(model);
+                }
+            }
+        }
+
+        public async Task<JsonResult> UpdatePassword(string Password, string email)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                CommonHeader.setHeaders(client);
+                try
+                {
+                    bool status = false;
+                    UserDTO obj = new UserDTO();
+                    obj.Email = email;
+                    obj.Password = Password;
+
+                    HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/UserAPI/NewUpdateUserPasswordwithEmail", obj);
+                    if (responseMessage.IsSuccessStatusCode)
+                    {
+                        var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                        var model = JsonConvert.DeserializeObject<AssetsDTO>(responseData);
+                        string msg = model.message;
+                        if (msg == "1")
+                            status = true;
+                        else if (msg == "2")
+                        {
+                            status = false;
+                        };
+                    }
+                    return Json(new { success = status });
+                }
+                catch (Exception ex)
+                {
+                    return Json(new SelectList("", "Value", "Text"));
+                }
+            }
+        }
+
     }
 }

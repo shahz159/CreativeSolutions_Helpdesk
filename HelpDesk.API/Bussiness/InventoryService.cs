@@ -152,6 +152,30 @@ namespace HelpDesk.API.Bussiness
             }
             return obj;
         }
+        public InventoryDTO AddMainEnquiry(InventoryDTO obj)
+        {
+            try
+            {
+                var data = model.addmainenquiry(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["message"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
+
+        
         public InventoryDTO StockChange(InventoryDTO obj)
         {
             try
@@ -231,6 +255,13 @@ namespace HelpDesk.API.Bussiness
             return obj;
            
         }
+        public InventoryDTO SparePartByIdEdit(InventoryDTO obj)
+        {
+
+            obj.datasetxml = model.SparePartByIdSEdit(obj);
+            return obj;
+
+        }
         
         public InventoryDTO SparePartList(InventoryDTO obj)
         {
@@ -273,6 +304,7 @@ namespace HelpDesk.API.Bussiness
         InventoryDTO InsertUpdateConsignment(InventoryDTO obj);
         InventoryDTO InsertBulkTransfer(InventoryDTO obj);
         InventoryDTO UpdateSparePart(InventoryDTO obj);
+        InventoryDTO AddMainEnquiry(InventoryDTO obj);
         InventoryDTO StockChange(InventoryDTO obj);
         InventoryDTO TrasnferQuantity(InventoryDTO obj);
         InventoryDTO CheckSparePartName(InventoryDTO obj);
@@ -284,6 +316,7 @@ namespace HelpDesk.API.Bussiness
         InventoryDTO ConsignmentList(InventoryDTO obj);
         InventoryDTO SparePartById(InventoryDTO obj);
         InventoryDTO SparePartByIdSP(InventoryDTO obj);
+        InventoryDTO SparePartByIdEdit(InventoryDTO obj);
         InventoryDTO Warehouseddl(InventoryDTO obj);
     }
 }

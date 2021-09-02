@@ -11,10 +11,10 @@ namespace HelpDesk.Web.Models
         public string message { get; set; }
         public int AccountId { get; set; }
         [Required(ErrorMessage = "*", AllowEmptyStrings = false)]
-        [StringLength(20, MinimumLength = 1, ErrorMessage = "Max Length is 100")]
+        [StringLength(20, MinimumLength = 1, ErrorMessage = "Max Length is 20")]
         public string AccountCode { get; set; }
         [Required(ErrorMessage = "*", AllowEmptyStrings = false)]
-        [StringLength(50, MinimumLength = 1, ErrorMessage = "Max Length is 100")]
+        [StringLength(50, MinimumLength = 1, ErrorMessage = "Max Length is 50")]
         public string AccountName { get; set; }
         public bool isActive { get; set; }
         public long CreatedBy { get; set; }

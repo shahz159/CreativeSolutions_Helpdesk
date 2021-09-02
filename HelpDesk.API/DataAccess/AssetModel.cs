@@ -15,7 +15,7 @@ namespace HelpDesk.API.DataAccess
         {
             try
             {
-                var para = new[] 
+                var para = new[]
                 {
                     new SqlParameter("@AMId",obj.AMId)
                 };
@@ -107,14 +107,14 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
-        
+
         public SqlDataReader GetModels(AssetDTO obj)
         {
             try
             {
                 var para = new[]
                 {
-                    new SqlParameter("@ProductId",obj.ProductId) 
+                    new SqlParameter("@ProductId",obj.ProductId)
                 };
                 return DbConnector.ExecuteReader("UspGetModels", para);
             }
@@ -124,7 +124,39 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
+        public SqlDataReader GetPOContractList(AssetDTO obj)
+        {
+            try
+            {
+                var para = new[]
+                {
+                    new SqlParameter("@UserId",obj.CreatedBy)
+                };
+                return DbConnector.ExecuteReader("uspSalesEngPOContractLst", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "AssetModel -> GetModels");
+                return null;
+            }
+        }
 
+        public SqlDataReader CheckSerialNumber(AssetDTO obj)
+        {
+            try
+            {
+                var para = new[]
+                {
+                    new SqlParameter("@SerialNumber",obj.SerialNo) 
+                };
+                return DbConnector.ExecuteReader("uspCheckSerialNumberExists", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "AssetModel -> CheckSerialNumber");
+                return null;
+            }
+        }
         public SqlDataReader InsertUpdateAsset(AssetDTO obj)
         {
             try
@@ -133,7 +165,8 @@ namespace HelpDesk.API.DataAccess
                 {
                     new SqlParameter("@AccountId",obj.AccountId),
                     new SqlParameter("@ProductId",obj.ProductId),
-                    //new SqlParameter("@ModelId",obj.ModelId),
+                    new SqlParameter("@Canister",obj.Canister),
+                    new SqlParameter("@IsJVM",obj.IsJVM),
                     new SqlParameter("@StationName",obj.StationName),
                     //new SqlParameter("@IPAddress",obj.IPAddress),
                     //new SqlParameter("@SerialNo",obj.SerialNo),
@@ -207,7 +240,7 @@ namespace HelpDesk.API.DataAccess
                     new SqlParameter("@UpdateAMId",obj.UpdatedAMId),
                     new SqlParameter("@Status",obj.StatusId),
                     new SqlParameter("@CreatedBy",obj.CreatedBy),
-                    new SqlParameter("@AMId",obj.AMId) 
+                    new SqlParameter("@AMId",obj.AMId)
                 };
                 return DbConnector.ExecuteReader("uspVerifyUpdatedAssets", para);
             }
@@ -236,8 +269,6 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
-        
-
         public SqlDataReader UpdateAssetStatus(AssetDTO obj)
         {
             try
@@ -273,7 +304,24 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
-        
+        public SqlDataReader AddJVMOrder(AssetDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@AMId",obj.AMId),
+                new SqlParameter("@Quantity",obj.Canister),
+                new SqlParameter("@CreatedBy",obj.CreatedBy)
+                };
+                return DbConnector.ExecuteReader("uspAddJVMOrders", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "AssetModel -> AddJVMOrder");
+                return null;
+            }
+        }
+
         public string GetPPMChangeDateRequestList(AssetDTO obj)
         {
             try
@@ -283,6 +331,22 @@ namespace HelpDesk.API.DataAccess
                     new SqlParameter("@OrganizationId",obj.OrganizationId)
                 };
                 return DbConnector.ExecuteDataSet("uspGetPPMDateChangeRequestList", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "AssetModel -> GetPPMChangeDateRequestList");
+                return null;
+            }
+        }
+        public string GetAssetListByPOContract(AssetDTO obj)
+        {
+            try
+            {
+                var para = new[]
+                {
+                    new SqlParameter("@POContract",obj.POContract)
+                };
+                return DbConnector.ExecuteDataSet("uspContractAssetsByPOContract", para);
             }
             catch (Exception ex)
             {
@@ -403,18 +467,20 @@ namespace HelpDesk.API.DataAccess
             }
         }
 
-        
+
     }
 
     public interface IAssetModel
     {
         string GetPPMChangeDateRequestList(AssetDTO obj);
+        string GetAssetListByPOContract(AssetDTO obj);
         string GetDropDownList(AssetDTO obj);
         string GetApprovalAssets(AssetDTO obj);
         SqlDataReader GetCity(AssetDTO obj);
         SqlDataReader GetModels(AssetDTO obj);
-
+        SqlDataReader GetPOContractList(AssetDTO obj);
         SqlDataReader InsertUpdateAsset(AssetDTO obj);
+        SqlDataReader CheckSerialNumber(AssetDTO obj);
         SqlDataReader UpdatedAsset(AssetDTO obj);
         SqlDataReader VerifyAsset(AssetDTO obj);
         SqlDataReader UpdatePPMDate(AssetDTO obj);
@@ -422,6 +488,7 @@ namespace HelpDesk.API.DataAccess
         //string Getproducts(TicketDTO obj);
         SqlDataReader UpdateAssetStatus(AssetDTO obj);
         SqlDataReader UpdatePPMChangeRequest(AssetDTO obj);
+        SqlDataReader AddJVMOrder(AssetDTO obj);
         SqlDataReader GetAssetDetailsById(AssetDTO obj);
 
         string GetAssetRenewalDetails(AssetDTO obj);

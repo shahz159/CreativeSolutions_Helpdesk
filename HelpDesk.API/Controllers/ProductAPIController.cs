@@ -1,5 +1,7 @@
 ﻿using HelpDesk.API.Bussiness;
 using HelpDesk.API.DTO_s;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +28,6 @@ namespace HelpDesk.API.Controllers
             var list = service.GetProductList(obj);
             return list;
         }
-        
         /// <summary>
         /// Insert a Product record if FlagId = 1 
         /// Update a Product record if FlagId = 2
@@ -37,6 +38,21 @@ namespace HelpDesk.API.Controllers
         {
             var result = service.InsertUpdateProduct(obj);
             return Ok(result);
+        }
+
+        public IHttpActionResult NewInsertUpdateProductsM(ProductDTO obj)
+        {
+            var result = service.InsertUpdateProduct(obj);
+            string msg = "";
+            bool val = false;
+
+            if (result.message != "0")
+                val = true;
+            msg = val == true ? "Added Successfully." : "Failure";
+            JObject res = new JObject(new JProperty("Status", val),
+                                        (new JProperty("Message", msg))
+                         );
+            return Ok(res);
         }
         /// <summary>
         /// Get Product Details by Id

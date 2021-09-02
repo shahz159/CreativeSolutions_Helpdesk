@@ -241,7 +241,7 @@
                                 </div>
                               
                                 <div class="kt-login__actions">
-                                    <a href="#" onclick="SaveUserDetails()" class="btn bg-secondery pt-3 btn-elevate kt-login__btn-primary">Submit</a>
+                                    <a href="#" onclick="SaveEnquiryDetails()" class="btn bg-secondery pt-3 btn-elevate kt-login__btn-primary">Submit</a>
                                 </div>
                             </form>
                         </div>
@@ -277,6 +277,120 @@
      }
  });
 
+        function SaveEnquiryDetails() {
+            document.getElementById("loader").style.display = "block";
+            var isvalid = true;
+
+            var EnquiryType = $("#ddlEnquiryType option:selected").text();
+            alert(EnquiryType)
+            if (EnquiryType == "") {
+                isvalid = false;
+                $('#txtenqurytypeerror').html('');
+                $("#ddlEnquiryType").after('<span id="txtenqurytypeerror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtenqurytypeerror').html('');
+            }
+            var CompanyName = $("#txtcompanyname").val();
+            if (CompanyName == "") {
+                isvalid = false;
+                $('#txtCompanyNameerror').html('');
+                $("#txtcompanyname").after('<span id="txtCompanyNameerror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtCompanyNameerror').html('');
+            }
+            var PName = "";
+            var Products = $("#ddlProducts").val();
+            if (Products == "" || Products=="0") {
+                isvalid = false;
+                $('#txtproductserror').html('');
+                $("#Products_div").after('<span id="txtproductserror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtproductserror').html('');
+                if (Products == 'other') {
+                    var OtherProductName = $('#txtproductname').val();
+                    if (OtherProductName == "") {
+                        isvalid = false;
+                        $('#txttxtproductnameerror').html('');
+                        $("#txtproductname").after('<span id="txttxtproductnameerror" style="color:red;" class="error">Field required.</span>');
+                    }
+                    else {
+                        $('#txttxtproductnameerror').html('');
+                        PName = OtherProductName;
+                        alert(PName)
+                    }
+                }
+                else {
+                    PName = $("#ddlProducts option:selected").text();
+                    alert(PName)
+                }
+            }
+            var CustomerName = $("#txtCustomerName").val();
+            if (CustomerName == "") {
+                isvalid = false;
+                $('#txtCustomerNameerror').html('');
+                $("#txtCustomerName").after('<span id="txtCustomerNameerror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtCustomerNameerror').html('');
+            }
+            var Email = $("#txtEmail").val();
+            if (Email == "") {
+                isvalid = false;
+                $('#txtEmailerror').html('');
+                $("#txtEmail").after('<span id="txtEmailerror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtEmailerror').html('');
+            }
+            var Mobile = $("#txtmobile").val();
+            if (Mobile == "") {
+                isvalid = false;
+                $('#txtmobilexxerror').html('');
+                $("#div_mobileNumber").after('<span id="txtmobilexxerror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtmobilexxerror').html('');
+            }
+            var Enquiry = $("#txtEnquiry").val();
+            if (Enquiry == "" || Enquiry == null) {
+                isvalid = false;
+                $('#txtEnquiryerror').html('');
+                $("#txtEnquiry").after('<span id="txtEnquiryerror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtEnquiryerror').html('');
+            }
+            if (isvalid == true) {
+            //AJAX CALL 
+                 $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("NewMainEnquiry")', // we are calling json method
+                    dataType: 'json',
+                    data: {
+                        EnquiryType: EnquiryType, Enquiry: Enquiry, CustomerName: CustomerName, CustomerEmail: Email, CustomerPhone: Mobile, CompanyName: CompanyName, ProductName: PName 
+                    },
+                      success: function (data) {
+                          document.getElementById("loader").style.display = "none";
+                        swal('Success',
+                            'we will contact you soon',
+                            'success')
+                            .then((value) => {
+                                location.reload();
+                            });
+                        location.reload();
+                    },
+                      error: function (ex) {
+                          document.getElementById("loader").style.display = "none";
+                        alert('Failed to retrieve models.' + ex);
+                    }
+                });
+            }
+            else { document.getElementById("loader").style.display = "none"; }
+        }
+
 function productchange() {
     var val = $('#ddlProducts').val();
     if (val == "other") {
@@ -286,32 +400,7 @@ function productchange() {
         document.getElementById("div_productname").style.display = "none";
     }
 }
-
-function checkPassword() {
-
-    var password1 = $('#txtPassword').val();
-    var password2 = $('#txtConfirmPassword').val();
-
-    // If password not entered
-    if (password1 == '')
-        alert("Please enter Password");
-
-    // If confirm password not entered
-    else if (password2 == '')
-        alert("Please enter confirm password");
-
-    // If Not same return False.
-    else if (password1 != password2) {
-        alert("\nPassword did not match: Please try again...")
-        return false;
-    }
-
-    // If same return True.
-    else {
-        //alert("Password Match: Welcome to GeeksforGeeks!")
-        return true;
-    }
-}
+         
 
 
  function isNumberKey(evt) {

@@ -8,13 +8,15 @@ namespace HelpDesk.Web.Models
 {
     public class TicketDTO
     {
+        public string RatingText { get; set; }
         public int SystemManagerId { get; set; }
 
         public long WarehouseStockId { get; set; }
         public long APPMId { get; set; }
 
         public string EnquiryDate { get; set; }
-
+        public string MonthId { get; set; }
+        public string YearId { get; set; }
         public long EnquiryId { get; set; }
         public int FlagId { get; set; }
         public int RoleId { get; set; }
@@ -57,6 +59,7 @@ namespace HelpDesk.Web.Models
         public string UniqueId { get; set; }
         public long TicketNumber { get; set; }
         public string Comments { get; set; }
+        public int RatingCount { get; set; }
         public string ProblemDescription { get; set; }
         public string WorkHours { get; set; }
         public DateTime ResponseTime { get; set; }
@@ -72,6 +75,8 @@ namespace HelpDesk.Web.Models
         public IEnumerable<TicketDTO> ProductList { get; set; }
         public IEnumerable<TicketDTO> ModelList { get; set; }
         public IEnumerable<TicketDTO> ReportList { get; set; }
+        public IEnumerable<TicketDTO> ServiceEngineerListWithCountList { get; set; }
+        //public IEnumerable<TicketDTO> ServiceEngineerList { get; set; }
         public IEnumerable<TicketDTO> UrlList { get; set; }
         public long UserId { get; set; }
         public string SerialNo { get; set; }
@@ -89,6 +94,7 @@ namespace HelpDesk.Web.Models
         public int MappedWarehouseId { get; set; }
         public string Actioncomments { get; set; }
         public string WarehouseJson { get; set; }
+        public string ServiceEngineerListWithCount { get; set; }
         public string SparePartRequestJson { get; set; }
         public string StatusJson { get; set; }
 
@@ -117,6 +123,8 @@ namespace HelpDesk.Web.Models
         public int ResolvedTickets { get; set; }
         public string ManagerName { get; set; }
         public string SupervisorName { get; set; }
+        public string SupervisorEmail { get; set; }
+        public string SupervisorContact { get; set; }
         public string ServiceEngineerJson { get; set; }
         public string StationName { get; set; }
         public string ManagerConfirmationDate { get; set; }
@@ -195,7 +203,31 @@ namespace HelpDesk.Web.Models
         public int TotalTickets { get; set; }
         public int TotalQuantity { get; set; }
         public int UsedQuantity { get; set; }
-       
+        public string FirstLetter { get; set; }
+
+        public int NewUser { get; set; }
+        public int WarrantyExpiredApprovalCount { get; set; }
+        public int SparePartRequestCount { get; set; }
+        public int AssetRenewalCount { get; set; }
+        public int AssetApprovalCount { get; set; }
+        public int InventoryAdjustment { get; set; }
+        public int PPMDatesApprovalCount { get; set; }
+
+        public int ScheduleTickets { get; set; }
+        public int PauseTickets { get; set; }
+        public int ClosedTickets { get; set; }
+
+        public string ScheduleTicketsJson { get; set; }
+        public string PauseTicketsJson { get; set; }
+        public string ClosedTicketsJson { get; set; }
+
+
+
+        public IEnumerable<TicketDTO> ScheduleTicketsList { get; set; }
+        public IEnumerable<TicketDTO> PauseTicketsList { get; set; }
+        public IEnumerable<TicketDTO> ClosedTicketsList { get; set; }
+        public string UserName { get; set; }
+
     }
 }
 

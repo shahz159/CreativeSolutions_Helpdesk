@@ -129,6 +129,27 @@ namespace HelpDesk.API.DataAccess
         }
 
 
+        public string GetSystemUserTicketsMobile(TicketDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@UserId",obj.CreatedBy),
+                 new SqlParameter("@StatusId",obj.Status),
+                  new SqlParameter("@ServiceEngineerId",obj.ServiceEngineerId),
+                   new SqlParameter("@ReportTypeId",obj.ReportId),
+                    new SqlParameter("@PageNumber",obj.PageNumber),
+                     new SqlParameter("@PageSize",obj.PageSize)
+
+                };
+                return DbConnector.ExecuteDataSet("uspTicketListMobile", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "TicketModel -> GetSystemUserTicketsMobile");
+                return null;
+            }
+        }
         public string GetSystemUserTickets(TicketDTO obj)
         {
             try
@@ -316,7 +337,8 @@ namespace HelpDesk.API.DataAccess
                 new SqlParameter("@AccountIdF",obj.AccountId),
                 new SqlParameter("@pageNumber",obj.PageNumber),
                 new SqlParameter("@pageSize",obj.PageSize),
-                new SqlParameter("@CompanyId",obj.CompanyId)
+                new SqlParameter("@CompanyId",obj.CompanyId),
+                new SqlParameter("@searchtxt",obj.message)
                 };
                 return DbConnector.ExecuteDataSet("uspGetServiceEngineerTickets", para);
             }
@@ -342,6 +364,22 @@ namespace HelpDesk.API.DataAccess
             }
         }
 
+
+        public string GetServiceEngineerCounts(TicketDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@UserId",obj.UserId)
+                };
+                return DbConnector.ExecuteDataSet("uspGetEngineerTicketCount", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "TicketModel -> GetServiceEngineerCounts");
+                return null;
+            }
+        }
         public string GetSparePartRequestTickets(TicketDTO obj)
         {
             try
@@ -488,6 +526,23 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
+        public SqlDataReader ServiceArchiveTicket(TicketDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@Month",obj.MonthId),
+                new SqlParameter("@Year",obj.YearId),
+                new SqlParameter("@UserId",obj.CreatedBy)
+                };
+                return DbConnector.ExecuteReader("uspGetTicketListByMonthYear", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "TicketModel -> ServiceArchiveTicket");
+                return null;
+            }
+        }
 
         public SqlDataReader AssetListReport(TicketDTO obj)
         {
@@ -597,6 +652,7 @@ namespace HelpDesk.API.DataAccess
         string GetAccounts(TicketDTO obj);
         string Getproducts(TicketDTO obj);
         string GetSystemUserTickets(TicketDTO obj);
+        string GetSystemUserTicketsMobile(TicketDTO obj);
         string GetRejectedTickets(TicketDTO obj);
         SqlDataReader UpdateTicketStatus(TicketDTO obj);
         SqlDataReader AddticketRating(TicketDTO obj);
@@ -610,6 +666,7 @@ namespace HelpDesk.API.DataAccess
 
         string GetServiceEngineerTickets(TicketDTO obj);
         string GetSparePartRequestTickets(TicketDTO obj);
+        string GetServiceEngineerCounts(TicketDTO obj);
         string GetEnquiryList(TicketDTO obj);
         string GetEnquiryDetails(TicketDTO obj);
         string GetServiceEngineerTicketsFilerts(TicketDTO obj);
@@ -622,6 +679,7 @@ namespace HelpDesk.API.DataAccess
         SqlDataReader AddEnquirycomments(TicketDTO obj);
         SqlDataReader AddEnquiry(TicketDTO obj);
         SqlDataReader CrmRawData(TicketDTO obj);
+        SqlDataReader ServiceArchiveTicket(TicketDTO obj);
         SqlDataReader AssetListReport(TicketDTO obj);
         SqlDataReader ProductReport(TicketDTO obj);
         SqlDataReader EngineerWiseStatusReport(TicketDTO obj);

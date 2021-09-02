@@ -4,6 +4,9 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@section  Styles{
+    <link href="~/assets/css/datatables.bundle.css" rel="stylesheet" />
+}
 
 <div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
 
@@ -19,103 +22,494 @@
 
     <!--Begin::Dashboard 3-->
     <!--Begin::Row-->
-    <div class="row">
-        <div class="col-sm-8 col-md-4 col-lg-4">
-            <div class="kt-portlet kt-portlet--border-bottom-brand">
-                <div class="kt-portlet__body kt-portlet__body--fluid">
-                    <div class="kt-widget26">
-                        <div class="kt-widget26__content">
-                            <span class="kt-widget26__number">@Model.NewTickets</span>
-                            @if (Model.RoleId == 503 || Model.RoleId == 504)
+    @if (Model.RoleId != 506)
+    {
+        if (Model.RoleId == 502 || Model.RoleId == 501)
+        {
+            <div class="row mb-3">
+                <div class="col-lg-8 col-md-6"><h5 class="mt-3 mb-2">Tickets Count</h5></div>
+                <div class="col-lg-4 col-md-6">
+                    <select id="ddlserviceeng" class="form-control" onchange="bindticketcount()">
+                        <option>--- Select Engineer Name ---</option>
+                        @foreach (var itemsrvc in Model.ServiceEngineerList)
+                        {
+                            if (itemsrvc.UserId == 0)
                             {
-                                <a style="text-decoration: underline; cursor: pointer;" href="@Url.Action("DashboardTickets","Ticket",new { id=1})" class="kt-widget26__desc"> In Progress</a>
+                                <option value="@itemsrvc.UserId" checked>@itemsrvc.UserName</option>
                             }
                             else
                             {
-                                <span class="kt-widget26__desc"> New</span>
+                                <option value="@itemsrvc.UserId">@itemsrvc.UserName</option>
                             }
+
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-2 col-md-4 col-sm-6">
+                    <div class="kt-portlet kt-portlet--border-bottom-brand">
+                        <div class="kt-portlet__body kt-portlet__body--fluid">
+                            <div class="kt-widget26">
+                                <div class="kt-widget26__content">
+                                    <span class="kt-widget26__number" id="total_spn">100</span>
+                                    <a href="#" class="kt-widget26__desc"><u>Total</u></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-6">
+                    <div class="kt-portlet kt-portlet--border-bottom-brand">
+                        <div class="kt-portlet__body kt-portlet__body--fluid">
+                            <div class="kt-widget26">
+                                <div class="kt-widget26__content">
+                                    <span class="kt-widget26__number" id="newticket_spn">@Model.NewTickets</span>
+                                    <a href="@Url.Action("DashboardTickets","Ticket",new { id=1})" class="kt-widget26__desc"><u>New</u></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-6">
+                    <div class="kt-portlet kt-portlet--border-bottom-success">
+                        <div class="kt-portlet__body kt-portlet__body--fluid">
+                            <div class="kt-widget26">
+                                <div class="kt-widget26__content">
+                                    <span class="kt-widget26__number" id="inprogress_spn">@Model.InProgressTickets</span>
+                                    <a href="@Url.Action("DashboardTickets","Ticket",new { id=2})" class="kt-widget26__desc"><u>In Progress</u></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-6">
+                    <div class="kt-portlet kt-portlet--border-bottom-danger">
+                        <div class="kt-portlet__body kt-portlet__body--fluid">
+                            <div class="kt-widget26">
+                                <div class="kt-widget26__content">
+                                    <span class="kt-widget26__number" id="resolved_spn">@Model.ResolvedTickets</span>
+                                    <a href="@Url.Action("DashboardTickets","Ticket",new { id=6})" class="kt-widget26__desc"><u>Resolved</u></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-6">
+                    <div class="kt-portlet kt-portlet--border-bottom-brand">
+                        <div class="kt-portlet__body kt-portlet__body--fluid">
+                            <div class="kt-widget26">
+                                <div class="kt-widget26__content">
+                                    <span class="kt-widget26__number" id="scheduled_spn">@Model.ScheduleTickets</span>
+                                    <a href="@Url.Action("DashboardTickets","Ticket",new { id=12})" class="kt-widget26__desc"><u>Scheduled</u></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*<div class="col-lg-2 col-md-4 col-sm-6">
+                        <div class="kt-portlet kt-portlet--border-bottom-success">
+                            <div class="kt-portlet__body kt-portlet__body--fluid">
+                                <div class="kt-widget26">
+                                    <div class="kt-widget26__content">
+                                        <span class="kt-widget26__number">@Model.PauseTickets</span>
+                                        <a href="@Url.Action("DashboardTickets","Ticket",new { id=4})" class="kt-widget26__desc"><u>Pause</u></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+                <div class="col-lg-2 col-md-4 col-sm-6">
+                    <div class="kt-portlet kt-portlet--border-bottom-danger">
+                        <div class="kt-portlet__body kt-portlet__body--fluid">
+                            <div class="kt-widget26">
+                                <div class="kt-widget26__content">
+                                    <span class="kt-widget26__number" id="closed_spn">@Model.ClosedTickets</span>
+                                    <a href="@Url.Action("DashboardTickets","Ticket",new { id=7})" class="kt-widget26__desc"><u>Close</u></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            if (Model.RoleId == 502)
+            {
+                <div class="row mb-3">
+                    <div class="col-lg-12"><h5 class="mt-3 mb-2">Approvals</h5></div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="kt-portlet kt-portlet--border-bottom-brand">
+                            <div class="kt-portlet__body kt-portlet__body--fluid">
+                                <div class="kt-widget26">
+                                    <div class="kt-widget26__content">
+                                        <span class="kt-widget26__number">@Model.SparePartRequestCount</span>
+                                        <a href="@Url.Action("EquipmentApproval","Ticket")" class="kt-widget26__desc"><u>Spare Parts Request</u></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="kt-portlet kt-portlet--border-bottom-brand">
+                            <div class="kt-portlet__body kt-portlet__body--fluid">
+                                <div class="kt-widget26">
+                                    <div class="kt-widget26__content">
+                                        <span class="kt-widget26__number">@Model.WarrantyExpiredApprovalCount</span>
+                                        <a href="@Url.Action("WarrantyExpiredTickets","Ticket")" class="kt-widget26__desc"><u>Warranty Expired Tickets</u></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        if (Model.RoleId == 503 || Model.RoleId == 504 || Model.RoleId == 505)
+        {
+            <div class="row">
+                <div class="col-12">
+                    <h5 class="mb-2">Tickets Count</h5>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-6">
+                    <div class="kt-portlet kt-portlet--border-bottom-brand">
+                        <div class="kt-portlet__body kt-portlet__body--fluid">
+                            <div class="kt-widget26">
+                                <div class="kt-widget26__content">
+                                    <span class="kt-widget26__number">@Model.NewTickets</span>
+                                    @*@if (Model.RoleId == 503 || Model.RoleId == 504)
+                                        {
+                                            <a style="text-decoration: underline; cursor: pointer;" href="@Url.Action("DashboardTickets","Ticket",new { id=1})" class="kt-widget26__desc"> In Progress</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="#" class="kt-widget26__desc"><u>New</u></a>
+                                        }*@
+                                    <a href="@Url.Action("DashboardTickets","Ticket",new { id=1})" class="kt-widget26__desc"><u>New</u></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-6">
+                    <div class="kt-portlet kt-portlet--border-bottom-success">
+                        <div class="kt-portlet__body kt-portlet__body--fluid">
+                            <div class="kt-widget26">
+                                <div class="kt-widget26__content">
+                                    <span class="kt-widget26__number">@Model.InProgressTickets</span>
+                                    @*@if (Model.RoleId == 503 || Model.RoleId == 504)
+                                        {
+                                            <a style="text-decoration: underline; cursor: pointer;" href="@Url.Action("DashboardTickets","Ticket",new { id=2})" class="kt-widget26__desc"> Action to Close</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="#" class="kt-widget26__desc"><u>In Progress</u></a>
+                                        }*@
+                                    <a href="@Url.Action("DashboardTickets","Ticket",new { id=2})" class="kt-widget26__desc"><u>In Progress</u></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-6">
+                    <div class="kt-portlet kt-portlet--border-bottom-danger">
+                        <div class="kt-portlet__body kt-portlet__body--fluid">
+                            <div class="kt-widget26">
+                                <div class="kt-widget26__content">
+                                    <span class="kt-widget26__number">@Model.ResolvedTickets</span>
+                                    @*@if (Model.RoleId == 503 || Model.RoleId == 504)
+                                        {
+                                            <a style="text-decoration: underline; cursor: pointer;" href="@Url.Action(" DashboardTickets","Ticket",new { id=6})" class="kt-widget26__desc"> Closed</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="#" class="kt-widget26__desc"><u>Resolved</u></a>
+                                        }*@
+
+                                    <a href="@Url.Action("DashboardTickets","Ticket",new { id=6})" class="kt-widget26__desc"><u>Resolved</u></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-4 col-sm-6">
+                    <div class="kt-portlet kt-portlet--border-bottom-brand">
+                        <div class="kt-portlet__body kt-portlet__body--fluid">
+                            <div class="kt-widget26">
+                                <div class="kt-widget26__content">
+                                    <span class="kt-widget26__number">@Model.ScheduleTickets</span>
+                                    <a href="@Url.Action("DashboardTickets","Ticket",new { id=12})" class="kt-widget26__desc"><u>Scheduled</u></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-4 col-sm-6">
+                    <div class="kt-portlet kt-portlet--border-bottom-success">
+                        <div class="kt-portlet__body kt-portlet__body--fluid">
+                            <div class="kt-widget26">
+                                <div class="kt-widget26__content">
+                                    <span class="kt-widget26__number">@Model.PauseTickets</span>
+                                    <a href="@Url.Action("DashboardTickets","Ticket",new { id=4})" class="kt-widget26__desc"><u>Pause</u></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-6">
+                    <div class="kt-portlet kt-portlet--border-bottom-danger">
+                        <div class="kt-portlet__body kt-portlet__body--fluid">
+                            <div class="kt-widget26">
+                                <div class="kt-widget26__content">
+                                    <span class="kt-widget26__number">@Model.ClosedTickets</span>
+                                    <a href="@Url.Action("DashboardTickets","Ticket",new { id=7})" class="kt-widget26__desc"><u>Close</u></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        }
+
+
+        if (Model.RoleId == 503 || Model.RoleId == 504 || Model.RoleId == 505)
+        {
+            <div class="row">
+                <div class="col-xl-6 col-lg-5 order-lg-6 order-xl-6">
+                    <div class="kt-portlet kt-portlet--height-fluid">
+                        <div class="kt-portlet__body">
+                            <div data-gr-c-s-loaded="true">
+                                <div>
+                                    <canvas id="chart-area" class="chartjs-render-monitor"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-7 order-lg-6 order-xl-6">
+                    <div class="kt-portlet kt-portlet--height-fluid">
+                        <div class="kt-portlet__body">
+                            <div data-gr-c-s-loaded="true">
+                                <div>
+                                    <canvas id="canvas" style="display: block; width: 1215px; height: 607px;" width="1215" height="607" class="chartjs-render-monitor"></canvas>
+                                </div>
+                            </div>
 
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-sm-8 col-md-4 col-lg-4">
-            <div class="kt-portlet kt-portlet--border-bottom-success">
-                <div class="kt-portlet__body kt-portlet__body--fluid">
-                    <div class="kt-widget26">
-                        <div class="kt-widget26__content">
-                            <span class="kt-widget26__number">@Model.InProgressTickets</span>
-                            @if (Model.RoleId == 503 || Model.RoleId == 504)
-                            {
-                                <a style="text-decoration: underline; cursor: pointer;" href="@Url.Action("DashboardTickets","Ticket",new { id=2})" class="kt-widget26__desc"> Action to Close</a>
-                            }
-                            else
-                            {
-                                <span class="kt-widget26__desc"> In Progress</span>
-                            }
-
+        }
+        if (Model.RoleId == 501)
+        {
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-12">
+                            <h5 class="mb-3">Approval Count</h5>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-4">
+                            <div class="kt-portlet kt-portlet--border-bottom-brand">
+                                <div class="kt-portlet__body kt-portlet__body--fluid">
+                                    <div class="kt-widget26">
+                                        <div class="kt-widget26__content">
+                                            <span class="kt-widget26__number">@Model.NewUser</span>
+                                            <span class="kt-widget26__desc"> New User</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-4">
+                            <div class="kt-portlet kt-portlet--border-bottom-success">
+                                <div class="kt-portlet__body kt-portlet__body--fluid">
+                                    <div class="kt-widget26">
+                                        <div class="kt-widget26__content">
+                                            <span class="kt-widget26__number">@Model.WarrantyExpiredApprovalCount</span>
+                                            <span class="kt-widget26__desc"> Warranty Expired</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-4">
+                            <div class="kt-portlet kt-portlet--border-bottom-danger">
+                                <div class="kt-portlet__body kt-portlet__body--fluid">
+                                    <div class="kt-widget26">
+                                        <div class="kt-widget26__content">
+                                            <span class="kt-widget26__number">@Model.AssetRenewalCount</span>
+                                            <span class="kt-widget26__desc"> Asset Renewal</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-4">
+                            <div class="kt-portlet kt-portlet--border-bottom-brand">
+                                <div class="kt-portlet__body kt-portlet__body--fluid">
+                                    <div class="kt-widget26">
+                                        <div class="kt-widget26__content">
+                                            <span class="kt-widget26__number">@Model.AssetApprovalCount</span>
+                                            <span class="kt-widget26__desc"> Assets</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-4">
+                            <div class="kt-portlet kt-portlet--border-bottom-success">
+                                <div class="kt-portlet__body kt-portlet__body--fluid">
+                                    <div class="kt-widget26">
+                                        <div class="kt-widget26__content">
+                                            <span class="kt-widget26__number">@Model.InventoryAdjustment</span>
+                                            <span class="kt-widget26__desc"> Inventory</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-4">
+                            <div class="kt-portlet kt-portlet--border-bottom-danger">
+                                <div class="kt-portlet__body kt-portlet__body--fluid">
+                                    <div class="kt-widget26">
+                                        <div class="kt-widget26__content">
+                                            <span class="kt-widget26__number">@Model.PPMDatesApprovalCount</span>
+                                            <span class="kt-widget26__desc"> PPM Dates</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-sm-8 col-md-4 col-lg-4">
-            <div class="kt-portlet kt-portlet--border-bottom-danger">
-                <div class="kt-portlet__body kt-portlet__body--fluid">
-                    <div class="kt-widget26">
-                        <div class="kt-widget26__content">
-                            <span class="kt-widget26__number">@Model.ResolvedTickets</span>
-                            @if (Model.RoleId == 503 || Model.RoleId == 504)
-                            {
-                                <a style="text-decoration: underline; cursor: pointer;" href="@Url.Action("DashboardTickets","Ticket",new { id=3})" class="kt-widget26__desc"> Closed</a>
-                            }
-                            else
-                            {
-                                <span class="kt-widget26__desc"> Resolved</span>
-                            }
+                @*<div class="col-lg-6">
+                    <div class="row">
+                        <div class="col-12">
+                            <h5 class="mb-3">Engineer wise Ticket Count</h5>
+                        </div>
+                        <div class="col-12">
+                            <div class="kt-portlet__body kt-portlet__body--fit">
+                            </div>
+                            <div class="kt-portlet kt-portlet--border-bottom-brand">
+                                <div class="kt-portlet__body kt-portlet__body--fluid py-3">
+                                    <div class="kt-widget26">
+                                        <div class="kt-widget26__content pb-0">
+                                            <div class="table-responsive">
+                                                <table id="example" class="dataTable table table-hover mb-0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Engineer Name</th>
+                                                            <th>New Ticket</th>
+                                                            <th>Inprogress</th>
+                                                            <th>Resolved</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var item in Model.ServiceEngineerListWithCountList)
+                                                        {
+                                                            <tr>
+                                                                <td>
+                                                                    <span class="btn btn-label-success alfabet-icon">@item.FirstLetter</span>
+                                                                    @item.FullName
+                                                                </td>
+                                                                <td>@item.New</td>
+                                                                <td>@item.InProgress</td>
+                                                                <td>@item.Resolved</td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </div>*@
             </div>
-        </div>
-    </div>
-    @if (Model.RoleId == 503 || Model.RoleId == 504 || Model.RoleId == 505)
+        }
+    }
+    else if (Model.RoleId == 506)
     {
         <div class="row">
-            <div class="col-xl-6 col-lg-5 order-lg-6 order-xl-6">
-                <div class="kt-portlet kt-portlet--height-fluid">
-                    <div class="kt-portlet__body">
-                        <div data-gr-c-s-loaded="true">
-                            <div>
-                                <canvas id="chart-area" class="chartjs-render-monitor"></canvas>
+            <div class="col-lg-3 col-md-6">
+                <div class="kt-portlet kt-portlet--border-bottom-brand">
+                    <div class="kt-portlet__body kt-portlet__body--fluid">
+                        <div class="kt-widget26">
+                            <div class="kt-widget26__content">
+                                <span class="kt-widget26__number">@Model.NewTickets</span>
+                                <a href="#" class="kt-widget26__desc"><u>Warranty</u></a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-xl-6 col-lg-7 order-lg-6 order-xl-6">
-                <div class="kt-portlet kt-portlet--height-fluid">
-                    <div class="kt-portlet__body">
-                        <div data-gr-c-s-loaded="true">
-                            <div>
-                                <canvas id="canvas" style="display: block; width: 1215px; height: 607px;" width="1215" height="607" class="chartjs-render-monitor"></canvas>
+            <div class="col-lg-3 col-md-6">
+                <div class="kt-portlet kt-portlet--border-bottom-brand">
+                    <div class="kt-portlet__body kt-portlet__body--fluid">
+                        <div class="kt-widget26">
+                            <div class="kt-widget26__content">
+                                <span class="kt-widget26__number">@Model.InProgressTickets</span>
+                                <a href="#" class="kt-widget26__desc">
+                                    <u>
+                                        Service
+                                    </u>
+                                </a>
                             </div>
                         </div>
-
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="kt-portlet kt-portlet--border-bottom-brand">
+                    <div class="kt-portlet__body kt-portlet__body--fluid">
+                        <div class="kt-widget26">
+                            <div class="kt-widget26__content">
+                                <span class="kt-widget26__number">@Model.ScheduleTickets</span>
+                                <a href="#" class="kt-widget26__desc">
+                                    <u>
+                                        No Contract
+                                    </u>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="kt-portlet kt-portlet--border-bottom-brand">
+                    <div class="kt-portlet__body kt-portlet__body--fluid">
+                        <div class="kt-widget26">
+                            <div class="kt-widget26__content">
+                                <span class="kt-widget26__number">@Model.PauseTickets</span>
+                                <a href="#" class="kt-widget26__desc">
+                                    <u>
+                                        Expired Contracs
+                                    </u>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     }
-        <div class="row">
-            <div class="col-lg-8 mx-auto">
-                <img src="~/assets/images/User_Bage_Banner.png" width="100%" />
-            </div>
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <img src="~/assets/images/User_Bage_Banner.png" width="100%" />
         </div>
     </div>
+</div>
 @*<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.js"></script>*@
 <script src="https://www.chartjs.org/dist/2.9.3/Chart.min.js"></script>
+
 
 <input type="hidden" id="hdnNewAry" value="@Model.New_array" />
 <input type="hidden" id="hdnResolvedAry" value="@Model.Resolved_array" />
@@ -125,11 +519,29 @@
 
 <input type="hidden" id="hdnRoleId" value="@Model.RoleId" />
 
-<script>
-
-</script>
 @section  Scripts{
+    <script src="~/assets/js/select2.js"></script>
+    <script src="~/assets/js/datatables.bundle.js"></script>
     <script>
+        $('#ddlserviceeng').select2();
+        $(document).ready(function () {
+
+            $('#ddlserviceeng').val('0').trigger('change');;
+            //$('#ddlserviceeng').val('0'); // Select the option with a value of '1'
+            //$('#ddlserviceeng').trigger('change'); // Notify any JS components that the value changed
+
+            $('#example').DataTable({
+                "bLengthChange": false,
+                "bFilter": true,
+                "bAutoWidth": false,
+                "bInfo": false,
+                "scrollY": "150px",
+                "scrollCollapse": true,
+                "paging": false
+            })
+
+        });
+
         'use strict';
 
         window.chartColors = {
@@ -279,6 +691,38 @@
             /* eslint-enable */
 
         }(this));
+
+        function bindticketcount() {
+            var val = $('#ddlserviceeng').val();
+
+            $.ajax({
+                type: "Post",
+                url: '@Url.Action("GetEngineerTicketCounts")',
+                datatype: "json",
+                data: { UserId: val },
+                success: function (data) {
+
+                    var newticket = data[0].NewTickets;
+                    var InProgressTickets = data[0].InProgressTickets;
+                    var ResolvedTickets = data[0].ResolvedTickets;
+                    var ScheduleTickets = data[0].ScheduleTickets;
+                    var ClosedTickets = data[0].ClosedTickets;
+
+                    $('#newticket_spn').html(newticket);
+                    $('#inprogress_spn').html(InProgressTickets);
+                    $('#resolved_spn').html(ResolvedTickets);
+                    $('#scheduled_spn').html(ScheduleTickets);
+                    $('#closed_spn').html(ClosedTickets);
+                    $('#total_spn').html(newticket + InProgressTickets + ResolvedTickets + ScheduleTickets + ClosedTickets);
+
+                    document.getElementById("loader").style.display = "none";
+                },
+                error: function () {
+                    alert('error');
+                    document.getElementById("loader").style.display = "none";
+                }
+            });
+        }
     </script>
     <script>
         $('#loader').hide();

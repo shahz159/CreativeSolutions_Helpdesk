@@ -1,0 +1,45 @@
+﻿@model HelpDesk.Web.Models.AssetsDTO
+<style>
+    .active {
+        background-color: rgba(44, 175, 221,0.2);
+    }
+</style>
+
+<table id="assetlist" class="table">
+    <thead>
+        <tr>
+            <th scope="col">Account Name</th>
+            <th scope="col">System ID</th>
+            <th scope="col">Start Date</th>
+            <th scope="col">End Date</th>
+            <th scope="col">Contract Type</th>
+            <th scope="col" align="right">Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.AssetsList != null)
+        {
+            foreach (var item in Model.AssetsList)
+            {
+                <tr id="Asstd_@item.AMId" class="">
+                    <td>@item.AccountName</td>
+                    <td>@item.SystemNo</td>
+                    <td>@item.InstallationDate.ToString("dd/MM/yyyy")</td>
+                    <td>@item.WarrantyExpiryDate.ToString("dd/MM/yyyy")</td>
+                    <td>@item.ContractTypetxt</td>
+                    <td align="center">
+                        <a href="#" class="btn btn-sm btn-info py-1 px-2" onclick="ViewAssetDetails(@item.AMId)">
+                            <i class="fas fa-list pr-0"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+    <script>
+        document.getElementById("loader").style.display = "none";
+    </script>
+}

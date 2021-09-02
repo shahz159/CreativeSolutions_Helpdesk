@@ -9,12 +9,14 @@ namespace HelpDesk.API.DTO_s
     {
         public bool IsMobile { get; set; }
         public long EnquiryId { get; set; }
-
+        public string RatingText { get; set; }
         public string multipledocuments_xml { get; set; }
         public int ReportId { get; set; }
         public long APPMId { get; set; }
         public string  ReportTypeName { get; set; }
         public string message { get; set; }
+        public string MonthId { get; set; }
+        public string YearId { get; set; }
         public int SystemManagerId { get; set; }
         public string datasetxml { get; set; }
         public string Description { get; set; }

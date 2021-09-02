@@ -37,6 +37,7 @@
                     <thead>
                         <tr>
                             <th scope="col">Product</th>
+                            <th scope="col">SAP Code</th>
                             <th scope="col">Spare Part Name</th>
                             <th scope="col">Spare Part Number</th>
                             @*<th scope="col">Quantity</th>*@
@@ -52,6 +53,7 @@
                             {
                                 <tr>
                                     <td>@item.ProductName</td>
+                                    <td>@item.SAPCode</td>
                                     <td>@item.SparePartName</td>
                                     <td>@item.SparePartNumber</td>
                                     @*<td>@item.Quantity</td>*@
@@ -103,7 +105,7 @@
             document.getElementById("loader").style.display = "block";
             $.ajax({
                 type: "Post",
-                url: '@Url.Action("SparePartDetails")',
+                url: '@Url.Action("SparePartDetailsForEdit")',
                 datatype: "json",
                 data: { id: id,WarehouseId:0 },
                 success: function (data) {
@@ -215,6 +217,17 @@
                 document.getElementById("loader").style.display = "none";
                 return false;
             }
+
+            var SAPCode = $("#txtsapcode").val();
+            if (SAPCode == "") {
+                isvalid = false;
+                $('#txtsapcodeerror').html('');
+                $("#txtsapcode").after('<span id="txtNameerror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtsapcodeerror').html('');
+            }
+
             //txtquantity
             var Quantity = $('#txtquantityE').val();
             if (Quantity == "") {
@@ -226,7 +239,7 @@
                 type: "Post",
                 url: '@Url.Action("UpdateSparePart")',
                 datatype: "json",
-                data: {SparePartName:SparePartName, Price: Price, Quantity: Quantity, BaseQuantity:BaseQuantity, SparePartId:id},
+                data: { SparePartName: SparePartName, Price: Price, Quantity: Quantity, BaseQuantity: BaseQuantity, SparePartId: id, SAPCode: SAPCode},
                 success: function (data) {
                     var v = data.success;
                     if (v == true) {
@@ -243,6 +256,127 @@
                 }
             });
         }
+
+        //For Update Spare Part Master
+        function UpdateSparePartDetails() {
+            debugger
+            var isvalid = true;
+            ///////////////////////
+            var ProductId = $('#ddlProduct').val();
+            if (ProductId == "") {
+                isvalid = false;
+                $('#txtddlProducterror').html('');
+                $("#ddlProduct").after('<span id="txtddlProducterror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtddlProducterror').html('');
+            }
+
+            ////////////////////////////////
+            var SparePartName = $("#txtName").val();
+            if (SparePartName == "") {
+                isvalid = false;
+                 $('#txtNameerror').html('');
+                $("#txtName").after('<span id="txtNameerror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtNameerror').html('');
+            }
+
+            //////////////
+            var Number = $("#txtNumber").val();
+            if (Number == "") {
+                isvalid = false;
+                   $('#txtNumbererror').html('');
+                $("#txtNumber").after('<span id="txtNumbererror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtNumbererror').html('');
+            }
+            //////////////////  txtquantity txtbasequantity txtprice
+            var Quantity = $("#txtquantity").val();
+
+            //if (Quantity == 0 ||Quantity == "") {
+            //    isvalid = false;
+            //      $('#txtquantityerror').html('');
+            //    $("#txtquantity").after('<span id="txtquantityerror" style="color:red;" class="error">Field required.</span>');
+            //}
+            //else {
+            //    $('#txtquantityerror').html('');
+            //}
+
+            ////////////////////////
+            var BaseQuantity = $("#txtbasequantity").val();
+            if (BaseQuantity == 0||BaseQuantity == "") {
+                isvalid = false;
+                $('#txtbasequantityerror').html('');
+                $("#txtbasequantity").after('<span id="txtbasequantityerror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtbasequantityerror').html('');
+            }
+            ///////////////////
+            var Price = $("#txtprice").val();
+            if (Price == "") {
+                isvalid = false;
+                $('#txtpriceerror').html('');
+                $("#txtprice").after('<span id="txtpriceerror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtpriceerror').html('');
+            }
+
+            var SAPCode = $("#txtsapcode").val();
+            if (SAPCode == "") {
+                isvalid = false;
+                $('#txtsapcodeerror').html('');
+                $("#txtsapcode").after('<span id="txtNameerror" style="color:red;" class="error">Field required.</span>');
+            }
+            else {
+                $('#txtsapcodeerror').html('');
+            }
+            //////////////////////
+            if (isvalid == true) {
+                //AJAX CALL
+                  $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("NewSparePartJson")', // we are calling json method
+                    dataType: 'json',
+                    data: {
+                        ProductId: ProductId, SparePartName: SparePartName, SparePartNumber: Number, Quantity: Quantity, BaseQuantity: BaseQuantity, Price: Price,
+                        FlagId: $('#hdnFlagId').val(), SparePartId: $('#hdnSparePartId').val(),
+                        SAPCode: SAPCode
+                    },
+                      success: function (data) {
+                          var flagid = $('#hdnFlagId').val();
+                          if (flagid == 1) {
+                              alert('Added Successfully');
+                          }
+                          else if (flagid == 2) {
+                              alert('Updated Successfully');
+                          }
+                          location.reload();
+                    },
+                    error: function (ex) {
+                        alert('Failed to retrieve models.' + ex);
+                    }
+                });
+            }
+        }
+        function isNumberKey(evt) {
+            $('#txtmobileerror').text('');
+            var charCode = (evt.which) ? evt.which : evt.keyCode
+            if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+            return true;
+        }
+        function mobilevalidation() {
+            var val= $('#hdnMobileValidation').val();
+            if (val == 1) {
+                $('#txtmobile').val('');
+            }
+        }
+
     </script>
 }
 
