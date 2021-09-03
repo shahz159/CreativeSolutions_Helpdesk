@@ -852,7 +852,13 @@ namespace HelpDesk.API.Bussiness
             data.Close();
             return list;
         }
-
+        public IEnumerable<TicketDTO> ContractManagementReport(TicketDTO obj)
+        {
+            var data = model.ContractManagementReport(obj);
+            var list = CustomDataReaderToGenericExtension.GetDataObjects<TicketDTO>(data);
+            data.Close();
+            return list;
+        }
     }
 
     public interface ITicketService
@@ -897,6 +903,7 @@ namespace HelpDesk.API.Bussiness
         IEnumerable<TicketDTO> PerMonthStatus(TicketDTO obj);
         IEnumerable<TicketDTO> RepeatedErrorReport(TicketDTO obj);
         IEnumerable<TicketDTO> SparePartTicketsCountReport(TicketDTO obj);
+        IEnumerable<TicketDTO> ContractManagementReport(TicketDTO obj);
 
     }
 }

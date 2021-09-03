@@ -640,6 +640,22 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
+
+        public SqlDataReader ContractManagementReport(TicketDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                     new SqlParameter("@UserId",obj.UserId)
+                };
+                return DbConnector.ExecuteReader("uspContractManagementReport", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "TicketModel -> ContractManagementReport");
+                return null;
+            }
+        }
     }
 
     public interface ITicketModel
@@ -687,6 +703,7 @@ namespace HelpDesk.API.DataAccess
         SqlDataReader PerMonthStatus(TicketDTO obj);
         SqlDataReader RepeatedErrorReport(TicketDTO obj);
         SqlDataReader SparePartTicketsCountReport(TicketDTO obj);
+        SqlDataReader ContractManagementReport(TicketDTO obj);
     }
 }
 

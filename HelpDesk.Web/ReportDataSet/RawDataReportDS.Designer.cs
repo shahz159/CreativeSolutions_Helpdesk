@@ -353,6 +353,10 @@ namespace HelpDesk.Web.ReportDataSet {
             
             private global::System.Data.DataColumn columnScheduleTime;
             
+            private global::System.Data.DataColumn columnRatingCount;
+            
+            private global::System.Data.DataColumn columnRatingDescription;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public RawDataReportDSDataTable() {
@@ -684,6 +688,22 @@ namespace HelpDesk.Web.ReportDataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn RatingCountColumn {
+                get {
+                    return this.columnRatingCount;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn RatingDescriptionColumn {
+                get {
+                    return this.columnRatingDescription;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -756,7 +776,9 @@ namespace HelpDesk.Web.ReportDataSet {
                         string ScheduleandActualRespocsetimeDuration, 
                         string ResolvedtoCloseDate, 
                         string CreatedOnNew, 
-                        string ScheduleTime) {
+                        string ScheduleTime, 
+                        string RatingCount, 
+                        string RatingDescription) {
                 RawDataReportDSRow rowRawDataReportDSRow = ((RawDataReportDSRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         TicketNumber,
@@ -795,7 +817,9 @@ namespace HelpDesk.Web.ReportDataSet {
                         ScheduleandActualRespocsetimeDuration,
                         ResolvedtoCloseDate,
                         CreatedOnNew,
-                        ScheduleTime};
+                        ScheduleTime,
+                        RatingCount,
+                        RatingDescription};
                 rowRawDataReportDSRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowRawDataReportDSRow);
                 return rowRawDataReportDSRow;
@@ -855,6 +879,8 @@ namespace HelpDesk.Web.ReportDataSet {
                 this.columnResolvedtoCloseDate = base.Columns["ResolvedtoCloseDate"];
                 this.columnCreatedOnNew = base.Columns["CreatedOnNew"];
                 this.columnScheduleTime = base.Columns["ScheduleTime"];
+                this.columnRatingCount = base.Columns["RatingCount"];
+                this.columnRatingDescription = base.Columns["RatingDescription"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -934,6 +960,10 @@ namespace HelpDesk.Web.ReportDataSet {
                 base.Columns.Add(this.columnCreatedOnNew);
                 this.columnScheduleTime = new global::System.Data.DataColumn("ScheduleTime", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnScheduleTime);
+                this.columnRatingCount = new global::System.Data.DataColumn("RatingCount", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRatingCount);
+                this.columnRatingDescription = new global::System.Data.DataColumn("RatingDescription", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRatingDescription);
                 this.ExtendedProperties.Add("Generator_TablePropName", "_RawDataReportDS");
                 this.ExtendedProperties.Add("Generator_UserTableName", "RawDataReportDS");
             }
@@ -1673,6 +1703,38 @@ namespace HelpDesk.Web.ReportDataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string RatingCount {
+                get {
+                    try {
+                        return ((string)(this[this.tableRawDataReportDS.RatingCountColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RatingCount\' in table \'RawDataReportDS\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableRawDataReportDS.RatingCountColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string RatingDescription {
+                get {
+                    try {
+                        return ((string)(this[this.tableRawDataReportDS.RatingDescriptionColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RatingDescription\' in table \'RawDataReportDS\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableRawDataReportDS.RatingDescriptionColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public bool IsTicketNumberNull() {
                 return this.IsNull(this.tableRawDataReportDS.TicketNumberColumn);
             }
@@ -2113,6 +2175,30 @@ namespace HelpDesk.Web.ReportDataSet {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public void SetScheduleTimeNull() {
                 this[this.tableRawDataReportDS.ScheduleTimeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsRatingCountNull() {
+                return this.IsNull(this.tableRawDataReportDS.RatingCountColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetRatingCountNull() {
+                this[this.tableRawDataReportDS.RatingCountColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsRatingDescriptionNull() {
+                return this.IsNull(this.tableRawDataReportDS.RatingDescriptionColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetRatingDescriptionNull() {
+                this[this.tableRawDataReportDS.RatingDescriptionColumn] = global::System.Convert.DBNull;
             }
         }
         

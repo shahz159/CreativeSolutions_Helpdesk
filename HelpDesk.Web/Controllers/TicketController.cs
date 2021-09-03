@@ -2694,6 +2694,48 @@ namespace HelpDesk.Web.Controllers
             }
 
         }
+
+        public async Task<ActionResult> GetContractManagementReport()
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                CommonHeader.setHeaders(client);
+                try
+                {
+                    TicketDTO obj = new TicketDTO();
+                    obj.UserId = long.Parse(Session["SSUserId"].ToString());
+                    HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/TicketsAPI/NewContractManagementReport", obj);
+                    if (responseMessage.IsSuccessStatusCode)
+                    {
+                        var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                        var ReportList = JsonConvert.DeserializeObject<List<TicketDTO>>(responseData);
+                        if (ReportList.Count != 0)
+                            obj.ProductReport = ReportList;
+                        else
+                            obj.ProductReport = null;
+
+
+                        List<TicketDTO> RawDetails = new List<TicketDTO>();
+                        if (ReportList.Count != 0)
+                        {
+                            ReportViewer reportViewer = new ReportViewer();
+                            reportViewer.ProcessingMode = ProcessingMode.Local;
+                            reportViewer.SizeToReportContent = true;
+                            reportViewer.LocalReport.ReportPath = Server.MapPath("~/Reports/ContractManagementReport.rdlc");
+
+                            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("ContractManagementDS", obj.ProductReport));
+                            ViewBag.ReportViewer = reportViewer;
+                        }
+                    }
+                    return View();
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction("Error");
+                }
+            }
+
+        }
         #endregion
 
         #region Archive Tab

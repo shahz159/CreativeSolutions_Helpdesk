@@ -227,6 +227,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AssetListReport.xsd</DependentUpon>
     </Compile>
+    <Compile Include="ReportDataSet\ContractManagementDS.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ContractManagementDS.xsd</DependentUpon>
+    </Compile>
     <Compile Include="ReportDataSet\EngineerWiseStatusDS.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -387,6 +392,17 @@
     </Content>
     <Content Include="ReportDataSet\EngineerWiseStatusDS.xsc">
       <DependentUpon>EngineerWiseStatusDS.xsd</DependentUpon>
+    </Content>
+    <Content Include="ReportDataSet\ContractManagementDS.xsc">
+      <DependentUpon>ContractManagementDS.xsd</DependentUpon>
+    </Content>
+    <None Include="ReportDataSet\ContractManagementDS.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ContractManagementDS.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="ReportDataSet\ContractManagementDS.xss">
+      <DependentUpon>ContractManagementDS.xsd</DependentUpon>
     </Content>
     <None Include="ReportDataSet\EngineerWiseStatusDS.xsd">
       <SubType>Designer</SubType>
@@ -564,6 +580,7 @@
     <Content Include="Views\Assets\POContracts.cshtml" />
     <Content Include="Views\Assets\POContractAssetListPV.cshtml" />
     <Content Include="Views\Assets\POContractAssetDetailsPV.cshtml" />
+    <Content Include="Views\Ticket\GetContractManagementReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -585,6 +602,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Reports\AccountTicketReport.rdlc" />
     <EmbeddedResource Include="Reports\AssetListReport.rdlc" />
+    <EmbeddedResource Include="Reports\ContractManagementReport.rdlc" />
     <EmbeddedResource Include="Reports\CRMRawdataReport.rdlc" />
     <EmbeddedResource Include="Reports\EngineerWiseStatus.rdlc" />
     <EmbeddedResource Include="Reports\PerMonthStatusReport.rdlc" />

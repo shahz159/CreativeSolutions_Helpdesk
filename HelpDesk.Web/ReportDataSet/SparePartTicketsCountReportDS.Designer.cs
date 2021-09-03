@@ -287,6 +287,12 @@ namespace HelpDesk.Web.ReportDataSet {
             
             private global::System.Data.DataColumn columnUsedQuantity;
             
+            private global::System.Data.DataColumn columnProductName;
+            
+            private global::System.Data.DataColumn columnSAPCode;
+            
+            private global::System.Data.DataColumn columnPrice;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public SparePartTicketsCountReportDSDataTable() {
@@ -354,6 +360,30 @@ namespace HelpDesk.Web.ReportDataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn ProductNameColumn {
+                get {
+                    return this.columnProductName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn SAPCodeColumn {
+                get {
+                    return this.columnSAPCode;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn PriceColumn {
+                get {
+                    return this.columnPrice;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -389,13 +419,16 @@ namespace HelpDesk.Web.ReportDataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public SparePartTicketsCountReportDSRow AddSparePartTicketsCountReportDSRow(string SparePartName, string SparePartNumber, string TotalQuantity, string UsedQuantity) {
+            public SparePartTicketsCountReportDSRow AddSparePartTicketsCountReportDSRow(string SparePartName, string SparePartNumber, string TotalQuantity, string UsedQuantity, string ProductName, string SAPCode, string Price) {
                 SparePartTicketsCountReportDSRow rowSparePartTicketsCountReportDSRow = ((SparePartTicketsCountReportDSRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         SparePartName,
                         SparePartNumber,
                         TotalQuantity,
-                        UsedQuantity};
+                        UsedQuantity,
+                        ProductName,
+                        SAPCode,
+                        Price};
                 rowSparePartTicketsCountReportDSRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowSparePartTicketsCountReportDSRow);
                 return rowSparePartTicketsCountReportDSRow;
@@ -422,6 +455,9 @@ namespace HelpDesk.Web.ReportDataSet {
                 this.columnSparePartNumber = base.Columns["SparePartNumber"];
                 this.columnTotalQuantity = base.Columns["TotalQuantity"];
                 this.columnUsedQuantity = base.Columns["UsedQuantity"];
+                this.columnProductName = base.Columns["ProductName"];
+                this.columnSAPCode = base.Columns["SAPCode"];
+                this.columnPrice = base.Columns["Price"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -435,6 +471,12 @@ namespace HelpDesk.Web.ReportDataSet {
                 base.Columns.Add(this.columnTotalQuantity);
                 this.columnUsedQuantity = new global::System.Data.DataColumn("UsedQuantity", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnUsedQuantity);
+                this.columnProductName = new global::System.Data.DataColumn("ProductName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnProductName);
+                this.columnSAPCode = new global::System.Data.DataColumn("SAPCode", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSAPCode);
+                this.columnPrice = new global::System.Data.DataColumn("Price", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPrice);
                 this.ExtendedProperties.Add("Generator_TablePropName", "_SparePartTicketsCountReportDS");
                 this.ExtendedProperties.Add("Generator_UserTableName", "SparePartTicketsCountReportDS");
             }
@@ -647,6 +689,56 @@ namespace HelpDesk.Web.ReportDataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string ProductName {
+                get {
+                    try {
+                        return ((string)(this[this.tableSparePartTicketsCountReportDS.ProductNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ProductName\' in table \'SparePartTicketsCountReportDS\' is DB" +
+                                "Null.", e);
+                    }
+                }
+                set {
+                    this[this.tableSparePartTicketsCountReportDS.ProductNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string SAPCode {
+                get {
+                    try {
+                        return ((string)(this[this.tableSparePartTicketsCountReportDS.SAPCodeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'SAPCode\' in table \'SparePartTicketsCountReportDS\' is DBNull" +
+                                ".", e);
+                    }
+                }
+                set {
+                    this[this.tableSparePartTicketsCountReportDS.SAPCodeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string Price {
+                get {
+                    try {
+                        return ((string)(this[this.tableSparePartTicketsCountReportDS.PriceColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Price\' in table \'SparePartTicketsCountReportDS\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSparePartTicketsCountReportDS.PriceColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public bool IsSparePartNameNull() {
                 return this.IsNull(this.tableSparePartTicketsCountReportDS.SparePartNameColumn);
             }
@@ -691,6 +783,42 @@ namespace HelpDesk.Web.ReportDataSet {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public void SetUsedQuantityNull() {
                 this[this.tableSparePartTicketsCountReportDS.UsedQuantityColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsProductNameNull() {
+                return this.IsNull(this.tableSparePartTicketsCountReportDS.ProductNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetProductNameNull() {
+                this[this.tableSparePartTicketsCountReportDS.ProductNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsSAPCodeNull() {
+                return this.IsNull(this.tableSparePartTicketsCountReportDS.SAPCodeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetSAPCodeNull() {
+                this[this.tableSparePartTicketsCountReportDS.SAPCodeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsPriceNull() {
+                return this.IsNull(this.tableSparePartTicketsCountReportDS.PriceColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetPriceNull() {
+                this[this.tableSparePartTicketsCountReportDS.PriceColumn] = global::System.Convert.DBNull;
             }
         }
         

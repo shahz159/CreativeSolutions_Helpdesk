@@ -103,5 +103,14 @@ namespace HelpDesk.API.DTO_s
         public string SparePartNumber { get; set; }
         public int TotalQuantity { get; set; }
         public int UsedQuantity { get; set; }
+
+
+        public string UserName { get; set; }
+        public string SAPCode { get; set; }
+        public string Price { get; set; }
+         public string ContractStartDate { get; set; }
+        public string ContractExpiryDate { get; set; }
+        public string RatingDescription { get; set; }
+        public int PeriodDays { get; set; }
     }
 }
