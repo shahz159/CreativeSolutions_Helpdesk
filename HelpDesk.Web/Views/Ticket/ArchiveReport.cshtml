@@ -95,7 +95,7 @@
                             <td>@item.RequestType</td>
                             <td>@item.RequestMainStatus</td>
                             <td>
-                                <a target="_blank" href="@Url.Action("ServiceReportDownload", "Ticket", new { TicketNumber = item.TicketNumber })">Download</a>
+                                <a target="_blank" href="@Url.Action("ServiceReport", "Ticket", new { id = item.TicketNumber })">Download</a>
                             </td>
                         </tr>
                     }
