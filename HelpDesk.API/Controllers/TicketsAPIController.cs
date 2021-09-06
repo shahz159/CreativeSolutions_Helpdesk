@@ -1520,7 +1520,12 @@ namespace HelpDesk.API.Controllers
             var list = service.SparePartTicketsCountReport(obj);
             return list;
         }
-
+        [ResponseType(typeof(TicketDTO))]
+        public IEnumerable<TicketDTO> NewContractManagementReport(TicketDTO obj)
+        {
+            var list = service.ContractManagementReport(obj);
+            return list;
+        }
         #endregion
     }
 }

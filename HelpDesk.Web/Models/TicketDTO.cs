@@ -227,6 +227,11 @@ namespace HelpDesk.Web.Models
         public IEnumerable<TicketDTO> PauseTicketsList { get; set; }
         public IEnumerable<TicketDTO> ClosedTicketsList { get; set; }
         public string UserName { get; set; }
+        public string SAPCode { get; set; }
+        public string ContractStartDate { get; set; }
+        public string ContractExpiryDate { get; set; }
+        public string RatingDescription { get; set; }
+        public int PeriodDays { get; set; }
 
     }
 }
