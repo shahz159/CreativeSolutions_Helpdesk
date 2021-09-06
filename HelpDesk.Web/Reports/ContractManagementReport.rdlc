@@ -151,7 +151,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>POContract</Value>
+                              <Value>Contract/PO</Value>
                               <Style>
                                 <FontFamily>Robot</FontFamily>
                                 <FontSize>11pt</FontSize>
@@ -262,7 +262,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Period Days</Value>
+                              <Value>Period "Days"</Value>
                               <Style>
                                 <FontFamily>Robot</FontFamily>
                                 <FontSize>11pt</FontSize>
@@ -569,7 +569,7 @@
         <Top>0.42016cm</Top>
         <Left>0.26132cm</Left>
         <Height>1.70271cm</Height>
-        <Width>30.33229cm</Width>
+        <Width>30.3323cm</Width>
         <Style>
           <Border>
             <Style>None</Style>

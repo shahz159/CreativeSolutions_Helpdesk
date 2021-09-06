@@ -151,7 +151,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>SAPCode</Value>
+                              <Value>SAP Code</Value>
                               <Style>
                                 <FontFamily>Robot</FontFamily>
                                 <FontSize>11pt</FontSize>
