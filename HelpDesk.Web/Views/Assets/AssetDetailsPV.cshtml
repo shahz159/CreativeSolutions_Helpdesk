@@ -399,6 +399,8 @@
                                                                 <th>Serial Number</th>
                                                                 <th>Configuration</th>
                                                                 <th>IP Address</th>
+                                                                <th></th>
+
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -409,6 +411,19 @@
                                                                     <td>@item_ast.SerialNo</td>
                                                                     <td>@item_ast.Configuration</td>
                                                                     <td>@item_ast.IPAddress</td>
+                                                                    <td>
+                                                                        @if (item_ast.isActive == true)
+                                                                        {
+                                                                            <a href="#" onclick="removeModel(@item_ast.AMModelId)" class="badge badge-info">
+                                                                                <i class="la la-close"></i>
+                                                                                remove
+                                                                            </a>
+                                                                        }
+                                                                        else if (item_ast.isActive == false)
+                                                                        {
+                                                                            <span class="badge badge-danger">Removed</span>
+                                                                        }
+                                                                    </td>
                                                                 </tr>
                                                             }
                                                         </tbody>
@@ -603,7 +618,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <input type="hidden" id="hdnIpAddress" value="@Model.IPAddress" />
+                                                    
                                                 }
                                             </div>
                                         </form>
@@ -612,6 +627,7 @@
                             </div>
                         </div>
                     </div>
+                    
                     @if (Model.PPMList.Count() > 0)
                     {
                         <div class="kt-portlet__body kt-portlet__body--fluid kt-portlet__body--fit">
@@ -705,11 +721,16 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-3">
                                     <h5>&nbsp;</h5>
                                     <div>
-
-                                        <a href="#" onclick="addjvmorders(@Model.AMId)" class="btn btn-info"><i class="la la-plus"></i> Add</a>
+                                        <a href="#" onclick="addjvmorders(@Model.AMId)" class="btn btn-info"><i class="la la-plus"></i> Add Orders</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <h5>&nbsp;</h5>
+                                    <div>
+                                        <a href="#" onclick="addjvmorders(@Model.AMId)" class="btn btn-primary"><i class="la la-plus"></i> Add Canisters</a>
                                     </div>
                                 </div>
                             </div>
@@ -759,7 +780,7 @@
     </div>
 }
 <div>
- @if (Model.RoleId == 505 || Model.RoleId == 504)
+ @if (Model.RoleId == 505 || Model.RoleId == 504 || Model.RoleId == 503)
  {
     <div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
             <!--Begin::Dashboard 3-->
@@ -924,7 +945,7 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                @foreach (var item_ast in Model.AssetModelList)
+                                                                @foreach (var item_ast in Model.AssetModelList.Where(x=>x.isActive==true))
                                                                 {
                                                                     <tr>
                                                                         <td>@item_ast.ModelName</td>
@@ -1107,11 +1128,12 @@
 <input type="hidden" id="hdnAMId" value="@Model.AMId" />
 <input type="hidden" id="hdnUpdatedAMId" value="@Model.UpdatedAMId" />
 <input type="hidden" id="hdnAPPMId" value="0" />
-
+<input type="hidden" id="hdnIpAddress" value="@Model.IPAddress" />
 <input type="hidden" id="hdnProductId" value="@Model.ProductId" />
 <input type="hidden" id="hdnAccountId" value="@Model.AccountId" />
 
 <script src="~/assets/js/bootstrap-datepicker.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
     //$(document).ready(function () {
     //});
@@ -1129,6 +1151,37 @@
         if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
             return false;
         return true;
+    }
+    function removeModel(AmModelId) {
+        swal({
+            title: "Are you sure?",
+            text: "Once removed, you will not be able to undo this process!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("NewAssetModelRemove")', // we are calling json method
+                        dataType: 'json',
+                        data: {
+                            AMModelId: AmModelId
+                        },
+                        success: function (data) {
+                            alert('removed Successfully');
+                            ViewAssetDetails($('#hdnAMId').val());
+                        },
+                        error: function (ex) {
+                            alert('Failed to Add Assets.' + ex);
+                        }
+                    });
+                    //swal("Poof! Your imaginary file has been deleted!", {
+                    //    icon: "success",
+                    //});
+                } 
+            });
     }
     function addjvmorders(id){
         var quantity = $('#txtjvmquantity').val();

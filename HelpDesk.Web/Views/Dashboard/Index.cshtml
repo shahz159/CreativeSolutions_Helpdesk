@@ -47,19 +47,19 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-2 col-md-4 col-sm-6">
+                <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="kt-portlet kt-portlet--border-bottom-brand">
                         <div class="kt-portlet__body kt-portlet__body--fluid">
                             <div class="kt-widget26">
                                 <div class="kt-widget26__content">
-                                    <span class="kt-widget26__number" id="total_spn">100</span>
-                                    <a href="#" class="kt-widget26__desc"><u>Total</u></a>
+                                    <span class="kt-widget26__number" id="total_spn"></span>
+                                    <a class="kt-widget26__desc">Total</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-2 col-md-4 col-sm-6">
+                <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="kt-portlet kt-portlet--border-bottom-brand">
                         <div class="kt-portlet__body kt-portlet__body--fluid">
                             <div class="kt-widget26">
@@ -71,7 +71,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-2 col-md-4 col-sm-6">
+                <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="kt-portlet kt-portlet--border-bottom-success">
                         <div class="kt-portlet__body kt-portlet__body--fluid">
                             <div class="kt-widget26">
@@ -83,7 +83,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-2 col-md-4 col-sm-6">
+                <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="kt-portlet kt-portlet--border-bottom-danger">
                         <div class="kt-portlet__body kt-portlet__body--fluid">
                             <div class="kt-widget26">
@@ -95,7 +95,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-2 col-md-4 col-sm-6">
+                <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="kt-portlet kt-portlet--border-bottom-brand">
                         <div class="kt-portlet__body kt-portlet__body--fluid">
                             <div class="kt-widget26">
@@ -108,24 +108,36 @@
                     </div>
                 </div>
                 @*<div class="col-lg-2 col-md-4 col-sm-6">
-                        <div class="kt-portlet kt-portlet--border-bottom-success">
-                            <div class="kt-portlet__body kt-portlet__body--fluid">
-                                <div class="kt-widget26">
-                                    <div class="kt-widget26__content">
-                                        <span class="kt-widget26__number">@Model.PauseTickets</span>
-                                        <a href="@Url.Action("DashboardTickets","Ticket",new { id=4})" class="kt-widget26__desc"><u>Pause</u></a>
-                                    </div>
-                                </div>
-                            </div>
+            <div class="kt-portlet kt-portlet--border-bottom-success">
+                <div class="kt-portlet__body kt-portlet__body--fluid">
+                    <div class="kt-widget26">
+                        <div class="kt-widget26__content">
+                            <span class="kt-widget26__number">@Model.PauseTickets</span>
+                            <a href="@Url.Action("DashboardTickets","Ticket",new { id=4})" class="kt-widget26__desc"><u>Pause</u></a>
                         </div>
-                    </div>*@
-                <div class="col-lg-2 col-md-4 col-sm-6">
+                    </div>
+                </div>
+            </div>
+        </div>*@
+                <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="kt-portlet kt-portlet--border-bottom-danger">
                         <div class="kt-portlet__body kt-portlet__body--fluid">
                             <div class="kt-widget26">
                                 <div class="kt-widget26__content">
                                     <span class="kt-widget26__number" id="closed_spn">@Model.ClosedTickets</span>
                                     <a href="@Url.Action("DashboardTickets","Ticket",new { id=7})" class="kt-widget26__desc"><u>Close</u></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-4 col-sm-6">
+                    <div class="kt-portlet kt-portlet--border-bottom-danger">
+                        <div class="kt-portlet__body kt-portlet__body--fluid">
+                            <div class="kt-widget26">
+                                <div class="kt-widget26__content">
+                                    <span class="kt-widget26__number" id="NewAverage_spn">@Model.NewResolveAverageTime</span>
+                                    <a class="kt-widget26__desc">New to Resolved Average Time</a>
                                 </div>
                             </div>
                         </div>
@@ -206,7 +218,11 @@
                                         {
                                             <a href="#" class="kt-widget26__desc"><u>In Progress</u></a>
                                         }*@
-                                    <a href="@Url.Action("DashboardTickets","Ticket",new { id=2})" class="kt-widget26__desc"><u>In Progress</u></a>
+                                    <a href="@Url.Action("DashboardTickets","Ticket",new { id=2})" class="kt-widget26__desc">
+                                    
+                                        <u>In Progress</u>
+                                    
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -227,7 +243,16 @@
                                             <a href="#" class="kt-widget26__desc"><u>Resolved</u></a>
                                         }*@
 
-                                    <a href="@Url.Action("DashboardTickets","Ticket",new { id=6})" class="kt-widget26__desc"><u>Resolved</u></a>
+                                    <a href="@Url.Action("DashboardTickets","Ticket",new { id=6})" class="kt-widget26__desc">
+                                        @if (Model.RoleId == 505)
+                                        {
+                                            <u>Resolved</u>
+                                        }
+                                        else
+                                        {
+                                            <u>Action to Close</u>
+                                        }
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -276,8 +301,6 @@
 
             </div>
         }
-
-
         if (Model.RoleId == 503 || Model.RoleId == 504 || Model.RoleId == 505)
         {
             <div class="row">
@@ -320,7 +343,7 @@
                                     <div class="kt-widget26">
                                         <div class="kt-widget26__content">
                                             <span class="kt-widget26__number">@Model.NewUser</span>
-                                            <span class="kt-widget26__desc"> New User</span>
+                                            <a class="kt-widget26__desc" href="@Url.Action("SignupUsers","UsersRegistration")"> <u>New User</u></a>
                                         </div>
                                     </div>
                                 </div>
@@ -332,7 +355,7 @@
                                     <div class="kt-widget26">
                                         <div class="kt-widget26__content">
                                             <span class="kt-widget26__number">@Model.WarrantyExpiredApprovalCount</span>
-                                            <span class="kt-widget26__desc"> Warranty Expired</span>
+                                            <a class="kt-widget26__desc" href="@Url.Action("WarrantyExpiredTickets","Ticket")"><u> Warranty Expired</u></a>
                                         </div>
                                     </div>
                                 </div>
@@ -344,7 +367,7 @@
                                     <div class="kt-widget26">
                                         <div class="kt-widget26__content">
                                             <span class="kt-widget26__number">@Model.AssetRenewalCount</span>
-                                            <span class="kt-widget26__desc"> Asset Renewal</span>
+                                            <a class="kt-widget26__desc" href="@Url.Action("AssetRenewalRequest","Assets")"> <u>Asset Renewal</u></a>
                                         </div>
                                     </div>
                                 </div>
@@ -356,7 +379,7 @@
                                     <div class="kt-widget26">
                                         <div class="kt-widget26__content">
                                             <span class="kt-widget26__number">@Model.AssetApprovalCount</span>
-                                            <span class="kt-widget26__desc"> Assets</span>
+                                            <a class="kt-widget26__desc" href="@Url.Action("ApprovalAssets","Assets")"><u> Assets</u></a>
                                         </div>
                                     </div>
                                 </div>
@@ -368,7 +391,7 @@
                                     <div class="kt-widget26">
                                         <div class="kt-widget26__content">
                                             <span class="kt-widget26__number">@Model.InventoryAdjustment</span>
-                                            <span class="kt-widget26__desc"> Inventory</span>
+                                            <a class="kt-widget26__desc" href="@Url.Action("ConsignmentApproval","Inventory")"><u> Stock Receiving</u></a>
                                         </div>
                                     </div>
                                 </div>
@@ -380,7 +403,7 @@
                                     <div class="kt-widget26">
                                         <div class="kt-widget26__content">
                                             <span class="kt-widget26__number">@Model.PPMDatesApprovalCount</span>
-                                            <span class="kt-widget26__desc"> PPM Dates</span>
+                                            <a class="kt-widget26__desc" href="@Url.Action("PPMDatesApproval","Assets")"> <u>PPM Dates</u></a>
                                         </div>
                                     </div>
                                 </div>
@@ -459,7 +482,7 @@
                                 <span class="kt-widget26__number">@Model.InProgressTickets</span>
                                 <a href="#" class="kt-widget26__desc">
                                     <u>
-                                        Service
+                                        Service Contract
                                     </u>
                                 </a>
                             </div>
@@ -525,7 +548,7 @@
     <script>
         $('#ddlserviceeng').select2();
         $(document).ready(function () {
-
+            $('#MenuName_6').html('25');
             $('#ddlserviceeng').val('0').trigger('change');;
             //$('#ddlserviceeng').val('0'); // Select the option with a value of '1'
             //$('#ddlserviceeng').trigger('change'); // Notify any JS components that the value changed
@@ -707,12 +730,14 @@
                     var ResolvedTickets = data[0].ResolvedTickets;
                     var ScheduleTickets = data[0].ScheduleTickets;
                     var ClosedTickets = data[0].ClosedTickets;
+                    var NewResolveAverageTime = data[0].NewResolveAverageTime;
 
                     $('#newticket_spn').html(newticket);
                     $('#inprogress_spn').html(InProgressTickets);
                     $('#resolved_spn').html(ResolvedTickets);
                     $('#scheduled_spn').html(ScheduleTickets);
                     $('#closed_spn').html(ClosedTickets);
+                    $('#NewAverage_spn').html(NewResolveAverageTime);
                     $('#total_spn').html(newticket + InProgressTickets + ResolvedTickets + ScheduleTickets + ClosedTickets);
 
                     document.getElementById("loader").style.display = "none";
@@ -743,7 +768,7 @@
 
         var value_resolved = $('#hdnResolvedAry').val(); //retrieve array
         value_resolved = JSON.parse(value_resolved);
-
+        
         var config = {
             type: 'bar',
             data: {
@@ -752,8 +777,8 @@
                 datasets: [{
                     label: 'New Tickets',
                     fill: false,
-                    backgroundColor: window.chartColors.red,
-                    borderColor: window.chartColors.red,
+                    backgroundColor: window.chartColors.grey,
+                    borderColor: window.chartColors.grey,
                     data: value_new
                     //                   [
                     //	15,
@@ -763,16 +788,16 @@
                     //]
                 }, {
                     label: 'Resolved Tickets',
-                    fill: false,
-                    backgroundColor: window.chartColors.blue,
-                    borderColor: window.chartColors.blue,
+                        fill: false,
+                        backgroundColor: window.chartColors.orange,
+                        borderColor: window.chartColors.orange,
                     data: value_resolved,
                 },
                 {
                     label: 'Closed Tickets',
                     fill: false,
-                    backgroundColor: window.chartColors.green,
-                    borderColor: window.chartColors.green,
+                    backgroundColor: window.chartColors.purple,
+                    borderColor: window.chartColors.purple,
                     data: value_closed,
                 }
                 ]
@@ -811,7 +836,6 @@
         };
         var value_pie = $('#hdnPie').val(); //retrieve array
         value_pie = JSON.parse(value_pie);
-        //
 
         var labels_ary = [];
 
@@ -830,13 +854,7 @@
                 'Closed'
             ];
         }
-
-
-
-
-
-
-
+         
         var config1 = {
             type: 'pie',
             data: {

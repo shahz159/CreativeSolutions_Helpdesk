@@ -59,7 +59,7 @@
                                     <label class="invisible">Select Year</label>
                                 </div>
                                 <div class="kt-form__control">
-                                    <a style="cursor:pointer;" class="btn btn-info" onclick="reload()">Clear Filters</a>
+                                    <a style="cursor:pointer;" class="btn btn-info" onclick="Binddata()">Clear Filters</a>
                                 </div>
                             </div>
                         </div>
@@ -95,7 +95,7 @@
                             <td>@item.RequestType</td>
                             <td>@item.RequestMainStatus</td>
                             <td>
-                                <a target="_blank" href="@Url.Action("ServiceReport", "Ticket", new { id = item.TicketNumber })">Download</a>
+                                <a target="_blank" href="@Url.Action("ServiceReport", "Ticket", new { id=item.TicketNumber+"-"+item.SerialNo+"-"+item.AccountName,TicketNumber = item.TicketNumber })">Download</a>
                             </td>
                         </tr>
                     }

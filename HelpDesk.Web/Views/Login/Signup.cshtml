@@ -34,7 +34,14 @@
         }
     </style>
     <style>
-        .load-sec {
+        #div_mobileNumber1 input.input-group-text {
+            width: 60px;
+            border-right: 1px solid #727476;
+        }
+        #div_mobileNumber1.input-group .form-control:focus {
+            border-left: 1px solid #dce1e5;
+        }
+            .load-sec {
             background-color: rgba(255,255,255,0.6);
             position: fixed;
             top: 0px;
@@ -188,10 +195,10 @@
                                 Powered By <a href="https://www.creative-sols.com/" target="_blank" class="kt-link">Creative Solutions</a>
                             </div>
                             @*<div class="kt-login__menu">
-                    <a href="#" class="kt-link">Privacy</a>
-                    <a href="#" class="kt-link">Legal</a>
-                    <a href="#" class="kt-link">Contact</a>
-                </div>*@
+                                <a href="#" class="kt-link">Privacy</a>
+                                <a href="#" class="kt-link">Legal</a>
+                                <a href="#" class="kt-link">Contact</a>
+                                        </div>*@
                         </div>
                     </div>
                 </div>
@@ -204,44 +211,48 @@
                             </div>
                             <form class="kt-form" action="" novalidate="novalidate" id="kt_login_form">
                                 <div class="form-group mt-4">
+                                    <input class="form-control" type="text" value="" placeholder="Enter Full Name" id="txtfullname">
+                                </div>
+                                @*<div class="form-group mt-4">
+            <select class="form-control kt-select2" id="ddlGender">
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+                <option value="O">Other</option>
+            </select>
+        </div>*@
+                                <div class="form-group">
+                                    <div id="div_mobileNumber1" class="input-group">
+                                        <div class="input-group-prepend">
+                                            <input type="text" id="txtcountrycode" class="input-group-text" maxlength="3" value="966" onkeypress="return isNumberKey(event)" />
+                                        </div>
+                                        <input class="form-control" autocomplete="off" type="text" value="" placeholder="xxx xxx xxxx" id="txtmobile" onkeypress="return isNumberKey(event)" onchange="mobilevalidation()">
+                                    </div>
+                                    <div id="div_mobileNumber"></div>
+                                </div>
+                                <div class="form-group">
+                                    <input id="txtSignupEmail" class="form-control " autocomplete="off" type="text" value="" placeholder="Enter Email Id" onchange="checkuseremail()">
+                                </div>
+                                <div class="form-group mt-4">
                                     <div id="Accounts_div">
-                                        <select class="form-control kt-select2" id="ddlAccounts" name="param" onclick="this.setAttribute('value', this.value);" value=" ">
-                                        </select>
+                                        @*<select class="form-control kt-select2" id="ddlAccounts" name="param" onclick="this.setAttribute('value', this.value);"></select>*@
+                                        <input type="text" id="txtAccounts" class="form-control" placeholder="Enter Account Name" />
                                     </div>
                                 </div>
                                 <div class="form-group mt-4">
                                     <div id="Products_div">
-                                        <select class="form-control kt-select2" id="ddlProducts" onclick="this.setAttribute('value', this.value);" value=" " multiple>
+                                        <select class="form-control kt-select2" id="ddlProducts" placeholder="Select Product" onclick="this.setAttribute('value', this.value);" value=" " multiple>
                                             <option>Select Product</option>
                                         </select>
                                     </div>
 
                                 </div>
-                                <div class="form-group mt-4">
-                                    <input class="form-control" type="text" value="" placeholder="Enter Full Name" id="txtfullname">
-                                </div>
-                                <div class="form-group mt-4">
-                                    <select class="form-control kt-select2" id="ddlGender">
-                                        <option value="M">Male</option>
-                                        <option value="F">Female</option>
-                                        <option value="O">Other</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <div id="div_mobileNumber" class="input-group">
-                                        <div class="input-group-prepend"><span class="input-group-text">+966</span></div>
-                                        <input class="form-control" autocomplete="off" type="text" value="" placeholder="xxx xxx xxxx" id="txtmobile" onkeypress="return isNumberKey(event)" onchange="mobilevalidation()">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <input id="txtSignupEmail" class="form-control " autocomplete="off" type="text" value="" placeholder="Enter Email Id" onchange="checkuseremail()">
-                                </div>
-                                <div class="form-group">
-                                    <input class="form-control" type="password" autocomplete="new-password" placeholder="Password" onchange="PasswordLenght(1)" id="txtPassword">
-                                </div>
-                                <div class="form-group">
-                                    <input class="form-control" type="password" autocomplete="new-password" placeholder="Conform Password" onchange="PasswordLenght(2)" id="txtConfirmPassword">
-                                </div>
+
+                                @*<div class="form-group">
+            <input class="form-control" type="password" autocomplete="new-password" placeholder="Password" onchange="PasswordLenght(1)" id="txtPassword">
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="password" autocomplete="new-password" placeholder="Conform Password" onchange="PasswordLenght(2)" id="txtConfirmPassword">
+        </div>*@
                                 <div class="kt-login__actions">
                                     <a href="#" onclick="SaveUserDetails()" class="btn bg-secondery pt-3 btn-elevate kt-login__btn-primary">Submit</a>
                                 </div>
@@ -262,7 +273,7 @@
 
     <script src="~/assets/plugins/global/plugins.bundle.js"></script>
     <script src="~/assets/js/scripts.bundle.js"></script>
-   
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
     <script src="~/assets/js/select2.js"></script>
     <script>
@@ -272,8 +283,12 @@
             //set initial state. 'Success',
                             'You clicked the <b style="color:green;">Success</b> button!',
                             'success'
-            $('#ddlCompany,#ddlRole,#ddlAccountM,#ddlAccountS,#ddlGender,#ddlProducts').select2({
+            $('#ddlCompany,#ddlRole,#ddlAccountM,#ddlAccountS,#ddlGender').select2({
             });
+            $('#ddlProducts').select2({
+                placeholder: "Select Product"
+            });
+
             if ($('#hdnRoleId').val() != 501) {
 
                 BindAccounts();
@@ -316,9 +331,9 @@
                     $('#txtConfirmPassworderror').html('');
                 }
             }
-           
 
-            
+
+
 
         }
 
@@ -352,45 +367,45 @@
             document.getElementById("loader").style.display = "block";
             var isvalid = true;
             ///////////////////////
-            var password1 = $('#txtPassword').val();
-            if (password1 == "" || password1 == null) {
-                isvalid = false;
-                $('#txtPassworderror').html('');
-                $("#txtPassword").after('<span id="txtPassworderror" style="color:red;" class="error">Field required.</span>');
-            }
-            else {
-                $('#txtPassworderror').html('');
-            }
-            var myLength_passwrd = $('#txtPassword').val().length;
-            if (myLength_passwrd < 5) {
-                isvalid = false;
-                $('#txtPasswordlenghterror').html('');
-                $("#txtPassword").after('<span id="txtPasswordlenghterror" style="color:red;" class="error">Minimum Lenght 5</span>');
-            }
-            else {
-                $('#txtPasswordlenghterror').html('');
-            }
+            //var password1 = $('#txtPassword').val();
+            //if (password1 == "" || password1 == null) {
+            //    isvalid = false;
+            //    $('#txtPassworderror').html('');
+            //    $("#txtPassword").after('<span id="txtPassworderror" style="color:red;" class="error">Field required.</span>');
+            //}
+            //else {
+            //    $('#txtPassworderror').html('');
+            //}
+            //var myLength_passwrd = $('#txtPassword').val().length;
+            //if (myLength_passwrd < 5) {
+            //    isvalid = false;
+            //    $('#txtPasswordlenghterror').html('');
+            //    $("#txtPassword").after('<span id="txtPasswordlenghterror" style="color:red;" class="error">Minimum Lenght 5</span>');
+            //}
+            //else {
+            //    $('#txtPasswordlenghterror').html('');
+            //}
 
-            //////////////////////
-            var password2 = $('#txtConfirmPassword').val();
-            if (password1 == "" || password1 == null) {
-                isvalid = false;
-                $('#txtConfirmPassworderror').html('');
-                $("#txtConfirmPassword").after('<span id="txtConfirmPassworderror" style="color:red;" class="error">Field required.</span>');
-            }
-            else {
-                $('#txtConfirmPassworderror').html('');
-            }
+            ////////////////////////
+            //var password2 = $('#txtConfirmPassword').val();
+            //if (password1 == "" || password1 == null) {
+            //    isvalid = false;
+            //    $('#txtConfirmPassworderror').html('');
+            //    $("#txtConfirmPassword").after('<span id="txtConfirmPassworderror" style="color:red;" class="error">Field required.</span>');
+            //}
+            //else {
+            //    $('#txtConfirmPassworderror').html('');
+            //}
 
-            var myLength_confrmpasswrd = $('#txtPassword').val().length;
-            if (myLength_confrmpasswrd < 5) {
-                isvalid = false;
-                $('#txtConfirmPasswordlenghterror').html('');
-                $("#txtConfirmPassword").after('<span id="txtConfirmPasswordlenghterror" style="color:red;" class="error">Minimum Lenght 5</span>');
-            }
-              else {
-                $('#txtConfirmPasswordlenghterror').html('');
-            }
+            //var myLength_confrmpasswrd = $('#txtPassword').val().length;
+            //if (myLength_confrmpasswrd < 5) {
+            //    isvalid = false;
+            //    $('#txtConfirmPasswordlenghterror').html('');
+            //    $("#txtConfirmPassword").after('<span id="txtConfirmPasswordlenghterror" style="color:red;" class="error">Minimum Lenght 5</span>');
+            //}
+            //  else {
+            //    $('#txtConfirmPasswordlenghterror').html('');
+            //}
             ///////////////////////
             var RoleId = 503;
             //////////////////////
@@ -398,8 +413,9 @@
             var CompanyId = 10;//AHC Company Id is 10
             //////////////////////
             var Accounts = [];
-
-            Accounts = $("#ddlAccounts").val();
+            //$("#SelectedCountryId option:selected").text()
+            //Accounts = $("#ddlAccounts").val();
+            Accounts = $("#txtAccounts").val();
             if (Accounts == 0) {
                 isvalid = false;
                 $('#txtAccountSerror').html('');
@@ -410,8 +426,9 @@
             }
             ////////////////////////////////
             var Products = [];
-            Products= $("#ddlProducts").val();
-
+            var ProductIds = [];
+            ProductIds= $("#ddlProducts").val();
+            Products = $("#ddlProducts option:selected").text();
             if (Products == "" || Products == "[]") {
                 isvalid = false;
                  $('#txtproductserror').html('');
@@ -436,12 +453,23 @@
             var Mobile = $("#txtmobile").val();
             if (Mobile == "") {
                 isvalid = false;
-                  $('#txtmobilexxerror').html('');
+                $('#txtmobilexxerror').html('');
                 $("#div_mobileNumber").after('<span id="txtmobilexxerror" style="color:red;" class="error">Field required.</span>');
             }
             else {
                 $('#txtmobilexxerror').html('');
             }
+
+            var countrycode = $("#txtcountrycode").val();
+            if (countrycode == "") {
+                isvalid = false;
+                $('#txtmobilexxerror').html('');
+                $("#div_mobileNumber").after('<span id="txtmobilexxerror" style="color:red;" class="error">country code required.</span>');
+            }
+            else {
+                $('#txtmobilexxerror').html('');
+            }
+            
             ////////////////////////
             var Email = $("#txtSignupEmail").val();
             if (Email == "") {
@@ -453,26 +481,25 @@
                 $('#txtSignupEmaileeerror').html('');
             }
             ///////////////////
-            var Gender = $("#ddlGender").val();
-            if (Gender == "") {
-                isvalid = false;
-                  $('#txtgendererror').html('');
-                $("#ddlGender").after('<span id="txtgendererror" style="color:red;" class="error">Field required.</span>');
-            }
-            else {
-                $('#txtgendererror').html('');
-            }
+            //var Gender = $("#ddlGender").val();
+            //if (Gender == "") {
+            //    isvalid = false;
+            //      $('#txtgendererror').html('');
+            //    $("#ddlGender").after('<span id="txtgendererror" style="color:red;" class="error">Field required.</span>');
+            //}
+            //else {
+            //    $('#txtgendererror').html('');
+            //}
             //////////////////////
             if (isvalid == true) {
                 //AJAX CALL
-                
+
                   $.ajax({
                     type: 'POST',
                     url: '@Url.Action("NewUser")', // we are calling json method
                     dataType: 'json',
                     data: {
-                        RoleId: RoleId, CompanyId: CompanyId, Accounts: Accounts, Products: Products, EmpId: EmployeeId, FullName: FullName, Mobile: Mobile, Email: Email,
-                        Gender: Gender,Password:password1
+                        RoleId: RoleId, CompanyId: CompanyId, Accounts: Accounts, Products: Products, EmpId: EmployeeId, FullName: FullName, Mobile: countrycode + '-' + Mobile, Email: Email, ProductIds: ProductIds
                     },
                       success: function (data) {
                           document.getElementById("loader").style.display = "none";
@@ -480,13 +507,14 @@
                             'we will contact you soon',
                             'success')
                             .then((value) => {
-                                location.reload();
+                                window.location.href = "/AHCHelpdeskTest/Login/Index";
+                                //location.reload();
                             });
-                        location.reload();
+                        //location.reload();
                     },
                       error: function (ex) {
                           document.getElementById("loader").style.display = "none";
-                        alert('Failed to retrieve models.' + ex);
+                        alert('Failed to send mail.' + ex);
                     }
                 });
             }
@@ -502,15 +530,16 @@
             var charCode = (evt.which) ? evt.which : evt.keyCode
             if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
                 return false;
-             $('#hdnMobileValidation').val('0');
+            $('#hdnMobileValidation').val('0');
+            $("#txtmobilexxerror").html('');
             var myLength = $("#txtmobile").val().length;
             //alert(myLength);
             if (myLength > 21) {
-                $("#txtmobile").after('<span id="txtmobileerror" style="color:red;" class="error">Maximum Lenght 20</span>');
+                $("#txtmobilexxerror").html('<span id="txtmobileerror" style="color:red;" class="error mx-2">Maximum Lenght 20</span>');
                 $('#hdnMobileValidation').val('1');
             }
             else if (myLength < 7) {
-                $("#txtmobile").after('<span id="txtmobileerror" style="color:red;" class="error">Minimum Lenght 10</span>');
+                $("#txtmobilexxerror").html('<span id="txtmobileerror" style="color:red;" class="error mx-2">Minimum Lenght 10  </span>');
                 $('#hdnMobileValidation').val('1');
             } else {
                 $('#hdnMobileValidation').val('0');
@@ -520,7 +549,7 @@
         }
 
         function mobilevalidation() {
-            debugger
+            
             var val= $('#hdnMobileValidation').val();
             if (val == 1) {
                 $('#txtmobile').val('');
@@ -572,7 +601,7 @@
                  success: function (data) {
                      debugger
                      var district = "<select id='ddlProducts' class='form-control kt-select2' multiple>";
-                     district = district + '<option value="0">--Select Products--</option>';
+                     //district = district + '<option value="0">--Select Products--</option>';
                      for (var i = 0; i < data.length; i++) {
 
                          district = district + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
@@ -696,7 +725,7 @@
         }
 
 
-      
+
 
     </script>
     <!--end::Page Scripts -->

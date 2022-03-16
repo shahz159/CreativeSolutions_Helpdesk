@@ -146,7 +146,8 @@ namespace HelpDesk.API.DataAccess
                 new SqlParameter("@CustomerName",obj.CustomerName),
                 new SqlParameter("@CustomerEmail",obj.CustomerEmail),
                 new SqlParameter("@CustomerPhone",obj.CustomerPhone),
-                new SqlParameter("@Enquiry",obj.Enquiry)
+                new SqlParameter("@Enquiry",obj.Enquiry),
+                new SqlParameter("@ProductId",obj.ProductId)
                 };
                 return DbConnector.ExecuteReader("uspAddMainEnquiry", para);
             }
@@ -232,6 +233,19 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
+        public string GetMainEnquiry(InventoryDTO obj)
+        {
+            try
+            {
+                return DbConnector.ExecuteDataSet("uspGetMainEnquiry", null);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "InventoryModel -> GetMainEnquiry");
+                return null;
+            }
+        }
+        
         public string SparePartByIdSEdit(InventoryDTO obj)
         {
             try
@@ -373,6 +387,7 @@ namespace HelpDesk.API.DataAccess
         string ConsignmentList(InventoryDTO obj);
         string SparePartById(InventoryDTO obj);
         string SparePartByIdSP(InventoryDTO obj);
+        string GetMainEnquiry(InventoryDTO obj);
         string SparePartByIdSEdit(InventoryDTO obj);
         string Warehouseddl(InventoryDTO obj);
     }

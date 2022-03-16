@@ -27,6 +27,7 @@ namespace HelpDesk.API.Controllers
             bool val = false;
             JArray JLoginDetails = JArray.Parse("[]");
             JArray JMenuDetails = JArray.Parse("[]");
+            JArray JApprovalMenuCountDetails = JArray.Parse("[]");
             if (result != null)
             {
                 if (!string.IsNullOrEmpty(result.datasetxml))
@@ -59,13 +60,21 @@ namespace HelpDesk.API.Controllers
                             if (!string.IsNullOrEmpty(str))
                                 JMenuDetails = strarray;
                         }
+                        if (ds.Tables[2].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[2]);
+                            var strarray = JArray.Parse(str);
+                            if (!string.IsNullOrEmpty(str))
+                                JApprovalMenuCountDetails = strarray;
+                        }
                     }
                 }
             }
 
 
             JObject res1 = new JObject(new JProperty("Login", JLoginDetails),
-                         new JProperty("Menus", JMenuDetails)
+                         new JProperty("Menus", JMenuDetails),
+                          new JProperty("ApprovalCounts", JApprovalMenuCountDetails)
                          );
 
             //JObject res12 = new JObject(new JProperty("UserId", result.Id),

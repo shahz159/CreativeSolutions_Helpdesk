@@ -14,6 +14,7 @@ namespace HelpDesk.API.DTO_s
         public string Type { get; set; }
         public long ConsignmentId { get; set; }
         public string message { get; set; }
+        public string EmailJson { get; set; }
         public int WarehouseId { get; set; }
         public string WarehouseName { get; set; }
         public string WarehouseCode { get; set; }
@@ -43,5 +44,9 @@ namespace HelpDesk.API.DTO_s
         public string CustomerName { get; set; }
         public string CustomerEmail { get; set; }
         public string CustomerPhone { get; set; }
+        public string Email { get; set; }
+        public string FullName { get; set; }
+
+        public IEnumerable<InventoryDTO> EmailList { get; set; }
     }
 }

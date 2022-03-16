@@ -7,6 +7,16 @@
 
 @section  Styles{
     <link href="~/assets/css/datatables.bundle.css" rel="stylesheet" />
+    <style>
+
+        .entries-dropdown select {
+            padding: 0.65rem 0.8rem 0.65rem 0.8rem;
+            background-color: #fff;
+            border: 1px solid #e2e5ec;
+            border-radius: 0.25rem;
+            margin-bottom: 15px;
+        }
+    </style>
 }
 <!-- begin:: Content -->
 <div  id="Upper_div" class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
@@ -89,7 +99,7 @@
                     </div>
                 </div>
             </div>
-        
+
             <div id="AssignedTicktes_div"></div>
         </div>
     </div>
@@ -113,7 +123,7 @@
             var roleid = $('#hdnRoleId').val();
             var userid = $('#hdnUserId').val();
             if (roleid==501) {
-                BindFiltersData(0, 0, 0, 1);
+                BindFiltersData(0, 0, 0, 1,5);
             }
             if (roleid == 505) {
                 document.getElementById("ddlUsers").disabled = true;
@@ -126,7 +136,7 @@
                 });
             }
             else {
-                BindFiltersData(0, 0, 0, 1);
+                BindFiltersData(0, 0, 0, 1,5);
                 //$("#ddlStatus option").each(function () {
                 //    var val = $(this).val();
                 //    if (val != "") {
@@ -138,15 +148,24 @@
             }
             //$("#ddlUsers option").prop("disabled", false);
             //$("#ddlUsers option").attr()
-
-         
         });
 
         function OnChangeFiletrs(val) {
+            debugger
+            var PageSize = $('#ddlpagesize').val();
             
-            var accountid = 0;
-            var userid = 0;
-            var statusid = 0;
+            var accountid = $('#ddlAccounts').val();
+            if (accountid == "") {
+                accountid = 0;
+            }
+            var userid = $('#ddlUsers').val();
+            if (userid == "") {
+                userid = 0;
+            }
+            var statusid = $('#ddlStatus').val();
+            if (statusid == "") {
+                statusid = 0;
+            }
             var PageNumber = 1;
                 //$('#hdnPageNumber_twbs').val();
             if (val==1) {
@@ -156,7 +175,7 @@
                     alert('Please Select Proper Option');
                     return false;
                 }
-                BindFiltersData(userid, statusid, accountid, PageNumber)
+                BindFiltersData(userid, statusid, accountid, PageNumber, PageSize)
             }
             else  if (val==2) {
                 userid = $('#ddlUsers').val();
@@ -165,7 +184,7 @@
                     alert('Please Select Proper Option');
                     return false;
                 }
-                BindFiltersData(userid, statusid, accountid, PageNumber)
+                BindFiltersData(userid, statusid, accountid, PageNumber, PageSize)
             }
             else  if (val==3) {
                 statusid = $('#ddlStatus').val();
@@ -174,16 +193,27 @@
                     alert('Please Select Proper Option');
                     return false;
                 }
-                BindFiltersData(userid, statusid, accountid, PageNumber)
+                
+                BindFiltersData(userid, statusid, accountid, PageNumber, PageSize)
             }
         }
         function pageval(i) {
-            debugger
+            var PageSize = $('#ddlpagesize').val();
             var val = $('#hdnSelectedValues').val();
             var PageNumber = i;
-            var accountid = 0;
-            var userid = 0;
-            var statusid = 0;
+
+            var accountid = $('#ddlAccounts').val();
+            if (accountid == "") {
+                accountid = 0;
+            }
+            var userid = $('#ddlUsers').val();
+            if (userid == "") {
+                userid = 0;
+            }
+            var statusid = $('#ddlStatus').val();
+            if (statusid == "") {
+                statusid = 0;
+            }
             if (val == 1) {
                 accountid = $('#ddlAccounts').val();
                 $('#hdnSelectedValues').val(1);
@@ -196,10 +226,13 @@
                 statusid = $('#ddlStatus').val();
                 $('#hdnSelectedValues').val(3);
             }
-            BindFiltersData(userid, statusid, accountid, PageNumber)
+            BindFiltersData(userid, statusid, accountid, PageNumber, PageSize)
         }
-        async function BindFiltersData(UserIdF, StatusF, AccountIdF, PageNumber)
+        async function BindFiltersData(UserIdF, StatusF, AccountIdF, PageNumber, PageSize)
         {
+            if (PageSize == undefined) {
+                PageSize = 5;
+            }
             //if (StatusF == "undefined") {
             //    alert('Please Select Proper Option');
             //    return false;
@@ -222,14 +255,18 @@
                 type: "Post",
                 url: '@Url.Action("AssignedTicketsPV")',
                 datatype: "json",
-               data: { useridF: UserIdF, statusF: StatusF, accountF: AccountIdF, pagenumber: PageNumber, Search: search},
+               data: { useridF: UserIdF, statusF: StatusF, accountF: AccountIdF, pagenumber: PageNumber, Search: search, PageSize: PageSize},
                 success: function (data) {
                     document.getElementById("loader").style.display = "none";
                     $('#AssignedTicktes_div').html('');
                     $('#AssignedTicktes_div').html(data);
+                    if (PageNumber > 1) {
+                        $('#li_pagenumber').html(5 * (PageNumber - 1) + 1);
+                        $('#li_pagelistcount').html(5 * PageNumber);
+                    }
                 },
                 error: function () {
-                    alert('error');
+                    alert('error0000');
                     $('#AssignedTicktes_div').html('');
                     document.getElementById("loader").style.display = "none";
                 }

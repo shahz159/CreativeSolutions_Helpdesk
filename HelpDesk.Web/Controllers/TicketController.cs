@@ -698,6 +698,7 @@ namespace HelpDesk.Web.Controllers
                                             ManagerName = dataRow.Field<string>("ManagerName"),
                                             Actioncomments = dataRow.Field<string>("Actioncomments"),
                                             ProblemDescription = dataRow.Field<string>("ProblemDescription"),
+                                            NextAction = dataRow.Field<string>("NextAction"),
                                             WorkHours = dataRow.Field<string>("WorkHours"),
                                             ReportId = dataRow.Field<int>("ReportTypeId"),
                                             CreatedUserRoleId = dataRow.Field<int>("CreatedUserRoleId"),
@@ -713,10 +714,18 @@ namespace HelpDesk.Web.Controllers
                                             ManagerEmail = dataRow.Field<string>("ManagerEmail"),
                                             TicketClosedDate = dataRow.Field<string>("TicketClosedDate"),
                                             RatingCount = dataRow.Field<int>("RatingCount"),
-                                            RatingText = dataRow.Field<string>("RatingText")
+                                            RatingText = dataRow.Field<string>("RatingText"),
+                                            PPMScheduleURL = dataRow.Field<string>("PPMScheduleURL")
                                         }).ToList();
 
                                         obj.TicketList = tickettlst;
+                                        obj.PPMScheduleURL= obj.TicketList.FirstOrDefault().PPMScheduleURL;
+                                        //obj.Extention = obj.TicketList.FirstOrDefault().Extention;
+                                       // obj.Extention = ".pdf";
+                                        //obj.PPMScheduleURL = "http://208.109.10.196/AHCHelpdeskTestapi/PPMSchedule/" + obj.PPMScheduleURL;
+                                        //string fileName = @"/208.109.10.196/AHCHelpdesktest/API/Uploads/SparepartMaster.xlxs"; 2019 Business Plan Submission.pdf
+                                        //FileInfo fi = new FileInfo(fileName);
+                                        //string extn = fi.Extension;
 
                                         string urlsjson = obj.TicketList.FirstOrDefault().Url;
                                         var modelurl = JsonConvert.DeserializeObject<List<TicketDTO>>(urlsjson);
@@ -1090,7 +1099,11 @@ namespace HelpDesk.Web.Controllers
                                             Statustxt = dataRow.Field<string>("Statustxt"),
                                             Status = dataRow.Field<int>("StatusId")
                                         }).ToList();
-
+                                        //if (roleid == 503 || roleid == 504 || roleid == 505)
+                                        //{
+                                        //    var itemToRemove = companylst.Single(r => r.Status == 1015);
+                                        //    companylst.Remove(itemToRemove);
+                                        //}
                                         List<TicketDTO> _objlst = companylst;
                                         ddlcompany = new SelectList(_objlst, "Status", "Statustxt", obj.CompanyId);
                                         ViewData["ddlStatusList"] = ddlcompany;
@@ -1116,7 +1129,7 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
-        public async Task<ActionResult> AssignedTicketsPV(long useridF, int statusF, int accountF, int pagenumber,string Search)
+        public async Task<ActionResult> AssignedTicketsPV(long useridF, int statusF, int accountF, int pagenumber,string Search,int PageSize)
         {
             string ses = Convert.ToString(Session["SSUserId"]);
             if (string.IsNullOrEmpty(ses))
@@ -1144,7 +1157,7 @@ namespace HelpDesk.Web.Controllers
                         obj.Status = statusF;
                         obj.AccountId = accountF;
                         obj.PageNumber = pagenumber;
-                        obj.PageSize = 5;
+                        obj.PageSize = PageSize;
                         obj.CompanyId = comid;
                         //if (roleid == 501 || roleid == 502)
                         //    obj.CreatedBy = 0;
@@ -1179,7 +1192,8 @@ namespace HelpDesk.Web.Controllers
                                             ProductName = dataRow.Field<string>("ProductName"),
                                             SerialNo = dataRow.Field<string>("SerialNo"),
                                             CreatedOn = dataRow.Field<DateTime>("CreatedOn"),
-                                            FullName = dataRow.Field<string>("FullName")
+                                            FullName = dataRow.Field<string>("FullName"),
+                                            Status = dataRow.Field<int>("StatusId")
 
                                         }).ToList();
                                         obj.TicketList = tickettlst;
@@ -1215,6 +1229,96 @@ namespace HelpDesk.Web.Controllers
                     catch (Exception ex)
                     {
                         return RedirectToAction("Authenticate", "Authentication");
+                    }
+                }
+            }
+        }
+        public async Task<ActionResult> UpdateTicketStatusFileUpload(int id, long TicketNumber, string comments, string problemdescription,string nextaction)
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        long userid = long.Parse(Session["SSUserId"].ToString());
+
+                        TicketDTO obj = new TicketDTO();
+
+                        //  Get all files from Request object  
+                        HttpFileCollectionBase files = Request.Files;
+                        for (int i = 0; i < files.Count; i++)
+                        {
+                            //string path = AppDomain.CurrentDomain.BaseDirectory + "Uploads/";  
+                            //string filename = Path.GetFileName(Request.Files[i].FileName);  
+
+                            HttpPostedFileBase file = files[i];
+                            string fname;
+
+                            byte[] thePictureAsBytes = new byte[file.ContentLength];
+                            using (BinaryReader theReader = new BinaryReader(file.InputStream))
+                            {
+                                thePictureAsBytes = theReader.ReadBytes(file.ContentLength);
+                            }
+                            string thePictureDataAsString = Convert.ToBase64String(thePictureAsBytes);
+
+                            obj.TicketDocuments = Utils.Common.PrepareFileAttributes(file);
+                            //obj.TicketDocuments.Base64FileData = thePictureDataAsString;
+                            
+
+                            // Checking for Internet Explorer  
+                            if (Request.Browser.Browser.ToUpper() == "IE" || Request.Browser.Browser.ToUpper() == "INTERNETEXPLORER")
+                            {
+                                string[] testfiles = file.FileName.Split(new char[] { '\\' });
+                                fname = testfiles[testfiles.Length - 1];
+                            }
+                            else
+                            {
+                                fname = file.FileName;
+                            }
+                            obj.TicketDocuments.Base64FileData = thePictureDataAsString;
+                            obj.TicketDocuments.FileUploadLocation = "~/PPMSchedule/";
+                            //obj.TicketDocuments.FileName = fname;
+                            //obj.TicketDocuments.FileUploadLocation = "/Uploads/";
+                            // Get the complete folder path and store the file inside it.  
+                            //fname = Path.Combine(Server.MapPath("~/Uploads/"), fname);
+                            //file.SaveAs(fname);
+                        }
+
+                        obj.CreatedBy = userid;
+                        obj.Status = int.Parse(Request["id"]);
+                        obj.TicketNumber = long.Parse(Request["TicketNumber"]);
+                        obj.Comments = Request["comments"];
+                        obj.ProblemDescription =  Request["problemdescription"];
+                        obj.NextAction = Request["nextaction"];
+
+                        bool status = false;
+                        string msg = "";
+                        HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/TicketsAPI/NewUpdateServiceEngineerTicketResolved", obj);
+                        if (responseMessage.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                            var docs = JsonConvert.DeserializeObject<TicketDTO>(responseData);
+                            msg = docs.message;
+                            if (msg == "1")
+                                status = true;
+                            else if (msg == "2")
+                            {
+                                status = true;
+                            };
+                        }
+                        return Json(new { success = msg });
+                    }
+                    catch (Exception ex)
+                    {
+                        TicketDTO obj = new TicketDTO();
+                        return Json(obj.ModelList);
                     }
                 }
             }
@@ -1812,6 +1916,73 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
+        public async Task<ActionResult> MainPageEnquiries()
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                int userid = int.Parse(Session["SSUserId"].ToString());
+                int roleid = int.Parse(Session["SSRoleId"].ToString());
+                int comid = int.Parse(Session["SSCompanyId"].ToString());
+                int orgid = int.Parse(Session["SSOrganizationId"].ToString());
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        TicketDTO obj = new TicketDTO();
+                        List<TicketDTO> tickettlst = new List<TicketDTO>();
+
+                        HttpResponseMessage responseMessageViewDocuments = await client.PostAsJsonAsync("api/InventoryAPI/NewGetMainEnquiry", obj);
+                        if (responseMessageViewDocuments.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessageViewDocuments.Content.ReadAsStringAsync().Result;
+                            var docs = JsonConvert.DeserializeObject<InventoryDTO>(responseData);
+
+                            var data = docs.datasetxml;
+                            if (data != null)
+                            {
+                                var document = new XmlDocument();
+                                document.LoadXml(data);
+                                DataSet ds = new DataSet();
+                                ds.ReadXml(new XmlNodeReader(document));
+                                if (ds.Tables.Count > 0)
+                                {
+                                    if (ds.Tables[0].Rows.Count > 0)
+                                    {
+                                        tickettlst = ds.Tables[0].AsEnumerable().Select(dataRow => new TicketDTO
+                                        {
+                                            EnquiryDate = dataRow.Field<string>("EnquiryDate"),
+                                            EnquiryType = dataRow.Field<string>("EnquiryType"),
+                                            CompanyName = dataRow.Field<string>("CompanyName"),
+                                            ProductName = dataRow.Field<string>("ProductName"),
+                                            CustomerName = dataRow.Field<string>("CustomerName"),
+                                            CustomerEmail = dataRow.Field<string>("CustomerEmail"),
+                                            CustomerPhone = dataRow.Field<string>("CustomerPhone"),
+                                            Enquiry = dataRow.Field<string>("Enquiry")
+                                        }).ToList();
+                                        obj.TicketList = tickettlst;
+                                    }
+                                    else
+                                        obj.TicketList = tickettlst;
+                                }
+                            }
+                        }
+                        return View(obj);
+                    }
+                    catch (Exception ex)
+                    {
+                        return RedirectToAction("Index", "Login");
+                    }
+                }
+            }
+        }
+
+
         public async Task<ActionResult> NewEnquiryComments(string txt, long EnquiryId)
         {
             string ses = Convert.ToString(Session["SSUserId"]);
@@ -1883,7 +2054,19 @@ namespace HelpDesk.Web.Controllers
                         //obj.RoleId = roleid;
                         //obj.CompanyId = comid;
                         //obj.OrganizationId = orgid;
-                        obj.CreatedBy = userid;
+                        if (roleid == 501)
+                        {
+                            long SSNewUser = (long)Session["SSDashboardUserCount"];
+                            if (SSNewUser == 0)
+                                obj.CreatedBy = userid;
+                            else
+                                obj.CreatedBy = SSNewUser;
+                        }
+                        else
+                            obj.CreatedBy = userid;
+                        
+                        
+                        
 
                         List<TicketDTO> tickettlst = new List<TicketDTO>();
 
@@ -2046,7 +2229,8 @@ namespace HelpDesk.Web.Controllers
             Session["MultipleImagesLst" + userid] = multiple_images;
             return Json(new { success = status });
         }
-        public async Task<ActionResult> ServiceReport(long id)
+
+        public async Task<ActionResult> ServiceReport(string id ,long TicketNumber)
         {
             string ses = Convert.ToString(Session["SSUserId"]);
             if (string.IsNullOrEmpty(ses))
@@ -2066,7 +2250,7 @@ namespace HelpDesk.Web.Controllers
                         int comid = int.Parse(Session["SSCompanyId"].ToString());
                         int orgid = int.Parse(Session["SSOrganizationId"].ToString());
                         TicketDTO obj = new TicketDTO();
-                        obj.TicketNumber = id;
+                        obj.TicketNumber = TicketNumber;
                         obj.RoleId = roleid;
                         obj.CompanyId = comid;
                         obj.OrganizationId = orgid;
@@ -2133,6 +2317,7 @@ namespace HelpDesk.Web.Controllers
                                             ManagerConfirmationDate = dataRow.Field<string>("ManagerConfirmationDate"),
                                             ManagerName = dataRow.Field<string>("ManagerName"),
                                             Actioncomments = dataRow.Field<string>("Actioncomments"),
+                                            NextAction = dataRow.Field<string>("NextAction"),
                                             ProblemDescription = dataRow.Field<string>("ProblemDescription"),
                                             WorkHours = dataRow.Field<string>("WorkHours"),
                                             ReportId = dataRow.Field<int>("ReportTypeId"),

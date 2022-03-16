@@ -319,11 +319,40 @@ namespace HelpDesk.API.Bussiness
             return obj;
         }
 
+        public AssetDTO removeAssetModel(AssetDTO obj)
+        {
+            try
+            {
+                var data = model.removeAssetModel(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["message"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
+        
         public AssetDTO GetAssetsRenewalDetails(AssetDTO obj)
         {
             obj.datasetxml = model.GetAssetRenewalDetails(obj);
             return obj;
         }
+        public AssetDTO GetModelM(AssetDTO obj)
+        {
+            obj.datasetxml = model.GetModelsM(obj);
+            return obj;
+        }
+        
         public AssetDTO GetAssetsRenewalList(AssetDTO obj)
         {
             obj.datasetxml = model.GetAssetRenewalList(obj);
@@ -539,6 +568,7 @@ obj.ContractTypetxt, obj.AccountName, obj.PPMTypeText, obj.StartDateStr, obj.End
         AssetDTO GetAssetList(AssetDTO obj);
         IEnumerable<AssetDTO> GetCity(AssetDTO obj);
         IEnumerable<AssetDTO> GetModel(AssetDTO obj);
+        AssetDTO GetModelM(AssetDTO obj);
         IEnumerable<AssetDTO> GetPOContractList(AssetDTO obj);
         AssetDTO GetAssetById(AssetDTO obj);
         AssetDTO GetDropDowns(AssetDTO obj);
@@ -548,5 +578,6 @@ obj.ContractTypetxt, obj.AccountName, obj.PPMTypeText, obj.StartDateStr, obj.End
         AssetDTO UpdateAssetStatus(AssetDTO obj);
         AssetDTO UpdatePPMDateChangeRequest(AssetDTO obj);
         AssetDTO AddJVMOrders(AssetDTO obj);
+        AssetDTO removeAssetModel(AssetDTO obj);
     }
 }

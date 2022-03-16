@@ -516,10 +516,50 @@ namespace HelpDesk.API.Controllers
             //return list;
         }
 
-        public IEnumerable<AssetDTO> NewGetModelListM(AssetDTO obj)
+        [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewGetModelListM(AssetDTO obj)
         {
-            var list = service.GetPOContractList(obj);
-            return list;
+            var result = service.GetModelM(obj);
+            string msg = "";
+            bool val = true;
+            JArray JModelList = JArray.Parse("[]");
+              
+            if (result != null)
+            {
+                if (!string.IsNullOrEmpty(result.datasetxml))
+                {
+                    var document = new XmlDocument();
+                    document.LoadXml(result.datasetxml);
+                    DataSet ds = new DataSet();
+                    ds.ReadXml(new XmlNodeReader(document));
+                    if (ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JModelList = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JModelList = strjarry;
+                        }
+                    }
+                }
+            }
+            JObject res1 = new JObject(new JProperty("ModelList", JModelList)
+                        );
+            msg = val == true ? "Success." : "Failure";
+            JObject res = new JObject(new JProperty("Status", true),
+                               (new JProperty("Message", msg)),
+                               (new JProperty("Data", res1)));
+            return Ok(res);
         }
 
         /// <summary>
@@ -835,13 +875,20 @@ namespace HelpDesk.API.Controllers
                          );
             return Ok(res);
         }
-
+        [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewAssetModelRemove(AssetDTO obj)
+        {
+            var result = service.removeAssetModel(obj);
+            return Ok(result);
+        }
         [ResponseType(typeof(AssetDTO))]
         public IHttpActionResult NewJVMOrders(AssetDTO obj)
         {
             var result = service.AddJVMOrders(obj);
             return Ok(result);
         }
+
+      
 
         [ResponseType(typeof(AssetDTO))]
         public IHttpActionResult NewJVMOrdersM(AssetDTO obj)

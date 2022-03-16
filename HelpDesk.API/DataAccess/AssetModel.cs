@@ -124,6 +124,23 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
+        public string GetModelsM(AssetDTO obj)
+        {
+            try
+            {
+                var para = new[]
+                {
+                    new SqlParameter("@ProductId",obj.ProductId)
+                };
+                return DbConnector.ExecuteDataSet("UspGetModels", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "AssetModel -> GetModels");
+                return null;
+            }
+        }
+        
         public SqlDataReader GetPOContractList(AssetDTO obj)
         {
             try
@@ -321,7 +338,23 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
-
+        public SqlDataReader removeAssetModel(AssetDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@AMModelId",obj.AMModelId),
+                new SqlParameter("@CreatedBy",obj.CreatedBy)
+                };
+                return DbConnector.ExecuteReader("uspremoveAssetModel", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "AssetModel -> removeAssetModel");
+                return null;
+            }
+        }
+        
         public string GetPPMChangeDateRequestList(AssetDTO obj)
         {
             try
@@ -478,6 +511,7 @@ namespace HelpDesk.API.DataAccess
         string GetApprovalAssets(AssetDTO obj);
         SqlDataReader GetCity(AssetDTO obj);
         SqlDataReader GetModels(AssetDTO obj);
+        string GetModelsM(AssetDTO obj);
         SqlDataReader GetPOContractList(AssetDTO obj);
         SqlDataReader InsertUpdateAsset(AssetDTO obj);
         SqlDataReader CheckSerialNumber(AssetDTO obj);
@@ -489,6 +523,7 @@ namespace HelpDesk.API.DataAccess
         SqlDataReader UpdateAssetStatus(AssetDTO obj);
         SqlDataReader UpdatePPMChangeRequest(AssetDTO obj);
         SqlDataReader AddJVMOrder(AssetDTO obj);
+        SqlDataReader removeAssetModel(AssetDTO obj);
         SqlDataReader GetAssetDetailsById(AssetDTO obj);
 
         string GetAssetRenewalDetails(AssetDTO obj);

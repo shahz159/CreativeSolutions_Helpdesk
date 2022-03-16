@@ -346,7 +346,108 @@ namespace HelpDesk.API.Bussiness
             obj.datasetxml = model.GetApprovalTickets(obj);
             return obj;
         }
+        public TicketDTO UpdateTicketStatusUpload(TicketDTO obj)
+        {
+            try
+            {
+                var data = model.UpdateTicketStatusUpload(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["message"].ToString();
+                        if (obj.message == "1")
+                        {
+                            obj.TicketNumber = Convert.ToInt64(data["TicketNumber"].ToString());
+                            obj.CreatedDateStr = data["CreatedDateStr"].ToString();
+                            obj.ProductName = data["ProductName"].ToString();
+                            obj.SystemId = data["SystemNo"].ToString();
+                            obj.AccountName = data["AccountName"].ToString();
+                            obj.Location = data["Area"].ToString();
+                            obj.ProblemDescription = data["Description"].ToString();
+                            obj.CustomerEmail = data["CustomerEmail"].ToString();
+                            obj.CustomerFullName = data["CustomerFullName"].ToString();
+                            obj.EngineerEmail = data["EngineerEmail"].ToString();
+                            obj.EngineerFullName = data["EngineerFullName"].ToString();
+                            obj.ServiceEngineerEmail = data["EngineerEmail"].ToString();
+                            obj.ServiceEngineerId = long.Parse(data["ServiceEngineerId"].ToString());
+                            obj.ManagerName = data["ManagerName"].ToString();
+                            obj.ManagerEmail = data["ManagerEmail"].ToString();
+                            obj.StatusText = data["StatusText"].ToString();
+                            obj.SuperUserEmail = data["SuperUserEmail"].ToString();
+                            obj.SuperUserName = data["SuperUserName"].ToString();
+                            obj.SupervisorEmail = data["SupervisorEmail"].ToString();
+                            obj.SupervisorName = data["SupervisorName"].ToString();
+                            obj.SupervisorUserId = long.Parse(data["SupervisorUserId"].ToString());
+                            obj.ReportTypeName = data["ReportTypeName"].ToString();
+                            obj.StationName = data["StationName"].ToString();
+                            obj.ModelName = data["ModelName"].ToString();
+                            obj.SerialNo = data["SerialNo"].ToString();
+                        }
+                    }
+                }
+                else
+                    obj.message = "0";
 
+                if (obj.message == "1")
+                {
+                    SendEmailToCustomer(
+                                        obj.TicketNumber, obj.CreatedDateStr, obj.ProductName,
+            obj.SystemId, obj.AccountName, obj.Location, obj.ProblemDescription,
+            obj.CustomerEmail, obj.CustomerFullName, obj.EngineerFullName
+            , obj.StatusText, obj.ReportTypeName, obj.StationName
+            , obj.ModelName, obj.SerialNo
+                                    );
+                    if (obj.ServiceEngineerEmail != "0")
+                    {
+                        SendEmailToEngineer(
+                                         obj.TicketNumber, obj.CreatedDateStr, obj.ProductName,
+             obj.SystemId, obj.AccountName, obj.Location, obj.ProblemDescription,
+             obj.ServiceEngineerEmail, obj.CustomerFullName, obj.EngineerFullName
+             , obj.StatusText, obj.ReportTypeName, obj.StationName
+             , obj.ModelName, obj.SerialNo
+                                         );
+                    }
+                    SendEmailToSupervisorUser(
+                                          obj.TicketNumber, obj.CreatedDateStr, obj.ProductName,
+             obj.SystemId, obj.AccountName, obj.Location, obj.ProblemDescription,
+             obj.SupervisorEmail, obj.CustomerFullName, obj.EngineerFullName
+             , obj.StatusText, obj.SuperUserEmail, obj.SuperUserName, obj.SupervisorName, obj.ReportTypeName, obj.StationName
+              , obj.ModelName, obj.SerialNo
+                                       );
+                }
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
+        public TicketDTO UpdateProfilePicture(TicketDTO obj)
+        {
+            try
+            {
+                var data = model.UpdateProfilePicture(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["message"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
+
+        
         public TicketDTO UpdateTicketStatus(TicketDTO obj)
         {
             try
@@ -866,6 +967,8 @@ namespace HelpDesk.API.Bussiness
         TicketDTO InsertTicketRequest(TicketDTO obj);
         TicketDTO GetUnderApprovalTickets(TicketDTO obj);
         TicketDTO UpdateTicketStatus(TicketDTO obj);
+        TicketDTO UpdateTicketStatusUpload(TicketDTO obj);
+        TicketDTO UpdateProfilePicture(TicketDTO obj);
         TicketDTO TicketTransfer(TicketDTO obj);
         TicketDTO AddResponseTime(TicketDTO obj);
         TicketDTO AddSparePartRequest(TicketDTO obj);

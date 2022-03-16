@@ -9,7 +9,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Sign Up</title>
+    <title>Enquiry</title>
     <link href="~/assets/css/login.css" rel="stylesheet" />
     <link href="~/assets/plugins/global/plugins.bundle.css" rel="stylesheet" />
     <link href="~/assets/css/style.bundle.css" rel="stylesheet" />
@@ -148,6 +148,15 @@
                 letter-spacing: 5px;
             }
         }
+
+        #div_mobileNumber1 input.input-group-text {
+            width: 60px;
+            border-right: 1px solid #727476;
+        }
+
+        #div_mobileNumber1.input-group .form-control:focus {
+            border-left: 1px solid #dce1e5;
+        }
     </style>
 
 
@@ -204,16 +213,16 @@
                             </div>
                             <form class="kt-form" action="" novalidate="novalidate" id="kt_login_form">
                                 <div class="form-group mt-4">
-                                    <select class="form-control kt-select2" id="ddlEnquiryType">
-                                        <option value="Maintenance">Maintenance</option>
-                                        <option value="Contract">Contract</option>
-                                        <option value="Product Enquiry">Product Enquiry</option>
-                                        <option value="Help Desk">Help Desk</option>
-                                        <option value="Other">Other</option>
-                                    </select>
+                                        <select class="form-control kt-select2" id="ddlEnquiryType">
+                                            <option value="Maintenance">Maintenance</option>
+                                            <option value="Contract">Contract</option>
+                                            <option value="Product Enquiry">Product Enquiry</option>
+                                            <option value="Help Desk">Help Desk</option>
+                                            <option value="Other">Other</option>
+                                        </select>
                                 </div>
                                 <div class="form-group mt-4">
-                                    <input class="form-control" type="text" value="" placeholder="Enter Company Name" id="txtcompanyname">
+                                    <input class="form-control" type="text" value="" placeholder="Enter Company/Hospital Name" id="txtcompanyname">
                                 </div>
                                 <div class="form-group mt-4">
                                     <div id="Products_div">
@@ -225,16 +234,19 @@
                                 </div>
 
                                 <div class="form-group mt-4">
-                                    <input class="form-control" type="text" value="" placeholder="Enter Customer Name" id="txtCustomerName">
+                                    <input class="form-control" type="text" value="" placeholder="Enter Full Name" id="txtCustomerName">
                                 </div>
                                 <div class="form-group mt-4">
                                     <input class="form-control" type="text" value="" placeholder="Enter Email" id="txtEmail">
                                 </div>
                                 <div class="form-group mt-4">
-                                    <div id="div_mobileNumber" class="input-group">
-                                        <div class="input-group-prepend"><span class="input-group-text">+966</span></div>
+                                    <div id="div_mobileNumber1" class="input-group">
+                                        <div class="input-group-prepend">
+                                            <input type="text" id="txtcountrycode" class="input-group-text" maxlength="3" value="966" onkeypress="return isNumberKey(event)" />
+                                        </div>
                                         <input class="form-control" autocomplete="off" type="text" value="" placeholder="xxx xxx xxxx" id="txtmobile" onkeypress="return isNumberKey(event)" onchange="mobilevalidation()">
                                     </div>
+                                    <div id="div_mobileNumber"></div>
                                 </div>
                                 <div class="form-group mt-4">
                                     <textarea id="txtEnquiry" placeholder="Enter Enquiry" class="form-control" rows="8"></textarea>
@@ -282,7 +294,6 @@
             var isvalid = true;
 
             var EnquiryType = $("#ddlEnquiryType option:selected").text();
-            alert(EnquiryType)
             if (EnquiryType == "") {
                 isvalid = false;
                 $('#txtenqurytypeerror').html('');
@@ -319,12 +330,10 @@
                     else {
                         $('#txttxtproductnameerror').html('');
                         PName = OtherProductName;
-                        alert(PName)
                     }
                 }
                 else {
                     PName = $("#ddlProducts option:selected").text();
-                    alert(PName)
                 }
             }
             var CustomerName = $("#txtCustomerName").val();
@@ -354,6 +363,15 @@
             else {
                 $('#txtmobilexxerror').html('');
             }
+            var countrycode = $("#txtcountrycode").val();
+            if (countrycode == "") {
+                isvalid = false;
+                $('#txtmobilexxerror').html('');
+                $("#div_mobileNumber").after('<span id="txtmobilexxerror" style="color:red;" class="error">country code required.</span>');
+            }
+            else {
+                $('#txtmobilexxerror').html('');
+            }
             var Enquiry = $("#txtEnquiry").val();
             if (Enquiry == "" || Enquiry == null) {
                 isvalid = false;
@@ -370,7 +388,8 @@
                     url: '@Url.Action("NewMainEnquiry")', // we are calling json method
                     dataType: 'json',
                     data: {
-                        EnquiryType: EnquiryType, Enquiry: Enquiry, CustomerName: CustomerName, CustomerEmail: Email, CustomerPhone: Mobile, CompanyName: CompanyName, ProductName: PName 
+                        EnquiryType: EnquiryType, Enquiry: Enquiry, CustomerName: CustomerName, CustomerEmail: Email, CustomerPhone: countrycode + '-' + Mobile, CompanyName: CompanyName, ProductName: PName 
+                        , ProductId: Products
                     },
                       success: function (data) {
                           document.getElementById("loader").style.display = "none";
@@ -378,9 +397,10 @@
                             'we will contact you soon',
                             'success')
                             .then((value) => {
-                                location.reload();
+                                
                             });
-                        location.reload();
+                          window.location.href = "/AHCHelpdeskTest/Login/Index";
+                        //location.reload();
                     },
                       error: function (ex) {
                           document.getElementById("loader").style.display = "none";
@@ -410,14 +430,15 @@ function productchange() {
     if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
         return false;
      $('#hdnMobileValidation').val('0');
+     $("#txtmobilexxerror").html('');
     var myLength = $("#txtmobile").val().length;
     //alert(myLength);
     if (myLength > 21) {
-        $("#txtmobile").after('<span id="txtmobileerror" style="color:red;" class="error">Maximum Lenght 20</span>');
+        $("#txtmobilexxerror").after('<span id="txtmobileerror" style="color:red;" class="error">Maximum Lenght 20</span>');
         $('#hdnMobileValidation').val('1');
     }
     else if (myLength < 7) {
-        $("#txtmobile").after('<span id="txtmobileerror" style="color:red;" class="error">Minimum Lenght 10</span>');
+        $("#txtmobilexxerror").after('<span id="txtmobileerror" style="color:red;" class="error">Minimum Lenght 10</span>');
         $('#hdnMobileValidation').val('1');
     } else {
         $('#hdnMobileValidation').val('0');

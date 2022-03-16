@@ -7,6 +7,8 @@ namespace HelpDesk.API.DTO_s
 {
     public class UsersDTO
     {
+        public string[] Accounts { get; set; }
+        public string[] Products { get; set; }
         public int Type { get; set; }
         public int AccountId { get; set; }
         public string AccountName { get; set; }
@@ -34,5 +36,11 @@ namespace HelpDesk.API.DTO_s
         public long MUPId { get; set; }
         public DateTime CreatedDate{get;set;}
         public string SuperUserEmail { get; set; }
+        public int EmailId { get; set; }
+        public string Subject { get; set; }
+        public string Body { get; set; }
+        public IEnumerable<UsersDTO> EmailList { get; set; }
+        public string EmailJson { get; set; }
+
     }
 }

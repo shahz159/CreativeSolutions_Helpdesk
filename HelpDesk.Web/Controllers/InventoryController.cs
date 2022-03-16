@@ -200,7 +200,8 @@ namespace HelpDesk.Web.Controllers
                                             Quantity = dataRow.Field<int>("Quantity"),
                                             BaseQuantity = dataRow.Field<int>("BaseQuantity"),
                                             Price = dataRow.Field<string>("Price"),
-                                            ProductName = dataRow.Field<string>("ProductName")
+                                            ProductName = dataRow.Field<string>("ProductName"),
+                                            SAPCode = dataRow.Field<string>("SAPCode")
                                         }).ToList();
                                         obj.SparePartList = sparelst;
                                     }

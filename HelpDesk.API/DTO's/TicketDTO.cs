@@ -39,6 +39,10 @@ namespace HelpDesk.API.DTO_s
         public int WarehouseId { get; set; }
         public string Comments { get; set; }
         public string ProblemDescription { get; set; }
+        public string PPMScheduleURL { get; set; }
+        public string Extention { get; set; }
+        public string NextAction { get; set; }
+        public string ProfileImage { get; set; }
         public DateTime ResponseTime { get; set; }
         public int PageNumber { get; set; }
         public int PageSize { get; set; }

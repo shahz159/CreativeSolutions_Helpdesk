@@ -43,10 +43,12 @@ namespace HelpDesk.API.Controllers
             if (result.message != "0")
                 val = true;
 
-            if (obj.FlagId == 2)
+            if (obj.message == "2")
+                msg = "Spare Part Update Successfully.";
+            else if (obj.message == "1")
                 msg = "Spare Part Added Successfully.";
-            else if (obj.FlagId == 1)
-                msg = "Spare Part Updated Successfully.";
+            else
+                msg = "Something went wrong.";
             msg = val == true ? "" : "Failure";
             JObject res = new JObject(new JProperty("Status", val),
                                         (new JProperty("Message", msg))
@@ -603,7 +605,13 @@ namespace HelpDesk.API.Controllers
         public IHttpActionResult NewConsignmentStatusM(InventoryDTO obj)
         {
             var detail = service.ConsignmentStatus(obj);
-            return Ok(detail);
+            string msg = "";
+            bool val = true;
+
+            msg = val == true ? "Consignment Status Updated Successfully." : "Failure";
+            JObject res = new JObject(new JProperty("Status", true),
+                               (new JProperty("Message", msg)));
+            return Ok(res);
         }
 
 
@@ -640,6 +648,74 @@ namespace HelpDesk.API.Controllers
         {
             var result = service.AddMainEnquiry(obj);
             return Ok(result);
+        }
+
+
+        [ResponseType(typeof(InventoryDTO))]
+        public IHttpActionResult NewMainEnquiryM(InventoryDTO obj)
+        {
+            var result = service.AddMainEnquiry(obj);
+            string msg = "";
+            bool val = false;
+            if (result.message != "0")
+                val = true;
+            msg = val == true ? "Enquiry Sent Successfully." : "Failure";
+            JObject res = new JObject(new JProperty("Status", val),
+                                        (new JProperty("Message", msg))
+                         );
+            return Ok(res);
+        }
+
+        [ResponseType(typeof(InventoryDTO))]
+        public IHttpActionResult NewGetMainEnquiryM(InventoryDTO obj)
+        {
+            var result = service.GetMainEnquiry(obj);
+            string msg = "";
+            bool val = true;
+            JArray JEnquiryList = JArray.Parse("[]");
+            if (result != null)
+            {
+                if (!string.IsNullOrEmpty(result.datasetxml))
+                {
+                    var document = new XmlDocument();
+                    document.LoadXml(result.datasetxml);
+                    DataSet ds = new DataSet();
+                    ds.ReadXml(new XmlNodeReader(document));
+                    if (ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JEnquiryList = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[0]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JEnquiryList = strjarry;
+                        }
+                    }
+                }
+            }
+            JObject res1 = new JObject(new JProperty("EnquiryList", JEnquiryList)
+                        );
+            msg = val == true ? "Success." : "Failure";
+            JObject res = new JObject(new JProperty("Status", true),
+                               (new JProperty("Message", msg)),
+                               (new JProperty("Data", res1)));
+            return Ok(res);
+        }
+
+        [ResponseType(typeof(InventoryDTO))]
+        public IHttpActionResult NewGetMainEnquiry(InventoryDTO obj)
+        {
+            var detail = service.GetMainEnquiry(obj);
+            return Ok(detail);
         }
     }
 }

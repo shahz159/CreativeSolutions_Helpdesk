@@ -43,11 +43,15 @@ namespace HelpDesk.Web.Controllers
                                 var jtok = Data;
                                 var JLoginUserList = jtok.SelectToken("Login");
                                 var JMenusDetails = jtok.SelectToken("Menus");
+                                var JApprovalMenuCountDetails = jtok.SelectToken("ApprovalCounts");
 
                                 List<LoginDTO> LoginDetails = new List<LoginDTO>();
                                 List<MenusDTO> MenusDetails = new List<MenusDTO>();
+                                List<MenusDTO> MenusCountDetails = new List<MenusDTO>();
+
                                 LoginDetails = JsonConvert.DeserializeObject<List<LoginDTO>>(JLoginUserList.ToString());
                                 MenusDetails = JsonConvert.DeserializeObject<List<MenusDTO>>(JMenusDetails.ToString());
+                                MenusCountDetails = JsonConvert.DeserializeObject<List<MenusDTO>>(JApprovalMenuCountDetails.ToString());
 
                                 //List<MenusDTO> MainMenusDetails = new List<MenusDTO>();
                                 //List<MenusDTO> SubMenusDetails = new List<MenusDTO>();
@@ -56,7 +60,19 @@ namespace HelpDesk.Web.Controllers
                                 //SubMenusDetails = MenusDetails.Where(x => x.ParentId != 0).ToList();
 
                                 Session["SSMenusLst"] = MenusDetails;
+                                Session["SSMenusCountLst"] = MenusCountDetails;
                                 //Session["SSSubMenusLst"] = SubMenusDetails;
+
+                                foreach (var item in MenusCountDetails)
+                                {
+                                    Session["SSNewUser"] = long.Parse(item.NewUser.ToString());
+                                    Session["SSWarrantyExpiredApprovalCount"] = long.Parse(item.WarrantyExpiredApprovalCount.ToString());
+                                    Session["SSAssetRenewalCount"] = long.Parse(item.AssetRenewalCount.ToString());
+                                    Session["SSAssetApprovalCount"] = long.Parse(item.AssetApprovalCount.ToString());
+                                    Session["SSInventoryAdjustment"] = long.Parse(item.InventoryAdjustment.ToString());
+                                    Session["SSPPMDatesApprovalCount"] = long.Parse(item.PPMDatesApprovalCount.ToString());
+                                    Session["SSSparePartRequestCount"] = long.Parse(item.SparePartRequestCount.ToString());
+                                }
 
                                 foreach (var item in LoginDetails)
                                 {
@@ -69,6 +85,7 @@ namespace HelpDesk.Web.Controllers
                                     string RoleName = item.RoleName.ToString();
                                     string Email = item.Email.ToString();
                                     string Password = item.Password.ToString();
+                                    string profileimage = item.ProfileImage.ToString();
 
                                     string UserName = Convert.ToString(item.FullName);
                                     Session["SSUserId"] = UserId;
@@ -80,6 +97,7 @@ namespace HelpDesk.Web.Controllers
                                     Session["SSRoleName"] = RoleName;
                                     Session["SSEmail"] = Email;
                                     Session["SSPassword"] = Password;
+                                    Session["SSprofileimage"] = profileimage;
 
                                     List<TicketDTO> multipleimages = new List<TicketDTO>();
                                     Session["MultipleImagesLst" + UserId] = multipleimages;
@@ -140,24 +158,31 @@ namespace HelpDesk.Web.Controllers
                     var parentelemeng_docs_p = xmldoc_docs_p.CreateElement("MultiProducts");
                     var parent_docs_p = xmldoc_docs_p.CreateElement("MultiProduct");
 
-                    for (int i = 0; i < obj.Products.Length; i++)
+                    //for (int i = 0; i < obj.Products.Length; i++)
+                    //{
+                    //    var parentelement_p = xmldoc_docs_p.CreateElement("Row");
+                    //    var productid_xml_p = xmldoc_docs_p.CreateElement("ProductId");
+
+                    //    productid_xml_p.InnerText = obj.Products[i];
+                    //    parentelement_p.AppendChild(productid_xml_p);
+
+                    //    parentelemeng_docs_p.AppendChild(parent_docs_p);
+                    //    parent_docs_p.AppendChild(parentelement_p);
+                    //}
+                    for (int i = 0; i < obj.ProductIds.Length; i++)
                     {
                         var parentelement_p = xmldoc_docs_p.CreateElement("Row");
                         var productid_xml_p = xmldoc_docs_p.CreateElement("ProductId");
 
-                        productid_xml_p.InnerText = obj.Products[i];
+                        productid_xml_p.InnerText = obj.ProductIds[i];
                         parentelement_p.AppendChild(productid_xml_p);
 
                         parentelemeng_docs_p.AppendChild(parent_docs_p);
                         parent_docs_p.AppendChild(parentelement_p);
                     }
                     obj.Productsxml = parentelemeng_docs_p.InnerXml;
-                    obj.Gender = obj.Gender.Substring(0, 1);
-                    obj.isActive = false;
-                    obj.isApproved = false;
-                    obj.SignUp = true;
                     bool status = false;
-                    HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/UserAPI/NewInsertUser", obj);
+                    HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/UserAPI/NewInsertUserSignup", obj);
                     if (responseMessage.IsSuccessStatusCode)
                     {
                         var responseData = responseMessage.Content.ReadAsStringAsync().Result;

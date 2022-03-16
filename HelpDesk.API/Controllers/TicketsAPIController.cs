@@ -90,6 +90,126 @@ namespace HelpDesk.API.Controllers
                          );
             return Ok(res);
         }
+
+        [ResponseType(typeof(TicketDTO))]
+        public IHttpActionResult NewUpdateServiceEngineerTicketResolved(TicketDTO obj)
+        {
+            if (obj.TicketDocuments != null)
+            {
+                obj.TicketDocuments = Utils.Common.UploadFile(obj.TicketDocuments);
+                string path = obj.TicketDocuments.FileURLLocation;
+                obj.PPMScheduleURL = path;
+                obj.Extention = obj.TicketDocuments._ext;
+                //var xmldoc_docs = new XmlDocument();
+                //var parentelemeng_docs = xmldoc_docs.CreateElement("MultiDocuments");
+                //var parent_docs = xmldoc_docs.CreateElement("MultiDocument");
+
+                //var parentelement = xmldoc_docs.CreateElement("Row");
+                //var filepath_xml = xmldoc_docs.CreateElement("filepath");
+                //var ContentType_xml = xmldoc_docs.CreateElement("ContentType");
+
+                //filepath_xml.InnerText = path;
+                //ContentType_xml.InnerText = obj.TicketDocuments._ext;
+
+                //parentelement.AppendChild(filepath_xml);
+                //parentelement.AppendChild(ContentType_xml);
+                ////parentelement.AppendChild(UniqueId_xml);
+
+                //parentelemeng_docs.AppendChild(parent_docs);
+                //parent_docs.AppendChild(parentelement);
+
+                //obj.multipledocuments_xml = parentelemeng_docs.InnerXml;
+                //obj.Url = "";
+                //obj.ContentType = "";
+            }
+            else
+            {
+                obj.PPMScheduleURL = "";
+                obj.Extention = "";
+            }
+
+            var result = service.UpdateTicketStatusUpload(obj);
+            return Ok(result);
+        }
+
+        [ResponseType(typeof(TicketDTO))]
+        public IHttpActionResult NewUpdateServiceEngineerTicketResolvedM(TicketDTO obj)
+        {
+            if (obj.TicketDocuments != null)
+            {
+                obj.TicketDocuments = Utils.Common.UploadFile(obj.TicketDocuments);
+                string path = obj.TicketDocuments.FileURLLocation;
+                obj.PPMScheduleURL = path;
+                obj.Extention = obj.TicketDocuments._ext;
+                //var xmldoc_docs = new XmlDocument();
+                //var parentelemeng_docs = xmldoc_docs.CreateElement("MultiDocuments");
+                //var parent_docs = xmldoc_docs.CreateElement("MultiDocument");
+
+                //var parentelement = xmldoc_docs.CreateElement("Row");
+                //var filepath_xml = xmldoc_docs.CreateElement("filepath");
+                //var ContentType_xml = xmldoc_docs.CreateElement("ContentType");
+
+                //filepath_xml.InnerText = path;
+                //ContentType_xml.InnerText = obj.TicketDocuments._ext;
+
+                //parentelement.AppendChild(filepath_xml);
+                //parentelement.AppendChild(ContentType_xml);
+                ////parentelement.AppendChild(UniqueId_xml);
+
+                //parentelemeng_docs.AppendChild(parent_docs);
+                //parent_docs.AppendChild(parentelement);
+
+                //obj.multipledocuments_xml = parentelemeng_docs.InnerXml;
+                //obj.Url = "";
+                //obj.ContentType = "";
+            }
+
+            var result = service.UpdateTicketStatusUpload(obj);
+            //var result = service.InsertTicketRequest(obj);
+
+            string msg = "";
+            bool val = false;
+
+            if (result.message != "0")
+            {
+                val = true;
+            }
+            //JObject res1 = new JObject(new JProperty("SystemManagerId", result.SystemManagerId.ToString())
+            //            );
+            msg = val == true ? "Ticket Status Updated Successfully." : "Failure";
+            JObject res = new JObject(new JProperty("Status", val),
+                                        (new JProperty("Message", msg))
+                         );
+            return Ok(res);
+        }
+
+        [ResponseType(typeof(TicketDTO))]
+        public IHttpActionResult NewProfilePictureUploadM(TicketDTO obj)
+        {
+            if (obj.TicketDocuments != null)
+            {
+                obj.TicketDocuments = Utils.Common.UploadFile(obj.TicketDocuments);
+                string path = obj.TicketDocuments.FileURLLocation;
+                obj.ProfileImage = path;
+                obj.Extention = obj.TicketDocuments._ext;
+            }
+            var result = service.UpdateProfilePicture(obj);
+            string msg = "";
+            bool val = false;
+
+            if (result.message != "0")
+            {
+                val = true;
+            }
+            //JObject res1 = new JObject(new JProperty("SystemManagerId", result.SystemManagerId.ToString())
+            //            );
+            msg = val == true ? "Profile Picture Updated Successfully." : "Failure";
+            JObject res = new JObject(new JProperty("Status", val),
+                                        (new JProperty("Message", msg))
+                         );
+            return Ok(res);
+        }
+
         /// <summary>
         /// Get Under Approval Tickets
         /// </summary>
@@ -472,6 +592,7 @@ namespace HelpDesk.API.Controllers
             JArray JReportList = JArray.Parse("[]");
             JArray JStatusList = JArray.Parse("[]");
             JArray JTicketList = JArray.Parse("[]");
+            JArray JTotalRecords = JArray.Parse("[]");
             if (result != null)
             {
                 if (!string.IsNullOrEmpty(result.datasetxml))
@@ -549,13 +670,30 @@ namespace HelpDesk.API.Controllers
                             if (!string.IsNullOrEmpty(str))
                                 JTicketList = strjarry;
                         }
+                        if (ds.Tables[4].Rows.Count > 0)
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[4]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JTotalRecords = strjarry;
+                        }
+                        else
+                        {
+                            var str = JsonConvert.SerializeObject(ds.Tables[4]);
+                            var strjarry = JArray.Parse(str);
+
+                            if (!string.IsNullOrEmpty(str))
+                                JTotalRecords = strjarry;
+                        }
                     }
                 }
             }
             JObject res1 = new JObject(new JProperty("TicketList", JTicketList),
                 new JProperty("EngineerList", JEngineerList),
                 new JProperty("ReportList", JReportList),
-                new JProperty("StatusList", JStatusList)
+                new JProperty("StatusList", JStatusList),
+                new JProperty("TotalRecords", JTotalRecords)
                         );
             msg = val == true ? "Success." : "Failure";
             JObject res = new JObject(new JProperty("Status", true),
@@ -713,6 +851,7 @@ namespace HelpDesk.API.Controllers
             string msg = "";
             bool val = true;
             JArray JDashboardCount = JArray.Parse("[]");
+            JArray JImageProfile = JArray.Parse("[]");
 
             if (result != null)
             {
@@ -750,7 +889,7 @@ namespace HelpDesk.API.Controllers
                                 var ServiceEngineerJson = item.SelectToken("ServiceEngineerJson");
                                 var ServiceEngineerJsonj = JArray.Parse(ServiceEngineerJson.ToString());
                                 item.Add(new JProperty("JServiceEngineerJson", ServiceEngineerJsonj));
-                                
+
                             }
 
                             if (!string.IsNullOrEmpty(str))
@@ -764,10 +903,22 @@ namespace HelpDesk.API.Controllers
                             if (!string.IsNullOrEmpty(str))
                                 JDashboardCount = strjarry;
                         }
+                        if (ds.Tables[1].Rows.Count > 0)
+                        {
+                            if (ds.Tables[1].Rows.Count > 0)
+                            {
+                                var str = JsonConvert.SerializeObject(ds.Tables[1]);
+                                var strjarry = JArray.Parse(str);
+
+                                if (!string.IsNullOrEmpty(str))
+                                    JImageProfile = strjarry;
+                            }
+                        }
                     }
                 }
             }
-            JObject res1 = new JObject(new JProperty("DashboardCount", JDashboardCount)
+            JObject res1 = new JObject(new JProperty("DashboardCount", JDashboardCount),
+                new JProperty("ImageProfile", JImageProfile)
                         );
             msg = val == true ? "Success." : "Failure";
             JObject res = new JObject(new JProperty("Status", true),

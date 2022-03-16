@@ -201,7 +201,45 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
-
+        public SqlDataReader UpdateTicketStatusUpload(TicketDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@Status",obj.Status),
+                new SqlParameter("@CreatedBy",obj.CreatedBy),
+                new SqlParameter("@TicketNumber",obj.TicketNumber),
+                new SqlParameter("@Comments",obj.Comments),
+                new SqlParameter("@ProblemDescription",obj.ProblemDescription),
+                new SqlParameter("@PPMScheduleURL",obj.PPMScheduleURL),
+                new SqlParameter("@Extention",obj.Extention),
+                new SqlParameter("@NextAction",obj.NextAction)
+                };
+                return DbConnector.ExecuteReader("uspUpdateTicketStatusUpload", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "UpdateTicketStatus -> UpdateTicketStatusUpload");
+                return null;
+            }
+        }
+        public SqlDataReader UpdateProfilePicture(TicketDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@UserId",obj.UserId),
+                new SqlParameter("@Image",obj.ProfileImage)
+                };
+                return DbConnector.ExecuteReader("uspAddProfilePicture", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "UpdateProfilePicture -> UpdateProfilePicture");
+                return null;
+            }
+        }
+        
         public SqlDataReader AddticketRating(TicketDTO obj)
         {
             try
@@ -671,6 +709,8 @@ namespace HelpDesk.API.DataAccess
         string GetSystemUserTicketsMobile(TicketDTO obj);
         string GetRejectedTickets(TicketDTO obj);
         SqlDataReader UpdateTicketStatus(TicketDTO obj);
+        SqlDataReader UpdateTicketStatusUpload(TicketDTO obj);
+        SqlDataReader UpdateProfilePicture(TicketDTO obj);
         SqlDataReader AddticketRating(TicketDTO obj);
         string TicketRatingList(TicketDTO obj);
 

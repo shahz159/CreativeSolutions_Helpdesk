@@ -35,6 +35,13 @@ namespace HelpDesk.API.Controllers
         }
 
         [ResponseType(typeof(UsersDTO))]
+        public IHttpActionResult NewInsertUserSignup(UsersDTO obj)
+        {
+            var result = service.NewUserSignup(obj);
+            return Ok(result);
+        }
+
+        [ResponseType(typeof(UsersDTO))]
         public IHttpActionResult NewUpdateUserInfo(UsersDTO obj)
         {
             var result = service.UpdateUserInfoBasic(obj);
@@ -98,7 +105,36 @@ namespace HelpDesk.API.Controllers
         }
 
         [ResponseType(typeof(UsersDTO))]
+        public IHttpActionResult NewUpdateUserPasswordM(UsersDTO obj)
+        {
+            var result = service.UpdateUserPassword(obj);
+            string msg = "";
+            bool val = false;
+
+            if (result.message != "0")
+                val = true;
+
+            if (obj.message == "1")
+                msg = "Password Changed Successfully.";
+            else
+                msg = "Something went wrong.";
+            msg = val == true ? "" : "Failure";
+            JObject res = new JObject(new JProperty("Status", val),
+                                        (new JProperty("Message", msg))
+                         );
+            return Ok(res);
+            //return Ok(result);
+        }
+
+        [ResponseType(typeof(UsersDTO))]
         public IHttpActionResult NewUpdateUserPasswordwithEmail(UsersDTO obj)
+        {
+            var result = service.UpdateUserPasswordWithEmail(obj);
+            return Ok(result);
+        }
+
+        [ResponseType(typeof(UsersDTO))]
+        public IHttpActionResult NewUpdateUserPasswordwithEmailM(UsersDTO obj)
         {
             var result = service.UpdateUserPasswordWithEmail(obj);
             return Ok(result);
@@ -338,6 +374,13 @@ namespace HelpDesk.API.Controllers
         public IHttpActionResult GetChangePasswordRequest(string email)
         {
             var detail = service.ChangePasswordRequest(email);
+            return Ok(detail);
+        }
+
+        [ResponseType(typeof(UsersDTO))]
+        public IHttpActionResult NewEmailNotificationWindowsService()
+        {
+            var detail = service.EmailNotificationService();
             return Ok(detail);
         }
 

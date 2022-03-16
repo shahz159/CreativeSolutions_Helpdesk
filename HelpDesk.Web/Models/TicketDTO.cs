@@ -8,12 +8,11 @@ namespace HelpDesk.Web.Models
 {
     public class TicketDTO
     {
+        public Utils.FileAttribs TicketDocuments { get; set; }
         public string RatingText { get; set; }
         public int SystemManagerId { get; set; }
-
         public long WarehouseStockId { get; set; }
         public long APPMId { get; set; }
-
         public string EnquiryDate { get; set; }
         public string MonthId { get; set; }
         public string YearId { get; set; }
@@ -78,6 +77,8 @@ namespace HelpDesk.Web.Models
         public IEnumerable<TicketDTO> ServiceEngineerListWithCountList { get; set; }
         //public IEnumerable<TicketDTO> ServiceEngineerList { get; set; }
         public IEnumerable<TicketDTO> UrlList { get; set; }
+        public string PPMScheduleURL { get; set; }
+        public string Extention { get; set; }
         public long UserId { get; set; }
         public string SerialNo { get; set; }
         public DateTime CreatedOn { get; set; }
@@ -93,6 +94,7 @@ namespace HelpDesk.Web.Models
 
         public int MappedWarehouseId { get; set; }
         public string Actioncomments { get; set; }
+        public string NextAction { get; set; }
         public string WarehouseJson { get; set; }
         public string ServiceEngineerListWithCount { get; set; }
         public string SparePartRequestJson { get; set; }
@@ -126,6 +128,7 @@ namespace HelpDesk.Web.Models
         public string SupervisorEmail { get; set; }
         public string SupervisorContact { get; set; }
         public string ServiceEngineerJson { get; set; }
+        public string NewResolveAverageTime { get; set; }
         public string StationName { get; set; }
         public string ManagerConfirmationDate { get; set; }
         public string TicketClosedDate { get; set; }
@@ -232,6 +235,12 @@ namespace HelpDesk.Web.Models
         public string ContractExpiryDate { get; set; }
         public string RatingDescription { get; set; }
         public int PeriodDays { get; set; }
+
+        public string EnquiryType { get; set; }
+        public string CustomerName { get; set; }
+        public string CustomerEmail { get; set; }
+        public string CustomerPhone { get; set; }
+        public string Enquiry { get; set; }
 
     }
 }

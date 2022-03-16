@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
-    .kt-widget.kt-widget--user-profile-1 .kt-widget__body .kt-widget__content .kt-widget__info{
+    .kt-widget.kt-widget--user-profile-1 .kt-widget__body .kt-widget__content .kt-widget__info {
         align-items: start;
     }
 </style>
@@ -18,17 +18,26 @@
                 <div class="kt-portlet kt-portlet--height-fluid-">
                     <div class="kt-portlet__head  kt-portlet__head--noborder">
                         <div class="kt-portlet__head-label">
-                            <h3 class="kt-portlet__head-title">
-                            </h3>
+                            <h3 class="kt-portlet__head-title"></h3>
                         </div>
                     </div>
                     <div class="kt-portlet__body kt-portlet__body--fit-y">
-
                         <!--begin::Widget -->
                         <div class="kt-widget kt-widget--user-profile-1">
                             <div class="kt-widget__head">
                                 <div class="kt-widget__media">
-                                    <img src="~/assets/images/default.jpg" alt="image">
+                                    @*<img src="~/assets/images/default.jpg" alt="image">*@
+                                    <div class="kt-avatar kt-avatar--outline" id="kt_user_avatar_1">
+                                        <div class="kt-avatar__holder" style="background-image: url(@Model.ProfileImageStaticUrl@item.ProfileImage)"></div>
+                                        <label class="kt-avatar__upload" data-toggle="kt-tooltip" title="" data-original-title="Change avatar">
+                                            <i class="fa fa-pen"></i>
+                                            <input id="profileimage" type="file" name="profile_avatar" accept=".png, .jpg, .jpeg" onchange="viewbutton()">
+                                        </label>
+                                        <span class="kt-avatar__cancel" data-toggle="kt-tooltip" title="" data-original-title="Cancel avatar">
+                                            <i class="fa fa-times"></i>
+                                        </span>
+                                        <a href="#" id="btnupload" onclick="updateimage()" class="btn btn-info btn-block btn-sm" style="display:none;">Update Image</a>
+                                    </div>
                                 </div>
                                 <div class="kt-widget__content">
                                     <div class="kt-widget__section">
@@ -80,13 +89,13 @@
                                     <div class="kt-widget__info">
                                         <span class="kt-widget__label">Products:</span>
                                         <span class="kt-widget__data text-right">
-                                                @if (Model.ProductList.Count() > 0)
+                                            @if (Model.ProductList.Count() > 0)
+                                            {
+                                                foreach (var item_prct in Model.ProductList)
                                                 {
-                                                    foreach (var item_prct in Model.ProductList)
-                                                    {
-                                                        @item_prct.ProductName <br />
-                                                    }
+                                                    @item_prct.ProductName <br />
                                                 }
+                                            }
                                             @*Script Pro, GPI, JVM Repacking, Palex, Talyst*@
                                         </span>
 
@@ -95,29 +104,65 @@
                                 </div>
 
                             </div>
-
                         </div>
-
-
                         <!--end::Widget -->
-
                     </div>
-
                 </div>
-
                 <!--end:: Widgets/Applications/User/Profile1-->
-
             </div>
-
         </div>
-
     </div>
 }
+@section  Scripts{
+    <script src="~/assets/js/ktavatar.js"></script>
+    <script>
+        document.getElementById("loader").style.display = "none";
 
+        function viewbutton() {
+            $('#btnupload').show();
+        }
 
-<script>
-    document.getElementById("loader").style.display = "none";
-</script>
+        function updateimage() {
+            document.getElementById("loader").style.display = "block";
+
+            var fileUpload = $("#profileimage").get(0);
+            var files = fileUpload.files;
+            var file = document.getElementById("profileimage").src;
+            //alert(file);
+            // Create FormData object
+            var fileData = new FormData();
+
+            // Looping over all files and add it to FormData object
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+             $.ajax({
+                type: 'POST',
+                url: '@Url.Action("UpdateUserProfile")', // we are calling json method
+                dataType: 'json',
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
+                success: function (data) {
+                    debugger
+                    var v = data.success;
+                    if (v == true) {
+                        document.getElementById("loader").style.display = "none";
+                    }
+                    else {
+                        document.getElementById("loader").style.display = "none";
+                        alert('Some thing went wrong');
+                    }
+                },
+                error: function (ex) {
+                    document.getElementById("loader").style.display = "none";
+                    alert('Failed to retrieve details.' + ex);
+                }
+            });
+        }
+
+    </script>
+}
 
 
 

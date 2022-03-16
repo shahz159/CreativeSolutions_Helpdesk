@@ -252,7 +252,7 @@ namespace HelpDesk.Web.Controllers
                         obj.AccountId = 0;
                         obj.ProductId = 0;
                         obj.pageNumber = 1;
-                        obj.PageSize = 10;
+                        obj.PageSize = 5;
                         obj.message = "";
                         obj.All = true;
                         obj.IsContract = false;
@@ -347,7 +347,7 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
-        public async Task<ActionResult> AssetListPVs(int pagenumber, int accountId, int productId, string search, bool isContract, bool All)
+        public async Task<ActionResult> AssetListPVs(int pagenumber, int accountId, int productId, string search, bool isContract, bool All,int PageSize)
         {
             string ses = Convert.ToString(Session["SSUserId"]);
             if (string.IsNullOrEmpty(ses))
@@ -373,7 +373,7 @@ namespace HelpDesk.Web.Controllers
                         //obj.CompanyId = comid;
                         obj.CreatedBy = userid;
                         obj.RoleId = roleid;
-                        obj.PageSize = 10;
+                        obj.PageSize = PageSize;
                         obj.pageNumber = pagenumber;
                         obj.AccountId = accountId;
                         obj.ProductId = productId;
@@ -425,7 +425,7 @@ namespace HelpDesk.Web.Controllers
                                     {
                                         obj.TotalRecords = int.Parse(ds.Tables[3].Rows[0]["TotalRecords"].ToString());
                                         long toc = obj.TotalRecords;
-                                        obj.PageSize = 20;
+                                        obj.PageSize = PageSize;
                                         decimal d = decimal.Parse(toc.ToString());
                                         decimal e = decimal.Parse(obj.PageSize.ToString());
                                         decimal f = d / e;
@@ -1006,6 +1006,45 @@ namespace HelpDesk.Web.Controllers
                         obj.Canister = quantity;
                         bool status = false;
                         HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/AssetAPI/NewJVMOrders", obj);
+                        if (responseMessage.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                            var docs = JsonConvert.DeserializeObject<TicketDTO>(responseData);
+                            string msg = docs.message;
+                            if (msg == "1")
+                                status = true;
+                            else if (msg == "2")
+                                status = true;
+                        }
+                        return Json(new { success = status });
+                    }
+                    catch (Exception ex)
+                    {
+                        TicketDTO obj = new TicketDTO();
+                        return Json(obj.ModelList);
+                    }
+                }
+            }
+        }
+
+        public async Task<ActionResult> NewAssetModelRemove(long AMModelId)
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+                return RedirectToAction("Index", "Login");
+            else
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        long CreatedBy = long.Parse(Session["SSUserId"].ToString());
+                        AssetsDTO obj = new AssetsDTO();
+                        obj.CreatedBy = CreatedBy;
+                        obj.AMModelId = AMModelId;
+                        bool status = false;
+                        HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/AssetAPI/NewAssetModelRemove", obj);
                         if (responseMessage.IsSuccessStatusCode)
                         {
                             var responseData = responseMessage.Content.ReadAsStringAsync().Result;

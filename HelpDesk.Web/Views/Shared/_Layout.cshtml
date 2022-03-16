@@ -36,6 +36,37 @@
             color: #7d7d7d;
             margin-bottom: 20px;
         }
+
+        .scroll-250 {
+            height: 180px;
+            overflow-y: scroll;
+        }
+            /* width */
+            .scroll-250::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            /* Track */
+            .scroll-250::-webkit-scrollbar-track {
+                background: #f1f1f1;
+            }
+
+            /* Handle */
+            .scroll-250::-webkit-scrollbar-thumb {
+                background: #ccc;
+                border-radius: 8px;
+            }
+
+                /* Handle on hover */
+                .scroll-250::-webkit-scrollbar-thumb:hover {
+                    background: #ccc;
+                }
+
+        .roundedbtn {
+            font-size: 16px;
+            font-weight: 400;
+            color: #6f6f6f;
+        }
     </style>
 </head>
 
@@ -167,11 +198,13 @@
             <span></span>
         </div>
     </div>
-
+    @{
+        string SSProfileImage = Session["SSprofileimage"].ToString();
+    }
     <!-- begin:: Header Mobile  -->
     <div id="kt_header_mobile" class="kt-header-mobile  kt-header-mobile--fixed ">
         <div class="kt-header-mobile__brand">
-            <a class="kt-header-mobile__logo" href="?page=index" >
+            <a class="kt-header-mobile__logo" href="?page=index">
                 <img src="~/assets/images/ahc_new_logo.png" height="35" />
             </a>
         </div>
@@ -208,12 +241,20 @@
                                 <!--begin: Language bar -->
                                 <div class="kt-header__topbar-item kt-header__topbar-item--user">
                                     @*<div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="10px,10px">
-                                        <span class="kt-header__topbar-icon kt-header__topbar-icon--brand">
-                                            <img class="kt-hidden-" alt="Pic" src="~/assets/images/default.jpg" />
-                                        </span>
-                                    </div>*@
+                                            <span class="kt-header__topbar-icon kt-header__topbar-icon--brand">
+                                                <img class="kt-hidden-" alt="Pic" src="~/assets/images/default.jpg" />
+                                            </span>
+                                        </div>*@
                                     <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="10px,10px">
-                                        <img class="kt-hidden-" alt="Pic" src="~/assets/images/default.jpg" />
+                                        @if (SSProfileImage != "NA")
+                                        {
+                                            <img class="kt-hidden-" alt="Pic" src="@SSProfileImage" />
+                                        }
+                                        else
+                                        {
+                                            <img class="kt-hidden-" alt="Pic" src="~/assets/images/default.jpg" />
+                                        }
+
                                     </div>
 
                                     <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim">
@@ -280,6 +321,18 @@
                                         @{
 
                                             List<MenusDTO> objlt = (List<MenusDTO>)Session["SSMenusLst"];
+                                            int RoleId = (int)Session["SSRoleId"];
+
+                                            long SSNewUser = (long)Session["SSNewUser"];
+                                            long SSWarrantyExpiredApprovalCount = (long)Session["SSWarrantyExpiredApprovalCount"];
+                                            long SSAssetRenewalCount = (long)Session["SSAssetRenewalCount"];
+                                            long SSAssetApprovalCount = (long)Session["SSAssetApprovalCount"];
+                                            long SSInventoryAdjustment = (long)Session["SSInventoryAdjustment"];
+                                            long SSPPMDatesApprovalCount = (long)Session["SSPPMDatesApprovalCount"];
+                                            long SSSparePartRequestCount = (long)Session["SSSparePartRequestCount"];
+
+                                            long TotalCountII = SSWarrantyExpiredApprovalCount + SSSparePartRequestCount;
+                                            long TotalCount = SSNewUser + SSWarrantyExpiredApprovalCount + SSAssetRenewalCount + SSAssetApprovalCount + SSInventoryAdjustment + SSPPMDatesApprovalCount + SSSparePartRequestCount;
                                         }
                                         @*<li class="kt-menu__item" aria-haspopup="true"><a href="~/Home/Dashboard" class="kt-menu__link "><i class="kt-menu__link-icon fa fa-ticket-alt"></i><span class="kt-menu__link-text">Dashboard</span></a></li>*@
                                         @if (objlt != null)
@@ -291,48 +344,151 @@
                                                 if (cntone > 0)
                                                 {
                                                     <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
-                                                        <a href="javascript:;" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon fa fa-check-circle"></i><span class="kt-menu__link-text">@item.MenuName</span><i class="kt-menu__ver-arrow la la-angle-right"></i></a>
+                                                        <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
+                                                            <i class="kt-menu__link-icon fa fa-check-circle"></i><span class="kt-menu__link-text">
+                                                                @item.MenuName
+
+                                                            </span>
+                                                            @if (item.MenuId == 1 && RoleId == 502)
+                                                            {
+                                                                <span class="d-flex align-items-center roundedbtn">(@TotalCountII)</span>
+                                                            }
+                                                            else if (item.MenuId == 1 && RoleId == 501)
+                                                            {
+                                                                <span class="d-flex align-items-center roundedbtn">(@TotalCount)</span>
+                                                            }
+
+                                                            <i class="kt-menu__ver-arrow la la-angle-right"></i>
+                                                        </a>
                                                         <div class="kt-menu__submenu">
+
                                                             <span class="kt-menu__arrow"></span>
-                                                            <ul class="kt-menu__subnav">
-                                                                @{
-                                                                    var cnt = objlt.Where(x => x.ParentId == item.MenuId).ToList();
-                                                                    foreach (var subitem in cnt)
-                                                                    {
-                                                                        if (subitem.MenuId == 1039 || subitem.MenuId == 1041 || subitem.MenuId == 1042 || subitem.MenuId == 1043 || subitem.MenuId == 1044 || subitem.MenuId == 1045 || subitem.MenuId == 1046 || subitem.MenuId == 1047 || subitem.MenuId==1052)
-                                                                        {
-                                                                            <li class="kt-menu__item">
-                                                                                <a href="@Url.Action(subitem.ActionName,subitem.ControllerName)" target="_blank" class="kt-menu__link">
-                                                                                    <i class="kt-menu__link-bullet kt-menu__link-bullet--dot">
-                                                                                        <span></span>
-                                                                                    </i>
-                                                                                    <span class="kt-menu__link-text">@subitem.MenuName</span>
-                                                                                </a>
-                                                                            </li>
-                                                                        }
+                                                            @if (item.MenuId == 1040)
+                                                            {
 
-                                                                        else
+                                                                <ul class="kt-menu__subnav scroll-250">
+                                                                    @{
+                                                                        var cnt = objlt.Where(x => x.ParentId == item.MenuId).ToList();
+                                                                        foreach (var subitem in cnt)
                                                                         {
-                                                                            <li class="kt-menu__item">
-                                                                                <a href="@Url.Action(subitem.ActionName,subitem.ControllerName)" class="kt-menu__link">
-                                                                                    <i class="kt-menu__link-bullet kt-menu__link-bullet--dot">
-                                                                                        <span></span>
-                                                                                    </i>
-                                                                                    @*@Html.ActionLink(subitem.MenuName, subitem.ActionName, subitem.ControllerName, null, new { target = "_blank", @class = "kt-menu__link-text" })*@
-                                                                                    <span class="kt-menu__link-text">@subitem.MenuName</span>
-                                                                                </a>
-                                                                            </li>
-                                                                        }
+                                                                            if (subitem.MenuId == 1039 || subitem.MenuId == 1041 || subitem.MenuId == 1042 || subitem.MenuId == 1043 || subitem.MenuId == 1044 || subitem.MenuId == 1045 || subitem.MenuId == 1046 || subitem.MenuId == 1047 || subitem.MenuId == 1052 || subitem.MenuId == 1051)
+                                                                            {
+                                                                                <li class="kt-menu__item">
+                                                                                    <a href="@Url.Action(subitem.ActionName,subitem.ControllerName)" target="_blank" class="kt-menu__link">
+                                                                                        <i class="kt-menu__link-bullet kt-menu__link-bullet--dot">
+                                                                                            <span></span>
+                                                                                        </i>
+                                                                                        <span class="kt-menu__link-text">
+                                                                                            @subitem.MenuName
+                                                                                        </span>
+                                                                                    </a>
+                                                                                </li>
+                                                                            }
 
+                                                                            else
+                                                                            {
+                                                                                <li class="kt-menu__item">
+                                                                                    <a href="@Url.Action(subitem.ActionName,subitem.ControllerName)" class="kt-menu__link">
+                                                                                        <i class="kt-menu__link-bullet kt-menu__link-bullet--dot">
+                                                                                            <span></span>
+                                                                                        </i>
+                                                                                        @*@Html.ActionLink(subitem.MenuName, subitem.ActionName, subitem.ControllerName, null, new { target = "_blank", @class = "kt-menu__link-text" })*@
+                                                                                        <span class="kt-menu__link-text">@subitem.MenuName</span>
+                                                                                        @if (subitem.MenuId == 5)
+                                                                                        {
+                                                                                            <span class="d-flex align-items-center roundedbtn">(@SSNewUser)</span>
+                                                                                        }
+                                                                                        else if (subitem.MenuId == 22)
+                                                                                        {
+                                                                                            <span class="d-flex align-items-center roundedbtn">(@SSWarrantyExpiredApprovalCount)</span>
+                                                                                        }
+                                                                                        else if (subitem.MenuId == 36)
+                                                                                        {
+                                                                                            <span class="d-flex align-items-center roundedbtn">(@SSAssetRenewalCount)</span>
+                                                                                        }
+                                                                                        else if (subitem.MenuId == 27)
+                                                                                        {
+                                                                                            <span class="d-flex align-items-center roundedbtn">(@SSAssetApprovalCount)</span>
+                                                                                        }
+                                                                                        else if (subitem.MenuId == 28)
+                                                                                        {
+                                                                                            <span class="d-flex align-items-center roundedbtn">(@SSInventoryAdjustment)</span>
+                                                                                        }
+                                                                                        else if (subitem.MenuId == 30)
+                                                                                        {
+                                                                                            <span class="d-flex align-items-center roundedbtn">(@SSPPMDatesApprovalCount)</span>
+                                                                                        }
+                                                                                    </a>
+                                                                                </li>
+                                                                            }
+
+                                                                        }
                                                                     }
-                                                                }
-                                                            </ul>
+                                                                </ul>
+                                                            }
+                                                            else
+                                                            {
+                                                                <ul class="kt-menu__subnav">
+                                                                    @{
+                                                                        var cnt = objlt.Where(x => x.ParentId == item.MenuId).ToList();
+                                                                        foreach (var subitem in cnt)
+                                                                        {
+                                                                            if (subitem.MenuId == 1039 || subitem.MenuId == 1041 || subitem.MenuId == 1042 || subitem.MenuId == 1043 || subitem.MenuId == 1044 || subitem.MenuId == 1045 || subitem.MenuId == 1046 || subitem.MenuId == 1047 || subitem.MenuId == 1052 || subitem.MenuId == 1051)
+                                                                            {
+                                                                                <li class="kt-menu__item">
+                                                                                    <a href="@Url.Action(subitem.ActionName,subitem.ControllerName)" target="_blank" class="kt-menu__link">
+                                                                                        <i class="kt-menu__link-bullet kt-menu__link-bullet--dot">
+                                                                                            <span></span>
+                                                                                        </i>
+                                                                                        <span class="kt-menu__link-text">@subitem.MenuName</span>
+                                                                                    </a>
+                                                                                </li>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <li class="kt-menu__item">
+                                                                                    <a href="@Url.Action(subitem.ActionName,subitem.ControllerName)" class="kt-menu__link">
+                                                                                        <i class="kt-menu__link-bullet kt-menu__link-bullet--dot">
+                                                                                            <span></span>
+                                                                                        </i>
+                                                                                        @*@Html.ActionLink(subitem.MenuName, subitem.ActionName, subitem.ControllerName, null, new { target = "_blank", @class = "kt-menu__link-text" })*@
+                                                                                        <span class="kt-menu__link-text">@subitem.MenuName</span>
+                                                                                        @if (subitem.MenuId == 5)
+                                                                                        {
+                                                                                            <span class="d-flex align-items-center roundedbtn">(@SSNewUser)</span>
+                                                                                        }
+                                                                                        else if (subitem.MenuId == 22)
+                                                                                        {
+                                                                                            <span class="d-flex align-items-center roundedbtn">(@SSWarrantyExpiredApprovalCount)</span>
+                                                                                        }
+                                                                                        else if (subitem.MenuId == 36)
+                                                                                        {
+                                                                                            <span class="d-flex align-items-center roundedbtn">(@SSAssetRenewalCount)</span>
+                                                                                        }
+                                                                                        else if (subitem.MenuId == 27)
+                                                                                        {
+                                                                                            <span class="d-flex align-items-center roundedbtn">(@SSAssetApprovalCount)</span>
+                                                                                        }
+                                                                                        else if (subitem.MenuId == 28)
+                                                                                        {
+                                                                                            <span class="d-flex align-items-center roundedbtn">(@SSInventoryAdjustment)</span>
+                                                                                        }
+                                                                                        else if (subitem.MenuId == 30)
+                                                                                        {
+                                                                                            <span class="d-flex align-items-center roundedbtn">(@SSPPMDatesApprovalCount)</span>
+                                                                                        }
+                                                                                    </a>
+                                                                                </li>
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                </ul>
+                                                            }
                                                         </div>
                                                     </li>
                                                 }
                                                 else
                                                 {
-
                                                     <li class="kt-menu__item">
                                                         <a href="@Url.Action(item.ActionName,item.ControllerName)" class="kt-menu__link">
                                                             <i class="kt-menu__link-icon fa fa-ticket-alt"></i>
@@ -340,76 +496,72 @@
                                                         </a>
                                                     </li>
                                                 }
-
-
                                             }
                                         }
-
-
                                         @*kt-nav__item--active*@
                                         @*<li class="kt-menu__item" aria-haspopup="true"><a href="~/Home/Dashboard" class="kt-menu__link "><i class="kt-menu__link-icon fa fa-ticket-alt"></i><span class="kt-menu__link-text">Dashboard</span></a></li>
 
-                                        <li class="kt-menu__item" aria-haspopup="true"><a href="~/Home/DetailsList" class="kt-menu__link "><i class="kt-menu__link-icon fa fa-ticket-alt"></i><span class="kt-menu__link-text">Tickets</span></a></li>
+                                            <li class="kt-menu__item" aria-haspopup="true"><a href="~/Home/DetailsList" class="kt-menu__link "><i class="kt-menu__link-icon fa fa-ticket-alt"></i><span class="kt-menu__link-text">Tickets</span></a></li>
 
 
-                                        <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
-                                            <a href="javascript:;" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon fa fa-check-circle"></i><span class="kt-menu__link-text">Approvals</span><i class="kt-menu__ver-arrow la la-angle-right"></i></a>
-                                            <div class="kt-menu__submenu ">
-                                                <span class="kt-menu__arrow"></span>
-                                                <ul class="kt-menu__subnav">
-                                                    <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">User Approval</span></a></li>
-                                                    <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Equipment Approval</span></a></li>
-                                                </ul>
-                                            </div>
-                                        </li>
+                                            <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                                                <a href="javascript:;" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon fa fa-check-circle"></i><span class="kt-menu__link-text">Approvals</span><i class="kt-menu__ver-arrow la la-angle-right"></i></a>
+                                                <div class="kt-menu__submenu ">
+                                                    <span class="kt-menu__arrow"></span>
+                                                    <ul class="kt-menu__subnav">
+                                                        <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">User Approval</span></a></li>
+                                                        <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Equipment Approval</span></a></li>
+                                                    </ul>
+                                                </div>
+                                            </li>
 
-                                        <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
-                                            <a href="javascript:;" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon fa fa-dolly"></i><span class="kt-menu__link-text">Asset Management</span><i class="kt-menu__ver-arrow la la-angle-right"></i></a>
-                                            <div class="kt-menu__submenu ">
-                                                <span class="kt-menu__arrow"></span>
-                                                <ul class="kt-menu__subnav">
-                                                    <li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true">
-                                                        <span class="kt-menu__link"><span class="kt-menu__link-text">Asset Management</span></span>
-                                                    </li>
-                                                    <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Asset List</span></a></li>
-                                                    <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Spare Parts</span></a></li>
-                                                </ul>
-                                            </div>
-                                        </li>*@
+                                            <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                                                <a href="javascript:;" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon fa fa-dolly"></i><span class="kt-menu__link-text">Asset Management</span><i class="kt-menu__ver-arrow la la-angle-right"></i></a>
+                                                <div class="kt-menu__submenu ">
+                                                    <span class="kt-menu__arrow"></span>
+                                                    <ul class="kt-menu__subnav">
+                                                        <li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true">
+                                                            <span class="kt-menu__link"><span class="kt-menu__link-text">Asset Management</span></span>
+                                                        </li>
+                                                        <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Asset List</span></a></li>
+                                                        <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Spare Parts</span></a></li>
+                                                    </ul>
+                                                </div>
+                                            </li>*@
 
                                         @*<li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
-                                            <a href="javascript:;" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon fa fa-dolly"></i><span class="kt-menu__link-text">User Master</span><i class="kt-menu__ver-arrow la la-angle-right"></i></a>
-                                            <div class="kt-menu__submenu ">
-                                                <span class="kt-menu__arrow"></span>
-                                                <ul class="kt-menu__subnav">
-                                                    <li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true">
-                                                        <span class="kt-menu__link"><span class="kt-menu__link-text">User Master</span></span>
-                                                    </li>
-                                                    <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Roles</span></a></li>
-                                                    <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Users</span></a></li>
-                                                    <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Mapping User</span></a></li>
-                                                    <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Role Access</span></a></li>
-                                                </ul>
-                                            </div>
-                                        </li>
+                                                <a href="javascript:;" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon fa fa-dolly"></i><span class="kt-menu__link-text">User Master</span><i class="kt-menu__ver-arrow la la-angle-right"></i></a>
+                                                <div class="kt-menu__submenu ">
+                                                    <span class="kt-menu__arrow"></span>
+                                                    <ul class="kt-menu__subnav">
+                                                        <li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true">
+                                                            <span class="kt-menu__link"><span class="kt-menu__link-text">User Master</span></span>
+                                                        </li>
+                                                        <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Roles</span></a></li>
+                                                        <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Users</span></a></li>
+                                                        <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Mapping User</span></a></li>
+                                                        <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Role Access</span></a></li>
+                                                    </ul>
+                                                </div>
+                                            </li>
 
-                                        <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
-                                            <a href="javascript:;" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon fa fa-dolly"></i><span class="kt-menu__link-text">Master Forms</span><i class="kt-menu__ver-arrow la la-angle-right"></i></a>
-                                            <div class="kt-menu__submenu ">
-                                                <span class="kt-menu__arrow"></span>
-                                                <ul class="kt-menu__subnav">
-                                                    <li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true">
-                                                        <span class="kt-menu__link"><span class="kt-menu__link-text">Portlets</span></span>
-                                                    </li>
-                                                    <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Accounts</span></a></li>
-                                                    <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Products</span></a></li>
-                                                    <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Models</span></a></li>
-                                                    <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Warehouse</span></a></li>
-                                                    <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Region</span></a></li>
-                                                    <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">City</span></a></li>
-                                                </ul>
-                                            </div>
-                                        </li>*@
+                                            <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                                                <a href="javascript:;" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon fa fa-dolly"></i><span class="kt-menu__link-text">Master Forms</span><i class="kt-menu__ver-arrow la la-angle-right"></i></a>
+                                                <div class="kt-menu__submenu ">
+                                                    <span class="kt-menu__arrow"></span>
+                                                    <ul class="kt-menu__subnav">
+                                                        <li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true">
+                                                            <span class="kt-menu__link"><span class="kt-menu__link-text">Portlets</span></span>
+                                                        </li>
+                                                        <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Accounts</span></a></li>
+                                                        <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Products</span></a></li>
+                                                        <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Models</span></a></li>
+                                                        <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Warehouse</span></a></li>
+                                                        <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Region</span></a></li>
+                                                        <li class="kt-menu__item "><a href="#" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">City</span></a></li>
+                                                    </ul>
+                                                </div>
+                                            </li>*@
 
                                     </ul>
                                 </div>
@@ -438,8 +590,8 @@
                             &copy; 2020 <a href="#" target="_blank">AHC @@ All Rights Reserved.</a>
                         </div>
                         @*<div class="kt-footer__copyright">
-                            Powered By <a href="https://www.creative-sols.com" target="_blank">Creative Solutions</a>
-                        </div>*@
+                                Powered By <a href="https://www.creative-sols.com" target="_blank">Creative Solutions</a>
+                            </div>*@
                     </div>
                 </div>
             </div>

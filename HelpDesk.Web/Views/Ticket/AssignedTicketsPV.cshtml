@@ -4,8 +4,51 @@
 
 
 <div class="row mt-4 align-content-center vertical-align-middle mb-3">
-    <div class="col-lg-8 col-md-6 kt-margin-b-20-tablet-and-mobile">
-        <p class="mt-3 mb-0">Total Records : @Model.TotalRecords</p>
+    @*<div class="col-lg-8 col-md-6 kt-margin-b-20-tablet-and-mobile">
+            <p class="mt-3 mb-0">Total Records : @Model.TotalRecords</p>
+        </div>*@
+    <div class="col-md-8 kt-margin-b-20-tablet-and-mobile">
+        <div class="kt-form__group">
+            <div class="kt-form__control entries-dropdown" style="margin-bottom: -35px;">
+                <label>Show</label>
+                @*<a>@Model.TotalRecords</a>*@
+                <select id="ddlpagesize">
+                    @if (Model.PageSize == 5)
+                    {
+                        <option selected>5</option>
+                    }
+                    else
+                    {
+                        <option>5</option>
+                    }
+                    @if (Model.PageSize == 25)
+                    {
+                        <option selected>25</option>
+                    }
+                    else
+                    {
+                        <option>25</option>
+                    }
+                    @if (Model.PageSize == 50)
+                    {
+                        <option selected>50</option>
+                    }
+                    else
+                    {
+                        <option>50</option>
+                    }
+                    @if (Model.PageSize == 100)
+                    {
+                        <option selected>100</option>
+                    }
+                    else
+                    {
+                        <option>100</option>
+                    }
+                </select>
+                <label>entries</label>
+            </div>
+        </div>
     </div>
     <div class="col-lg-4 col-md-6 kt-margin-b-20-tablet-and-mobile">
         <div class="kt-form__group">
@@ -66,8 +109,11 @@
 
     </tbody>
 </table>
-
-<ul id="pagination-demo" class="pagination"></ul>
+<p>
+    Showing
+    <span id="li_pagenumber">1</span> to <span id="li_pagelistcount">@Model.PageSize</span> of @Model.TotalRecords entries
+</p>
+<ul style="float:right;" id="pagination-demo" class="pagination"></ul>
 
 
 <input type="hidden" id="hdnToPagesCountForPagination" value="@Model.pagingNumber" />
@@ -119,8 +165,25 @@
                     statusid = $('#ddlStatus').val();
                     $('#hdnSelectedValues').val(3);
                 }
-                BindFiltersData(userid, statusid, accountid, PageNumber)
+                var PageSize = $('#ddlpagesize').val();
+                BindFiltersData(userid, statusid, accountid, PageNumber, PageSize)
             }
+        });
+        $('#ddlpagesize').change(function (event) {
+            var val = $('#hdnSelectedValues').val();
+            var accountId = $('#ddlAccounts').val();
+            if (accountId == undefined || accountId == "") {
+                accountId = 0
+            }
+            var productId = $('#ddlProduct').val();
+            if (productId == undefined || productId == "") {
+                productId = 0
+            }
+            var search = $('#txtsearch').val();
+            if (search == null) {
+                search = "";
+            }
+            AssetList(1, accountId, productId, search)
         });
     });
 </script>

@@ -101,5 +101,6 @@ namespace HelpDesk.Web.Models
 
         public int PageSize { get; set; }
         public int pageNumber { get; set; }
+        public long AMModelId { get; set; }
     }
 }

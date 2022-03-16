@@ -48,11 +48,13 @@
         .rating:hover > input:checked ~ label:before {
             opacity: 0.4
         }
+
     .checked {
         color: orange;
     }
+
     .ratingclr {
-        color:#d7d7d7;
+        color: #d7d7d7;
     }
 </style>
 <div>
@@ -193,7 +195,19 @@
                                                 <i class="la la-check"></i>
                                                 Service Report
                                             </a>
+
+                                            if (item.Status != 1015 && item.Status != 6 && item.Status != 7) /*&& item.Status != 7*/
+                                            {
+                                                <a href="#" onclick="UpdateStatus(1015)" class="btn btn-warning btn-elevate btn-icon-sm">
+                                                    <i class="la la-crosshairs"></i>
+                                                    de-activate
+                                                </a>
+                                            }
                                         }
+                                        @*@if (item.Status == 1015)
+                                        {
+                                        <p style="margin-bottom: 0px;" class="btn btn-warning btn-elevate btn-icon-sm">de-activated</p>
+                                        }*@
                                     </div>
                                 </div>
                             </div>
@@ -403,16 +417,16 @@
                                                         int rtcnt = 5 - item.RatingCount;
                                                         for (int i = 0; i < rtcnt; i++)
                                                         {
-                                                            <span class="fa fa-star"></span>
+                                                            <span class="fa fa-star-o"></span>
                                                         }
                                                     }
                                                 }
                                                 <p>@item.RatingText</p>
                                                 @*<span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star"></span>
-        <span class="fa fa-star"></span>*@
+                                                    <span class="fa fa-star checked"></span>
+                                                    <span class="fa fa-star checked"></span>
+                                                    <span class="fa fa-star"></span>
+                                                    <span class="fa fa-star"></span>*@
                                             </div>
                                         </div>
                                     </div>
@@ -491,13 +505,13 @@
                         <div class="kt-portlet__body">
                             <table class="ticket-full-details table table-borderless table-sm">
                                 @*<tr>
-                                        <td>Created By.</td>
-                                        <td>: @item.CreatedUser</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Created On.</td>
-                                        <td>: @item.CreatedOn.ToString("dd-MM-yyyy HH:mm")</td>
-                                    </tr>*@
+                    <td>Created By.</td>
+                    <td>: @item.CreatedUser</td>
+                </tr>
+                <tr>
+                    <td>Created On.</td>
+                    <td>: @item.CreatedOn.ToString("dd-MM-yyyy HH:mm")</td>
+                </tr>*@
                                 <tr>
                                     <td>Ticket No.</td>
                                     <td>: @item.TicketNumber</td>
@@ -556,7 +570,7 @@
                         <div class="kt-portlet__head">
                             <div class="kt-portlet__head-label">
                                 <h3 class="kt-portlet__head-title">
-                                    Supervisor Details
+                                   AHC Supervisor Details
                                 </h3>
                             </div>
                         </div>
@@ -573,6 +587,29 @@
                                 <tr>
                                     <td>Contact Number </td>
                                     <td>: @item.SupervisorContact</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="kt-portlet__head">
+                            <div class="kt-portlet__head-label">
+                                <h3 class="kt-portlet__head-title">
+                                   Customer Manager Details
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="kt-portlet__body">
+                            <table class="ticket-full-details table table-borderless table-sm">
+                                <tr>
+                                    <td>Name </td>
+                                    <td>: @item.ManagerFullName</td>
+                                </tr>
+                                <tr>
+                                    <td>Email </td>
+                                    <td>: @item.ManagerEmail</td>
+                                </tr>
+                                <tr>
+                                    <td>Contact Number </td>
+                                    <td>: @item.ManagerMobile</td>
                                 </tr>
                             </table>
                         </div>
@@ -621,7 +658,35 @@
                                 }
                             </div>
                         }
-
+                        @if (Model.PPMScheduleURL != "0")
+                        {
+                            <div class="kt-portlet__head">
+                                <div class="kt-portlet__head-label">
+                                    <h3 class="kt-portlet__head-title">
+                                        Bussiness Document
+                                    </h3>
+                                </div>
+                            </div>
+                            <div class="row p-4">
+                                <div class="col-md-4">
+                                    <a href="@Model.PPMScheduleURL" target="_blank" class="text-dark">
+                                        <i class="fa fa-file fa-3x" aria-hidden="true"></i>
+                                        @*@if (Model.Extention == ".xlxs" || Model.Extention == ".csv" || Model.Extention == ".xlsb" || Model.Extention == ".xltx" || Model.Extention == ".xlt" || Model.Extention == ".xls"
+                                   || Model.Extention == ".doc" || Model.Extention == ".docx"
+                                   )
+                        {
+                            <iframe src="@Model.PPMScheduleURL" width="500" height="500"></iframe>
+                        }
+                        else
+                        {
+                            <embed src="@Model.PPMScheduleURL" target="_blank" width="500" height="375"
+                                   type="application/pdf">
+                        }*@
+                                        <h6 class="mt-2">Document</h6>
+                                    </a>
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
                 <div class="col-xl-12">
@@ -681,6 +746,7 @@
                                         Service Report
                                     </h3>
                                 </div>
+
                                 <div class="kt-portlet__head-toolbar">
                                     <div class="kt-portlet__head-wrapper">
                                         <div class="kt-portlet__head-actions">
@@ -690,7 +756,7 @@
                                                     <i class="la la-check"></i>
                                                     Closed
                                                 </a>
-                                                <a href="@Url.Action("ServiceReport","Ticket",new { id = item.TicketNumber })" target="_blank" class="btn btn-brand btn-elevate btn-icon-sm">
+                                                <a href="@Url.Action("ServiceReport","Ticket",new { id=item.TicketNumber+"-"+item.SerialNo+"-"+item.AccountName+"SR",TicketNumber = item.TicketNumber })" target="_blank" class="btn btn-brand btn-elevate btn-icon-sm">
                                                     <i class="la la-check"></i>
                                                     Print
                                                 </a>
@@ -703,9 +769,6 @@
                                                         <i class="la la-check"></i>
                                                         Resolve
                                                     </a>
-
-
-
                                                 }
                                                 else if (item.CreatedUserRoleId == 503 && Model.RoleId == 503 && item.Status == 6 && (item.ReportId == 1 || item.ReportId == 4))
                                                 {
@@ -731,18 +794,18 @@
                                                         </a>
                                                     }
                                                     @*if (item.CreatedUserRoleId == 503 && item.Status == 13 && (item.ReportId == 1 || item.ReportId == 4))
-                                                            {
-                                                                <a href="#" onclick="UpdateStatus(14)" class="btn btn-brand btn-elevate btn-icon-sm">
-                                                                    <i class="la la-check"></i>
-                                                                    Confirm
-                                                                </a>
-                                                             }
-                                                                    else if (item.CreatedUserRoleId != 503 && item.Status == 6 )/*&& (item.ReportId == 9 || item.ReportId == 2 || item.ReportId == 1 || item.ReportId == 4)*/
-                                                                    {
-                                                                <a href="#" onclick="UpdateStatus(14)" class="btn btn-brand btn-elevate btn-icon-sm">
-                                                                    <i class="la la-check"></i>
-                                                                    Confirm
-                                                                </a>
+                                                         {
+                                                                   <a href="#" onclick="UpdateStatus(14)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                                                       <i class="la la-check"></i>
+                                                                       Confirm
+                                                                   </a>
+                                                                }
+                                                                       else if (item.CreatedUserRoleId != 503 && item.Status == 6 )/*&& (item.ReportId == 9 || item.ReportId == 2 || item.ReportId == 1 || item.ReportId == 4)*/
+                                                                       {
+                                                                   <a href="#" onclick="UpdateStatus(14)" class="btn btn-brand btn-elevate btn-icon-sm">
+                                                                       <i class="la la-check"></i>
+                                                                       Confirm
+                                                                   </a>
                                                         }*@
                                                 }
                                                 else if (Model.RoleId == 502 && item.Status == 6 && (item.CreatedUserRoleId == 501 || item.CreatedUserRoleId == 502))
@@ -761,12 +824,34 @@
                             <div class="kt-form">
                                 <div class="kt-portlet__body">
                                     <div class="row">
+
+
+                                        @*<div class="form-group">
+            <label>File Browser</label>
+            <div></div>
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" id="customFile">
+                <label class="custom-file-label" for="customFile">Choose file</label>
+            </div>
+        </div>*@
+                                        @if (Model.RoleId == 505 && item.Status == 2)
+                                        {
+                                            <div class="form-group col-xl-12">
+                                                <label for="exampleTextarea">Bussiness Document</label>
+                                                <div>
+                                                    <span id="lblError" style="color: red;"></span>
+                                                    <br />
+                                                    <input type="file" id="file_ppmschedule" onChange='getFileNameWithExt(event)' />
+                                                    @*onchange="return ValidateExtension()"*@
+                                                </div>
+                                            </div>
+                                        }
                                         <div class="form-group col-xl-12">
                                             <label for="exampleTextarea">Problem Description</label>
                                             @if (Model.RoleId == 505 && item.Status == 2)
                                             {
                                                 <textarea onchange="checkwhitespacepd()" id="txtproblemdescription" class="form-control" rows="3" @(Model.RoleId == 505 ? "" : "disabled")></textarea>
-                                                <p style="float: right;"><span id="spn_cnt_pd">0</span>/1000</p>
+                                                <p class="mb-0 pull-right"><span id="spn_cnt_pd">0</span>/1000</p>
                                             }
                                             else
                                             {
@@ -778,11 +863,23 @@
                                             @if (Model.RoleId == 505 && item.Status == 2)
                                             {
                                                 <textarea onchange="checkwhitespace()" id="txtactivitydone" class="form-control" rows="3" @(Model.RoleId == 505 ? "" : "disabled")></textarea>
-                                                <p style="float: right;"><span id="spn_cnt">0</span>/1000</p>
+                                                <p class="mb-0 pull-right"><span id="spn_cnt">0</span>/1000</p>
                                             }
                                             else
                                             {
                                                 <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.Actioncomments">
+                                            }
+                                        </div>
+                                        <div class="form-group col-xl-12">
+                                            <label for="exampleTextarea">Next Action / Follow Up Required</label>
+                                            @if (Model.RoleId == 505 && item.Status == 2)
+                                            {
+                                                <textarea onchange="checkwhitespace()" id="txtnextaction" class="form-control" rows="3" @(Model.RoleId == 505 ? "" : "disabled")></textarea>
+                                                <p class="mb-0 pull-right"><span id="spn_cnt_ot">0</span>/1000</p>
+                                            }
+                                            else
+                                            {
+                                                <input type="text" class="form-control form-bottom-border" name="ServiceRptr" value="@item.NextAction">
                                             }
                                         </div>
 
@@ -939,31 +1036,31 @@
                                             </h5>
                                         </div>
                                         @*@if (item.ReportId == 1 || item.ReportId == 2 || item.ReportId == 4 || item.ReportId == 9)
-                                            {
-                                                <div class="form-group col-md-4">
-                                                    <label> System Manager</label>
-                                                    <h5>
-                                                        @item.ManagerName
-                                                        <br />
-                                                        <small>
-                                                            @item.ManagerConfirmationDate
-                                                        </small>
-                                                    </h5>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                <div class="form-group col-md-4">
-                                                    <label> Supervisor Admin</label>
-                                                    <h5>
-                                                        @item.SupervisorName
-                                                        <br />
-                                                        <small>
-                                                            @item.SupervisorConfirmationDate
-                                                        </small>
-                                                    </h5>
-                                                </div>
-                                            }*@
+        {
+            <div class="form-group col-md-4">
+                <label> System Manager</label>
+                <h5>
+                    @item.ManagerName
+                    <br />
+                    <small>
+                        @item.ManagerConfirmationDate
+                    </small>
+                </h5>
+            </div>
+        }
+        else
+        {
+            <div class="form-group col-md-4">
+                <label> Supervisor Admin</label>
+                <h5>
+                    @item.SupervisorName
+                    <br />
+                    <small>
+                        @item.SupervisorConfirmationDate
+                    </small>
+                </h5>
+            </div>
+        }*@
                                     </div>
                                 </div>
                             </div>
@@ -980,8 +1077,8 @@
         <input type="hidden" id="hdnActionComments" value="@item.Actioncomments" />
     }
 
-   
-    
+
+
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -994,13 +1091,13 @@
                 </div>
                 <div class="modal-body">
                     <div class="rating">
-                        <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+                        <input type="radio" name="rating" value="5" id="5" checked><label for="5">☆</label>
                         <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
                         <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
                         <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
-                        <input type="radio" name="rating" value="1" id="1" checked><label for="1">☆</label>
+                        <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
                     </div>
-                    <textarea rows="5" id="txtrating"></textarea>
+                    <textarea rows="5" cols="70" id="txtrating"></textarea>
                 </div>
                 <div class="modal-footer">
                     <a class="btn btn-primary" onclick="ManagerConfirmation(14)">Confirm Ticket</a>
@@ -1015,8 +1112,50 @@
 <script src="~/assets/js/bootstrap-datepicker.js"></script>
 @*<script src="~/assets/js/select2.js"></script>*@
 <script type="text/javascript">
+
+    function getFileNameWithExt(event) {
+        debugger
+        if (!event || !event.target || !event.target.files || event.target.files.length === 0) {
+            return;
+        }
+
+        const name = event.target.files[0].name;
+        const lastDot = name.lastIndexOf('.');
+
+        const fileName = name.substring(0, lastDot);
+        const ext = name.substring(lastDot + 1);
+
+        if (ext == "doc" || ext == "docx" || ext == "pdf" || ext == "xls" || ext == "xlsx" || ext == "jpg" || ext == "jpeg" || ext == "png") {
+            lblError.innerHTML = "";
+            return true;
+        }
+        else {
+            lblError.innerHTML = "Please upload files having extensions: .doc, .docx, .pdf, .xls, .xlsx, .jpg, .jpeg, .png only.";
+            $('#file_ppmschedule').val('');
+            return false;
+        }
+    }
+
+    function ValidateExtension() {
+        var allowedFiles = [".doc", ".docx", ".pdf", ".xls", ".xlsx", ".jpg", ".jpeg",".png"];
+        var fileUpload = document.getElementById("file_ppmschedule");
+        var lblError = document.getElementById("lblError");
+        var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + allowedFiles.join('|') + ")$");
+        if (!regex.test(fileUpload.value.toLowerCase())) {
+            lblError.innerHTML = "Please upload files having extensions: <b>" + allowedFiles.join(', ') + "</b> only.";
+            $('#file_ppmschedule').val('');
+            return false;
+        }
+        lblError.innerHTML = "";
+        return true;
+    }
+
     $(document).ready(function () {
         document.getElementById("loader").style.display = "none";
+
+
+
+
         //$('#txtactivitydone').val($('#hdnActionComments').val());
         //ServiceRptr
         $('input[type=text][name=ServiceRptr]').prop("disabled", true);
@@ -1448,13 +1587,15 @@
     }
     function ViewResponseDiv() {
         $('#AddResponseTime_Div').slideToggle();
-        
+
     }
     //async
     async function ManagerConfirmation(val) {
+        debugger
         var ticketnumber = $('#hdnTicketNumber').val();
         var rating = $('input[name="rating"]:checked').val();
-        var comments = $('#comments');
+        var comments = $('#txtrating').val();
+        $('#exampleModal').modal('toggle');
         document.getElementById("loader").style.display = "block";
         await $.ajax({
             type: 'POST',
@@ -1464,7 +1605,7 @@
             success: function (data) {
                 var v = data.success;
                 if (v == true) {
-                    $('#exampleModal').modal('toggle');
+
                     //document.getElementById("loader").style.display = "none";
                     //var ticketno = $('#hdnTicketNumber').val();
                     $.ajax({
@@ -1534,25 +1675,59 @@
             $('#details_upper').hide();
         }
         else if (val == 6) {
+             
             document.getElementById("loader").style.display = "block";
+
+            var fileUpload = $("#file_ppmschedule").get(0);
+            var files = fileUpload.files;
+            var file = document.getElementById("file_ppmschedule").src;
+            //alert(file);
+            // Create FormData object
+            var fileData = new FormData();
+
+            // Looping over all files and add it to FormData object
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+            txtnextaction
             var txtdone = $('#txtactivitydone').val();
             if (txtdone == "" || txtdone == "N/A") {
                 alert('fields required');
+                document.getElementById("loader").style.display = "none";
                 return false;
             }
+
+            var nextaction = $('#txtnextaction').val();
+            //if (txtdone == "" || txtdone == "N/A") {
+            //    alert('fields required');
+            //    document.getElementById("loader").style.display = "none";
+            //    return false;
+            //}
 
             var problemdesc = $('#txtproblemdescription').val();
             if (problemdesc == "" || problemdesc == "N/A") {
                 alert('fields required');
+                document.getElementById("loader").style.display = "none";
                 return false;
             }
 
+            // Adding one more key to FormData object
+            fileData.append('id', val);
+            fileData.append('TicketNumber', ticketnumber);
+            fileData.append('comments', txtdone);
+            fileData.append('problemdescription', problemdesc);
+            fileData.append('nextaction', nextaction);
+            
+
             await $.ajax({
                 type: 'POST',
-                url: '@Url.Action("UpdateTicketStatus")', // we are calling json method
+                url: '@Url.Action("UpdateTicketStatusFileUpload")', // we are calling json method
                 dataType: 'json',
-                data: { id: val, TicketNumber: ticketnumber, comments: txtdone,problemdescription:problemdesc },
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
                 success: function (data) {
+                    debugger
                     var v = data.success;
                     if (v == true) {
                         document.getElementById("loader").style.display = "none";

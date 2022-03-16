@@ -26,7 +26,7 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
-        public SqlDataReader changepasswordrequest(string email,string token)
+        public SqlDataReader changepasswordrequest(string email, string token)
         {
             try
             {
@@ -42,6 +42,35 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
+        public SqlDataReader emailnotificationmodel()
+        {
+            try
+            {
+                //var para = new[];
+                return DbConnector.ExecuteReader("uspGetEmailsforNotification", null);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "UserModel -> emailnotificationmodel");
+                return null;
+            }
+        }
+        public SqlDataReader updateemailnotificationmodel(long EmailId)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@EmailId",EmailId)
+                };
+                return DbConnector.ExecuteReader("uspUpdateEmailNotification", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "UserModel -> updateemailnotificationmodel");
+                return null;
+            }
+        }
+
         public SqlDataReader verifypasswordrequest(string email, string token)
         {
             try
@@ -58,7 +87,7 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
-        
+
         public SqlDataReader CheckEmpIdExists(string empid)
         {
             try
@@ -173,7 +202,7 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
-        
+
         public SqlDataReader GetCompanyProducts(UsersDTO obj)
         {
             try
@@ -206,7 +235,7 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
-        
+
         public string GetUserDetailsById(UsersDTO obj)
         {
             try
@@ -269,8 +298,27 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
-        
 
+
+        public SqlDataReader NewUserSignUp(UsersDTO obj)
+        {
+            try
+            {
+                var para = new[] {
+                new SqlParameter("@RoleId",obj.RoleId),
+                 new SqlParameter("@FullName",obj.FullName),
+                 new SqlParameter("@Mobile",obj.Mobile),
+                new SqlParameter("@Email",obj.Email),
+                new SqlParameter("@xml",obj.Productsxml)
+                };
+                return DbConnector.ExecuteReader("uspInsertUsersSignup", para);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "UserModel -> GetUserList");
+                return null;
+            }
+        }
         public SqlDataReader NewUser(UsersDTO obj)
         {
             try
@@ -344,7 +392,7 @@ namespace HelpDesk.API.DataAccess
             {
                 var para = new[] {
                  new SqlParameter("@UserId",obj.UserId),
-                new SqlParameter("@CreatedBy",obj.CreatedBy) 
+                new SqlParameter("@CreatedBy",obj.CreatedBy)
                 };
                 return DbConnector.ExecuteReader("uspUpdateUserStatus", para);
             }
@@ -354,7 +402,7 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
-        
+
 
         public SqlDataReader UpdateUserpassword(UsersDTO obj)
         {
@@ -362,7 +410,7 @@ namespace HelpDesk.API.DataAccess
             {
                 var para = new[] {
                 new SqlParameter("@UserId",obj.UserId),
-                new SqlParameter("@Password",obj.Password) 
+                new SqlParameter("@Password",obj.Password)
                 };
                 return DbConnector.ExecuteReader("uspChangePassword", para);
             }
@@ -388,7 +436,7 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
-        
+
         public string RoleCompanyDropDowns(UsersDTO obj)
         {
             try
@@ -410,6 +458,7 @@ namespace HelpDesk.API.DataAccess
     public interface IUserModel
     {
         SqlDataReader NewUser(UsersDTO obj);
+        SqlDataReader NewUserSignUp(UsersDTO obj);
         SqlDataReader UpdateUser(UsersDTO obj);
         SqlDataReader UpdateSignUpUser(UsersDTO obj);
         SqlDataReader UpdateUserStatusActive(UsersDTO obj);
@@ -422,6 +471,8 @@ namespace HelpDesk.API.DataAccess
         string GetSystemUserDetailsById(UsersDTO obj);
         SqlDataReader CheckEmailExists(string email);
         SqlDataReader changepasswordrequest(string email, string token);
+        SqlDataReader emailnotificationmodel();
+        SqlDataReader updateemailnotificationmodel(long EmailId);
         SqlDataReader verifypasswordrequest(string email, string token);
         SqlDataReader CheckEmpIdExists(string empid);
         SqlDataReader updateuserstatus(UsersDTO obj);

@@ -1,6 +1,7 @@
 ﻿using HelpDesk.Web.Handlers;
 using HelpDesk.Web.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -199,7 +200,7 @@ namespace HelpDesk.Web.Controllers
                                             CompanyId = dataRow.Field<int>("CompanyId"),
                                             CompanyName = dataRow.Field<string>("CompanyName"),
                                             Accountsxml = dataRow.Field<string>("Accountsxml"),
-                                            UserId=dataRow.Field<long>("UserId")
+                                            UserId = dataRow.Field<long>("UserId")
 
                                         }).ToList();
                                         obj.UsersList = userslst;
@@ -227,8 +228,8 @@ namespace HelpDesk.Web.Controllers
                 {
                     UserDTO obj = new UserDTO();
                     obj.CompanyId = id;
-                   
-                    List<UserDTO> modellst = new List<UserDTO>(); 
+
+                    List<UserDTO> modellst = new List<UserDTO>();
                     SelectList ddlaccounts = new SelectList("", "AccountId", "AccountName", 0);
                     HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/UserAPI/NewGetAccountList", obj);
                     if (responseMessage.IsSuccessStatusCode)
@@ -247,7 +248,7 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
-        public async Task<JsonResult> GetRoleAccounts(int id,int RoleId)
+        public async Task<JsonResult> GetRoleAccounts(int id, int RoleId)
         {
             string ses = Convert.ToString(Session["SSUserId"]);
             if (string.IsNullOrEmpty(ses))
@@ -283,7 +284,7 @@ namespace HelpDesk.Web.Controllers
                         return Json(obj.ProductList);
                     }
                 }
-              
+
             }
         }
         //NewUser
@@ -395,7 +396,7 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
-        public async Task<JsonResult> GetRoleProducts(int id,int RoleId,int AccountId)
+        public async Task<JsonResult> GetRoleProducts(int id, int RoleId, int AccountId)
         {
             using (HttpClient client = new HttpClient())
             {
@@ -525,7 +526,7 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
-        public async Task<ActionResult> UserDetails(long id) 
+        public async Task<ActionResult> UserDetails(long id)
         {
             string ses = Convert.ToString(Session["SSUserId"]);
             if (string.IsNullOrEmpty(ses))
@@ -592,7 +593,7 @@ namespace HelpDesk.Web.Controllers
                                             AccountName = dataRow.Field<string>("AccountsddlJson"),
                                         }).ToList();
                                         obj.UsersList = userdetailslst;
-                                        
+
                                         string accountsjson = obj.UsersList.FirstOrDefault().Accountsxml;
                                         var model = JsonConvert.DeserializeObject<List<UserDTO>>(accountsjson);
 
@@ -635,7 +636,7 @@ namespace HelpDesk.Web.Controllers
                     }
                 }
             }
-            
+
         }
         public async Task<ActionResult> SignupUsers()
         {
@@ -689,7 +690,7 @@ namespace HelpDesk.Web.Controllers
                                             CreatedOn = dataRow.Field<DateTime>("CreatedOn"),
                                             AccountName = dataRow.Field<string>("AccountName"),
                                             AccountId = dataRow.Field<int>("AccountId"),
-                                            AccountCode = dataRow.Field<string>("AccountCode") 
+                                            AccountCode = dataRow.Field<string>("AccountCode")
                                         }).ToList();
                                         obj.UsersList = userslst;
                                     }
@@ -707,7 +708,7 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
-        public async Task<JsonResult> UpdateUserStatus(int id,long userid)
+        public async Task<JsonResult> UpdateUserStatus(int id, long userid)
         {
             using (HttpClient client = new HttpClient())
             {
@@ -716,7 +717,7 @@ namespace HelpDesk.Web.Controllers
                 {
                     UserDTO obj = new UserDTO();
                     obj.UserId = userid;
-                    if (id==1)
+                    if (id == 1)
                     {
                         obj.isApproved = true;
                         obj.Cancelled = false;
@@ -755,7 +756,7 @@ namespace HelpDesk.Web.Controllers
         /// <param name="id"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public async Task<JsonResult> removeAccountOrProduct(long id,int type)
+        public async Task<JsonResult> removeAccountOrProduct(long id, int type)
         {
             using (HttpClient client = new HttpClient())
             {
@@ -763,7 +764,7 @@ namespace HelpDesk.Web.Controllers
                 try
                 {
                     UserDTO obj = new UserDTO();
-                    
+
                     obj.MUPId = id;
                     obj.Type = type;
 
@@ -789,7 +790,7 @@ namespace HelpDesk.Web.Controllers
                 }
             }
         }
-        public async Task<JsonResult> AddProducts(long id,int ProductId)
+        public async Task<JsonResult> AddProducts(long id, int ProductId)
         {
             using (HttpClient client = new HttpClient())
             {
@@ -854,7 +855,7 @@ namespace HelpDesk.Web.Controllers
             }
         }
 
-        public async Task<JsonResult> UpdateUserInfo(string fullname, string gender,string mobileno,long userid,int roleid)
+        public async Task<JsonResult> UpdateUserInfo(string fullname, string gender, string mobileno, long userid, int roleid)
         {
             using (HttpClient client = new HttpClient())
             {
@@ -988,9 +989,6 @@ namespace HelpDesk.Web.Controllers
             }
         }
 
-
-
-
         public async Task<ActionResult> Profile()
         {
             string ses = Convert.ToString(Session["SSUserId"]);
@@ -1054,8 +1052,10 @@ namespace HelpDesk.Web.Controllers
                                             UserId = dataRow.Field<long>("UserId"),
                                             ProductName = dataRow.Field<string>("ProductsddlJson"),
                                             AccountName = dataRow.Field<string>("AccountsddlJson"),
+                                            ProfileImage = dataRow.Field<string>("Image")
                                         }).ToList();
                                         obj.UsersList = userdetailslst;
+                                        obj.ProfileImageStaticUrl = "http://208.109.10.196/AHCHelpdeskTestapi/profilepicture/";
 
                                         string accountsjson = obj.UsersList.FirstOrDefault().Accountsxml;
                                         var model = JsonConvert.DeserializeObject<List<UserDTO>>(accountsjson);
@@ -1094,7 +1094,6 @@ namespace HelpDesk.Web.Controllers
             }
         }
 
-
         public ActionResult ChangePassword()
         {
             string ses = Convert.ToString(Session["SSUserId"]);
@@ -1108,9 +1107,91 @@ namespace HelpDesk.Web.Controllers
             }
         }
 
+        public async Task<ActionResult> UpdateUserProfile()
+        {
+            string ses = Convert.ToString(Session["SSUserId"]);
+            if (string.IsNullOrEmpty(ses))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    CommonHeader.setHeaders(client);
+                    try
+                    {
+                        long userid = long.Parse(Session["SSUserId"].ToString());
+
+                        TicketDTO obj = new TicketDTO();
+
+                        //  Get all files from Request object  
+                        HttpFileCollectionBase files = Request.Files;
+                        for (int i = 0; i < files.Count; i++)
+                        {
+                            //string path = AppDomain.CurrentDomain.BaseDirectory + "Uploads/";  
+                            //string filename = Path.GetFileName(Request.Files[i].FileName);  
+
+                            HttpPostedFileBase file = files[i];
+                            string fname;
+
+                            byte[] thePictureAsBytes = new byte[file.ContentLength];
+                            using (BinaryReader theReader = new BinaryReader(file.InputStream))
+                            {
+                                thePictureAsBytes = theReader.ReadBytes(file.ContentLength);
+                            }
+                            string thePictureDataAsString = Convert.ToBase64String(thePictureAsBytes);
+
+                            obj.TicketDocuments = Utils.Common.PrepareFileAttributes(file);
+                            //obj.TicketDocuments.Base64FileData = thePictureDataAsString;
 
 
-        public async Task<JsonResult> PasswordUpdate(string password,string userprevious)
+                            // Checking for Internet Explorer  
+                            if (Request.Browser.Browser.ToUpper() == "IE" || Request.Browser.Browser.ToUpper() == "INTERNETEXPLORER")
+                            {
+                                string[] testfiles = file.FileName.Split(new char[] { '\\' });
+                                fname = testfiles[testfiles.Length - 1];
+                            }
+                            else
+                                fname = file.FileName;
+                            obj.TicketDocuments.Base64FileData = thePictureDataAsString;
+                            obj.TicketDocuments.FileUploadLocation = "~/ProfilePicture/";
+                        }
+                        obj.UserId = userid;
+                        bool status = false;
+                        string msg = "";
+                        HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/TicketsAPI/NewProfilePictureUploadM", obj);
+                        if (responseMessage.IsSuccessStatusCode)
+                        {
+                            var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                            var Response = JObject.Parse(responseData);
+                            bool isStatus = Convert.ToBoolean(Response.SelectToken("Status"));
+                            string Message = Response.SelectToken("Message").ToString();
+                            //var Data = Response.SelectToken("Data");
+
+                            if (Message == "Profile Picture Updated Successfully.")
+                            {
+                                status = true;
+                                msg = "1";
+                            }
+                            else if (Message != "Profile Picture Updated Successfully.")
+                            {
+                                status = false;
+                                msg = "2";
+                            };
+                        }
+                        return Json(new { success = msg });
+                    }
+                    catch (Exception ex)
+                    {
+                        TicketDTO obj = new TicketDTO();
+                        return Json(obj.ModelList);
+                    }
+                }
+            }
+        }
+
+        public async Task<JsonResult> PasswordUpdate(string password, string userprevious)
         {
             string ses = Convert.ToString(Session["SSUserId"]);
             if (string.IsNullOrEmpty(ses))

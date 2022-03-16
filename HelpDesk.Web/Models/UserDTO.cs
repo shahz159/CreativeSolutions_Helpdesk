@@ -14,6 +14,7 @@ namespace HelpDesk.Web.Models
         public string Productsxml { get; set; }
         public string[] Accounts { get; set; }
         public string[] Products { get; set; }
+        public string[] ProductIds { get; set; }
         public int AccountId { get; set; }
         public string AccountName { get; set; }
         public string message { get; set; }
@@ -41,7 +42,8 @@ namespace HelpDesk.Web.Models
         public IEnumerable<UserDTO> UsersList { get; set; }
         public IEnumerable<UserDTO> AccountList { get; set; }
         public IEnumerable<UserDTO> ProductList { get; set; }
-
+        public string ProfileImageStaticUrl { get; set; }
+        public string ProfileImage { get; set; }
 
         public IEnumerable<UserDTO> AccountddlList { get; set; }
         public IEnumerable<UserDTO> ProductddlList { get; set; }

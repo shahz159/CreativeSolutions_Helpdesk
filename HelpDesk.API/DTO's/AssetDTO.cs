@@ -7,6 +7,7 @@ namespace HelpDesk.API.DTO_s
 {
     public class AssetDTO
     {
+        public long AMModelId { get; set; }
         public long TicketNumber { get; set; }
         public string ContractTypetxt { get; set; }
         public string PPMJson { get; set; }

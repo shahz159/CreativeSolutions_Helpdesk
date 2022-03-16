@@ -1,26 +1,49 @@
 ﻿@model HelpDesk.Web.Models.AssetsDTO
-@section  Styles{
-    <style>
-        #pagination-demo {
-            display: inline-block;
-            margin-bottom: 1.75em;
-        }
 
-            #pagination-demo li {
-                display: inline-block;
-            }
-    </style>
-}
-<div class="kt-portlet__body">
-    <div class="kt-form kt-form--label-right">
+<div class="">
+    <div class="kt-form kt-form--label-right mt-4">
         <div class="row align-items-center">
             <div class="col-xl-12 order-2 order-xl-1">
                 <div class="row align-items-center mb-4">
                     <div class="col-md-8 kt-margin-b-20-tablet-and-mobile">
                         <div class="kt-form__group">
-                            <div class="kt-form__control" style="margin-bottom: -35px;">
-                                <label>Total Records :</label>
-                                <a>@Model.TotalRecords</a>
+                            <div class="kt-form__control entries-dropdown" style="margin-bottom: -35px;">
+                                <label>Show</label>
+                                <select id="ddlpagesize">
+                                    @if (Model.PageSize == 5)
+                                    {
+                                        <option selected>5</option>
+                                    }
+                                    else
+                                    {
+                                        <option>5</option>
+                                    }
+                                    @if (Model.PageSize == 25)
+                                    {
+                                        <option selected>25</option>
+                                    }
+                                    else
+                                    {
+                                        <option>25</option>
+                                    }
+                                    @if (Model.PageSize == 50)
+                                    {
+                                        <option selected>50</option>
+                                    }
+                                    else
+                                    {
+                                        <option>50</option>
+                                    }
+                                    @if (Model.PageSize == 100)
+                                    {
+                                        <option selected>100</option>
+                                    }
+                                    else
+                                    {
+                                        <option>100</option>
+                                    }
+                                </select>
+                                <label>entries</label>
                             </div>
                         </div>
                     </div>
@@ -50,9 +73,9 @@
                                         <th scope="col">Remaining Canister</th>
 
                                         @*<th scope="col">Model</th>
-                                            <th scope="col">Station Name</th>
-                                            <th scope="col">Location</th>
-                                            <th scope="col">IsContract</th>*@
+                            <th scope="col">Station Name</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">IsContract</th>*@
 
                                         @if (Model.RoleId != 504)
                                         {
@@ -74,18 +97,18 @@
                                                 <td>@item.ProductName</td>
                                                 <td>@item.ContractTypetxt</td>
                                                 @*<td>@item.ModelName</td>
-                                                    <td>@item.StationName</td>
-                                                    <td>@item.Area</td>
-                                                    <td>
-                                                        @if (item.IsContract == true)
-                                                        {
-                                                            <p>Yes</p>
-                                                        }
-                                                        else
-                                                        {
-                                                            <p>No</p>
-                                                        }
-                                                    </td>*@
+                                    <td>@item.StationName</td>
+                                    <td>@item.Area</td>
+                                    <td>
+                                        @if (item.IsContract == true)
+                                        {
+                                            <p>Yes</p>
+                                        }
+                                        else
+                                        {
+                                            <p>No</p>
+                                        }
+                                    </td>*@
                                                 <td>
                                                     @if (item.IsContract == true)
                                                     {
@@ -147,15 +170,19 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div>
-                            <ul id="pagination-demo" class="pagination-sm"></ul>
-                        </div>
-
+                    </div>
+                    <div class="col-md-6">
+                        <label>
+                            Showing
+                            <span id="li_pagenumber">1</span> to <span id="li_pagelistcount">@Model.PageSize</span> of @Model.TotalRecords entries
+                        </label>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <ul id="pagination-demo" class="pagination-sm"></ul>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 <input type="hidden" id="hdnTotalRecordsII" value="@Model.NoOfPages" />
@@ -163,7 +190,7 @@
 
 <script>
     $(document).ready(function () {
-       
+
         $('#txtsearch').keypress(function (event) {
             var keycode = (event.keyCode ? event.keyCode : event.which);
             if (keycode == '13') {
@@ -179,8 +206,11 @@
                 if (search == null) {
                     search = "";
                 }
-                AssetList(1, accountId, productId, search)
+                AssetList(1, accountId, productId, search,5)
             }
+        });
+        $('#ddlpagesize').change(function (event) {
+            BindAssets()
         });
     });
 </script>

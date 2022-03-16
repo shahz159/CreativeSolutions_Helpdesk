@@ -84,7 +84,8 @@ namespace HelpDesk.Web.Controllers
                                             ScheduleTickets = dataRow.Field<int>("ScheduleTickets"),
                                             PauseTickets = dataRow.Field<int>("PauseTickets"),
                                             ClosedTickets = dataRow.Field<int>("ClosedTickets"),
-                                            ServiceEngineerJson = dataRow.Field<string>("ServiceEngineerJson")
+                                            ServiceEngineerJson = dataRow.Field<string>("ServiceEngineerJson"),
+                                            NewResolveAverageTime = dataRow.Field<string>("NewResolveAverageTime")
                                         }).ToList();
                                         obj.TicketList = tickettlst;
 
@@ -97,6 +98,7 @@ namespace HelpDesk.Web.Controllers
                                         obj.PauseTickets = obj.TicketList.FirstOrDefault().PauseTickets;
                                         obj.ClosedTickets = obj.TicketList.FirstOrDefault().ClosedTickets;
 
+                                        obj.NewResolveAverageTime = obj.TicketList.FirstOrDefault().NewResolveAverageTime;
                                         obj.NewUser = obj.TicketList.FirstOrDefault().NewUser;
                                         obj.WarrantyExpiredApprovalCount = obj.TicketList.FirstOrDefault().WarrantyExpiredApprovalCount;
                                         obj.AssetRenewalCount = obj.TicketList.FirstOrDefault().AssetRenewalCount;
@@ -140,9 +142,19 @@ namespace HelpDesk.Web.Controllers
 
 
                                         string[] Pie_array=new string[3];
-                                        Pie_array[0] = obj.NewTickets.ToString();
-                                        Pie_array[1] = obj.InProgressTickets.ToString();
-                                        Pie_array[2] = obj.ResolvedTickets.ToString();
+
+                                        if (obj.RoleId == 505)
+                                        {
+                                            Pie_array[0] = obj.NewTickets.ToString();
+                                            Pie_array[1] = obj.InProgressTickets.ToString();
+                                            Pie_array[2] = obj.ResolvedTickets.ToString();
+                                        }
+                                        else
+                                        {
+                                            Pie_array[0] = obj.InProgressTickets.ToString();
+                                            Pie_array[1] = obj.ResolvedTickets.ToString();
+                                            Pie_array[2] = obj.ClosedTickets.ToString();
+                                        }
                                         obj.Pie_array = new JavaScriptSerializer().Serialize(Pie_array);
                                     }
                                     else
@@ -178,6 +190,7 @@ namespace HelpDesk.Web.Controllers
                         TicketDTO obj = new TicketDTO();
 
                         obj.UserId = UserId;
+                        Session["SSDashboardUserCount"] = UserId;
 
                         List<TicketDTO> modellst = new List<TicketDTO>();
                         HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/TicketsAPI/NewServiceEngineerDashboardCounts", obj);
@@ -205,7 +218,8 @@ namespace HelpDesk.Web.Controllers
                                             ResolvedTickets = dataRow.Field<int>("ResolvedTickets"),
                                             ScheduleTickets = dataRow.Field<int>("ScheduleTickets"),
                                             PauseTickets = dataRow.Field<int>("PauseTickets"),
-                                            ClosedTickets = dataRow.Field<int>("ClosedTickets")
+                                            ClosedTickets = dataRow.Field<int>("ClosedTickets"),
+                                            NewResolveAverageTime = dataRow.Field<string>("NewResolveAverageTime")
                                         }).ToList();
                                         obj.SparePartList = modellst;
                                     }
