@@ -4,6 +4,10 @@
     .all-details-view .form-group {
         margin-bottom: 5px;
     }
+
+    .background-color {
+        background-color: #e5eaf2;
+    }
 </style>
 @if (Model.RoleId == 501 && Model.EditMode == true)
 {
@@ -618,7 +622,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    
+
                                                 }
                                             </div>
                                         </form>
@@ -627,7 +631,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     @if (Model.PPMList.Count() > 0)
                     {
                         <div class="kt-portlet__body kt-portlet__body--fluid kt-portlet__body--fit">
@@ -724,19 +728,19 @@
                                 <div class="col-md-3">
                                     <h5>&nbsp;</h5>
                                     <div>
-                                        <a href="#" onclick="addjvmorders(@Model.AMId)" class="btn btn-info"><i class="la la-plus"></i> Add Orders</a>
+                                        <a href="#" onclick="addjvmorders(@Model.AMId,1)" class="btn btn-info"><i class="la la-plus"></i> Add Orders</a>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <h5>&nbsp;</h5>
                                     <div>
-                                        <a href="#" onclick="addjvmorders(@Model.AMId)" class="btn btn-primary"><i class="la la-plus"></i> Add Canisters</a>
+                                        <a href="#" onclick="addjvmorders(@Model.AMId,2)" class="btn btn-link" style="background-color: #fb9527;border-color: #fb9527;color: #ffffff;"><i class="la la-plus"></i> Add Canisters</a>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <h5>List View</h5>
+                                    <h5>Order List View</h5>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="table-responsive">
@@ -745,15 +749,53 @@
                                                 <tr>
                                                     <th>Quantity</th>
                                                     <th>Date</th>
+                                                    <th>Type</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach (var jvmitem in Model.JVMOrderList)
+                                                @foreach (var jvmitem in Model.JVMOrderList.Where(x => x.FlagId == 1).OrderByDescending(x=>x.ModifiedOn))
                                                 {
+
+                                                    <tr>
+                                                        <td>@jvmitem.Quantity</td>
+                                                        <td>@jvmitem.JVMOrderDate</td>
+                                                        <td>
+                                                            <span>Orders</span>
+                                                        </td>
+                                                    </tr>
+
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h5>Canisters List View</h5>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-hover">
+                                            <thead>
                                                 <tr>
-                                                    <td>@jvmitem.Quantity</td>
-                                                    <td>@jvmitem.JVMOrderDate</td>
+                                                    <th>Quantity</th>
+                                                    <th>Date</th>
+                                                    <th>Type</th>
                                                 </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var jvmitem in Model.JVMOrderList.Where(x => x.FlagId == 2).OrderByDescending(x => x.ModifiedOn))
+                                                {
+
+                                                    <tr>
+                                                        <td>@jvmitem.Quantity</td>
+                                                        <td>@jvmitem.JVMOrderDate</td>
+                                                        <td>
+                                                            <span>Canisters</span>
+                                                        </td>
+                                                    </tr>
+
                                                 }
                                             </tbody>
                                         </table>
@@ -780,9 +822,9 @@
     </div>
 }
 <div>
- @if (Model.RoleId == 505 || Model.RoleId == 504 || Model.RoleId == 503)
- {
-    <div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
+    @if (Model.RoleId == 505 || Model.RoleId == 504 || Model.RoleId == 503)
+    {
+        <div class="kt-container  kt-grid__item kt-grid__item--fluid mt-4">
             <!--Begin::Dashboard 3-->
             <!--Begin::Row-->
             <div class="row">
@@ -945,7 +987,7 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                @foreach (var item_ast in Model.AssetModelList.Where(x=>x.isActive==true))
+                                                                @foreach (var item_ast in Model.AssetModelList.Where(x => x.isActive == true))
                                                                 {
                                                                     <tr>
                                                                         <td>@item_ast.ModelName</td>
@@ -1037,7 +1079,7 @@
                 </div>
             </div>
         </div>
- }
+    }
 </div>
 <input type="hidden" id="hdnAssetId" value="@Model.AMId" />
 
@@ -1054,7 +1096,7 @@
                 <form>
                     <div class="form-group">
                         <label for="message-text" class="form-control-label">Shedule Date:</label>
-                        <h2 id="date_header"> 26-12-2019 </h2>
+                        <h2 id="date_header"> </h2>
                     </div>
                     <div class="form-group">
                         <label for="message-text" class="form-control-label">Select Date:</label>
@@ -1180,10 +1222,10 @@
                     //swal("Poof! Your imaginary file has been deleted!", {
                     //    icon: "success",
                     //});
-                } 
+                }
             });
     }
-    function addjvmorders(id){
+    function addjvmorders(id,val){
         var quantity = $('#txtjvmquantity').val();
         if (quantity == null || quantity == "") {
             alert('Quantity Required');
@@ -1194,7 +1236,7 @@
             url: '@Url.Action("NewAddJVMOrders")', // we are calling json method
             dataType: 'json',
             data: {
-                AMId: id, quantity: quantity
+                AMId: id, quantity: quantity, Type: val
             },
             success: function (data) {
                 alert('Added Successfully');

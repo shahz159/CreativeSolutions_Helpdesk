@@ -2329,7 +2329,8 @@ namespace HelpDesk.Web.Controllers
                                             AccountCode = dataRow.Field<string>("AccountCode"),
                                             ManagerFullName = dataRow.Field<string>("ManagerFullName"),
                                             ManagerMobile = dataRow.Field<string>("ManagerMobile"),
-                                            ManagerEmail = dataRow.Field<string>("ManagerEmail")
+                                            ManagerEmail = dataRow.Field<string>("ManagerEmail"),
+                                            CityName = dataRow.Field<string>("CityName")
                                         }).ToList();
 
                                         obj.TicketList = tickettlst;
@@ -2582,7 +2583,7 @@ namespace HelpDesk.Web.Controllers
                             ReportViewer reportViewer = new ReportViewer();
                             reportViewer.ProcessingMode = ProcessingMode.Local;
                             reportViewer.SizeToReportContent = true;
-                            reportViewer.LocalReport.ReportPath = Server.MapPath("~/Reports/CRMRawdataReport.rdlc");
+                            reportViewer.LocalReport.ReportPath = Server.MapPath("~/Reports/COPRawdataReport.rdlc");
 
                             reportViewer.LocalReport.DataSources.Add(new ReportDataSource("RawDataReportDS", obj.RawDataReportList));
                             ViewBag.ReportViewer = reportViewer;

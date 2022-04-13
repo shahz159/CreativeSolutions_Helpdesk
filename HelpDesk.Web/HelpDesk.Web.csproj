@@ -608,7 +608,7 @@
     <EmbeddedResource Include="Reports\AccountTicketReport.rdlc" />
     <EmbeddedResource Include="Reports\AssetListReport.rdlc" />
     <EmbeddedResource Include="Reports\ContractManagementReport.rdlc" />
-    <EmbeddedResource Include="Reports\CRMRawdataReport.rdlc" />
+    <EmbeddedResource Include="Reports\COPRawdataReport.rdlc" />
     <EmbeddedResource Include="Reports\EngineerWiseStatus.rdlc" />
     <EmbeddedResource Include="Reports\PerMonthStatusReport.rdlc" />
     <EmbeddedResource Include="Reports\ProductReport.rdlc" />

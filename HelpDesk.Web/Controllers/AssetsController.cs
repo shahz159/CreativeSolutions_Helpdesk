@@ -987,7 +987,7 @@ namespace HelpDesk.Web.Controllers
             }
         }
 
-        public async Task<ActionResult> NewAddJVMOrders(int AMId, int quantity)
+        public async Task<ActionResult> NewAddJVMOrders(int AMId, int quantity,int Type)
         {
             string ses = Convert.ToString(Session["SSUserId"]);
             if (string.IsNullOrEmpty(ses))
@@ -1004,6 +1004,7 @@ namespace HelpDesk.Web.Controllers
                         obj.CreatedBy = CreatedBy;
                         obj.AMId = AMId;
                         obj.Canister = quantity;
+                        obj.FlagId = Type;
                         bool status = false;
                         HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/AssetAPI/NewJVMOrders", obj);
                         if (responseMessage.IsSuccessStatusCode)

@@ -328,7 +328,8 @@ namespace HelpDesk.API.DataAccess
                 var para = new[] {
                 new SqlParameter("@AMId",obj.AMId),
                 new SqlParameter("@Quantity",obj.Canister),
-                new SqlParameter("@CreatedBy",obj.CreatedBy)
+                new SqlParameter("@CreatedBy",obj.CreatedBy),
+                new SqlParameter("@FlagId",obj.FlagId)
                 };
                 return DbConnector.ExecuteReader("uspAddJVMOrders", para);
             }
