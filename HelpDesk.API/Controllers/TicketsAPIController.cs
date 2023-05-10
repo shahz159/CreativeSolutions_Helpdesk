@@ -1635,6 +1635,20 @@ namespace HelpDesk.API.Controllers
         }
 
         [ResponseType(typeof(TicketDTO))]
+        public IEnumerable<TicketDTO> NewAssetListReportWithoutPPM(TicketDTO obj)
+        {
+            var list = service.AssetListReportwithoutPPM(obj);
+            return list;
+        }
+
+        [ResponseType(typeof(TicketDTO))]
+        public IEnumerable<TicketDTO> NewProductUpTimeReport(TicketDTO obj)
+        {
+            var list = service.ProductUpTimeReport(obj);
+            return list;
+        }
+
+        [ResponseType(typeof(TicketDTO))]
         public IEnumerable<TicketDTO> NewProductReport(TicketDTO obj)
         {
             var list = service.ProductReport(obj);

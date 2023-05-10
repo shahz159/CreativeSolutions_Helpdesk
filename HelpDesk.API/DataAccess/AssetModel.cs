@@ -339,6 +339,19 @@ namespace HelpDesk.API.DataAccess
                 return null;
             }
         }
+        public SqlDataReader ppmemailnotification(AssetDTO obj)
+        {
+            try
+            {
+                return DbConnector.ExecuteReader("uspPPMNotificationService", null);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "AssetModel -> ppmemailnotification");
+                return null;
+            }
+        }
+        
         public SqlDataReader removeAssetModel(AssetDTO obj)
         {
             try
@@ -524,6 +537,7 @@ namespace HelpDesk.API.DataAccess
         SqlDataReader UpdateAssetStatus(AssetDTO obj);
         SqlDataReader UpdatePPMChangeRequest(AssetDTO obj);
         SqlDataReader AddJVMOrder(AssetDTO obj);
+        SqlDataReader ppmemailnotification(AssetDTO obj);
         SqlDataReader removeAssetModel(AssetDTO obj);
         SqlDataReader GetAssetDetailsById(AssetDTO obj);
 

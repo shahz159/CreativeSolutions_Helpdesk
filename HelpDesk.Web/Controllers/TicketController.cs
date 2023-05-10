@@ -2639,6 +2639,86 @@ namespace HelpDesk.Web.Controllers
             }
 
         }
+        public async Task<ActionResult> GetAssetListReportWithOutPPM()
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                CommonHeader.setHeaders(client);
+                try
+                {
+                    TicketDTO obj = new TicketDTO();
+
+                    HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/TicketsAPI/NewAssetListReportWithoutPPM", obj);
+                    if (responseMessage.IsSuccessStatusCode)
+                    {
+                        var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                        var categories = JsonConvert.DeserializeObject<List<TicketDTO>>(responseData);
+                        if (categories.Count != 0)
+                            obj.AssetListReport = categories;
+                        else
+                            obj.AssetListReport = null;
+
+
+                        if (categories != null)
+                        {
+                            ReportViewer reportViewer = new ReportViewer();
+                            reportViewer.ProcessingMode = ProcessingMode.Local;
+                            reportViewer.SizeToReportContent = true;
+                            reportViewer.LocalReport.ReportPath = Server.MapPath("~/Reports/AssetListReportwithoutPPM.rdlc");
+
+                            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("AssetListReport", obj.AssetListReport));
+                            ViewBag.ReportViewer = reportViewer;
+                        }
+                    }
+                    return View();
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction("Error");
+                }
+            }
+
+        }
+        public async Task<ActionResult> GetProductUpTimeReport()
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                CommonHeader.setHeaders(client);
+                try
+                {
+                    TicketDTO obj = new TicketDTO();
+
+                    HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/TicketsAPI/NewProductUpTimeReport", obj);
+                    if (responseMessage.IsSuccessStatusCode)
+                    {
+                        var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                        var categories = JsonConvert.DeserializeObject<List<TicketDTO>>(responseData);
+                        if (categories.Count != 0)
+                            obj.AssetListReport = categories;
+                        else
+                            obj.AssetListReport = null;
+
+
+                        if (categories != null)
+                        {
+                            ReportViewer reportViewer = new ReportViewer();
+                            reportViewer.ProcessingMode = ProcessingMode.Local;
+                            reportViewer.SizeToReportContent = true;
+                            reportViewer.LocalReport.ReportPath = Server.MapPath("~/Reports/ProductUptime.rdlc");
+
+                            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("PerMonthStatusDS", obj.AssetListReport));
+                            ViewBag.ReportViewer = reportViewer;
+                        }
+                    }
+                    return View();
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction("Error");
+                }
+            }
+
+        }
         public async Task<ActionResult> GetProductReport()
         {
             using (HttpClient client = new HttpClient())

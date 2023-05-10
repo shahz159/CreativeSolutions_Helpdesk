@@ -595,6 +595,32 @@ namespace HelpDesk.API.DataAccess
             }
         }
 
+        public SqlDataReader AssetListReportwithoutppm(TicketDTO obj)
+        {
+            try
+            {
+                return DbConnector.ExecuteReader("uspAssetListReportWithOutPPM ", null);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "TicketModel -> AssetListReportwithoutppm");
+                return null;
+            }
+        }
+        public SqlDataReader ProductUpTimeReport(TicketDTO obj)
+        {
+            try
+            {
+                return DbConnector.ExecuteReader("uspProductUpTimeReport ", null);
+            }
+            catch (Exception ex)
+            {
+                DataModelExceptionUtility.LogException(ex, "TicketModel -> ProductUpTimeReport");
+                return null;
+            }
+        }
+        
+
         public SqlDataReader ProductReport(TicketDTO obj)
         {
             try
@@ -737,6 +763,8 @@ namespace HelpDesk.API.DataAccess
         SqlDataReader CrmRawData(TicketDTO obj);
         SqlDataReader ServiceArchiveTicket(TicketDTO obj);
         SqlDataReader AssetListReport(TicketDTO obj);
+        SqlDataReader AssetListReportwithoutppm(TicketDTO obj);
+        SqlDataReader ProductUpTimeReport(TicketDTO obj);
         SqlDataReader ProductReport(TicketDTO obj);
         SqlDataReader EngineerWiseStatusReport(TicketDTO obj);
         SqlDataReader AccountTicketReport(TicketDTO obj);

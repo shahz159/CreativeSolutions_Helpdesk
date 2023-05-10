@@ -242,6 +242,18 @@ namespace HelpDesk.Web.Models
         public string CustomerPhone { get; set; }
         public string Enquiry { get; set; }
 
+        public int DownTimeInHours { get; set; }
+        public int TotalNumberOfHoursOfYear { get; set; }
+        public int Uptime { get; set; }
+        public DateTime ResolvedOn { get; set; }
+        public decimal UptimePercentage { get; set; }
+        public DateTime? ScheduleDateTime { get; set; }
+        public DateTime? ActualDateTime { get; set; }
+        public DateTime? EngineerDateTime { get; set; }
+        public DateTime? ClosedDateTime { get; set; }
+        public DateTime? CreatedDateTime { get; set; }
+        public string CreatedToResolvedDate { get; set; }
+        public string CreatedToCloseDate { get; set; }
     }
 }
 

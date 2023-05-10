@@ -357,6 +357,18 @@ namespace HelpDesk.Web.ReportDataSet {
             
             private global::System.Data.DataColumn columnRatingDescription;
             
+            private global::System.Data.DataColumn columnScheduleDateTime;
+            
+            private global::System.Data.DataColumn columnActualDateTime;
+            
+            private global::System.Data.DataColumn columnEngineerDateTime;
+            
+            private global::System.Data.DataColumn columnClosedDateTime;
+            
+            private global::System.Data.DataColumn columnCreatedToResolvedDate;
+            
+            private global::System.Data.DataColumn columnCreatedToCloseDate;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public RawDataReportDSDataTable() {
@@ -704,6 +716,54 @@ namespace HelpDesk.Web.ReportDataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn ScheduleDateTimeColumn {
+                get {
+                    return this.columnScheduleDateTime;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn ActualDateTimeColumn {
+                get {
+                    return this.columnActualDateTime;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn EngineerDateTimeColumn {
+                get {
+                    return this.columnEngineerDateTime;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn ClosedDateTimeColumn {
+                get {
+                    return this.columnClosedDateTime;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn CreatedToResolvedDateColumn {
+                get {
+                    return this.columnCreatedToResolvedDate;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn CreatedToCloseDateColumn {
+                get {
+                    return this.columnCreatedToCloseDate;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -778,7 +838,13 @@ namespace HelpDesk.Web.ReportDataSet {
                         string CreatedOnNew, 
                         string ScheduleTime, 
                         string RatingCount, 
-                        string RatingDescription) {
+                        string RatingDescription, 
+                        System.DateTime ScheduleDateTime, 
+                        string ActualDateTime, 
+                        string EngineerDateTime, 
+                        string ClosedDateTime, 
+                        string CreatedToResolvedDate, 
+                        string CreatedToCloseDate) {
                 RawDataReportDSRow rowRawDataReportDSRow = ((RawDataReportDSRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         TicketNumber,
@@ -819,7 +885,13 @@ namespace HelpDesk.Web.ReportDataSet {
                         CreatedOnNew,
                         ScheduleTime,
                         RatingCount,
-                        RatingDescription};
+                        RatingDescription,
+                        ScheduleDateTime,
+                        ActualDateTime,
+                        EngineerDateTime,
+                        ClosedDateTime,
+                        CreatedToResolvedDate,
+                        CreatedToCloseDate};
                 rowRawDataReportDSRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowRawDataReportDSRow);
                 return rowRawDataReportDSRow;
@@ -881,6 +953,12 @@ namespace HelpDesk.Web.ReportDataSet {
                 this.columnScheduleTime = base.Columns["ScheduleTime"];
                 this.columnRatingCount = base.Columns["RatingCount"];
                 this.columnRatingDescription = base.Columns["RatingDescription"];
+                this.columnScheduleDateTime = base.Columns["ScheduleDateTime"];
+                this.columnActualDateTime = base.Columns["ActualDateTime"];
+                this.columnEngineerDateTime = base.Columns["EngineerDateTime"];
+                this.columnClosedDateTime = base.Columns["ClosedDateTime"];
+                this.columnCreatedToResolvedDate = base.Columns["CreatedToResolvedDate"];
+                this.columnCreatedToCloseDate = base.Columns["CreatedToCloseDate"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -964,6 +1042,18 @@ namespace HelpDesk.Web.ReportDataSet {
                 base.Columns.Add(this.columnRatingCount);
                 this.columnRatingDescription = new global::System.Data.DataColumn("RatingDescription", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnRatingDescription);
+                this.columnScheduleDateTime = new global::System.Data.DataColumn("ScheduleDateTime", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnScheduleDateTime);
+                this.columnActualDateTime = new global::System.Data.DataColumn("ActualDateTime", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnActualDateTime);
+                this.columnEngineerDateTime = new global::System.Data.DataColumn("EngineerDateTime", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEngineerDateTime);
+                this.columnClosedDateTime = new global::System.Data.DataColumn("ClosedDateTime", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnClosedDateTime);
+                this.columnCreatedToResolvedDate = new global::System.Data.DataColumn("CreatedToResolvedDate", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCreatedToResolvedDate);
+                this.columnCreatedToCloseDate = new global::System.Data.DataColumn("CreatedToCloseDate", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCreatedToCloseDate);
                 this.ExtendedProperties.Add("Generator_TablePropName", "_RawDataReportDS");
                 this.ExtendedProperties.Add("Generator_UserTableName", "RawDataReportDS");
             }
@@ -1735,6 +1825,103 @@ namespace HelpDesk.Web.ReportDataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public System.DateTime ScheduleDateTime {
+                get {
+                    try {
+                        return ((global::System.DateTime)(this[this.tableRawDataReportDS.ScheduleDateTimeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ScheduleDateTime\' in table \'RawDataReportDS\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableRawDataReportDS.ScheduleDateTimeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string ActualDateTime {
+                get {
+                    try {
+                        return ((string)(this[this.tableRawDataReportDS.ActualDateTimeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ActualDateTime\' in table \'RawDataReportDS\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableRawDataReportDS.ActualDateTimeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string EngineerDateTime {
+                get {
+                    try {
+                        return ((string)(this[this.tableRawDataReportDS.EngineerDateTimeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'EngineerDateTime\' in table \'RawDataReportDS\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableRawDataReportDS.EngineerDateTimeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string ClosedDateTime {
+                get {
+                    try {
+                        return ((string)(this[this.tableRawDataReportDS.ClosedDateTimeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ClosedDateTime\' in table \'RawDataReportDS\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableRawDataReportDS.ClosedDateTimeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string CreatedToResolvedDate {
+                get {
+                    try {
+                        return ((string)(this[this.tableRawDataReportDS.CreatedToResolvedDateColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'CreatedToResolvedDate\' in table \'RawDataReportDS\' is DBNull" +
+                                ".", e);
+                    }
+                }
+                set {
+                    this[this.tableRawDataReportDS.CreatedToResolvedDateColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string CreatedToCloseDate {
+                get {
+                    try {
+                        return ((string)(this[this.tableRawDataReportDS.CreatedToCloseDateColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'CreatedToCloseDate\' in table \'RawDataReportDS\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableRawDataReportDS.CreatedToCloseDateColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public bool IsTicketNumberNull() {
                 return this.IsNull(this.tableRawDataReportDS.TicketNumberColumn);
             }
@@ -2199,6 +2386,78 @@ namespace HelpDesk.Web.ReportDataSet {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public void SetRatingDescriptionNull() {
                 this[this.tableRawDataReportDS.RatingDescriptionColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsScheduleDateTimeNull() {
+                return this.IsNull(this.tableRawDataReportDS.ScheduleDateTimeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetScheduleDateTimeNull() {
+                this[this.tableRawDataReportDS.ScheduleDateTimeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsActualDateTimeNull() {
+                return this.IsNull(this.tableRawDataReportDS.ActualDateTimeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetActualDateTimeNull() {
+                this[this.tableRawDataReportDS.ActualDateTimeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsEngineerDateTimeNull() {
+                return this.IsNull(this.tableRawDataReportDS.EngineerDateTimeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetEngineerDateTimeNull() {
+                this[this.tableRawDataReportDS.EngineerDateTimeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsClosedDateTimeNull() {
+                return this.IsNull(this.tableRawDataReportDS.ClosedDateTimeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetClosedDateTimeNull() {
+                this[this.tableRawDataReportDS.ClosedDateTimeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsCreatedToResolvedDateNull() {
+                return this.IsNull(this.tableRawDataReportDS.CreatedToResolvedDateColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetCreatedToResolvedDateNull() {
+                this[this.tableRawDataReportDS.CreatedToResolvedDateColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsCreatedToCloseDateNull() {
+                return this.IsNull(this.tableRawDataReportDS.CreatedToCloseDateColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetCreatedToCloseDateNull() {
+                this[this.tableRawDataReportDS.CreatedToCloseDateColumn] = global::System.Convert.DBNull;
             }
         }
         

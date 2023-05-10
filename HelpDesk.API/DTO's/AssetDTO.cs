@@ -90,5 +90,11 @@ namespace HelpDesk.API.DTO_s
         public string SuperUserName { get; set; }
         public string SupervisorEmail { get; set; }
         public string SupervisorName { get; set; }
+
+        public string PPMDateStr { get; set; }
+        public string ContractTypeText { get; set; }
+        public string WarrantyExpiryDateStr { get; set; }
+        public string InstallationDateStr { get; set; }
+        
     }
 }

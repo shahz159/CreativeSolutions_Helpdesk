@@ -176,6 +176,7 @@ namespace HelpDesk.API.Bussiness
                     foreach (var item in obj.EmailList)
                     {
                         SendEmailToSupervisorUser(obj.EnquiryType, obj.CompanyName, obj.ProductName, item.Email, obj.CustomerName, obj.CustomerEmail, obj.CustomerPhone, obj.Enquiry, obj.FullName);
+                        SendEmailToEnquiryCustomer(obj.EnquiryType, obj.CompanyName, obj.ProductName, item.Email, obj.CustomerName, obj.CustomerEmail, obj.CustomerPhone, obj.Enquiry, obj.FullName);
                     }
                     //SendEmailToSupervisorUser()
                 }
@@ -206,15 +207,14 @@ namespace HelpDesk.API.Bussiness
                 HeaderHtml.Append("</tr><tr><td>Full Name</td><td>: " + CustomerFullName + "</td>");
                 HeaderHtml.Append("</tr><tr><td>Email</td><td>: " + CustomerEmail + "</td>");
                 HeaderHtml.Append("</tr><tr><td>Phone Number</td><td>: " + PhoneNumber + "</td>");
-                HeaderHtml.Append("</tr><tr><td>Enquiry</td><td>: " + Enquiry + "</td>");
-                //HeaderHtml.Append("<table style='margin-bottom: 10px;'><tr><td> <a href='#' target='_blank' style='text-decoration: none; padding: 8px 12px;border: 1px solid #2cafdd; border-radius: 4px; color: #2cafdd; text-decoration: none;'>Button Click</a></td></tr></table><br><hr><div class='text-center'> <small>please do not hesitate to contact our customer Service support center <strong> +96651111111</strong>,<br> one of our representatives will do their best to assist you.</small></div></td></tr></table></body></html>");
-                HeaderHtml.Append("<br><hr><div class='text-center'> <small>Please do not hesitate to contact <code style='font-size: 14px; color:black;'>AHC</code> Customer Service Support Center <strong> 800 2444416</strong>,</small></div></td></tr></table></body></html>");
-
+                HeaderHtml.Append("</tr><tr><td>Enquiry</td><td>: " + Enquiry + "</td></tr></table>");
+                HeaderHtml.Append("<br><hr><div class='text-center'> <small>Please do not hesitate to contact <code style='font-size: 14px; color:black;'>AHC</code> Customer Service Support Center <strong> 800 2444416</strong>,</small></div></body></html>");
                 htmlstr = HeaderHtml.ToString();
                 string Subject = "AHC Helpdesk Support Centre";
                 string mailFrom = System.Configuration.ConfigurationManager.AppSettings["mailFrom"].ToString();
                 string mailHRBCC = string.Empty;
                 //SupervisorEmail = "aqibshahbaz@gmail.com";
+
                 Models.EmailUtility.sendEmail(mailFrom, SupervisorEmail, htmlstr, Subject, mailHRBCC);
             }
             catch (Exception)
@@ -222,6 +222,50 @@ namespace HelpDesk.API.Bussiness
 
             }
         }
+
+        private void SendEmailToEnquiryCustomer(string EnquiryType, string Company, string ProductName,
+        string SupervisorEmail, string CustomerFullName, string CustomerEmail
+        , string PhoneNumber, string Enquiry, string SupervisorName)
+        {
+            try
+            {
+                // Customer Email
+                string htmlstr = @"";
+                StringBuilder HeaderHtml = new StringBuilder();
+
+                HeaderHtml.Append("<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'><html xmlns='http://www.w3.org/1999/xhtml'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' /><title>AHC Helpdesk</title><link href='https://fonts.googleapis.com/css?family=Open+Sans&display=swap' rel='stylesheet'>");
+                HeaderHtml.Append("<style type='text/css'>body{font-family:'Open Sans',sans-serif;background:#f1f1f1;color:#0f0f0f;font-size:14px;padding:20px}.pb-15{padding-bottom:15px}.mb-15{margin-bottom:15px}.text-center{text-align:center}.button{padding:8px 12px;background-color:#2cafdd;border-radius:4px;color:#fff;text-decoration:none;display:inline-block;margin-bottom:15px}.button:hover{background-color:#0d96c6;transition:1s all}.table{width: 100%}.table td{padding: 4px 0px;}</style>");
+                HeaderHtml.Append("</head><body style='background-color: #f1f1f1; padding: 15px;'>");
+                HeaderHtml.Append("<table align='center' style='width: 600px; margin: 0 auto 0 auto;background-color: #fff;padding: 20px 15px;'><tr><td><img src='http://support.arabianhc.com/assets/images/ahc_new_logo.png' class='pb-15' height='44px;'>");
+                HeaderHtml.Append("<h4 style='color: #2cafdd'>Dear "+CustomerFullName+" ,</h4>");
+                HeaderHtml.Append("<p style='color:black;'> Thank you for contacting AHC Helpdesk, http://support.arabianhc.com .</p>");
+                HeaderHtml.Append("<p style='color:black;'> </p>");
+                HeaderHtml.Append("<p>The Enquiry with the below information has been generated and your request will be attended shortly.</p>");
+                HeaderHtml.Append("<div style='width: 70px; height: 2px; background-color: #000;'></div>");
+                HeaderHtml.Append("<div style='background-color: #fff; padding-top: 20px; padding-bottom: 15px;'>");
+                HeaderHtml.Append("<table class='table'><tr>");
+                HeaderHtml.Append("<td>Enquiry Type</td><td>:" + EnquiryType + "</td>");
+                HeaderHtml.Append("</tr><tr><td>Company/Hospital Name</td><td>: " + Company + "</td>");
+                HeaderHtml.Append("<tr><td>Product Name</td><td>: " + ProductName + "</td>");
+                HeaderHtml.Append("</tr><tr><td>Full Name</td><td>: " + CustomerFullName + "</td>");
+                HeaderHtml.Append("</tr><tr><td>Email</td><td>: " + CustomerEmail + "</td>");
+                HeaderHtml.Append("</tr><tr><td>Phone Number</td><td>: " + PhoneNumber + "</td>");
+                HeaderHtml.Append("</tr><tr><td>Enquiry</td><td>: " + Enquiry + "</td></tr></table>");
+                HeaderHtml.Append("<br><hr><div class='text-center'> <small>Please do not hesitate to contact <code style='font-size: 14px; color:black;'>AHC</code> Customer Service Support Center <strong> 800 2444416</strong>,</small></div></body></html>");
+                htmlstr = HeaderHtml.ToString();
+
+                string Subject = "AHC Helpdesk Support Centre";
+                string mailFrom = System.Configuration.ConfigurationManager.AppSettings["mailFrom"].ToString();
+                string mailHRBCC = string.Empty;
+                Models.EmailUtility.sendEmail(mailFrom, CustomerEmail, htmlstr, Subject, mailHRBCC);
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+
 
 
         public InventoryDTO StockChange(InventoryDTO obj)

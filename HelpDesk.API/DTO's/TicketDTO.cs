@@ -7,13 +7,14 @@ namespace HelpDesk.API.DTO_s
 {
     public class TicketDTO
     {
+        public DateTime CreatedOn { get; set; }
         public bool IsMobile { get; set; }
         public long EnquiryId { get; set; }
         public string RatingText { get; set; }
         public string multipledocuments_xml { get; set; }
         public int ReportId { get; set; }
         public long APPMId { get; set; }
-        public string  ReportTypeName { get; set; }
+        public string ReportTypeName { get; set; }
         public string message { get; set; }
         public string MonthId { get; set; }
         public string YearId { get; set; }
@@ -108,13 +109,18 @@ namespace HelpDesk.API.DTO_s
         public int TotalQuantity { get; set; }
         public int UsedQuantity { get; set; }
 
-
         public string UserName { get; set; }
         public string SAPCode { get; set; }
         public string Price { get; set; }
-         public string ContractStartDate { get; set; }
+        public string ContractStartDate { get; set; }
         public string ContractExpiryDate { get; set; }
         public string RatingDescription { get; set; }
         public int PeriodDays { get; set; }
+
+        public int DownTimeInHours { get; set; }
+        public int TotalNumberOfHoursOfYear { get; set; }
+        public int Uptime { get; set; }
+        public DateTime ResolvedOn { get; set; }
+        public decimal UptimePercentage { get; set; }
     }
 }

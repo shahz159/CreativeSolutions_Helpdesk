@@ -34,7 +34,7 @@ namespace HelpDesk.API.Models
                 mSmtpClient.UseDefaultCredentials = false;
                 mSmtpClient.EnableSsl = true;
 
-                mSmtpClient.Timeout = 10000;
+                mSmtpClient.Timeout = 100000;
                 mSmtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
 
                 string mailPassword = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["mailCredentialPassword"]);

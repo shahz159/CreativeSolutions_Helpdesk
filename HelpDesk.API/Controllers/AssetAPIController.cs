@@ -124,7 +124,7 @@ namespace HelpDesk.API.Controllers
         {
             var result = service.updateppmdate(obj);
             return Ok(result);
-        }
+        } 
 
         /// <summary>
         /// Get Asset List by CompanyId
@@ -481,7 +481,6 @@ namespace HelpDesk.API.Controllers
             //return Ok(res);
             return list;
         }
-
 
         public IEnumerable<AssetDTO> NewGetPOContractList(AssetDTO obj)
         {
@@ -1202,6 +1201,19 @@ namespace HelpDesk.API.Controllers
                                         (new JProperty("Message", msg))
                          );
             return Ok(res);
+        }
+
+
+        /// <summary>
+        /// PPM Email Notofication service
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        [ResponseType(typeof(AssetDTO))]
+        public IHttpActionResult NewSendEmailNotificationOfPPM()
+        {
+            var result = service.ppmemailnotification();
+            return Ok(result);
         }
     }
 }

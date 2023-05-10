@@ -1675,7 +1675,7 @@
             $('#details_upper').hide();
         }
         else if (val == 6) {
-             
+            debugger
             document.getElementById("loader").style.display = "block";
 
             var fileUpload = $("#file_ppmschedule").get(0);
@@ -1689,7 +1689,7 @@
             for (var i = 0; i < files.length; i++) {
                 fileData.append(files[i].name, files[i]);
             }
-            txtnextaction
+            //txtnextaction
             var txtdone = $('#txtactivitydone').val();
             if (txtdone == "" || txtdone == "N/A") {
                 alert('fields required');

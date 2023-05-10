@@ -293,6 +293,28 @@ namespace HelpDesk.Web.ReportDataSet {
             
             private global::System.Data.DataColumn columnGrandTotal;
             
+            private global::System.Data.DataColumn columnUptimePercentage;
+            
+            private global::System.Data.DataColumn columnUptime;
+            
+            private global::System.Data.DataColumn columnTotalNumberOfHoursOfYear;
+            
+            private global::System.Data.DataColumn columnDownTimeInHours;
+            
+            private global::System.Data.DataColumn columnResolvedOn;
+            
+            private global::System.Data.DataColumn columnCreatedOn;
+            
+            private global::System.Data.DataColumn columnProductName;
+            
+            private global::System.Data.DataColumn columnTicketNumber;
+            
+            private global::System.Data.DataColumn columnEngineerName;
+            
+            private global::System.Data.DataColumn columnSerialNo;
+            
+            private global::System.Data.DataColumn columnReportTypeName;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public PerMonthStatusDSDataTable() {
@@ -384,6 +406,94 @@ namespace HelpDesk.Web.ReportDataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn UptimePercentageColumn {
+                get {
+                    return this.columnUptimePercentage;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn UptimeColumn {
+                get {
+                    return this.columnUptime;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn TotalNumberOfHoursOfYearColumn {
+                get {
+                    return this.columnTotalNumberOfHoursOfYear;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn DownTimeInHoursColumn {
+                get {
+                    return this.columnDownTimeInHours;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn ResolvedOnColumn {
+                get {
+                    return this.columnResolvedOn;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn CreatedOnColumn {
+                get {
+                    return this.columnCreatedOn;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn ProductNameColumn {
+                get {
+                    return this.columnProductName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn TicketNumberColumn {
+                get {
+                    return this.columnTicketNumber;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn EngineerNameColumn {
+                get {
+                    return this.columnEngineerName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn SerialNoColumn {
+                get {
+                    return this.columnSerialNo;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn ReportTypeNameColumn {
+                get {
+                    return this.columnReportTypeName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -419,7 +529,25 @@ namespace HelpDesk.Web.ReportDataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public PerMonthStatusDSRow AddPerMonthStatusDSRow(string Month, string Year, string New, string Closed, string Resolved, string InProgress, string GrandTotal) {
+            public PerMonthStatusDSRow AddPerMonthStatusDSRow(
+                        string Month, 
+                        string Year, 
+                        string New, 
+                        string Closed, 
+                        string Resolved, 
+                        string InProgress, 
+                        string GrandTotal, 
+                        string UptimePercentage, 
+                        string Uptime, 
+                        string TotalNumberOfHoursOfYear, 
+                        string DownTimeInHours, 
+                        string ResolvedOn, 
+                        string CreatedOn, 
+                        string ProductName, 
+                        string TicketNumber, 
+                        string EngineerName, 
+                        string SerialNo, 
+                        string ReportTypeName) {
                 PerMonthStatusDSRow rowPerMonthStatusDSRow = ((PerMonthStatusDSRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Month,
@@ -428,7 +556,18 @@ namespace HelpDesk.Web.ReportDataSet {
                         Closed,
                         Resolved,
                         InProgress,
-                        GrandTotal};
+                        GrandTotal,
+                        UptimePercentage,
+                        Uptime,
+                        TotalNumberOfHoursOfYear,
+                        DownTimeInHours,
+                        ResolvedOn,
+                        CreatedOn,
+                        ProductName,
+                        TicketNumber,
+                        EngineerName,
+                        SerialNo,
+                        ReportTypeName};
                 rowPerMonthStatusDSRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowPerMonthStatusDSRow);
                 return rowPerMonthStatusDSRow;
@@ -458,6 +597,17 @@ namespace HelpDesk.Web.ReportDataSet {
                 this.columnResolved = base.Columns["Resolved"];
                 this.columnInProgress = base.Columns["InProgress"];
                 this.columnGrandTotal = base.Columns["GrandTotal"];
+                this.columnUptimePercentage = base.Columns["UptimePercentage"];
+                this.columnUptime = base.Columns["Uptime"];
+                this.columnTotalNumberOfHoursOfYear = base.Columns["TotalNumberOfHoursOfYear"];
+                this.columnDownTimeInHours = base.Columns["DownTimeInHours"];
+                this.columnResolvedOn = base.Columns["ResolvedOn"];
+                this.columnCreatedOn = base.Columns["CreatedOn"];
+                this.columnProductName = base.Columns["ProductName"];
+                this.columnTicketNumber = base.Columns["TicketNumber"];
+                this.columnEngineerName = base.Columns["EngineerName"];
+                this.columnSerialNo = base.Columns["SerialNo"];
+                this.columnReportTypeName = base.Columns["ReportTypeName"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -477,6 +627,28 @@ namespace HelpDesk.Web.ReportDataSet {
                 base.Columns.Add(this.columnInProgress);
                 this.columnGrandTotal = new global::System.Data.DataColumn("GrandTotal", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnGrandTotal);
+                this.columnUptimePercentage = new global::System.Data.DataColumn("UptimePercentage", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnUptimePercentage);
+                this.columnUptime = new global::System.Data.DataColumn("Uptime", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnUptime);
+                this.columnTotalNumberOfHoursOfYear = new global::System.Data.DataColumn("TotalNumberOfHoursOfYear", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTotalNumberOfHoursOfYear);
+                this.columnDownTimeInHours = new global::System.Data.DataColumn("DownTimeInHours", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDownTimeInHours);
+                this.columnResolvedOn = new global::System.Data.DataColumn("ResolvedOn", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnResolvedOn);
+                this.columnCreatedOn = new global::System.Data.DataColumn("CreatedOn", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCreatedOn);
+                this.columnProductName = new global::System.Data.DataColumn("ProductName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnProductName);
+                this.columnTicketNumber = new global::System.Data.DataColumn("TicketNumber", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTicketNumber);
+                this.columnEngineerName = new global::System.Data.DataColumn("EngineerName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEngineerName);
+                this.columnSerialNo = new global::System.Data.DataColumn("SerialNo", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSerialNo);
+                this.columnReportTypeName = new global::System.Data.DataColumn("ReportTypeName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnReportTypeName);
                 this.ExtendedProperties.Add("Generator_TablePropName", "_PerMonthStatusDS");
                 this.ExtendedProperties.Add("Generator_UserTableName", "PerMonthStatusDS");
             }
@@ -733,6 +905,183 @@ namespace HelpDesk.Web.ReportDataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string UptimePercentage {
+                get {
+                    try {
+                        return ((string)(this[this.tablePerMonthStatusDS.UptimePercentageColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'UptimePercentage\' in table \'PerMonthStatusDS\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablePerMonthStatusDS.UptimePercentageColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string Uptime {
+                get {
+                    try {
+                        return ((string)(this[this.tablePerMonthStatusDS.UptimeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Uptime\' in table \'PerMonthStatusDS\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablePerMonthStatusDS.UptimeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string TotalNumberOfHoursOfYear {
+                get {
+                    try {
+                        return ((string)(this[this.tablePerMonthStatusDS.TotalNumberOfHoursOfYearColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TotalNumberOfHoursOfYear\' in table \'PerMonthStatusDS\' is DB" +
+                                "Null.", e);
+                    }
+                }
+                set {
+                    this[this.tablePerMonthStatusDS.TotalNumberOfHoursOfYearColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string DownTimeInHours {
+                get {
+                    try {
+                        return ((string)(this[this.tablePerMonthStatusDS.DownTimeInHoursColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'DownTimeInHours\' in table \'PerMonthStatusDS\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablePerMonthStatusDS.DownTimeInHoursColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string ResolvedOn {
+                get {
+                    try {
+                        return ((string)(this[this.tablePerMonthStatusDS.ResolvedOnColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ResolvedOn\' in table \'PerMonthStatusDS\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablePerMonthStatusDS.ResolvedOnColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string CreatedOn {
+                get {
+                    try {
+                        return ((string)(this[this.tablePerMonthStatusDS.CreatedOnColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'CreatedOn\' in table \'PerMonthStatusDS\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablePerMonthStatusDS.CreatedOnColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string ProductName {
+                get {
+                    try {
+                        return ((string)(this[this.tablePerMonthStatusDS.ProductNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ProductName\' in table \'PerMonthStatusDS\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablePerMonthStatusDS.ProductNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string TicketNumber {
+                get {
+                    try {
+                        return ((string)(this[this.tablePerMonthStatusDS.TicketNumberColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TicketNumber\' in table \'PerMonthStatusDS\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablePerMonthStatusDS.TicketNumberColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string EngineerName {
+                get {
+                    try {
+                        return ((string)(this[this.tablePerMonthStatusDS.EngineerNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'EngineerName\' in table \'PerMonthStatusDS\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablePerMonthStatusDS.EngineerNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string SerialNo {
+                get {
+                    try {
+                        return ((string)(this[this.tablePerMonthStatusDS.SerialNoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'SerialNo\' in table \'PerMonthStatusDS\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablePerMonthStatusDS.SerialNoColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string ReportTypeName {
+                get {
+                    try {
+                        return ((string)(this[this.tablePerMonthStatusDS.ReportTypeNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ReportTypeName\' in table \'PerMonthStatusDS\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablePerMonthStatusDS.ReportTypeNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public bool IsMonthNull() {
                 return this.IsNull(this.tablePerMonthStatusDS.MonthColumn);
             }
@@ -813,6 +1162,138 @@ namespace HelpDesk.Web.ReportDataSet {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public void SetGrandTotalNull() {
                 this[this.tablePerMonthStatusDS.GrandTotalColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsUptimePercentageNull() {
+                return this.IsNull(this.tablePerMonthStatusDS.UptimePercentageColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetUptimePercentageNull() {
+                this[this.tablePerMonthStatusDS.UptimePercentageColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsUptimeNull() {
+                return this.IsNull(this.tablePerMonthStatusDS.UptimeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetUptimeNull() {
+                this[this.tablePerMonthStatusDS.UptimeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsTotalNumberOfHoursOfYearNull() {
+                return this.IsNull(this.tablePerMonthStatusDS.TotalNumberOfHoursOfYearColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetTotalNumberOfHoursOfYearNull() {
+                this[this.tablePerMonthStatusDS.TotalNumberOfHoursOfYearColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsDownTimeInHoursNull() {
+                return this.IsNull(this.tablePerMonthStatusDS.DownTimeInHoursColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetDownTimeInHoursNull() {
+                this[this.tablePerMonthStatusDS.DownTimeInHoursColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsResolvedOnNull() {
+                return this.IsNull(this.tablePerMonthStatusDS.ResolvedOnColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetResolvedOnNull() {
+                this[this.tablePerMonthStatusDS.ResolvedOnColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsCreatedOnNull() {
+                return this.IsNull(this.tablePerMonthStatusDS.CreatedOnColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetCreatedOnNull() {
+                this[this.tablePerMonthStatusDS.CreatedOnColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsProductNameNull() {
+                return this.IsNull(this.tablePerMonthStatusDS.ProductNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetProductNameNull() {
+                this[this.tablePerMonthStatusDS.ProductNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsTicketNumberNull() {
+                return this.IsNull(this.tablePerMonthStatusDS.TicketNumberColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetTicketNumberNull() {
+                this[this.tablePerMonthStatusDS.TicketNumberColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsEngineerNameNull() {
+                return this.IsNull(this.tablePerMonthStatusDS.EngineerNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetEngineerNameNull() {
+                this[this.tablePerMonthStatusDS.EngineerNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsSerialNoNull() {
+                return this.IsNull(this.tablePerMonthStatusDS.SerialNoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetSerialNoNull() {
+                this[this.tablePerMonthStatusDS.SerialNoColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsReportTypeNameNull() {
+                return this.IsNull(this.tablePerMonthStatusDS.ReportTypeNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetReportTypeNameNull() {
+                this[this.tablePerMonthStatusDS.ReportTypeNameColumn] = global::System.Convert.DBNull;
             }
         }
         

@@ -4,11 +4,11 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using System.Xml;
 
 namespace HelpDesk.Web.Controllers
@@ -32,10 +32,10 @@ namespace HelpDesk.Web.Controllers
                     if (responseMessage.IsSuccessStatusCode)
                     {
                         var responseData = responseMessage.Content.ReadAsStringAsync().Result;
-                        var Response = JObject.Parse(responseData);
-                        bool isStatus = Convert.ToBoolean(Response.SelectToken("Status"));
-                        string Message = Response.SelectToken("Message").ToString();
-                        var Data = Response.SelectToken("Data");
+                        var ResponseJ = JObject.Parse(responseData);
+                        bool isStatus = Convert.ToBoolean(ResponseJ.SelectToken("Status"));
+                        string Message = ResponseJ.SelectToken("Message").ToString();
+                        var Data = ResponseJ.SelectToken("Data");
                         if (isStatus == true)
                         {
                             if (Data != null)
@@ -73,10 +73,10 @@ namespace HelpDesk.Web.Controllers
                                     Session["SSPPMDatesApprovalCount"] = long.Parse(item.PPMDatesApprovalCount.ToString());
                                     Session["SSSparePartRequestCount"] = long.Parse(item.SparePartRequestCount.ToString());
                                 }
-
+                                long UserId = 0;
                                 foreach (var item in LoginDetails)
                                 {
-                                    long UserId = long.Parse(item.UserId.ToString());
+                                    UserId = long.Parse(item.UserId.ToString());
                                     int RoleId = int.Parse(item.RoleId.ToString());
 
                                     int OrganizationId = int.Parse(item.OrganizationId.ToString());
@@ -102,6 +102,18 @@ namespace HelpDesk.Web.Controllers
                                     List<TicketDTO> multipleimages = new List<TicketDTO>();
                                     Session["MultipleImagesLst" + UserId] = multipleimages;
                                 }
+
+                                string SessionTokenKey = "__SessionToken";
+                                string guid = Guid.NewGuid().ToString();
+                                var responseCookie = new HttpCookie(SessionTokenKey)
+                                {
+                                    HttpOnly = true,
+                                    Value = UserId.ToString()
+                                };
+                                if (System.Web.Security.FormsAuthentication.RequireSSL && Request.IsSecureConnection)
+                                    responseCookie.Secure = true;
+                                Response.Cookies.Set(responseCookie);
+
                                 return RedirectToAction("Index", "Dashboard");
                             }
                         }
@@ -123,6 +135,9 @@ namespace HelpDesk.Web.Controllers
             Session.RemoveAll();
             Session.Clear();
             Session.Abandon();
+            HttpCookie cookie = new HttpCookie("__SessionToken");
+            cookie.Expires = DateTime.Now.AddYears(-1);
+            Response.Cookies.Add(cookie);
             return RedirectToAction("Index", "Login");
         }
 

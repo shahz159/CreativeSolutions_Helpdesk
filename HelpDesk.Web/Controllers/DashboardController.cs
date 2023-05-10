@@ -106,6 +106,8 @@ namespace HelpDesk.Web.Controllers
                                         obj.InventoryAdjustment = obj.TicketList.FirstOrDefault().InventoryAdjustment;
                                         obj.PPMDatesApprovalCount = obj.TicketList.FirstOrDefault().PPMDatesApprovalCount;
 
+                                        obj.TotalTickets = obj.NewTickets+obj.InProgressTickets+obj.ResolvedTickets+obj.ScheduleTickets+obj.ClosedTickets;
+
                                         string ServiceEngineerList = obj.TicketList.FirstOrDefault().ServiceEngineerJson;
                                         var modelIIServiceEngineerList = JsonConvert.DeserializeObject<List<TicketDTO>>(ServiceEngineerList);
                                         obj.ServiceEngineerList = modelIIServiceEngineerList;

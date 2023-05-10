@@ -911,6 +911,22 @@ namespace HelpDesk.API.Bussiness
             data.Close();
             return list;
         }
+        public IEnumerable<TicketDTO> AssetListReportwithoutPPM(TicketDTO obj)
+        {
+            var data = model.AssetListReportwithoutppm(obj);
+            var list = CustomDataReaderToGenericExtension.GetDataObjects<TicketDTO>(data);
+            data.Close();
+            return list;
+        }
+        public IEnumerable<TicketDTO> ProductUpTimeReport(TicketDTO obj)
+        {
+            var data = model.ProductUpTimeReport(obj);
+            var list = CustomDataReaderToGenericExtension.GetDataObjects<TicketDTO>(data);
+            data.Close();
+            return list;
+        }
+        
+
         public IEnumerable<TicketDTO> ProductReport(TicketDTO obj)
         {
             var data = model.ProductReport(obj);
@@ -1000,6 +1016,8 @@ namespace HelpDesk.API.Bussiness
         TicketDTO CrmRawData(TicketDTO obj);
         TicketDTO TicketServiceTab(TicketDTO obj);
         IEnumerable<TicketDTO> AssetListReport(TicketDTO obj);
+        IEnumerable<TicketDTO> AssetListReportwithoutPPM(TicketDTO obj);
+        IEnumerable<TicketDTO> ProductUpTimeReport(TicketDTO obj);
         IEnumerable<TicketDTO> ProductReport(TicketDTO obj);
         IEnumerable<TicketDTO> EngineerWiseStatusReport(TicketDTO obj);
         IEnumerable<TicketDTO> AccountTicketReport(TicketDTO obj);

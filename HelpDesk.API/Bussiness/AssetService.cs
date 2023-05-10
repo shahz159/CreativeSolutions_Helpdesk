@@ -1,6 +1,7 @@
 ﻿using HelpDesk.API.DataAccess;
 using HelpDesk.API.DTO_s;
 using HelpDesk.API.GenericHelpers;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -548,6 +549,53 @@ obj.ContractTypetxt, obj.AccountName, obj.PPMTypeText, obj.StartDateStr, obj.End
 
             }
         }
+
+        public AssetDTO ppmemailnotification()
+        {
+            AssetDTO obj = new AssetDTO();
+            try
+            {
+                var data = model.ppmemailnotification(obj);
+                if (data.HasRows)
+                {
+                    while (data.Read())
+                    {
+                        obj.message = data["PPMScheduleJson"].ToString();
+                        obj.SupervisorEmail= data["UserEmail"].ToString();
+                        obj.SuperUserName=data["UserName"].ToString();
+                    }
+                }
+                else
+                    obj.message = "0";
+                var datalist = JsonConvert.DeserializeObject<List<AssetDTO>>(obj.message);
+                List<AssetDTO> _objStudent = datalist;
+                if(_objStudent.Count()>0)
+                {
+                    string htmlstr = @"";
+                    StringBuilder HeaderHtml = new StringBuilder();
+                    HeaderHtml.Append("<!DOCTYPE html><html lang='en'><head> <title>Email Template</title> <meta charset='utf-8'> <meta name='viewport' content='width=device-width, initial-scale=1'> <style>body{font-size: 13px; font-weight: 400; font-family: Poppins, Helvetica, 'sans-serif';}.table{font-size: 14px; width: 100%; margin-bottom: 1rem; color: #3F4254; background-color: transparent;}.rounded{border-radius: 0.42rem !important;}table{border-collapse: collapse;}.table.table-dark th{text-align: left;}.table th, .table td{padding: 0.75rem; vertical-align: top; border-top: 1px solid #EBEDF3;}.table thead th{vertical-align: bottom; border-bottom: 2px solid #EBEDF3;}.table-dark th, .table-dark td, .table-dark thead th, .table-dark tbody + tbody{border-color: #878994;}.table-dark th, .table-dark td, .table-dark thead th{border-color: #242a4c;}.table thead th, .table thead td{font-weight: 600; font-size: 13px; border-bottom-width: 1px; padding-top: 1rem; padding-bottom: 1rem;}.table:not(.table-bordered) thead th, .table:not(.table-bordered) thead td{border-top: 0;}.leftie{text-align: left;}.b-0{border-top: 0 !important;}.table-bordered th, .table-bordered td{border: 1px solid #EBEDF3;}.table-bordered thead th, .table-bordered thead td{border-bottom-width: 2px;}.table-dark{color: #ffffff; background-color: #181C32;}.table-bordered{border: 1px solid #EBEDF3;}.table-dark th, .table-dark td, .table-dark thead th{border-color: #242a4c;}.table-dark.table-bordered{border: 0;}.table-dark.table-striped tbody tr:nth-of-type(odd){background-color: rgba(255, 255, 255, 0.05);}.table-dark.table-hover tbody tr:hover{color: #ffffff; background-color: rgba(255, 255, 255, 0.075);}.table-dark.table-striped tbody tr:nth-of-type(odd){background-color: rgba(255, 255, 255, 0.05);}.txt1{color: #000000; font-family: Helvetica,Arial,sans-serif; font-size: 16px; font-weight: normal; line-height: 1.5;}.line1{border-top: solid 3px #ffd56a; margin: 0; width: 60px; text-align: left; margin-bottom: 20px;}</style></head><body style='width:100% !important; margin:0 !important; padding:0 !important; -webkit-text-size-adjust:none; -ms-text-size-adjust:none; background-color:#f5f7fa;'><table cellpadding='0' cellspacing='0' border='0' id='backgroundTable' style='height:auto !important; margin:0; padding:0; width:100% !important; background-color: #f5f7fa; color:#222222;'><tr><td> <div id='tablewrap' style='padding: 25px; background: #fff; width:100% !important; max-width:680px !important; text-align:center !important; margin-top:0 !important; margin-right: auto !important; margin-bottom:0 !important; margin-left: auto !important;'> <table id='contenttable' width='600' align='center' cellpadding='0' cellspacing='0' border='0' style='background-color:#FFFFFF; text-align:center !important; margin-top:0 !important; margin-right: auto !important; margin-bottom:0 !important; margin-left: auto !important; border:none; width: 100% !important; max-width:680px !important;'> <tr> <td width='100%'> <table bgcolor='#FFFFFF' border='0' cellspacing='0' cellpadding='0' width='100%'> <tr> <td width='100%' bgcolor='#ffffff' style='background: aliceblue; padding: 40px; text-align:center; border-radius: 4px;'><a href='#'><img src='http://support.arabianhc.com/assets/images/ahc_new_logo.png' alt='Main banner image and link' style='display:inline-block; max-width:50% !important; width:50% !important; height:auto !important;border-bottom-right-radius:8px;border-bottom-left-radius:8px;' border='0'></a> </td></tr></table> <table bgcolor='#FFFFFF' border='0' cellspacing='0' cellpadding='25' width='100%'> <tr> <td width='100%' bgcolor='#ffffff' style='text-align:left;'> <h5 style='color:#0b0e1f; font-size:16px; line-height:20px; margin-top:5px; margin-bottom:5px; padding:0; '>");
+                    HeaderHtml.Append("Dear " + obj.SuperUserName + ", </h5> <p class='line1'></p><p class='txt1'> This is an automated message from the AHC Helpdesk System to inform you that below are the list of upcoming Schedule PPM list. </p></td></tr></table> <table bgcolor='#FFFFFF' border='0' cellspacing='0' cellpadding='25' width='100%'> <tr> <td width='100%' bgcolor='#ffffff' style='text-align:left; padding-top: 2px'> <h5 style='color:#0b0e1f; font-size:16px; line-height:20px; margin-top:5px; margin-bottom:5px; padding:0; '> PPM Information, </h5> <p class='line1'></p>");
+                    HeaderHtml.Append("<table border='0' cellspacing='0' cellpadding='0' width='100%' class='table table-dark table-striped rounded leftie'> <thead> <tr> <th>Account Name</th> <th>Product Name</th> <th>Contract Type</th> <th>Installation Date</th> <th>PPM Date</th> </tr></thead> <tbody> ");
+                    foreach (var item in _objStudent)
+                    {
+                        HeaderHtml.Append("<tr><td>" + item.AccountName + "</td><td>" + item.ProductName + "</td><td>" + item.ContractTypeText + "</td><td>" + item.InstallationDateStr + "</td><td>" + item.PPMDateStr + "</td></tr>");
+                    }
+                    HeaderHtml.Append("</tbody></table></td></tr></table></body></html>");
+
+                    htmlstr = HeaderHtml.ToString();
+                    string Subject = "AHC Helpdesk Support Centre";
+                    string mailFrom = System.Configuration.ConfigurationManager.AppSettings["mailFrom"].ToString();
+                    string mailHRBCC = string.Empty;
+                    Models.EmailUtility.sendEmail(mailFrom, obj.SupervisorEmail, htmlstr, Subject, mailHRBCC);
+                }
+            }
+            catch (Exception ex)
+            {
+                obj.message = ex.ToString();
+                throw;
+            }
+            return obj;
+        }
         #endregion
     }
 
@@ -579,5 +627,7 @@ obj.ContractTypetxt, obj.AccountName, obj.PPMTypeText, obj.StartDateStr, obj.End
         AssetDTO UpdatePPMDateChangeRequest(AssetDTO obj);
         AssetDTO AddJVMOrders(AssetDTO obj);
         AssetDTO removeAssetModel(AssetDTO obj);
+
+        AssetDTO ppmemailnotification();
     }
 }

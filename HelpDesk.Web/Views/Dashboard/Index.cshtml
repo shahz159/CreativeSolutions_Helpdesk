@@ -52,7 +52,7 @@
                         <div class="kt-portlet__body kt-portlet__body--fluid">
                             <div class="kt-widget26">
                                 <div class="kt-widget26__content">
-                                    <span class="kt-widget26__number" id="total_spn"></span>
+                                    <span class="kt-widget26__number" id="total_spn">@Model.TotalTickets</span>
                                     <a class="kt-widget26__desc">Total</a>
                                 </div>
                             </div>
@@ -468,7 +468,7 @@
                         <div class="kt-widget26">
                             <div class="kt-widget26__content">
                                 <span class="kt-widget26__number">@Model.NewTickets</span>
-                                <a href="#" class="kt-widget26__desc"><u>Warranty</u></a>
+                                <a class="kt-widget26__desc"><u>Warranty</u></a>
                             </div>
                         </div>
                     </div>
@@ -480,7 +480,7 @@
                         <div class="kt-widget26">
                             <div class="kt-widget26__content">
                                 <span class="kt-widget26__number">@Model.InProgressTickets</span>
-                                <a href="#" class="kt-widget26__desc">
+                                <a class="kt-widget26__desc">
                                     <u>
                                         Service Contract
                                     </u>
@@ -496,7 +496,7 @@
                         <div class="kt-widget26">
                             <div class="kt-widget26__content">
                                 <span class="kt-widget26__number">@Model.ScheduleTickets</span>
-                                <a href="#" class="kt-widget26__desc">
+                                <a class="kt-widget26__desc">
                                     <u>
                                         No Contract
                                     </u>
@@ -512,7 +512,7 @@
                         <div class="kt-widget26">
                             <div class="kt-widget26__content">
                                 <span class="kt-widget26__number">@Model.PauseTickets</span>
-                                <a href="#" class="kt-widget26__desc">
+                                <a class="kt-widget26__desc">
                                     <u>
                                         Expired Contracs
                                     </u>
@@ -717,7 +717,7 @@
 
         function bindticketcount() {
             var val = $('#ddlserviceeng').val();
-
+            
             $.ajax({
                 type: "Post",
                 url: '@Url.Action("GetEngineerTicketCounts")',
@@ -738,8 +738,9 @@
                     $('#scheduled_spn').html(ScheduleTickets);
                     $('#closed_spn').html(ClosedTickets);
                     $('#NewAverage_spn').html(NewResolveAverageTime);
-                    $('#total_spn').html(newticket + InProgressTickets + ResolvedTickets + ScheduleTickets + ClosedTickets);
-
+                    var _tt = newticket + InProgressTickets + ResolvedTickets + ScheduleTickets + ClosedTickets;
+                    $('#total_spn').html(_tt);
+                    //alert(_tt);
                     document.getElementById("loader").style.display = "none";
                 },
                 error: function () {
