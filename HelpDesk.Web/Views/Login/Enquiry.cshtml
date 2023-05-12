@@ -179,10 +179,11 @@
             <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--desktop kt-grid--ver-desktop kt-grid--hor-tablet-and-mobile">
 
                 <!--begin::Aside-->
-                <div class="kt-grid__item kt-grid__item--order-tablet-and-mobile-2 kt-grid kt-grid--hor kt-login__aside" style="background-image: url(http://208.109.10.196/AHCHelpdesk/assets/images/Login-Background-Image.jpg);">
-                    <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-padding-t-100-desktop">
+                <div class="kt-grid__item kt-grid__item--order-tablet-and-mobile-2 kt-grid kt-grid--hor kt-login__aside pr-0" 
+                     style="background-image: url(http://208.109.10.196/AHCHelpdesk/assets/images/Login-Background-Image.jpg);background: #8a5dff;background: #5479fa;">
+                    <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-padding-t-100-desktop flex-column  bx-glass">
                         <div class="kt-grid__item kt-grid__item--top">
-                            <h3 class="h1 text-white kt-font-bold fa-3x"><strong>Welcome to<br /> AHC Help Desk!</strong></h3>
+                            <h3 class="h1 text-white kt-font-bold fa-3x"><strong>Welcome to<br />  Creative Solutions <br /> Help Desk!</strong></h3>
                             <h3 class="text-secondary kt-font-regular my-0">
                                 Customer Service, Our Top Priority!
                             </h3>
@@ -205,65 +206,69 @@
                     </div>
                 </div>
                 <div class="kt-grid__item kt-grid__item--fluid  kt-grid__item--order-tablet-and-mobile-1  kt-login__wrapper">
-                    <div class="kt-login__body">
-                        <div class="kt-login__form">
-                            <div class="kt-login__title">
-                                <img src="~/assets/images/ahc_new_logo.png" height="50" class="mb-3" />
-                                <h3>Enquiry</h3>
-                            </div>
-                            <form class="kt-form" action="" novalidate="novalidate" id="kt_login_form">
-                                <div class="form-group mt-4">
-                                        <select class="form-control kt-select2" id="ddlEnquiryType">
-                                            <option value="Maintenance">Maintenance</option>
-                                            <option value="Contract">Contract</option>
-                                            <option value="Product Enquiry">Product Enquiry</option>
-                                            <option value="Help Desk">Help Desk</option>
-                                            <option value="Other">Other</option>
-                                        </select>
-                                </div>
-                                <div class="form-group mt-4">
-                                    <input class="form-control" type="text" value="" placeholder="Enter Company/Hospital Name" id="txtcompanyname">
-                                </div>
-                                <div class="form-group mt-4">
-                                    <div id="Products_div">
-                                        <select class="form-control kt-select2" id="ddlProducts" onchange="productchange()"></select>
+                    <div class="flex-center d-flex flex-column h-100">
+                        <div class="login-form1">
+                            <div class="kt-login__body">
+                                <div class="kt-login__form">
+                                    <div class="kt-login__title">
+                                        <img src="~/assets/images/cs-logo-sm.png" height="50" class="mb-3" />
+                                        <h3>Enquiry</h3>
                                     </div>
-                                </div>
-                                <div id="div_productname" class="form-group mt-4" style="display:none;">
-                                    <input class="form-control" type="text" value="" placeholder="Enter Product Name" id="txtproductname">
-                                </div>
-
-                                <div class="form-group mt-4">
-                                    <input class="form-control" type="text" value="" placeholder="Enter Full Name" id="txtCustomerName">
-                                </div>
-                                <div class="form-group mt-4">
-                                    <input class="form-control" type="text" value="" placeholder="Enter Email" id="txtEmail">
-                                </div>
-                                <div class="form-group mt-4">
-                                    <div id="div_mobileNumber1" class="input-group">
-                                        <div class="input-group-prepend">
-                                            <input type="text" id="txtcountrycode" class="input-group-text" maxlength="3" value="966" onkeypress="return isNumberKey(event)" />
+                                    <form class="kt-form" action="" novalidate="novalidate" id="kt_login_form">
+                                        <div class="form-group mt-4">
+                                            <select class="form-control kt-select2" id="ddlEnquiryType">
+                                                <option value="Maintenance">Maintenance</option>
+                                                <option value="Contract">Contract</option>
+                                                <option value="Product Enquiry">Product Enquiry</option>
+                                                <option value="Help Desk">Help Desk</option>
+                                                <option value="Other">Other</option>
+                                            </select>
                                         </div>
-                                        <input class="form-control" autocomplete="off" type="text" value="" placeholder="xxx xxx xxxx" id="txtmobile" onkeypress="return isNumberKey(event)" onchange="mobilevalidation()">
-                                    </div>
-                                    <div id="div_mobileNumber"></div>
+                                        <div class="form-group mt-4">
+                                            <input class="form-control" type="text" value="" placeholder="Enter Company/Hospital Name" id="txtcompanyname">
+                                        </div>
+                                        <div class="form-group mt-4">
+                                            <div id="Products_div">
+                                                <select class="form-control kt-select2" id="ddlProducts" onchange="productchange()"></select>
+                                            </div>
+                                        </div>
+                                        <div id="div_productname" class="form-group mt-4" style="display:none;">
+                                            <input class="form-control" type="text" value="" placeholder="Enter Product Name" id="txtproductname">
+                                        </div>
+
+                                        <div class="form-group mt-4">
+                                            <input class="form-control" type="text" value="" placeholder="Enter Full Name" id="txtCustomerName">
+                                        </div>
+                                        <div class="form-group mt-4">
+                                            <input class="form-control" type="text" value="" placeholder="Enter Email" id="txtEmail">
+                                        </div>
+                                        <div class="form-group mt-4">
+                                            <div id="div_mobileNumber1" class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <input type="text" id="txtcountrycode" class="input-group-text" maxlength="3" value="966" onkeypress="return isNumberKey(event)" />
+                                                </div>
+                                                <input class="form-control" autocomplete="off" type="text" value="" placeholder="xxx xxx xxxx" id="txtmobile" onkeypress="return isNumberKey(event)" onchange="mobilevalidation()">
+                                            </div>
+                                            <div id="div_mobileNumber"></div>
+                                        </div>
+                                        <div class="form-group mt-4">
+                                            <textarea id="txtEnquiry" placeholder="Enter Enquiry" class="form-control" rows="8"></textarea>
+                                        </div>
+
+                                        <div class="kt-login__actions">
+                                            <a href="#" onclick="SaveEnquiryDetails()" class="btn bg-secondery pt-3 btn-elevate kt-login__btn-primary">Submit</a>
+                                        </div>
+                                    </form>
                                 </div>
-                                <div class="form-group mt-4">
-                                    <textarea id="txtEnquiry" placeholder="Enter Enquiry" class="form-control" rows="8"></textarea>
-                                </div>
-                              
-                                <div class="kt-login__actions">
-                                    <a href="#" onclick="SaveEnquiryDetails()" class="btn bg-secondery pt-3 btn-elevate kt-login__btn-primary">Submit</a>
-                                </div>
-                            </form>
+                            </div>
+
+                            <!--end::Body-->
                         </div>
                     </div>
-
-                    <!--end::Body-->
+                        </div>
+                        <!--end::Content-->
+                    </div>
                 </div>
-                <!--end::Content-->
-            </div>
-        </div>
     </div>
     <input type="hidden" id="hdnRoleId" value="@Model.RoleId" />
     <input type="hidden" id="hdnCompanyId" value="@Model.CompanyId" />

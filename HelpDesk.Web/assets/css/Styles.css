@@ -1,4 +1,26 @@
-﻿.select2 {
+﻿.flex-center {
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.flex-column-fluid {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 0 auto;
+    flex: 1 0 auto;
+}
+.gap-1 {
+    gap: 0.25rem !important;
+}
+.gap-2 {
+    gap: 0.5rem !important;
+}
+.gap-3 {
+    gap: 1rem !important;
+}
+.select2 {
     width: 100% !important;
 }
 
@@ -7,11 +29,13 @@
 }
 
 .bg-secondery {
-    background-color: #1B75BC !important;
+    background-color: #8a5dff !important;
+    background-color: #5479fa !important;
     color: #fff;
 }
 .bg-secondery:hover {
-    background-color: #125d98 !important;
+    background-color: #7544f5 !important;
+    background-color: #4b70f2 !important;
     color: #fff;
 }
 
@@ -212,4 +236,35 @@
         margin-bottom: 1rem;
     }
 }
-
+body {
+    background: #e8ecf5;
+}
+.kt-login__wrapper {
+    padding: 0;
+    margin: 50px 0;
+    margin-right: 150px;
+    background: rgb(255 255 255);
+    border-radius: 0 16px 16px 0;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.01);
+}
+.login-form1 {
+    width: 100%;
+    max-width: 500px;
+    background: #fff;
+    padding: 40px;
+    /*box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;*/
+}
+.bx-glass {
+    padding: 40px 80px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 16px 0 0 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.01);
+}
+.kt-login.kt-login--v1 .kt-login__aside {
+    padding: 50px 0;
+    padding-left: 150px;
+}
