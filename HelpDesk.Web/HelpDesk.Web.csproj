@@ -274,9 +274,15 @@
     <Content Include="assets\css\style.bundle.css" />
     <Content Include="assets\css\Styles.css" />
     <Content Include="assets\css\wizard-1.css" />
+    <Content Include="assets\images\18771tr.png" />
+    <Content Include="assets\images\18771wh.png" />
     <Content Include="assets\images\AHC_Bottom_Banner.png" />
     <Content Include="assets\images\ahc_new_logo.png" />
+    <Content Include="assets\images\cs-logo-lg.png" />
+    <Content Include="assets\images\cs-logo-sm.png" />
     <Content Include="assets\images\default.jpg" />
+    <Content Include="assets\images\favicon.ico" />
+    <Content Include="assets\images\helpdesk.jpg" />
     <Content Include="assets\images\Login-Background-Image.jpg" />
     <Content Include="assets\images\login-bg.jpg" />
     <Content Include="assets\images\logo-5-sm.png" />
