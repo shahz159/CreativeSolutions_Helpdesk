@@ -92,14 +92,22 @@
                 padding-right: 1.25rem;
                 -webkit-transition: background-color 0.3s ease;
                 transition: background-color 0.3s ease;
-                background-color: #EBEDF3;
-                border-color: #EBEDF3;
+                background-color: #F3F6F9;
+                border-color: #F3F6F9;
                 color: #3F4254;
+                font-size: 1.1rem;
+                font-weight: 500;
+                line-height: 1.5;
             }
-            .kt-login.kt-login--v1 .kt-login__wrapper .kt-login__body .kt-login__form .kt-form .form-group .form-control:focus {
-              -webkit-transition: background-color 0.3s ease;
-              transition: background-color 0.3s ease;
-              background-color: #f7f7f9; }
+                .kt-login.kt-login--v1 .kt-login__wrapper .kt-login__body .kt-login__form .kt-form .form-group .form-control:focus {
+                    -webkit-transition: background-color 0.3s ease;
+                    transition: background-color 0.3s ease;
+                    background-color: #f7f7f9;
+                    background-color: #eef3f7;
+                    border-color: #eef3f7;
+                    color: #3F4254;
+                    
+                }
       .kt-login.kt-login--v1 .kt-login__wrapper .kt-login__body .kt-login__form .kt-login__actions {
         display: -webkit-box;
         display: -ms-flexbox;
@@ -121,11 +129,12 @@
               opacity: 0.3; }
         .kt-login.kt-login--v1 .kt-login__wrapper .kt-login__body .kt-login__form .kt-login__actions .kt-login__btn-secondary,
         .kt-login.kt-login--v1 .kt-login__wrapper .kt-login__body .kt-login__form .kt-login__actions .kt-login__btn-primary {
-          font-weight: 500;
-          font-size: 1rem;
-          height: 50px;
-          padding-left: 2.75rem;
-          padding-right: 2.75rem; }
+            font-weight: 500;
+            font-size: 1.175rem;
+            height: auto;
+            padding-left: 2.75rem;
+            padding-right: 2.75rem;
+        }
       .kt-login.kt-login--v1 .kt-login__wrapper .kt-login__body .kt-login__form .kt-login__divider {
         margin: 1rem 0 2rem 0; }
         .kt-login.kt-login--v1 .kt-login__wrapper .kt-login__body .kt-login__form .kt-login__divider:not(:first-child):not(:last-child) {

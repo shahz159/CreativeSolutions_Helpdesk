@@ -10,6 +10,8 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Sign Up</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+
     <link href="~/assets/css/login.css" rel="stylesheet" />
     <link href="~/assets/plugins/global/plugins.bundle.css" rel="stylesheet" />
     <link href="~/assets/css/style.bundle.css" rel="stylesheet" />
@@ -19,6 +21,12 @@
             background: rgba(247, 247, 249, 0.7);
             height: 50px;
             line-height: 35px !important;
+            background-color: #F3F6F9;
+            border-color: #F3F6F9;
+            color: #3F4254;
+            font-size: 1.1rem;
+            font-weight: 500;
+            line-height: 1.5;
         }
 
         .select2-container--default .select2-selection--multiple, .select2-container--default .select2-selection--single {
@@ -38,10 +46,12 @@
             width: 60px;
             border-right: 1px solid #727476;
         }
+
         #div_mobileNumber1.input-group .form-control:focus {
             border-left: 1px solid #dce1e5;
         }
-            .load-sec {
+
+        .load-sec {
             background-color: rgba(255,255,255,0.6);
             position: fixed;
             top: 0px;
@@ -177,92 +187,100 @@
             <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--desktop kt-grid--ver-desktop kt-grid--hor-tablet-and-mobile">
 
                 <!--begin::Aside-->
-                <div class="kt-grid__item kt-grid__item--order-tablet-and-mobile-2 kt-grid kt-grid--hor kt-login__aside" style="background-image: url(http://208.109.10.196/AHCHelpdesk/assets/images/Login-Background-Image.jpg);">
-                    <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-padding-t-100-desktop">
+                <div class="kt-grid__item kt-grid__item--order-tablet-and-mobile-2 kt-grid kt-grid--hor kt-login__aside" 
+                     style="background-image: url(http://208.109.10.196/AHCHelpdesk/assets/images/Login-Background-Image.jpg);background: #8a5dff;background: #5479fa;">
+                    <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-padding-t-100-desktop flex-column bx-glass">
                         <div class="kt-grid__item kt-grid__item--top">
-                            <h3 class="h1 text-white kt-font-bold fa-3x"><strong>Welcome to<br /> AHC Help Desk!</strong></h3>
+                            <h3 class="h1 text-white kt-font-bold fa-3x"><strong>Welcome to<br /> Creative Solutions <br /> Help Desk!</strong></h3>
                             <h3 class="text-secondary kt-font-regular my-0">
                                 Customer Service, Our Top Priority!
                             </h3>
                         </div>
-                    </div>
-                    <div class="kt-grid__item d_none_1024">
-                        <div class="kt-login__info">
-                            <div class="kt-login__copyright text-white text-center">
-                                &copy 2021 Arabian Health Care.
-                            </div>
-                            <div class="kt-login__menu text-white">
-                                Powered By <a href="https://www.creative-sols.com/" target="_blank" class="kt-link">Creative Solutions</a>
-                            </div>
-                            @*<div class="kt-login__menu">
-                                <a href="#" class="kt-link">Privacy</a>
-                                <a href="#" class="kt-link">Legal</a>
-                                <a href="#" class="kt-link">Contact</a>
-                                        </div>*@
+                        <div class="" style="background-image: url('/assets/images/project2.png');width: 100%;height: 510px;background-repeat: no-repeat;background-size: contain;">
+
+                            @*<img class="" src="~/assets/images/18771tr.png" />*@
                         </div>
                     </div>
+
                 </div>
                 <div class="kt-grid__item kt-grid__item--fluid  kt-grid__item--order-tablet-and-mobile-1  kt-login__wrapper">
-                    <div class="kt-login__body">
-                        <div class="kt-login__form">
-                            <div class="kt-login__title">
-                                <img src="~/assets/images/ahc_new_logo.png" height="50" class="mb-3" />
-                                <h3>SignUp</h3>
+                    <div class="flex-center d-flex flex-column h-100">
+                        <div class="login-form1">
+                            <div class="text-center">
+                                <img src="~/assets/images/cs-logo-sm.png" height="120" class="mb-3" />
                             </div>
-                            <form class="kt-form" action="" novalidate="novalidate" id="kt_login_form">
-                                <div class="form-group mt-4">
-                                    <input class="form-control" type="text" value="" placeholder="Enter Full Name" id="txtfullname">
-                                </div>
-                                @*<div class="form-group mt-4">
-            <select class="form-control kt-select2" id="ddlGender">
-                <option value="M">Male</option>
-                <option value="F">Female</option>
-                <option value="O">Other</option>
-            </select>
-        </div>*@
-                                <div class="form-group">
-                                    <div id="div_mobileNumber1" class="input-group">
-                                        <div class="input-group-prepend">
-                                            <input type="text" id="txtcountrycode" class="input-group-text" maxlength="3" value="966" onkeypress="return isNumberKey(event)" />
+                            <div class="kt-login__body">
+                                <div class="kt-login__form">
+                                    <div class="kt-login__title">
+                                        <h3>SignUp</h3>
+                                    </div>
+                                    <form class="kt-form" action="" novalidate="novalidate" id="kt_login_form">
+                                        <div class="form-group mt-4">
+                                            <input class="form-control" type="text" value="" placeholder="Enter Full Name" id="txtfullname">
                                         </div>
-                                        <input class="form-control" autocomplete="off" type="text" value="" placeholder="xxx xxx xxxx" id="txtmobile" onkeypress="return isNumberKey(event)" onchange="mobilevalidation()">
-                                    </div>
-                                    <div id="div_mobileNumber"></div>
-                                </div>
-                                <div class="form-group">
-                                    <input id="txtSignupEmail" class="form-control " autocomplete="off" type="text" value="" placeholder="Enter Email Id" onchange="checkuseremail()">
-                                </div>
-                                <div class="form-group mt-4">
-                                    <div id="Accounts_div">
-                                        @*<select class="form-control kt-select2" id="ddlAccounts" name="param" onclick="this.setAttribute('value', this.value);"></select>*@
-                                        <input type="text" id="txtAccounts" class="form-control" placeholder="Enter Account Name" />
-                                    </div>
-                                </div>
-                                <div class="form-group mt-4">
-                                    <div id="Products_div">
-                                        <select class="form-control kt-select2" id="ddlProducts" placeholder="Select Product" onclick="this.setAttribute('value', this.value);" value=" " multiple>
-                                            <option>Select Product</option>
-                                        </select>
-                                    </div>
+                                        @*<div class="form-group mt-4">
+                            <select class="form-control kt-select2" id="ddlGender">
+                                <option value="M">Male</option>
+                                <option value="F">Female</option>
+                                <option value="O">Other</option>
+                            </select>
+                        </div>*@
+                                        <div class="form-group">
+                                            <div id="div_mobileNumber1" class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <input type="text" id="txtcountrycode" class="input-group-text" maxlength="3" value="966" onkeypress="return isNumberKey(event)" />
+                                                </div>
+                                                <input class="form-control" autocomplete="off" type="text" value="" placeholder="xxx xxx xxxx" id="txtmobile" onkeypress="return isNumberKey(event)" onchange="mobilevalidation()">
+                                            </div>
+                                            <div id="div_mobileNumber"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <input id="txtSignupEmail" class="form-control " autocomplete="off" type="text" value="" placeholder="Enter Email Id" onchange="checkuseremail()">
+                                        </div>
+                                        <div class="form-group mt-4">
+                                            <div id="Accounts_div">
+                                                @*<select class="form-control kt-select2" id="ddlAccounts" name="param" onclick="this.setAttribute('value', this.value);"></select>*@
+                                                <input type="text" id="txtAccounts" class="form-control" placeholder="Enter Account Name" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group mt-4">
+                                            <div id="Products_div">
+                                                <select class="form-control kt-select2" id="ddlProducts" placeholder="Select Product" onclick="this.setAttribute('value', this.value);" value=" " multiple>
+                                                    <option>Select Product</option>
+                                                </select>
+                                            </div>
 
-                                </div>
+                                        </div>
 
-                                @*<div class="form-group">
-            <input class="form-control" type="password" autocomplete="new-password" placeholder="Password" onchange="PasswordLenght(1)" id="txtPassword">
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="password" autocomplete="new-password" placeholder="Conform Password" onchange="PasswordLenght(2)" id="txtConfirmPassword">
-        </div>*@
-                                <div class="kt-login__actions">
-                                    <a href="#" onclick="SaveUserDetails()" class="btn bg-secondery pt-3 btn-elevate kt-login__btn-primary">Submit</a>
+                                        @*<div class="form-group">
+                            <input class="form-control" type="password" autocomplete="new-password" placeholder="Password" onchange="PasswordLenght(1)" id="txtPassword">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="password" autocomplete="new-password" placeholder="Conform Password" onchange="PasswordLenght(2)" id="txtConfirmPassword">
+                        </div>*@
+                                        <div class="kt-login__actions mb-3">
+                                            <a href="#" onclick="SaveUserDetails()" class="btn bg-secondery pt-3 btn-elevate kt-login__btn-primary w-100">Create Account</a>
+                                        </div>
+                                        <div class="text-center">
+                                            <p style="color: #74788d;margin-bottom: 0;">Already have account?<a  href="@Url.Action("index","Login")" id="" class="txt-btn font-weight-bolder ml-1">SignIn</a></p>
+                                        </div>
+                                    </form>
                                 </div>
-                            </form>
+                            </div>
+
+                            <!--end::Body-->
+                        </div>
+
+                        <div class="kt-grid__item">
+                            <div class="kt-login__info">
+                                <div class="kt-login__menu">
+                                    Powered By <a href="https://www.creative-sols.com/" target="_blank" class="kt-link">Creative Solutions</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
-
-                    <!--end::Body-->
                 </div>
-                <!--end::Content-->
+                    <!--end::Content-->
             </div>
         </div>
     </div>
