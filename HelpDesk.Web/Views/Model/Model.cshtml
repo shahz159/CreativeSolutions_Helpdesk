@@ -47,7 +47,16 @@
                                 <tr>
                                     <td>@item.ModelName</td>
                                     <td>@item.ProductName</td>
-                                    <td>@item.isActive</td>
+                                    <td>
+                                        @if (item.isActive == true)
+                                        {
+                                            <span>Active</span>
+                                        }
+                                        else
+                                        {
+                                            <span>In Active</span>
+                                        }
+                                    </td>
                                     <td align="center">
                                         <a href="@Url.Action("Edit","Model", new { id = item.ModelId })">
                                             <i class="fa fa-edit"></i>

@@ -47,7 +47,16 @@
                                 <tr>
                                     <td>@item.CityName</td>
                                     <td>@item.RegionName</td>
-                                    <td>@item.isActive</td>
+                                    <td>
+                                        @if (item.isActive == true)
+                                        {
+                                            <span>Active</span>
+                                        }
+                                        else
+                                        {
+                                            <span>In Active</span>
+                                        }
+                                    </td>
                                     <td align="center">
                                         <a href="@Url.Action("Edit","City", new { id = item.CityId })">
                                             <i class="fa fa-edit"></i>

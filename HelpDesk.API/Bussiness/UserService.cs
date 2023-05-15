@@ -59,13 +59,17 @@ namespace HelpDesk.API.Bussiness
                 }
                 else
                     obj.message = "0";
-                if (obj.message == "1")
-                {
-                    //Send Email to Customer                    
-                    SendEmailToCustomer(
-                                    email, token
-                                );
-                }
+
+                //comment for demo which was on 16-may-2023
+                //start here
+                //if (obj.message == "1")
+                //{
+                //    //Send Email to Customer                    
+                //    SendEmailToCustomer(
+                //                    email, token
+                //                );
+                //}
+                //end here
             }
             catch (Exception ex)
             {
@@ -269,12 +273,15 @@ namespace HelpDesk.API.Bussiness
                 else
                     obj.message = "0";
 
-                var modell = JsonConvert.DeserializeObject<List<UsersDTO>>(obj.EmailJson);
-                obj.EmailList = modell;
-                foreach (var item in obj.EmailList)
-                {
-                    SendEmailToSuperUserSignUp(obj.Accounts[0], obj.FullName, obj.Email, obj.Mobile, obj.CreatedDate, item.Email,obj.ProductName);
-                }
+                //comment for demo which was on 16-may-2023
+                //start here
+                //var modell = JsonConvert.DeserializeObject<List<UsersDTO>>(obj.EmailJson);
+                //obj.EmailList = modell;
+                //foreach (var item in obj.EmailList)
+                //{
+                //    SendEmailToSuperUserSignUp(obj.Accounts[0], obj.FullName, obj.Email, obj.Mobile, obj.CreatedDate, item.Email,obj.ProductName);
+                //}
+                //end here
 
                 //if (obj.message == "1")
                 //{
@@ -316,7 +323,11 @@ namespace HelpDesk.API.Bussiness
                 if (obj.message == "1")
                 {
                     //Send Email to SuperUser                    
-                    SendEmailToSuperUser(obj.Accounts[0], obj.FullName, obj.Email, obj.Mobile, obj.CreatedDate, obj.SuperUserEmail);
+                    //comment for demo which was on 16-may-2023
+                    //start here
+                    //SendEmailToSuperUser(obj.Accounts[0], obj.FullName, obj.Email, obj.Mobile, obj.CreatedDate, obj.SuperUserEmail);
+                    //end here
+
                     //SendEmailOfSignUp(obj.AccountName, obj.ProductName, obj.FullName, obj.Gender, obj.Mobile,, obj.Email, obj.SuperUserEmail);
                 }
             }

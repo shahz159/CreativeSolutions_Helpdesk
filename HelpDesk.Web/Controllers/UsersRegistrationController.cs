@@ -1055,7 +1055,7 @@ namespace HelpDesk.Web.Controllers
                                             ProfileImage = dataRow.Field<string>("Image")
                                         }).ToList();
                                         obj.UsersList = userdetailslst;
-                                        obj.ProfileImageStaticUrl = "http://208.109.10.196/AHCHelpdeskTestapi/profilepicture/";
+                                        obj.ProfileImageStaticUrl = "http://csadms.com/CSPHelpdeskAPI/profilepicture/";
 
                                         string accountsjson = obj.UsersList.FirstOrDefault().Accountsxml;
                                         var model = JsonConvert.DeserializeObject<List<UserDTO>>(accountsjson);

@@ -48,7 +48,16 @@
                                 <tr>
                                     <td>@item.AccountCode</td>
                                     <td>@item.AccountName</td>
-                                    <td>@item.isActive</td>
+                                    <td>
+                                        @if (item.isActive == true)
+                                        {
+                                            <span>Active</span>
+                                        }
+                                        else
+                                        {
+                                            <span>In Active</span>
+                                        }
+                                    </td>
                                     <td align="center">
                                         <a href="@Url.Action("Edit","Accounts", new { id = item.AccountId })">
                                             <i class="fa fa-edit"></i>

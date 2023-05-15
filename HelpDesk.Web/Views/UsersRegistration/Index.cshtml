@@ -56,8 +56,7 @@
                                                 <label class="col-form-label col-sm-2">Select Account</label>
                                                 <div class="col-sm-9">
                                                     <div>
-                                                        <select id="ddlAccountM" onchange="BindProducts()" class="form-control kt-select2" multiple>
-                                                        </select>
+                                                        <select id="ddlAccountM" onchange="BindProducts()" class="form-control kt-select2" multiple></select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -67,8 +66,7 @@
                                                 <label class="col-form-label col-sm-2">Select Account</label>
                                                 <div class="col-sm-9">
                                                     <div>
-                                                        <select id="ddlAccountS" onchange="BindProducts()" class="form-control kt-select2">
-                                                        </select>
+                                                        <select id="ddlAccountS" onchange="BindProducts()" class="form-control kt-select2"></select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -79,8 +77,7 @@
                                         <div class="form-group row">
                                             <label class="col-form-label col-sm-2">Select Product</label>
                                             <div class="col-sm-9">
-                                                <select id="ddlProducts" class="form-control kt-select2" multiple>
-                                                </select>
+                                                <select id="ddlProducts" class="form-control kt-select2" multiple></select>
                                                 @*@Html.DropDownListFor(model => model.ProductId, (IEnumerable<SelectListItem>
                                                     )ViewData["ddlProductLst"], "--Please Select --",
                                                     new { id = "ddlProducts", @class = "form-control kt-select2",@multiple="" })*@
@@ -293,6 +290,7 @@
             }
             //////////////////////
             if (isvalid == true) {
+                document.getElementById("loader").style.display = "block";
                 //AJAX CALL
                   $.ajax({
                     type: 'POST',
@@ -304,6 +302,7 @@
                     },
                       success: function (data) {
                           var v = data.success;
+                          document.getElementById("loader").style.display = "none";
                           if (v == true) {
                               alert('Added Successfully');
                               location.reload();
@@ -312,8 +311,9 @@
                               alert('Some thing went wrong');
                           }
                     },
-                    error: function (ex) {
-                        alert('Failed to retrieve models.' + ex);
+                      error: function (ex) {
+                          document.getElementById("loader").style.display = "none";
+                        alert('Failed to register users.' + ex);
                     }
                 });
             }

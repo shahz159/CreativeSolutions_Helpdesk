@@ -45,7 +45,17 @@
                             {
                                 <tr>
                                     <td>@item.RegionName</td>
-                                    <td>@item.isActive</td>
+
+                                    <td>
+                                        @if (item.isActive == true)
+                                        {
+                                            <span>Active</span>
+                                        }
+                                        else
+                                        {
+                                            <span>In Active</span>
+                                        }
+                                    </td>
                                     <td align="center">
                                         <a href="@Url.Action("Edit","Region", new { id = item.RegionId })">
                                             <i class="fa fa-edit"></i>
@@ -87,6 +97,6 @@
             KTDatatablesBasicPaginations.init();
         });
 
-       
+
     </script>
 }

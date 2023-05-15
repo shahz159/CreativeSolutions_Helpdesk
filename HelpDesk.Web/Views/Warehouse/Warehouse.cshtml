@@ -47,7 +47,16 @@
                                 <tr>
                                     <td>@item.AHCCode</td>
                                     <td>@item.WarehouseName</td>
-                                    <td>@item.isActive</td>
+                                    <td>
+                                        @if (item.isActive == true)
+                                        {
+                                            <span>Active</span>
+                                        }
+                                        else
+                                        {
+                                            <span>In Active</span>
+                                        }
+                                    </td>
                                     <td align="center">
                                         <a href="@Url.Action("Edit","Warehouse", new { id = item.WarehouseId })">
                                             <i class="fa fa-edit"></i>
