@@ -141,6 +141,7 @@ namespace HelpDesk.Web.Controllers
             return RedirectToAction("Index", "Login");
         }
 
+
         [HttpPost]
         public async Task<ActionResult> NewUser(UserDTO obj)
         {
