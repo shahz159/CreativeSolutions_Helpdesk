@@ -9,6 +9,8 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>login</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+
     <link href="~/assets/css/login.css" rel="stylesheet" />
     <link href="~/assets/plugins/global/plugins.bundle.css" rel="stylesheet" />
     <link href="~/assets/css/style.bundle.css" rel="stylesheet" />
@@ -47,7 +49,7 @@
                     <div class="kt-grid__item d-none d_none_1024">
                         <div class="kt-login__info">
                             <div class="kt-login__copyright text-white text-center">
-                                &copy 2021 Arabian Health Care.
+                                &copy 2021 Creative Solutions.
                             </div>
                             <div class="kt-login__menu text-white">
                                 Powered By <a href="https://www.creative-sols.com/" target="_blank" class="kt-link">Creative Solutions</a>
@@ -109,9 +111,19 @@
                                     <!--end::Divider-->
                                     <!--begin::Options-->
                                     <!--begin::Action-->
-                                    <div class="kt-login__actions gap-3">
-                                        <a href="@Url.Action("Signup","Login")" class="btn bg-secondery btn-elevate kt-login__btn-primary">Signup</a>
+                                    <div class="kt-login__actions justify-content-start gap-3">
                                         <a href="@Url.Action("Enquiry","Login")" class="btn bg-secondery btn-elevate kt-login__btn-primary">Enquiry</a>
+                                        <a href="@Url.Action("Signup","Login")" class="btn bg-secondery btn-elevate kt-login__btn-primary creat-btn" style="padding-left: 1.75rem;">
+                                            <span class="svg-icon svg-icon-primary svg-icon-2x" style="padding-right: 0.75rem;">
+                                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                        <polygon points="0 0 24 0 24 24 0 24"></polygon>
+                                                        <path d="M18,8 L16,8 C15.4477153,8 15,7.55228475 15,7 C15,6.44771525 15.4477153,6 16,6 L18,6 L18,4 C18,3.44771525 18.4477153,3 19,3 C19.5522847,3 20,3.44771525 20,4 L20,6 L22,6 C22.5522847,6 23,6.44771525 23,7 C23,7.55228475 22.5522847,8 22,8 L20,8 L20,10 C20,10.5522847 19.5522847,11 19,11 C18.4477153,11 18,10.5522847 18,10 L18,8 Z M9,11 C6.790861,11 5,9.209139 5,7 C5,4.790861 6.790861,3 9,3 C11.209139,3 13,4.790861 13,7 C13,9.209139 11.209139,11 9,11 Z" fill="#000000" fill-rule="nonzero" opacity="0.5"></path>
+                                                        <path d="M0.00065168429,20.1992055 C0.388258525,15.4265159 4.26191235,13 8.98334134,13 C13.7712164,13 17.7048837,15.2931929 17.9979143,20.2 C18.0095879,20.3954741 17.9979143,21 17.2466999,21 C13.541124,21 8.03472472,21 0.727502227,21 C0.476712155,21 -0.0204617505,20.45918 0.00065168429,20.1992055 Z" fill="#000000" fill-rule="nonzero"></path>
+                                                    </g>
+                                                </svg>
+                                            </span>Create Account
+                                        </a>
                                     </div>
                                     <!--end::Action-->
                                     <div class="kt-padding-t-50-desktop d-none">
@@ -162,6 +174,14 @@
                             </div>
 
                             <!--end::Body-->
+                        </div>
+
+                        <div class="kt-grid__item">
+                            <div class="kt-login__info">
+                                <div class="kt-login__menu">
+                                    Powered By <a href="https://www.creative-sols.com/" target="_blank" class="kt-link">Creative Solutions</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                    

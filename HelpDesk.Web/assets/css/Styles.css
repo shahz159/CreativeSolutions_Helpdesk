@@ -263,8 +263,142 @@ body {
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
     border: 1px solid rgba(255, 255, 255, 0.01);
+    justify-content: space-between;
 }
 .kt-login.kt-login--v1 .kt-login__aside {
     padding: 50px 0;
     padding-left: 150px;
+}
+.kt-link {
+    font-weight: 500;
+}
+.bg-light-info {
+    color: #3699FF;
+    background-color: #E1F0FF;
+    border-color: transparent;
+}
+.creat-btn {
+    color: #5479fa;
+    background-color: #E1F0FF !important;
+    border-color: transparent;
+}
+.svg-icon.svg-icon-primary svg g [fill] {
+    -webkit-transition: fill 0.3s ease;
+    transition: fill 0.3s ease;
+    fill: #3699FF !important;
+}
+
+.svg-icon svg g [fill] {
+    -webkit-transition: fill 0.3s ease;
+    transition: fill 0.3s ease;
+    fill: #B5B5C3;
+}
+.btn:hover .svg-icon.svg-icon-primary svg g [fill] {
+    fill: #ffffff !important;
+}
+.creat-btn:focus {
+    outline: none;
+    box-shadow: none;
+}
+.text-logo-1{
+    align-items: center !important;
+    justify-content: center;
+    gap: 10px;
+}
+.ticket-dash-cards {
+    position: relative;
+    padding-right: 10px;
+    padding-left: 10px;
+    min-width: 20%;
+}
+.ticket-dash-cards a[href] {
+    cursor: pointer;
+}
+.ticket-dash-cards > .kt-portlet {
+    border-radius: 20px;
+}
+    .ticket-dash-cards:nth-child(1) > .kt-portlet {
+        background: #ffefe2;
+    }
+    .ticket-dash-cards:nth-child(1) .svg-fill {
+        fill: #c98659;
+    }
+    .ticket-dash-cards:nth-child(2) > .kt-portlet {
+        background: #effcef;
+    }
+    .ticket-dash-cards:nth-child(2) .svg-fill {
+        fill: #94d097;
+    }
+    .ticket-dash-cards:nth-child(3) > .kt-portlet {
+        background: #e6f5f9;
+    }
+    .ticket-dash-cards:nth-child(3) .svg-fill {
+        fill: #83becf;
+    }
+    .ticket-dash-cards:nth-child(4) > .kt-portlet {
+        background: #f4f6fa;
+    }
+    .ticket-dash-cards:nth-child(4) .svg-fill {
+        fill: #1a191e;
+    }
+    .ticket-dash-cards:nth-child(5) > .kt-portlet {
+        background: #fcf7ef;
+    }
+    .ticket-dash-cards:nth-child(5) .svg-fill {
+        fill: #dfc45b;
+    }
+    .ticket-dash-cards:nth-child(6) > .kt-portlet {
+        background: #f9e6e6;
+    }
+    .ticket-dash-cards:nth-child(6) .svg-fill {
+        fill: #ec8686;
+    }
+    .ticket-dash-cards:nth-child(7) > .kt-portlet {
+        background: #f4effc;
+    }
+    .ticket-dash-cards:nth-child(7) .svg-fill {
+        fill: #a182d1;
+    }
+
+.ticket-dash-cards .kt-widget26 .kt-widget26__content {
+    align-items: center;
+}
+.ticket-dash-cards .kt-widget26 .kt-widget26__content .kt-widget26__number {
+    font-weight: 500;
+    font-size: 2.5rem;
+    color: #1e1d22;
+}
+.ticket-dash-cards .kt-widget26 .kt-widget26__content .kt-widget26__desc {
+    color: #141417;
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-top: 0.1rem;
+}
+.ticket-dash-cards  p{
+    text-align:center;
+}
+.ticket-dash-cards p a{
+    color: #74788d;
+    cursor: pointer
+}
+.svg-fill {
+    position: absolute;
+    right: 25px;
+    top: 13px;
+}
+.margin-auto{
+    margin: auto !important;
+}
+@media Screen and (max-width: 1650px) and (min-width: 1400px) {
+
+    .ticket-dash-cards > .kt-portlet {
+        min-height: 173px;
+    }
+}
+
+@media Screen and (max-width: 1360px) and (min-width: 1024px) {
+
+    .ticket-dash-cards > .kt-portlet {
+        min-height: 173px;
+    }
 }
