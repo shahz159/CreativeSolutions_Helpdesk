@@ -63,56 +63,61 @@ namespace HelpDesk.API.Bussiness
                 }
                 else
                     obj.message = "0";
-                if (obj.message == "1")
-                {
 
-                    if (obj.ServiceEngineerEmail != "0")
-                    {
-                        SendEmailToEngineer(
-                                        obj.TicketNumber, obj.CreatedDateStr, obj.ProductName,
-            obj.SystemId, obj.AccountName, obj.Location, obj.ProblemDescription,
-            obj.ServiceEngineerEmail, obj.CustomerFullName, obj.EngineerFullName
-            , obj.StatusText, obj.ReportTypeName, obj.StationName
-            , obj.ModelName, obj.SerialNo
-                                        );
-                    }
-                    if (obj.CreatedBy != obj.SystemManagerId)
-                    {
-                        SendEmailToManager(
-                                        obj.TicketNumber, obj.CreatedDateStr, obj.ProductName,
-            obj.SystemId, obj.AccountName, obj.Location, obj.ProblemDescription,
-            obj.ManagerEmail, obj.CustomerFullName, obj.ManagerName, obj.EngineerFullName
-            , obj.StatusText, obj.ReportTypeName, obj.StationName
-            , obj.ModelName, obj.SerialNo
-                                       );
-                    }
-                    //          SendEmailToSuperUser(
-                    //                            obj.TicketNumber, obj.CreatedDateStr, obj.ProductName,
-                    //obj.SystemId, obj.AccountName, obj.Location, obj.ProblemDescription,
-                    //obj.SuperUserEmail, obj.CustomerFullName, obj.EngineerFullName
-                    //, obj.StatusText, obj.SuperUserName, obj.SupervisorEmail, obj.SupervisorName, obj.ReportTypeName, obj.StationName
-                    //  , obj.ModelName, obj.SerialNo
-                    //                            );
-                    if (obj.CreatedBy != obj.SupervisorUserId)
-                    {
-                        //Send Email to Customer                    
-                        SendEmailToCustomer(
-                                        obj.TicketNumber, obj.CreatedDateStr, obj.ProductName,
-            obj.SystemId, obj.AccountName, obj.Location, obj.ProblemDescription,
-            obj.CustomerEmail, obj.CustomerFullName, obj.EngineerFullName
-            , obj.StatusText, obj.ReportTypeName, obj.StationName
-            , obj.ModelName, obj.SerialNo
-                                    );
-                    }
-                    SendEmailToSupervisorUser(
-                                        obj.TicketNumber, obj.CreatedDateStr, obj.ProductName,
-           obj.SystemId, obj.AccountName, obj.Location, obj.ProblemDescription,
-           obj.SupervisorEmail, obj.CustomerFullName, obj.EngineerFullName
-           , obj.StatusText, obj.SuperUserEmail, obj.SuperUserName, obj.SupervisorName, obj.ReportTypeName, obj.StationName
-            , obj.ModelName, obj.SerialNo
-                                     );
 
-                }
+                //comment code for demo, which was on 16 may 2023
+                //start
+                //     if (obj.message == "1")
+                //     {
+
+                //         if (obj.ServiceEngineerEmail != "0")
+                //         {
+                //             SendEmailToEngineer(
+                //                             obj.TicketNumber, obj.CreatedDateStr, obj.ProductName,
+                // obj.SystemId, obj.AccountName, obj.Location, obj.ProblemDescription,
+                // obj.ServiceEngineerEmail, obj.CustomerFullName, obj.EngineerFullName
+                // , obj.StatusText, obj.ReportTypeName, obj.StationName
+                // , obj.ModelName, obj.SerialNo
+                //                             );
+                //         }
+                //         if (obj.CreatedBy != obj.SystemManagerId)
+                //         {
+                //             SendEmailToManager(
+                //                             obj.TicketNumber, obj.CreatedDateStr, obj.ProductName,
+                // obj.SystemId, obj.AccountName, obj.Location, obj.ProblemDescription,
+                // obj.ManagerEmail, obj.CustomerFullName, obj.ManagerName, obj.EngineerFullName
+                // , obj.StatusText, obj.ReportTypeName, obj.StationName
+                // , obj.ModelName, obj.SerialNo
+                //                            );
+                //         }
+                //         //          SendEmailToSuperUser(
+                //         //                            obj.TicketNumber, obj.CreatedDateStr, obj.ProductName,
+                //         //obj.SystemId, obj.AccountName, obj.Location, obj.ProblemDescription,
+                //         //obj.SuperUserEmail, obj.CustomerFullName, obj.EngineerFullName
+                //         //, obj.StatusText, obj.SuperUserName, obj.SupervisorEmail, obj.SupervisorName, obj.ReportTypeName, obj.StationName
+                //         //  , obj.ModelName, obj.SerialNo
+                //         //                            );
+                //         if (obj.CreatedBy != obj.SupervisorUserId)
+                //         {
+                //             //Send Email to Customer                    
+                //             SendEmailToCustomer(
+                //                             obj.TicketNumber, obj.CreatedDateStr, obj.ProductName,
+                // obj.SystemId, obj.AccountName, obj.Location, obj.ProblemDescription,
+                // obj.CustomerEmail, obj.CustomerFullName, obj.EngineerFullName
+                // , obj.StatusText, obj.ReportTypeName, obj.StationName
+                // , obj.ModelName, obj.SerialNo
+                //                         );
+                //         }
+                //         SendEmailToSupervisorUser(
+                //                             obj.TicketNumber, obj.CreatedDateStr, obj.ProductName,
+                //obj.SystemId, obj.AccountName, obj.Location, obj.ProblemDescription,
+                //obj.SupervisorEmail, obj.CustomerFullName, obj.EngineerFullName
+                //, obj.StatusText, obj.SuperUserEmail, obj.SuperUserName, obj.SupervisorName, obj.ReportTypeName, obj.StationName
+                // , obj.ModelName, obj.SerialNo
+                //                          );
+
+                //     }
+                //end
             }
             catch (Exception ex)
             {
@@ -389,33 +394,36 @@ namespace HelpDesk.API.Bussiness
                 else
                     obj.message = "0";
 
-                if (obj.message == "1")
-                {
-                    SendEmailToCustomer(
-                                        obj.TicketNumber, obj.CreatedDateStr, obj.ProductName,
-            obj.SystemId, obj.AccountName, obj.Location, obj.ProblemDescription,
-            obj.CustomerEmail, obj.CustomerFullName, obj.EngineerFullName
-            , obj.StatusText, obj.ReportTypeName, obj.StationName
-            , obj.ModelName, obj.SerialNo
-                                    );
-                    if (obj.ServiceEngineerEmail != "0")
-                    {
-                        SendEmailToEngineer(
-                                         obj.TicketNumber, obj.CreatedDateStr, obj.ProductName,
-             obj.SystemId, obj.AccountName, obj.Location, obj.ProblemDescription,
-             obj.ServiceEngineerEmail, obj.CustomerFullName, obj.EngineerFullName
-             , obj.StatusText, obj.ReportTypeName, obj.StationName
-             , obj.ModelName, obj.SerialNo
-                                         );
-                    }
-                    SendEmailToSupervisorUser(
-                                          obj.TicketNumber, obj.CreatedDateStr, obj.ProductName,
-             obj.SystemId, obj.AccountName, obj.Location, obj.ProblemDescription,
-             obj.SupervisorEmail, obj.CustomerFullName, obj.EngineerFullName
-             , obj.StatusText, obj.SuperUserEmail, obj.SuperUserName, obj.SupervisorName, obj.ReportTypeName, obj.StationName
-              , obj.ModelName, obj.SerialNo
-                                       );
-                }
+                //comment code for demo, which was on 16 may 2023
+                //start
+                //    if (obj.message == "1")
+                //    {
+                //        SendEmailToCustomer(
+                //                            obj.TicketNumber, obj.CreatedDateStr, obj.ProductName,
+                //obj.SystemId, obj.AccountName, obj.Location, obj.ProblemDescription,
+                //obj.CustomerEmail, obj.CustomerFullName, obj.EngineerFullName
+                //, obj.StatusText, obj.ReportTypeName, obj.StationName
+                //, obj.ModelName, obj.SerialNo
+                //                        );
+                //        if (obj.ServiceEngineerEmail != "0")
+                //        {
+                //            SendEmailToEngineer(
+                //                             obj.TicketNumber, obj.CreatedDateStr, obj.ProductName,
+                // obj.SystemId, obj.AccountName, obj.Location, obj.ProblemDescription,
+                // obj.ServiceEngineerEmail, obj.CustomerFullName, obj.EngineerFullName
+                // , obj.StatusText, obj.ReportTypeName, obj.StationName
+                // , obj.ModelName, obj.SerialNo
+                //                             );
+                //        }
+                //        SendEmailToSupervisorUser(
+                //                              obj.TicketNumber, obj.CreatedDateStr, obj.ProductName,
+                // obj.SystemId, obj.AccountName, obj.Location, obj.ProblemDescription,
+                // obj.SupervisorEmail, obj.CustomerFullName, obj.EngineerFullName
+                // , obj.StatusText, obj.SuperUserEmail, obj.SuperUserName, obj.SupervisorName, obj.ReportTypeName, obj.StationName
+                //  , obj.ModelName, obj.SerialNo
+                //                           );
+                //    }
+                //end
             }
             catch (Exception ex)
             {
@@ -447,7 +455,7 @@ namespace HelpDesk.API.Bussiness
             return obj;
         }
 
-        
+
         public TicketDTO UpdateTicketStatus(TicketDTO obj)
         {
             try
@@ -491,33 +499,36 @@ namespace HelpDesk.API.Bussiness
                 else
                     obj.message = "0";
 
-                if (obj.message == "1")
-                {
-                    SendEmailToCustomer(
-                                        obj.TicketNumber, obj.CreatedDateStr, obj.ProductName,
-            obj.SystemId, obj.AccountName, obj.Location, obj.ProblemDescription,
-            obj.CustomerEmail, obj.CustomerFullName, obj.EngineerFullName
-            , obj.StatusText, obj.ReportTypeName, obj.StationName
-            , obj.ModelName, obj.SerialNo
-                                    );
-                    if (obj.ServiceEngineerEmail != "0")
-                    {
-                        SendEmailToEngineer(
-                                         obj.TicketNumber, obj.CreatedDateStr, obj.ProductName,
-             obj.SystemId, obj.AccountName, obj.Location, obj.ProblemDescription,
-             obj.ServiceEngineerEmail, obj.CustomerFullName, obj.EngineerFullName
-             , obj.StatusText, obj.ReportTypeName, obj.StationName
-             , obj.ModelName, obj.SerialNo
-                                         );
-                    }
-                    SendEmailToSupervisorUser(
-                                          obj.TicketNumber, obj.CreatedDateStr, obj.ProductName,
-             obj.SystemId, obj.AccountName, obj.Location, obj.ProblemDescription,
-             obj.SupervisorEmail, obj.CustomerFullName, obj.EngineerFullName
-             , obj.StatusText, obj.SuperUserEmail, obj.SuperUserName, obj.SupervisorName, obj.ReportTypeName, obj.StationName
-              , obj.ModelName, obj.SerialNo
-                                       );
-                }
+                //comment code for demo, which was on 16 may 2023
+                //start
+                //    if (obj.message == "1")
+                //    {
+                //        SendEmailToCustomer(
+                //                            obj.TicketNumber, obj.CreatedDateStr, obj.ProductName,
+                //obj.SystemId, obj.AccountName, obj.Location, obj.ProblemDescription,
+                //obj.CustomerEmail, obj.CustomerFullName, obj.EngineerFullName
+                //, obj.StatusText, obj.ReportTypeName, obj.StationName
+                //, obj.ModelName, obj.SerialNo
+                //                        );
+                //        if (obj.ServiceEngineerEmail != "0")
+                //        {
+                //            SendEmailToEngineer(
+                //                             obj.TicketNumber, obj.CreatedDateStr, obj.ProductName,
+                // obj.SystemId, obj.AccountName, obj.Location, obj.ProblemDescription,
+                // obj.ServiceEngineerEmail, obj.CustomerFullName, obj.EngineerFullName
+                // , obj.StatusText, obj.ReportTypeName, obj.StationName
+                // , obj.ModelName, obj.SerialNo
+                //                             );
+                //        }
+                //        SendEmailToSupervisorUser(
+                //                              obj.TicketNumber, obj.CreatedDateStr, obj.ProductName,
+                // obj.SystemId, obj.AccountName, obj.Location, obj.ProblemDescription,
+                // obj.SupervisorEmail, obj.CustomerFullName, obj.EngineerFullName
+                // , obj.StatusText, obj.SuperUserEmail, obj.SuperUserName, obj.SupervisorName, obj.ReportTypeName, obj.StationName
+                //  , obj.ModelName, obj.SerialNo
+                //                           );
+                //    }
+                //end
             }
             catch (Exception ex)
             {
@@ -569,33 +580,36 @@ namespace HelpDesk.API.Bussiness
                 else
                     obj.message = "0";
 
-                if (obj.message == "1")
-                {
-                    SendEmailToCustomer(
-                                        obj.TicketNumber, obj.CreatedDateStr, obj.ProductName,
-            obj.SystemId, obj.AccountName, obj.Location, obj.ProblemDescription,
-            obj.CustomerEmail, obj.CustomerFullName, obj.EngineerFullName
-            , obj.StatusText, obj.ReportTypeName, obj.StationName
-            , obj.ModelName, obj.SerialNo
-                                    );
-                    if (obj.ServiceEngineerEmail != "0")
-                    {
-                        SendEmailToEngineer(
-                                         obj.TicketNumber, obj.CreatedDateStr, obj.ProductName,
-             obj.SystemId, obj.AccountName, obj.Location, obj.ProblemDescription,
-             obj.ServiceEngineerEmail, obj.CustomerFullName, obj.EngineerFullName
-             , obj.StatusText, obj.ReportTypeName, obj.StationName
-             , obj.ModelName, obj.SerialNo
-                                         );
-                    }
-                    SendEmailToSupervisorUser(
-                                          obj.TicketNumber, obj.CreatedDateStr, obj.ProductName,
-             obj.SystemId, obj.AccountName, obj.Location, obj.ProblemDescription,
-             obj.SupervisorEmail, obj.CustomerFullName, obj.EngineerFullName
-             , obj.StatusText, obj.SuperUserEmail, obj.SuperUserName, obj.SupervisorName, obj.ReportTypeName, obj.StationName
-              , obj.ModelName, obj.SerialNo
-                                       );
-                }
+                //comment code for demo, which was on 16 may 2023
+                //start
+                //    if (obj.message == "1")
+                //    {
+                //        SendEmailToCustomer(
+                //                            obj.TicketNumber, obj.CreatedDateStr, obj.ProductName,
+                //obj.SystemId, obj.AccountName, obj.Location, obj.ProblemDescription,
+                //obj.CustomerEmail, obj.CustomerFullName, obj.EngineerFullName
+                //, obj.StatusText, obj.ReportTypeName, obj.StationName
+                //, obj.ModelName, obj.SerialNo
+                //                        );
+                //        if (obj.ServiceEngineerEmail != "0")
+                //        {
+                //            SendEmailToEngineer(
+                //                             obj.TicketNumber, obj.CreatedDateStr, obj.ProductName,
+                // obj.SystemId, obj.AccountName, obj.Location, obj.ProblemDescription,
+                // obj.ServiceEngineerEmail, obj.CustomerFullName, obj.EngineerFullName
+                // , obj.StatusText, obj.ReportTypeName, obj.StationName
+                // , obj.ModelName, obj.SerialNo
+                //                             );
+                //        }
+                //        SendEmailToSupervisorUser(
+                //                              obj.TicketNumber, obj.CreatedDateStr, obj.ProductName,
+                // obj.SystemId, obj.AccountName, obj.Location, obj.ProblemDescription,
+                // obj.SupervisorEmail, obj.CustomerFullName, obj.EngineerFullName
+                // , obj.StatusText, obj.SuperUserEmail, obj.SuperUserName, obj.SupervisorName, obj.ReportTypeName, obj.StationName
+                //  , obj.ModelName, obj.SerialNo
+                //                           );
+                //    }
+                //end
             }
             catch (Exception ex)
             {
@@ -748,16 +762,11 @@ namespace HelpDesk.API.Bussiness
             obj.datasetxml = model.GetSystemUserTicketsMobile(obj);
             return obj;
         }
-
-
         public TicketDTO GetRejectedTickets(TicketDTO obj)
         {
             obj.datasetxml = model.GetRejectedTickets(obj);
             return obj;
         }
-
-
-
         public TicketDTO GetServiceEngineerTickets(TicketDTO obj)
         {
             obj.datasetxml = model.GetServiceEngineerTickets(obj);
@@ -816,7 +825,6 @@ namespace HelpDesk.API.Bussiness
             obj.datasetxml = model.TicketRatingList(obj);
             return obj;
         }
-
         public TicketDTO AddTicketRating(TicketDTO obj)
         {
             try
@@ -839,9 +847,6 @@ namespace HelpDesk.API.Bussiness
             }
             return obj;
         }
-
-
-
         public TicketDTO GetServiceEngineerTicketsFiletrs(TicketDTO obj)
         {
             obj.datasetxml = model.GetServiceEngineerTicketsFilerts(obj);
@@ -857,8 +862,6 @@ namespace HelpDesk.API.Bussiness
             obj.datasetxml = model.GetSparePartListByWarehouseId(obj);
             return obj;
         }
-
-
         public TicketDTO CrmRawData(TicketDTO obj)
         {
             try
@@ -903,7 +906,6 @@ namespace HelpDesk.API.Bussiness
             }
             return obj;
         }
-
         public IEnumerable<TicketDTO> AssetListReport(TicketDTO obj)
         {
             var data = model.AssetListReport(obj);
@@ -925,8 +927,6 @@ namespace HelpDesk.API.Bussiness
             data.Close();
             return list;
         }
-        
-
         public IEnumerable<TicketDTO> ProductReport(TicketDTO obj)
         {
             var data = model.ProductReport(obj);

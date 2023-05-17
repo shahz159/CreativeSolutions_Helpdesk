@@ -16,6 +16,9 @@
     <link href="~/assets/plugins/global/plugins.bundle.css" rel="stylesheet" />
     <link href="~/assets/css/style.bundle.css" rel="stylesheet" />
     <link href="~/assets/css/Styles.css" rel="stylesheet" />
+
+    <link rel="shortcut icon" href="~/assets/images/favicon.ico" />
+
     <style>
         .select2-selection__rendered {
             background: rgba(247, 247, 249, 0.7);
@@ -187,7 +190,7 @@
             <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--desktop kt-grid--ver-desktop kt-grid--hor-tablet-and-mobile">
 
                 <!--begin::Aside-->
-                <div class="kt-grid__item kt-grid__item--order-tablet-and-mobile-2 kt-grid kt-grid--hor kt-login__aside pr-0" 
+                <div class="kt-grid__item kt-grid__item--order-tablet-and-mobile-2 kt-grid kt-grid--hor kt-login__aside pr-0"
                      style="background-image: url(http://208.109.10.196/AHCHelpdesk/assets/images/Login-Background-Image.jpg);background: #8a5dff;background: #5479fa;">
                     <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-padding-t-100-desktop flex-column  bx-glass">
                         <div class="kt-grid__item kt-grid__item--top">
@@ -196,7 +199,7 @@
                                 Customer Service, Our Top Priority!
                             </h3>
                         </div>
-                        <div class="" style="background-image: url('/assets/images/project2.png');width: 100%;height: 510px;background-repeat: no-repeat;background-size: contain;">
+                        <div class="" style="background-image: url('/assets/images/project2.png');width: 100%;height: 510px;background-repeat: no-repeat;background-size: contain;background-position: bottom;">
 
                             @*<img class="" src="~/assets/images/18771tr.png" />*@
                         </div>
@@ -287,10 +290,10 @@
                             </div>
                         </div>
                     </div>
-                        </div>
-                        <!--end::Content-->
-                    </div>
                 </div>
+                <!--end::Content-->
+            </div>
+        </div>
     </div>
     <input type="hidden" id="hdnRoleId" value="@Model.RoleId" />
     <input type="hidden" id="hdnCompanyId" value="@Model.CompanyId" />
@@ -340,7 +343,7 @@
             }
             var PName = "";
             var Products = $("#ddlProducts").val();
-            if (Products == "" || Products=="0") {
+            if (Products == "" || Products == "0") {
                 isvalid = false;
                 $('#txtproductserror').html('');
                 $("#Products_div").after('<span id="txtproductserror" style="color:red;" class="error">Field required.</span>');
@@ -409,28 +412,29 @@
                 $('#txtEnquiryerror').html('');
             }
             if (isvalid == true) {
-            //AJAX CALL 
-                 $.ajax({
+                //AJAX CALL
+                $.ajax({
                     type: 'POST',
                     url: '@Url.Action("NewMainEnquiry")', // we are calling json method
                     dataType: 'json',
                     data: {
-                        EnquiryType: EnquiryType, Enquiry: Enquiry, CustomerName: CustomerName, CustomerEmail: Email, CustomerPhone: countrycode + '-' + Mobile, CompanyName: CompanyName, ProductName: PName 
+                        EnquiryType: EnquiryType, Enquiry: Enquiry, CustomerName: CustomerName, CustomerEmail: Email, CustomerPhone: countrycode + '-' + Mobile, CompanyName: CompanyName, ProductName: PName
                         , ProductId: Products
                     },
-                      success: function (data) {
-                          document.getElementById("loader").style.display = "none";
+                    success: function (data) {
+                        debugger
+                        document.getElementById("loader").style.display = "none";
                         swal('Success',
                             'we will contact you soon',
                             'success')
                             .then((value) => {
-                                
+                                window.location.href = "/csphelpdesk/Login/Index";
                             });
-                          window.location.href = "/AHCHelpdeskTest/Login/Index";
+                        //window.location.href = "/Login/Index";
                         //location.reload();
                     },
-                      error: function (ex) {
-                          document.getElementById("loader").style.display = "none";
+                    error: function (ex) {
+                        document.getElementById("loader").style.display = "none";
                         alert('Failed to retrieve models.' + ex);
                     }
                 });
@@ -447,7 +451,7 @@ function productchange() {
         document.getElementById("div_productname").style.display = "none";
     }
 }
-         
+
 
 
  function isNumberKey(evt) {

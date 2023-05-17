@@ -169,17 +169,19 @@ namespace HelpDesk.API.Bussiness
                 }
                 else
                     obj.message = "0";
-                if (obj.message == "1")
-                {
-                    var model = JsonConvert.DeserializeObject<List<InventoryDTO>>(obj.EmailJson);
-                    obj.EmailList = model;
-                    foreach (var item in obj.EmailList)
-                    {
-                        SendEmailToSupervisorUser(obj.EnquiryType, obj.CompanyName, obj.ProductName, item.Email, obj.CustomerName, obj.CustomerEmail, obj.CustomerPhone, obj.Enquiry, obj.FullName);
-                        SendEmailToEnquiryCustomer(obj.EnquiryType, obj.CompanyName, obj.ProductName, item.Email, obj.CustomerName, obj.CustomerEmail, obj.CustomerPhone, obj.Enquiry, obj.FullName);
-                    }
-                    //SendEmailToSupervisorUser()
-                }
+                //comment for demo, which  was on 16 may 2023
+                //start
+                //if (obj.message == "1")
+                //{
+                //    var model = JsonConvert.DeserializeObject<List<InventoryDTO>>(obj.EmailJson);
+                //    obj.EmailList = model;
+                //    foreach (var item in obj.EmailList)
+                //    {
+                //        SendEmailToSupervisorUser(obj.EnquiryType, obj.CompanyName, obj.ProductName, item.Email, obj.CustomerName, obj.CustomerEmail, obj.CustomerPhone, obj.Enquiry, obj.FullName);
+                //        SendEmailToEnquiryCustomer(obj.EnquiryType, obj.CompanyName, obj.ProductName, item.Email, obj.CustomerName, obj.CustomerEmail, obj.CustomerPhone, obj.Enquiry, obj.FullName);
+                //    }
+                //}
+                //end
             }
             catch (Exception ex)
             {

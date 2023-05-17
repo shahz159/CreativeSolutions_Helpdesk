@@ -752,12 +752,11 @@
                                         <div class="kt-portlet__head-actions">
                                             @if (item.Status == 7)
                                             {
-                                                <a href="#" class="btn btn-brand btn-elevate btn-icon-sm">
-                                                    <i class="la la-check"></i>
+                                                <span class="badge badge-primary badge-pill px-3 mr-2">
                                                     Closed
-                                                </a>
-                                                <a href="@Url.Action("ServiceReport","Ticket",new { id=item.TicketNumber+"-"+item.SerialNo+"-"+item.AccountName+"SR",TicketNumber = item.TicketNumber })" target="_blank" class="btn btn-brand btn-elevate btn-icon-sm">
-                                                    <i class="la la-check"></i>
+                                                </span>
+                                                <a href="@Url.Action("ServiceReport","Ticket",new { id=item.TicketNumber+"-"+item.SerialNo+"-"+item.AccountName+"SR",TicketNumber = item.TicketNumber })" target="_blank" class="btn btn-brand btn-elevate btn-icon-sm btn-sm">
+                                                    <i class="la la-print"></i>
                                                     Print
                                                 </a>
                                             }
@@ -778,10 +777,10 @@
                                                     </a>
                                                 }
                                                 @*  TicketType/ReportType
-                                                    1 for Warranty
-                                                    2 for Charged Repair
-                                                    4 for Service Contract
-                                                    9 for PPM
+            1 for Warranty
+            2 for Charged Repair
+            4 for Service Contract
+            9 for PPM
                                                 *@
                                                 else if (Model.RoleId == 504)
                                                 {
@@ -794,19 +793,19 @@
                                                         </a>
                                                     }
                                                     @*if (item.CreatedUserRoleId == 503 && item.Status == 13 && (item.ReportId == 1 || item.ReportId == 4))
-                                                         {
-                                                                   <a href="#" onclick="UpdateStatus(14)" class="btn btn-brand btn-elevate btn-icon-sm">
-                                                                       <i class="la la-check"></i>
-                                                                       Confirm
-                                                                   </a>
-                                                                }
-                                                                       else if (item.CreatedUserRoleId != 503 && item.Status == 6 )/*&& (item.ReportId == 9 || item.ReportId == 2 || item.ReportId == 1 || item.ReportId == 4)*/
-                                                                       {
-                                                                   <a href="#" onclick="UpdateStatus(14)" class="btn btn-brand btn-elevate btn-icon-sm">
-                                                                       <i class="la la-check"></i>
-                                                                       Confirm
-                                                                   </a>
-                                                        }*@
+                 {
+                           <a href="#" onclick="UpdateStatus(14)" class="btn btn-brand btn-elevate btn-icon-sm">
+                               <i class="la la-check"></i>
+                               Confirm
+                           </a>
+                        }
+                               else if (item.CreatedUserRoleId != 503 && item.Status == 6 )/*&& (item.ReportId == 9 || item.ReportId == 2 || item.ReportId == 1 || item.ReportId == 4)*/
+                               {
+                           <a href="#" onclick="UpdateStatus(14)" class="btn btn-brand btn-elevate btn-icon-sm">
+                               <i class="la la-check"></i>
+                               Confirm
+                           </a>
+                }*@
                                                 }
                                                 else if (Model.RoleId == 502 && item.Status == 6 && (item.CreatedUserRoleId == 501 || item.CreatedUserRoleId == 502))
                                                 {

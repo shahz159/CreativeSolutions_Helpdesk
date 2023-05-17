@@ -59,7 +59,11 @@
                                     <td>@item.FullName</td>
                                     <td>@item.Gender</td>
                                     <td>
-                                        @item.Accountsxml
+                                        <div class="clamp-3"  data-toggle="tooltip" data-placement="top" title="@item.Accountsxml">
+
+                                            @item.Accountsxml
+
+                                        </div>
                                     </td>
                                     <td>
                                         @if (item.isActive == true)
